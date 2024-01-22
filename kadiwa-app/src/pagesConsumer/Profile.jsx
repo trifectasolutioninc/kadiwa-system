@@ -7,7 +7,7 @@ const ProfileConsumer = () => {
   return (
     <div>
    
-    <div className="px-4 flex justify-between">
+    <div className="p-4 flex justify-between">
       <h1 className="font-bold text-lg">Profile</h1>
       <div></div>
     </div>
