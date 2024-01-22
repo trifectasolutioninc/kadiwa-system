@@ -10,8 +10,8 @@ const NavBttnAppHome = () => {
           <Home />
         </NavLink>
         <NavLink to="store" className="text-white"><Store /></NavLink>
-        <NavLink to="/pagesConsumer/Home" className="text-white"><Chat /></NavLink>
-        <NavLink to="/pagesConsumer/Home" className="text-white"><ShoppingCart /></NavLink>
+        <NavLink to="chat" className="text-white"><Chat /></NavLink>
+        <NavLink to="cart" className="text-white"><ShoppingCart /></NavLink>
         <NavLink to="profile" className="text-white"><AccountCircle /></NavLink>
       </footer>
     </React.Fragment>

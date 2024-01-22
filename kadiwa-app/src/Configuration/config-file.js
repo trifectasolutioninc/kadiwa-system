@@ -138,4 +138,17 @@ const styleConfig = {
     EntranceGradient: `linear-gradient(to top, #20802F 8%, #3AB64E14 100%)`,
 };
 
-export { imageConfig, styleConfig };
+const commodityTypes = [
+    "All Commodities",
+    "Rice",
+    "Corn",
+    "Fish",
+    "Live Stock and Poultry Products",
+    "Vegetables",
+    "Spices",
+    "Fruits",
+    "Other Basic Commodities"
+];
+
+
+export { imageConfig, styleConfig, commodityTypes };

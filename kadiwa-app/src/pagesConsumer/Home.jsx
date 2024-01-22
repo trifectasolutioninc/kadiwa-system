@@ -1,13 +1,13 @@
 // Import necessary modules
 import React, { useState, useEffect } from 'react';
 import { LocationOn, Search, Notifications } from '@mui/icons-material';
-import { imageConfig } from '../Configuration/config-file';
+import { imageConfig , commodityTypes } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 
 const HomeConsumer = () => {
 
-    const [selectedCommodity, setSelectedCommodity] = useState("All");
+    const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
   const database = configFirebaseDB();
 
@@ -41,17 +41,6 @@ const HomeConsumer = () => {
     window.location.href = `product-description.html?productCode=${product.product_code}&productName=${encodeURIComponent(product.product_name)}`;
   };
   
-    const commodityTypes = [
-      "All Commodities",
-      "Rice",
-      "Corn",
-      "Fish",
-      "Live Stock and Poultry Products",
-      "Vegetables",
-      "Spices",
-      "Fruits",
-      "Other Basic Commodities"
-    ];
 
   return (
     <div>
