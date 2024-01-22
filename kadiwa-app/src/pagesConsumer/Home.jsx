@@ -4,7 +4,7 @@ import { LocationOn, Search, Notifications } from '@mui/icons-material';
 import { imageConfig , commodityTypes } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 
 
 const HomeConsumer = () => {
@@ -38,13 +38,6 @@ const HomeConsumer = () => {
         });
   };
 
-  const handleViewButtonClick = (product) => {
-    // Construct the query parameters
-    const queryParams = `?productCode=${product.product_code}&productName=${encodeURIComponent(product.product_name)}`;
-
-    // Navigate to the product-details.html page and pass the product details as query parameters
-    window.location.href = `/productinfo`;
-  };
   
 
   return (
@@ -99,12 +92,10 @@ const HomeConsumer = () => {
                 <h2 className="text-xs font-semibold">{product.product_name}</h2>
                 <p className="text-xs font-semibold text-gray-500">{product.commodity_type}</p>
                 <p className="text-xs font-bold text-green-600">Php {product.price.toFixed(2)}</p>
-                <button
-                  className="text-xs font-semibold text-green-500 cursor-pointer border border-green-600 p-2 rounded-md mt-1"
-                  onClick={() => handleViewButtonClick(product)}
-                >
+                <Link to={`/main/productinfo/${product.product_code}`}
+                  className="text-xs font-semibold text-green-500 cursor-pointer border text-center border-green-600 p-2 rounded-md mt-1">
                   View
-                </button>
+                  </Link>
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import Home from './Home';
 import Store from './Store';
 import Cart from './Cart'; 
 import Chat from './Chat'; 
-import ProductInfo from './ProductInfo'; 
+import ProductDetails from './ProductInfo'; 
 import ProfileConsumer from './Profile'; 
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
@@ -31,7 +31,7 @@ const ConsumerMain = () => {
         <Route path="profile" element={<ProfileConsumer />} />
 
         // React Router configuration
-        <Route path="productinfo" element={<ProductInfo />} />
+        <Route path="productinfo/:productCode" element={<ProductDetails />} />
 
       </Routes>
       <NavBttnAppHome />

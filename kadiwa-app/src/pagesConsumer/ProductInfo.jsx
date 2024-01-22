@@ -57,22 +57,22 @@ const ProductInfo = () => {
 
     const decodedProductName = decodeURIComponent(productName);
 
-    get(child(productsInfoRef, productCode))
-    .then((snapshot) => {
-      const productDetails = snapshot.val();
-      if (productDetails) {
-        setProductDetails(productDetails);
-      } else {
-        console.error('Product not found in the database.');
-      }
-    })
-    .catch((error) => {
-      console.error('Error fetching product details:', error);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
-  
+   get(child(productsInfoRef, productCode))
+  .then((snapshot) => {
+    const productDetails = snapshot.val();
+    if (productDetails) {
+      setProductDetails(productDetails);
+    } else {
+      console.error('Product not found in the database.');
+    }
+  })
+  .catch((error) => {
+    console.error('Error fetching product details:', error);
+  })
+  .finally(() => {
+    setIsLoading(false);
+  });
+
   }, [productCode, productName]);
 
   return (
