@@ -1,15 +1,45 @@
-import React, { useState } from 'react';
+// Import necessary modules
+import React, { useState, useEffect } from 'react';
 import { LocationOn, Search, Notifications } from '@mui/icons-material';
-
+import { imageConfig } from '../Configuration/config-file';
+import configFirebaseDB from '../Configuration/config';
+import { ref, child, get } from 'firebase/database';
 
 const HomeConsumer = () => {
 
-    const [selectedCommodity, setSelectedCommodity] = useState("All"); // Default selected commodity
+    const [selectedCommodity, setSelectedCommodity] = useState("All");
+  const [products, setProducts] = useState([]);
+  const database = configFirebaseDB();
 
-    const handleCommodityClick = (commodityType) => {
-      setSelectedCommodity(commodityType);
-      // Add logic to fetch and display products based on the selected commodity
-    };
+  useEffect(() => {
+    // Fetch and display products initially
+    displayProducts(selectedCommodity);
+  }, [selectedCommodity]);
+
+  const handleCommodityClick = (commodityType) => {
+    setSelectedCommodity(commodityType);
+  };
+
+  const displayProducts = (commodityType) => {
+    const productsRef = ref(database, 'products_info');
+        // Use the 'value' event to fetch data once
+    get(productsRef).then((snapshot) => {
+        const productsData = snapshot.val() || {};
+    
+        // Assuming you have a specific node structure in your database
+        const filteredProducts = Object.values(productsData)
+            .filter(product => commodityType === 'All Commodities' || product.commodity_type === commodityType);
+    
+        setProducts(filteredProducts);
+        }).catch(error => {
+        console.error('Error fetching and filtering products:', error);
+        });
+  };
+
+  const handleViewButtonClick = (product) => {
+    // Navigate to the product-details.html page and pass the product details as query parameters
+    window.location.href = `product-description.html?productCode=${product.product_code}&productName=${encodeURIComponent(product.product_name)}`;
+  };
   
     const commodityTypes = [
       "All Commodities",
@@ -60,8 +90,33 @@ const HomeConsumer = () => {
       </div>
 
       <div id="productlist" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mb-16">
-        {/* ...Product List... */}
+        {products.map((product, index) => (
+          <div key={index} className="container mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="h-full">
+              <div className="text-left h-1/2">
+                <img
+                  id={`product${product.product_code}`}
+                  alt={product.product_name}
+                  className="h-full w-full object-cover"
+                  src={imageConfig[product.keywords.toLowerCase()]}
+                />
+              </div>
+              <div className="text-left h-1/2 flex flex-col justify-end p-2">
+                <h2 className="text-xs font-semibold">{product.product_name}</h2>
+                <p className="text-xs font-semibold text-gray-500">{product.commodity_type}</p>
+                <p className="text-xs font-bold text-green-600">Php {product.price.toFixed(2)}</p>
+                <button
+                  className="text-xs font-semibold text-green-500 cursor-pointer border border-green-600 p-2 rounded-md mt-1"
+                  onClick={() => handleViewButtonClick(product)}
+                >
+                  View
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
+      
     </div>
   )
 }

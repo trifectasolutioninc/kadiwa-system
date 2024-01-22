@@ -1,24 +1,25 @@
 import React from 'react'
+import { Notifications } from '@mui/icons-material';
 
 const StoreConsumer = () => {
   return (
     <div>
     {/* Top Navigation with Search and Notification */}
     <div className="p-4 flex items-center justify-between bg-gray-100">
-      {/* Search Input */}
-      <div className="flex-grow">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
-        />
-      </div>
+        {/* Search Input */}
+        <div className="flex-grow">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
+          />
+        </div>
 
-      {/* Notification Icon */}
-      <div className="ml-4">
-        <span className="material-icons text-gray-700">notifications</span>
+        {/* Notification Icon */}
+        <div className="ml-4">
+          <Notifications className="text-gray-700" />
+        </div>
       </div>
-    </div>
 
     {/* Header */}
     <div className="p-4 flex justify-between">
@@ -49,7 +50,7 @@ const StoreConsumer = () => {
         </li>
 
         {/* Store 3 */}
-        <li className="bg-white p-4 rounded-lg shadow-md flex m-2 items-center">
+        <li className="bg-white p-4 rounded-lg shadow-md flex m-2 items-cbenter">
           <img id="shop3" alt="Store 3 Logo" className="mr-4" />
           <div>
             <p className="text-center font-semibold">Poultry City</p>

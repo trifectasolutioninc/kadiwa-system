@@ -6,13 +6,13 @@ const NavBttnAppHome = () => {
   return (
     <React.Fragment>
       <footer className="p-4 text-white flex justify-around fixed bottom-0 w-full" style={{ backgroundColor: '#20802F' }}>
-        <NavLink to="/" activeClassName="text-white">
+        <NavLink to="" className="text-white">
           <Home />
         </NavLink>
-        <NavLink to="/store" activeClassName="text-white"><Store /></NavLink>
-        <NavLink to="/pagesConsumer/Home" activeClassName="text-white"><Chat /></NavLink>
-        <NavLink to="/pagesConsumer/Home" activeClassName="text-white"><ShoppingCart /></NavLink>
-        <NavLink to="/pagesConsumer/Home" activeClassName="text-white"><AccountCircle /></NavLink>
+        <NavLink to="store" className="text-white"><Store /></NavLink>
+        <NavLink to="/pagesConsumer/Home" className="text-white"><Chat /></NavLink>
+        <NavLink to="/pagesConsumer/Home" className="text-white"><ShoppingCart /></NavLink>
+        <NavLink to="profile" className="text-white"><AccountCircle /></NavLink>
       </footer>
     </React.Fragment>
   );

@@ -1,25 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import NavBttnAppHome from './Components/NavBttnAppHome/NavBttnAppHome';
-import HomeConsumer from './pagesConsumer/Home';
-import StoreConsumer from './pagesConsumer/Store';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ConsumerMain from './pagesConsumer/Main';
+import SignInPages from './pagesAuth/signIn';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-
-      <Router>
-        
-        <Routes>
-          <Route path="/" exact element={<HomeConsumer/>} />
-          <Route path="/store" exact element={<StoreConsumer/>} />
-
-        </Routes>
-        < NavBttnAppHome />
-     
-      </Router>
-
-
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignInPages />} />
+        <Route path="/main/*" element={<ConsumerMain />} />
+      </Routes>
+    </Router>
   );
 }
 
