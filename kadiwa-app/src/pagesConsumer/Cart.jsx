@@ -23,7 +23,7 @@ const CartItem = ({ id, name, price, quantity, imgAlt }) => (
             <input
               type="number"
               value={quantity}
-              className="w-12 h-8 text-center border rounded-md"
+              className="w-12 h-8 text-center border rounded-md text-xs"
               readOnly
             />
             <button className="text-sm px-2 border rounded" onClick={() => console.log('Increment clicked')}>+</button>
