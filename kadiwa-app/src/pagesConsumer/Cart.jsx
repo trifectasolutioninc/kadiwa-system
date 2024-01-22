@@ -2,32 +2,37 @@ import React from 'react'
 
 
 const CartItem = ({ id, name, price, quantity, imgAlt }) => (
-    <div className="flex items-center border-b py-2">
-      <div className="flex items-center mr-4">
-        <input type="checkbox" className="mr-2" />
-        <img
-          id={`cart${id}`}
-          src={`path/to/${imgAlt}.jpg`} // Replace with the actual path to your images
-          alt={imgAlt}
-          className="w-12 h-12 object-cover rounded"
-        />
-      </div>
-      <div className="text-left">
-        <h1 className="text-gray-800 font-semibold">{name}</h1>
-        <div className="flex justify-around items-center">
-          <p className="font-semibold text-green-700 text-lg">{`Php ${price.toFixed(2)}`}</p>
+  <div className="items-center border-b py-2 grid grid-cols-10">
+    <div className="flex items-center mr-4 col-span-3">
+      <input type="checkbox" className="mr-2" />
+      <img
+        id={`cart${id}`}
+        src={`path/to/${imgAlt}.jpg`} // Replace with the actual path to your images
+        alt={imgAlt}
+        className="w-12 h-12 object-cover rounded"
+      />
+    </div>
+    <div className="text-left col-span-7">
+      <h1 className="text-gray-800 font-semibold">{name}</h1>
+      <div className=" grid grid-cols-2 items-center">
+        <p className="font-semibold text-green-700 text-lg col-span-1">{`Php ${price.toFixed(2)}`}</p>
+        <div className="flex items-center col-span-1">
+          <span className="text-xs pr-2 font-bold text-gray-500">Qty:</span>
           <div className="flex items-center">
-            <span className="text-sm pr-2">Quantity:</span>
+            <button className="text-sm px-2 border rounded " onClick={() => console.log('Decrement clicked')}>-</button>
             <input
               type="number"
               value={quantity}
               className="w-12 h-8 text-center border rounded-md"
+              readOnly
             />
+            <button className="text-sm px-2 border rounded" onClick={() => console.log('Increment clicked')}>+</button>
           </div>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 
 const Cart = () => {
   return (

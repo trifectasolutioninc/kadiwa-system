@@ -80,7 +80,7 @@ const HomeConsumer = () => {
 
       <div id="productlist" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mb-16">
         {products.map((product, index) => (
-          <div key={index} className="container mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+          <div key={index} className="container mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="h-full">
               <div className="text-left h-1/2">
                 <img
