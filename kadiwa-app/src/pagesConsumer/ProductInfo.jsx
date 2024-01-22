@@ -4,6 +4,10 @@ import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { useParams } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+
 
 const ProductDetails = ({ productDetails }) => {
   if (!productDetails) {
@@ -13,25 +17,47 @@ const ProductDetails = ({ productDetails }) => {
   const { product_name, commodity_type, price, unit_measurement, keywords } = productDetails;
   const imageSrc = imageConfig[keywords];
 
+  const handleAddToCart = () => {
+    // Implement the logic to add the product to the cart
+    console.log('Product added to cart:', product_name);
+  };
+
   return (
     <div className="p-2 bg-white rounded-md shadow-md m-2">
       <h1 className="font-bold text-green-700">Product Details</h1>
       <div id="product-details-container" className="h-full flex grid grid-cols-2">
-        <div className="h-1/2">
+        <div className="">
           <img src={imageSrc} alt={product_name} className="rounded-md bg-cover" />
         </div>
-        <div className="h-1/2 p-2">
-          <h2 className="text-gray-700 font-bold">{product_name}</h2>
-          <p className="text-xs text-gray-500">Commodity Type: {commodity_type}</p>
-          <p className="text-sm text-green-600 font-semibold">
-            Price: ₱{price} ({unit_measurement})
-          </p>
+        <div className=" p-2">
+            <div className='h-1/2'>
+                <h2 className="text-gray-700 font-bold">{product_name}</h2>
+                <p className="text-xs text-gray-500">Commodity Type: {commodity_type}</p>
+                <p className="text-sm text-green-600 font-semibold">
+                    Price: ₱{price} ({unit_measurement})
+                </p>
+            </div>
+          
+            <div className="flex items-center h-1/2 justify-between">
+                <div className='border w-1/2 items-center flex  justify-center'>
+                    <SpaOutlinedIcon className="text-green-500 mr-1" />
+                    <span className="hidden sm:hidden md:block text-xs text-green-500 mr-2">No of Leaves</span>
+                </div>
+                <div onClick={handleAddToCart} className='border w-1/2 items-center flex  justify-center'>
+                    <AddShoppingCartOutlinedIcon className="text-blue-500 mr-1" />
+                    <span className="hidden sm:hidden  md:block text-xs text-blue-500 mr-2">Add to Cart</span>
+
+                </div>
+                
+                
+            </div>
           {/* Add more HTML elements for other product details */}
         </div>
       </div>
     </div>
   );
 };
+
 
 const StoreList = () => (
   <div className="mx-3">
