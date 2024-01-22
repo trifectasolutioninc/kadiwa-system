@@ -14,9 +14,9 @@ const CartItem = ({ id, name, price, quantity, imgAlt }) => (
     </div>
     <div className="text-left col-span-7">
       <h1 className="text-gray-800 font-semibold">{name}</h1>
-      <div className=" grid grid-cols-2 items-center">
-        <p className="font-semibold text-green-700 text-lg col-span-1">{`Php ${price.toFixed(2)}`}</p>
-        <div className="flex items-center col-span-1">
+      <div className=" justify-between flex items-center">
+        <p className="font-semibold text-green-700 text-lg ">{`Php ${price.toFixed(2)}`}</p>
+        <div className="flex items-center ">
           <span className="text-xs pr-2 font-bold text-gray-500">Qty:</span>
           <div className="flex items-center">
             <button className="text-sm px-2 border rounded " onClick={() => console.log('Decrement clicked')}>-</button>

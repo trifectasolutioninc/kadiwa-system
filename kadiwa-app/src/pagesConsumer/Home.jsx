@@ -7,7 +7,7 @@ import { ref, child, get } from 'firebase/database';
 
 const HomeConsumer = () => {
 
-    const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
+  const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
   const database = configFirebaseDB();
 
@@ -44,7 +44,7 @@ const HomeConsumer = () => {
 
   return (
     <div>
-           <div id="topView" className="p-4">
+        <div id="topView" className="p-4">
         <h1 className="text-green-700 font-bold">Hello Kadiwa User!</h1>
         <div id="userLocation" className="flex items-center mb-2 text-xs">
           <LocationOn className="text-gray-700 mr-2" />
