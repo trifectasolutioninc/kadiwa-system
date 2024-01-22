@@ -78,7 +78,7 @@ const ProductInfo = () => {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <p className='p-5 text-green-600'>Loading...</p>
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />
