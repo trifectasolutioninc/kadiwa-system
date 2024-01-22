@@ -38,7 +38,7 @@ const ProductDetails = ({ productDetails }) => {
                 </p>
             </div>
           
-            <div className="flex items-center h-1/2 justify-between">
+            <div className="flex items-center h-1/2 justify-between mt-2">
                 <div className='border w-1/2 items-center flex  justify-center'>
                     <SpaOutlinedIcon className="text-green-500 mr-1" />
                     <span className="hidden sm:hidden md:block text-xs text-green-500 mr-2">No of Leaves</span>
