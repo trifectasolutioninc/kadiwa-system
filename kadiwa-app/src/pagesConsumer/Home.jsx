@@ -4,6 +4,8 @@ import { LocationOn, Search, Notifications } from '@mui/icons-material';
 import { imageConfig , commodityTypes } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
+import { useHistory } from 'react-router-dom';
+
 
 const HomeConsumer = () => {
 
@@ -37,8 +39,11 @@ const HomeConsumer = () => {
   };
 
   const handleViewButtonClick = (product) => {
+    // Construct the query parameters
+    const queryParams = `?productCode=${product.product_code}&productName=${encodeURIComponent(product.product_name)}`;
+
     // Navigate to the product-details.html page and pass the product details as query parameters
-    window.location.href = `product-description.html?productCode=${product.product_code}&productName=${encodeURIComponent(product.product_name)}`;
+    window.location.href = `/productinfo`;
   };
   
 

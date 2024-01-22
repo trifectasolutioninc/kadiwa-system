@@ -1,17 +1,17 @@
 // sessionUtils.js
-const redirectToIndexIfNoContact = () => {
-    const contact = sessionStorage.getItem('contact');
+const redirectToIndexIfNoConnect = () => {
+    const kdwconnect = sessionStorage.getItem('kdwconnect');
     
-    if (contact === null || contact === '') {
+    if (kdwconnect === null || kdwconnect === '') {
       // Redirect to the index page
       window.location.href = '/'; // Adjust the path accordingly
       return false; // Indicate that the redirection is performed
     } else {
       // Use the username as needed in your dashboard page
-      console.log('userID: ' + contact);
+      console.log('userID: ' + kdwconnect);
       return true; // Indicate that the contact is valid
     }
   };
   
-  export default redirectToIndexIfNoContact;
+  export default redirectToIndexIfNoConnect;
   

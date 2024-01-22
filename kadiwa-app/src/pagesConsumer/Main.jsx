@@ -5,14 +5,15 @@ import Home from './Home';
 import Store from './Store';
 import Cart from './Cart'; 
 import Chat from './Chat'; 
+import ProductInfo from './ProductInfo'; 
 import ProfileConsumer from './Profile'; 
-import redirectToIndexIfNoContact from '../Scripts/connections/check';
+import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
 const ConsumerMain = () => {
 
     useEffect(() => {
         // Use the utility function
-        const isValidContact = redirectToIndexIfNoContact();
+        const isValidContact = redirectToIndexIfNoConnect();
 
         // Additional logic based on the result if needed
         if (!isValidContact) {
@@ -28,6 +29,10 @@ const ConsumerMain = () => {
         <Route path="chat" element={<Chat />} />
         <Route path="cart" element={<Cart />} />
         <Route path="profile" element={<ProfileConsumer />} />
+
+        // React Router configuration
+        <Route path="productinfo" element={<ProductInfo />} />
+
       </Routes>
       <NavBttnAppHome />
     </div>

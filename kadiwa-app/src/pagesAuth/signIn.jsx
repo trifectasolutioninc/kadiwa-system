@@ -33,7 +33,7 @@ const SignInPages = () => {
           // Check if the provided password matches the stored password
           if (userData.password === password) {
             // Handle successful login
-            sessionStorage.setItem('contact', contact);
+            sessionStorage.setItem('kdwconnect', contact);
             console.log('Successfully logged in', userData);
   
             // Open another page (replace "/main" with the desired URL)
