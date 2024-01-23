@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
-function configFirebaseDB() {
+function firebaseDB() {
 
     const firebaseConfig = {
         apiKey: "AIzaSyDRIgPAM9q9wIdqzCGziePTfhgOcbhfFFs",
@@ -20,4 +20,4 @@ function configFirebaseDB() {
 }
 
 
-export default configFirebaseDB;
+export default firebaseDB;
