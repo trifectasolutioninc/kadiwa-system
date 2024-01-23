@@ -38,8 +38,9 @@ const ProductDetails = ({ productDetails }) => {
                 </p>
             </div>
           
-            <div className="flex items-center h-1/2 justify-between mt-2">
-                <div className='border w-1/2 items-center flex  justify-center'>
+            <div className="items-center h-1/2  mt-2">
+              <div className='justify-between flex '>
+               <div className='border w-1/2 items-center flex  justify-center'>
                     <SpaOutlinedIcon className="text-green-500 mr-1" />
                     <span className="hidden sm:hidden md:block text-xs text-green-500 mr-2">No of Leaves</span>
                 </div>
@@ -48,6 +49,21 @@ const ProductDetails = ({ productDetails }) => {
                     <span className="hidden sm:hidden  md:block text-xs text-blue-500 mr-2">Add to Cart</span>
 
                 </div>
+
+              </div>
+              <div className='mt-1'>
+                <div className='flex'>
+                 <SpaOutlinedIcon className="text-green-500 mr-1" style={{fontSize: 'medium'}} />
+                 <p className='text-xs text-gray-600'>10920</p>
+                </div>
+                <div className='flex'>
+                <StarOutlineOutlinedIcon className="text-yellow-600 mr-1 " style={{fontSize: 'medium'}} />
+                 <p className='text-xs text-gray-600'>4.9</p><p className='font-bold text-xs text-gray-800'>/5.0</p>
+                </div>
+               
+              </div>
+
+                
                 
                 
             </div>
