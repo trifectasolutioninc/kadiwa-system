@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
-
+import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 
 const ProductDetails = ({ productDetails }) => {
   if (!productDetails) {
@@ -44,7 +44,7 @@ const ProductDetails = ({ productDetails }) => {
                     <span className="hidden sm:hidden md:block text-xs text-green-500 mr-2">No of Leaves</span>
                 </div>
                 <div onClick={handleAddToCart} className='border w-1/2 items-center flex  justify-center'>
-                    <AddShoppingCartOutlinedIcon className="text-blue-500 mr-1" />
+                    <StarOutlineOutlinedIcon className="text-yellow-600 mr-1" />
                     <span className="hidden sm:hidden  md:block text-xs text-blue-500 mr-2">Add to Cart</span>
 
                 </div>
