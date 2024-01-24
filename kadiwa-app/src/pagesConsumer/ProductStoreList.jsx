@@ -82,9 +82,10 @@ const StoreList = ({ productCode }) => {
                   <p className='text-lg font-bold text-gray-800'>{store.storeName}</p>
                   <p className='text-gray-700'>{store.city}, {store.province}</p>
                 </div>
-                <div className='space-x-5 items-center justify-center flex'>
-                  <button className='bg-green-700 rounded px-2 py-1 text-white'>Check-out</button>
-                  <button className=' rounded px-2 py-1'><AddShoppingCartOutlinedIcon className='text-green-700' /></button>
+                <div className='gap-2 items-center justify-center flex flex-col md:flex-row'>
+                  <button className='bg-green-700 rounded px-2 py-1 text-white text-sm w-full'>Check-out</button>
+                  <button className='bg-gray-300 rounded px-2 py-1 text-gray-800 text-sm w-full whitespace-nowrap'>Add to Cart</button>
+                  {/* <button className=' rounded px-2 py-1'><AddShoppingCartOutlinedIcon className='text-green-700' /></button> */}
                 </div>
               </div>
             ))}
