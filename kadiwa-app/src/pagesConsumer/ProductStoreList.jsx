@@ -144,13 +144,17 @@ const decrementQuantity = () => {
                         )}
                         {/* Quantity input with add/subtract buttons */}
                         <div className='flex items-center mt-2'>
-                            <button onClick={decrementQuantity} className='bg-gray-300 text-gray-800 px-2 py-1 mr-2'>-</button>
-                            <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center' />
-                            <button onClick={incrementQuantity} className='bg-gray-300 text-gray-800 px-2 py-1 ml-2'>+</button>
+                            <button onClick={decrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
+                            <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
+                            <button onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
                         </div>
+                          <div className='flex items-center justify-between mt-4'>
+                            <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2  rounded-md' >Cancel</button>
+                            <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2  rounded-md'>Add to Cart</button>
 
-                        <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2 mt-4'>Add to Cart</button>
-                        <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2 mt-2'>Cancel</button>
+                          </div>
+                        
+                        
                     </div>
                 </div>
             )}
