@@ -9,6 +9,7 @@ const StoreList = ({ productCode }) => {
   const [noStoresFound, setNoStoresFound] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const kdwconnect = sessionStorage.getItem('kdwconnect');
@@ -92,6 +93,8 @@ const addToCart = () => {
     return;
   }
 
+  
+
   // Get the product details
   const product = filteredProducts[0];
 
@@ -138,7 +141,17 @@ const addToCart = () => {
     });
 };
 
+// Function to open the checkout modal
+const openCheckoutModal = (store) => {
+  setSelectedStore(store);
+  setIsCheckoutModalOpen(true);
+};
 
+// Function to close the checkout modal
+const closeCheckoutModal = () => {
+  setIsCheckoutModalOpen(false);
+  setSelectedStore(null);
+};
 
 const incrementQuantity = () => {
   setSelectedQuantity(prevQuantity => prevQuantity + 1);
@@ -165,7 +178,7 @@ const decrementQuantity = () => {
                   <p className='text-gray-700'>{store.city}, {store.province}</p>
                 </div>
                 <div className='gap-2 items-center justify-center flex flex-col md:flex-row'>
-                  <button className='bg-green-700 rounded px-2 py-1 text-white text-sm w-full'>Check-out</button>
+                  <button onClick={() => openCheckoutModal(store)} className='bg-green-700 rounded px-2 py-1 text-white text-sm w-full'>Check-out</button>
                   <button onClick={() => openModal(store)} className='bg-gray-300 rounded px-2 py-1 text-gray-800 text-sm w-full whitespace-nowrap'>Add to Cart</button>
                   {/* <button className=' rounded px-2 py-1'><AddShoppingCartOutlinedIcon className='text-green-700' /></button> */}
                 </div>
@@ -174,36 +187,66 @@ const decrementQuantity = () => {
           </ul>
 
         )}
-     {/* Modal for adding to cart */}
-     {isModalOpen && (
-                <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
-                    <div className='absolute bg-white p-6 rounded-md shadow-md w-3/4'>
-                        <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
-                        <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
+      {/* Modal for adding to cart */}
+      {isModalOpen && (
+        <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
+            <div className='absolute bg-white p-6 rounded-md shadow-md w-3/4'>
+                <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
+                <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
 
-                         {/* Display product details */}
-                         {filteredProducts.length > 0 && (
-                            <div>
-                                <p className='mt-4'>Product: {filteredProducts[0].product_name}</p>
-                                <p>Price: {filteredProducts[0].price}</p>
-                            </div>
-                        )}
-                        {/* Quantity input with add/subtract buttons */}
-                        <div className='flex items-center mt-2'>
-                            <button onClick={decrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
-                            <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
-                            <button onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
-                        </div>
-                          <div className='flex items-center justify-between mt-4'>
-                            <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2  rounded-md' >Cancel</button>
-                            <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2  rounded-md'>Add to Cart</button>
-
-                          </div>
-                        
-                        
+                  {/* Display product details */}
+                  {filteredProducts.length > 0 && (
+                    <div>
+                        <p className='mt-4'>Product: {filteredProducts[0].product_name}</p>
+                        <p>Price: {filteredProducts[0].price}</p>
                     </div>
+                )}
+                {/* Quantity input with add/subtract buttons */}
+                <div className='flex items-center mt-2'>
+                    <button onClick={decrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
+                    <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
+                    <button onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
                 </div>
+                  <div className='flex items-center justify-between mt-4'>
+                    <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2  rounded-md' >Cancel</button>
+                    <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2  rounded-md'>Add to Cart</button>
+
+                  </div>
+                
+                
+            </div>
+        </div>
+    )}
+
+   {/* Modal for checkout */}
+   {isCheckoutModalOpen && (
+        <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
+          <div className='absolute bg-white p-6 rounded-md shadow-md w-3/4'>
+            <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
+            <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
+
+            {/* Display product details (if needed) */}
+            {filteredProducts.length > 0 && (
+              <div>
+                <p className='mt-4'>Product: {filteredProducts[0].product_name}</p>
+                <p>Price: {filteredProducts[0].price}</p>
+              </div>
             )}
+
+            {/* Quantity input with add/subtract buttons */}
+            <div className='flex items-center mt-2'>
+              <button className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
+              <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
+              <button className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
+            </div>
+
+            <div className='flex items-center justify-between mt-4'>
+              <button onClick={closeCheckoutModal} className='bg-gray-300 text-gray-800 px-4 py-2 rounded-md'>Cancel</button>
+              <button className='bg-yellow-600 text-white px-4 py-2 rounded-md' onClick={() => {/* Add your checkout logic here */}}>Checkout</button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     );
   };
