@@ -4,9 +4,13 @@ import configFirebaseDB from '../Configuration/config';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 
 const StoreList = ({ productCode }) => {
-    const [storesWithProduct, setStoresWithProduct] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [noStoresFound, setNoStoresFound] = useState(false);
+  const [storesWithProduct, setStoresWithProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [noStoresFound, setNoStoresFound] = useState(false);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   
     useEffect(() => {
       const database = configFirebaseDB();
@@ -29,6 +33,8 @@ const StoreList = ({ productCode }) => {
             .filter((product) => String(product.product_code) === String(productCode));
   
           console.log('Filtered Products:', filteredProducts);
+
+          setFilteredProducts(filteredProducts);
   
           if (filteredProducts.length === 0) {
             console.error(`No product found with code ${productCode}`);
@@ -66,7 +72,37 @@ const StoreList = ({ productCode }) => {
           });
     }, [productCode]);
   
-  
+   // Function to open the modal
+   const openModal = (store) => {
+    setSelectedStore(store);
+    setIsModalOpen(true);
+};
+
+// Function to close the modal
+const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedStore(null);
+    setSelectedQuantity(1);
+};
+
+// Function to handle adding to cart
+const addToCart = () => {
+    // Implement your logic to add the selected product to the cart
+    // You can use selectedStore and selectedQuantity here
+    // ...
+    closeModal();
+};
+
+
+const incrementQuantity = () => {
+  setSelectedQuantity(prevQuantity => prevQuantity + 1);
+};
+
+// Function to decrement quantity, with a minimum value of 1
+const decrementQuantity = () => {
+  setSelectedQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
+};
+
     return (
         <div>
         <h2 className="p-4 font-bold text-green-700">Stores</h2>
@@ -84,13 +120,40 @@ const StoreList = ({ productCode }) => {
                 </div>
                 <div className='gap-2 items-center justify-center flex flex-col md:flex-row'>
                   <button className='bg-green-700 rounded px-2 py-1 text-white text-sm w-full'>Check-out</button>
-                  <button className='bg-gray-300 rounded px-2 py-1 text-gray-800 text-sm w-full whitespace-nowrap'>Add to Cart</button>
+                  <button onClick={() => openModal(store)} className='bg-gray-300 rounded px-2 py-1 text-gray-800 text-sm w-full whitespace-nowrap'>Add to Cart</button>
                   {/* <button className=' rounded px-2 py-1'><AddShoppingCartOutlinedIcon className='text-green-700' /></button> */}
                 </div>
               </div>
             ))}
           </ul>
+
         )}
+     {/* Modal for adding to cart */}
+     {isModalOpen && (
+                <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg'>
+                    <div className='absolute w-96 bg-white p-6 rounded-md shadow-md'>
+                        <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
+                        <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
+
+                         {/* Display product details */}
+                         {filteredProducts.length > 0 && (
+                            <div>
+                                <p className='mt-4'>Product: {filteredProducts[0].product_name}</p>
+                                <p>Price: {filteredProducts[0].price}</p>
+                            </div>
+                        )}
+                        {/* Quantity input with add/subtract buttons */}
+                        <div className='flex items-center mt-2'>
+                            <button onClick={decrementQuantity} className='bg-gray-300 text-gray-800 px-2 py-1 mr-2'>-</button>
+                            <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center' />
+                            <button onClick={incrementQuantity} className='bg-gray-300 text-gray-800 px-2 py-1 ml-2'>+</button>
+                        </div>
+
+                        <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2 mt-4'>Add to Cart</button>
+                        <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2 mt-2'>Cancel</button>
+                    </div>
+                </div>
+            )}
       </div>
     );
   };
