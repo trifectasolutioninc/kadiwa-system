@@ -77,14 +77,14 @@ const StoreList = ({ productCode }) => {
         ) : (
           <ul>
             {storesWithProduct.map((store) => (
-              <div key={store.contact} className='bg-white mx-4 my-1 p-2 rounded-md shadow-md justify-between flex'>
+              <div key={store.contact} className='bg-white mx-4 my-1 p-4 rounded-md shadow-md justify-between flex'>
                 <div>
                   <p className='text-lg font-bold text-gray-800'>{store.storeName}</p>
                   <p className='text-gray-700'>{store.city}, {store.province}</p>
                 </div>
-                <div className='space-x-2 items-center justify-center flex'>
-                  <button className='bg-green-700 rounded p-1 text-white'>Check-out</button>
-                  <button><AddShoppingCartOutlinedIcon className='text-green-700'/></button>
+                <div className='space-x-5 items-center justify-center flex'>
+                  <button className='bg-green-700 rounded px-2 py-1 text-white'>Check-out</button>
+                  <button className=' rounded px-2 py-1'><AddShoppingCartOutlinedIcon className='text-green-700' /></button>
                 </div>
               </div>
             ))}
