@@ -179,9 +179,12 @@ const ProfileConsumer = () => {
 
         {/* Icon with Name: Linked Account */}
         <div className="text-center">
-          <LinkIcon className="text-6xl text-gray-500 mb-2" />
-          <p className="text-xs">Linked Account</p>
+          <Link to="/main/linked-account" className="block text-center">
+            <LinkIcon className="text-6xl text-gray-500 mb-2" />
+            <p className="text-xs">Linked Account</p>
+          </Link>
         </div>
+
 
         {/* Icon with Name: Transaction History */}
         <div className="text-center">

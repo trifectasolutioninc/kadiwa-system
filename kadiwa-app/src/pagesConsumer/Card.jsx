@@ -46,7 +46,7 @@ const Card = () => {
   
   
     return (
-        <div className="h-screen bg-gray-200">
+        <div className="h-screen bg-gray-100">
         <div className="h-full overflow-y-auto p-4">
           <div className="flex justify-between">
             <h1 className="font-bold text-lg">Virtual Card</h1>
@@ -75,28 +75,12 @@ const Card = () => {
               </div>
             </div>
           </div>
-      
-          <div className="flex justify-between">
-            <h1 className="font-bold text-sm">Linked Account</h1>
-            <div>
-              <span className="text-sm ">Change</span>
-            </div>
+
+          <div className='flex justify-between items-center px-4'>
+            <p className='font-bold text-gray-700 '>Kadiwa Card</p>
+            <button className='border border-green-700 border-2 p-1 rounded-md text-xs text-green-700'>Read More</button>
           </div>
       
-          <div className="bg-white shadow-lg rounded-2xl m-4">
-            <div className="p-4">
-              <div className="justify-between flex">
-                {/* Linked Account Owner */}
-                <span className="font-bold text-sm">Juan Dela Cruz</span>
-      
-                {/* Linked Account Number */}
-                <span className="font-bold text-sm">1234 5678 9123 4567</span>
-              </div>
-      
-              {/* Linked Account Type */}
-              <span className="text-sm">MasterCard</span>
-            </div>
-          </div>
       
           <div className="flex justify-center items-center p-5">
             <div className="text-center bg-white p-4 rounded-2xl mb-16">
