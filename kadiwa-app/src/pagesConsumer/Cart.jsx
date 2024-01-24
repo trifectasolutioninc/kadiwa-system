@@ -150,13 +150,13 @@ const Cart = () => {
   
 
   return (
-    <div>
+    <div className="h-screen bg-gray-100">
       {cartData !== null ? (
         <div>
           <div className="p-4 flex justify-between">
             <h1 className="font-bold text-lg p-4 text-green-600">Cart ({getTotalQuantity(cartData)})</h1>
             <div>
-              <span className="text-xs text-gray-500 mr-2" onClick={handleDelete}>
+              <span className="text-xs text-red-500 mr-2 bg-white rounded-full px-2 p-1 cursor-pointer" onClick={handleDelete}>
                 Delete
               </span>
             </div>
@@ -199,7 +199,7 @@ const Cart = () => {
         <div className="p-4 flex justify-between">
             <h1 className="font-bold text-lg p-4 text-green-600">Cart (0)</h1>
             <div>
-              <span className="text-xs text-gray-500 mr-2">
+              <span className="text-xs text-red-500 mr-2 bg-white rounded-full px-2 p-1 cursor-pointer">
                 Delete
               </span>
             </div>
