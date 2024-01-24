@@ -8,8 +8,10 @@ import Button from '@mui/material/Button';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
+import StoreList from '../pagesConsumer/ProductStoreList'
 
 const ProductDetails = ({ productDetails }) => {
+
   if (!productDetails) {
     return <div>Error: Product not found.</div>;
   }
@@ -30,6 +32,7 @@ const ProductDetails = ({ productDetails }) => {
           <img src={imageSrc} alt={product_name} className="rounded-md bg-cover" />
         </div>
         <div className=" p-2">
+
             <div className='h-1/2'>
                 <h2 className="text-gray-700 font-bold">{product_name}</h2>
                 <p className="text-xs text-gray-500">Commodity Type: {commodity_type}</p>
@@ -47,7 +50,6 @@ const ProductDetails = ({ productDetails }) => {
                 <div onClick={handleAddToCart} className='border w-1/2 items-center flex  justify-center'>
                     <StarOutlineOutlinedIcon className="text-yellow-600 mr-1" />
                     <span className="hidden sm:hidden  md:block text-xs text-blue-500 mr-2">Add to Cart</span>
-
                 </div>
 
               </div>
@@ -55,17 +57,13 @@ const ProductDetails = ({ productDetails }) => {
                 <div className='flex'>
                  <SpaOutlinedIcon className="text-green-500 mr-1" style={{fontSize: 'medium'}} />
                  <p className='text-xs text-gray-600'>10920</p>
-                </div>
+                </div>         
                 <div className='flex'>
                 <StarOutlineOutlinedIcon className="text-yellow-600 mr-1 " style={{fontSize: 'medium'}} />
                  <p className='text-xs text-gray-600'>4.9</p><p className='font-bold text-xs text-gray-800'>/5.0</p>
                 </div>
-               
               </div>
-
-                
-                
-                
+ 
             </div>
           {/* Add more HTML elements for other product details */}
         </div>
@@ -75,13 +73,11 @@ const ProductDetails = ({ productDetails }) => {
 };
 
 
-const StoreList = () => (
-  <div className="mx-3">
-    <p>Store List</p>
-  </div>
-);
+<div className="mx-3">
+<p>Store List</p>
+</div>
 
-const ProductInfo = () => {
+const ProductInfo = ({ product_inventory , kadiwa_users_account }) => {
   const { productCode, productName } = useParams();
   const [productDetails, setProductDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -118,13 +114,14 @@ const ProductInfo = () => {
   }, [productCode, productName]);
 
   return (
-    <div>
+    <div className="h-screen bg-gray-200">
       {isLoading ? (
         <p className='p-5 text-green-600'>Loading...</p>
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />
-          <StoreList />
+          <StoreList productCode={productCode} />
+
         </>
       )}
     </div>
