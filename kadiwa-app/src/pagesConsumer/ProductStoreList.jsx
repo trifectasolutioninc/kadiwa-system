@@ -130,8 +130,8 @@ const decrementQuantity = () => {
         )}
      {/* Modal for adding to cart */}
      {isModalOpen && (
-                <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg w-3/4'>
-                    <div className='absolute w-96 bg-white p-6 rounded-md shadow-md'>
+                <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-lg'>
+                    <div className='absolute w-96 bg-white p-6 rounded-md shadow-md w-3/4'>
                         <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
                         <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
 
