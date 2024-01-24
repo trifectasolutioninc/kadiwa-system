@@ -83,9 +83,9 @@ const ProfileConsumer = () => {
   }, []);
 
   return (
-    <div>
+    <div className="h-screen bg-gray-100">
       <div className="p-4 flex justify-between">
-        <h1 className="font-bold text-lg">Profile</h1>
+        <h1 className="font-bold text-lg text-green-700">Profile</h1>
         <div></div>
       </div>
 
@@ -138,11 +138,11 @@ const ProfileConsumer = () => {
 
       <div id="storePartner" className="bg-white mx-4 p-2 flex justify-between items-center rounded ">
         <span className="flex text-gray-700 font-bold"><Store className=" text-gray-500"/>SarisariStore</span>
-        <button id="storeButton" className="bg-blue-500 p-1 text-white rounded">Store</button>
+        <button id="storeButton" className="bg-blue-500 py-1 px-4 text-white rounded ">Store</button>
       </div>
 
-      <div className="px-4 flex justify-between">
-        <h1 className="font-bold text-lg">My Wallet</h1>
+      <div className="px-4 flex justify-between mt-4">
+        <h1 className="font-bold text-lg text-gray-800">My Wallet</h1>
         <div></div>
       </div>
 
@@ -168,7 +168,7 @@ const ProfileConsumer = () => {
         </div>
       )}
 
-      <div className="flex justify-around p-4">
+      <div className="flex justify-around px-4 py-8">
         {/* Icon with Name: Virtual Card */}
         <div className="text-center">
         <Link to="/main/virtual-card" className="block text-center">
@@ -191,11 +191,11 @@ const ProfileConsumer = () => {
       </div>
 
       <div className="px-4 flex justify-between">
-        <h1 className="font-bold text-lg">My Orders</h1>
+        <h1 className="font-bold text-lg text-gray-800">My Orders</h1>
         <div></div>
       </div>
 
-      <div className="flex justify-around p-4">
+      <div className="flex justify-around px-4 py-8">
         {/* Icon with Name: To Ship */}
         <div className="text-center">
           <LocalShipping className="text-3xl text-gray-500 mb-2" />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ref, child, get } from 'firebase/database';
+import { ref, child, get, set } from 'firebase/database';
 import configFirebaseDB from '../Configuration/config';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 
@@ -11,7 +11,7 @@ const StoreList = ({ productCode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  
+  const kdwconnect = sessionStorage.getItem('kdwconnect');
     useEffect(() => {
       const database = configFirebaseDB();
       const usersAccountRef = ref(database, 'kadiwa_users_account');
@@ -85,13 +85,59 @@ const closeModal = () => {
     setSelectedQuantity(1);
 };
 
-// Function to handle adding to cart
 const addToCart = () => {
-    // Implement your logic to add the selected product to the cart
-    // You can use selectedStore and selectedQuantity here
-    // ...
-    closeModal();
+  // Check if there is a selected store and product
+  if (!selectedStore || filteredProducts.length === 0) {
+    console.error('Cannot add to cart: Selected store or product not available.');
+    return;
+  }
+
+  // Get the product details
+  const product = filteredProducts[0];
+
+  // Create the cart item object
+  const cartItem = {
+    commodity_type: product.commodity_type,
+    keywords: product.keywords,
+    price: product.price,
+    product_code: product.product_code,
+    product_name: product.product_name,
+    unit_measurement: product.unit_measurement,
+    qty: selectedQuantity,
+  };
+
+  // Construct the key for the cart collection
+  const cartKey = `${kdwconnect}-${selectedStore.storeName}`;
+
+  // Construct the cart collection path
+  const cartCollectionPath = `cart_collection/${cartKey}`;
+
+  // Get a reference to the cart collection in the database
+  const cartCollectionRef = ref(configFirebaseDB(), cartCollectionPath);
+
+  // Update the cart collection with the new item
+  get(cartCollectionRef)
+    .then((snapshot) => {
+      const cartData = snapshot.exists() ? snapshot.val() : {};
+      cartData.storeName = selectedStore.storeName;
+      cartData.ownerNo = selectedStore.contact;
+      cartData.CartList = cartData.CartList || {};
+      cartData.CartList[product.product_code] = cartItem;
+
+      // Save the updated cart data back to the database
+      return set(cartCollectionRef, cartData);
+    })
+    .then(() => {
+      console.log('Item added to cart successfully.');
+    })
+    .catch((error) => {
+      console.error('Error adding item to cart:', error);
+    })
+    .finally(() => {
+      closeModal();
+    });
 };
+
 
 
 const incrementQuantity = () => {

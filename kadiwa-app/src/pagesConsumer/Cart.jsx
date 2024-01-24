@@ -1,69 +1,76 @@
-import React from 'react'
-
-
-const CartItem = ({ id, name, price, quantity, imgAlt }) => (
-  <div className="items-center border-b py-2 grid grid-cols-10">
-    <div className="flex items-center mr-4 col-span-3">
-      <input type="checkbox" className="mr-2" />
-      <img
-        id={`cart${id}`}
-        src={`path/to/${imgAlt}.jpg`} // Replace with the actual path to your images
-        alt={imgAlt}
-        className="w-12 h-12 object-cover rounded"
-      />
-    </div>
-    <div className="text-left col-span-7">
-      <h1 className="text-gray-800 font-semibold">{name}</h1>
-      <div className=" justify-between flex items-center">
-        <p className="font-semibold text-green-700 text-lg ">{`Php ${price.toFixed(2)}`}</p>
-        <div className="flex items-center ">
-          <span className="text-xs pr-2 font-bold text-gray-500">Qty:</span>
-          <div className="flex items-center">
-            <button className="text-sm px-2 border rounded " onClick={() => console.log('Decrement clicked')}>-</button>
-            <input
-              type="number"
-              value={quantity}
-              className="w-12 h-8 text-center border rounded-md text-xs"
-              readOnly
-            />
-            <button className="text-sm px-2 border rounded" onClick={() => console.log('Increment clicked')}>+</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+import React, { useState, useEffect } from 'react';
+import CartItem from './CartItem'; // Import your CartItem component here
+import { imageConfig , commodityTypes } from '../Configuration/config-file';
+import configFirebaseDB from '../Configuration/config';
+import { ref, get } from 'firebase/database';
 
 const Cart = () => {
+  const kdwconnect = sessionStorage.getItem('kdwconnect');
+  const [cartData, setCartData] = useState(null);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      const database = configFirebaseDB();
+      const cartRef = ref(database, 'cart_collection');
+
+      try {
+        const cartSnapshot = await get(cartRef);
+        if (cartSnapshot.exists()) {
+          setCartData(cartSnapshot.val());
+        } else {
+          console.error('Cart data not found.');
+        }
+      } catch (error) {
+        console.error('Error fetching cart data:', error);
+      }
+    };
+
+    if (kdwconnect) {
+      fetchCartData();
+    }
+  }, [kdwconnect]);
+
   return (
-     <div>
-    <div className="p-4 flex justify-between">
-      <h1 className="font-bold text-lg">Cart (3)</h1>
-      <div>
-        <span className="text-xs text-gray-500 mr-2">Edit</span>
-        <span className="text-xs text-gray-500">Delete</span>
-      </div>
-    </div>
-
-    <div className="mb-16">
-      <div className="bg-white rounded shadow-md m-4 p-2">
-        <div className="flex justify-between">
-          <div className="flex">
-            <input type="checkbox" className="mr-1" />
-            <p className="text-sm">Sari-sari Store</p>
+    <div>
+      {cartData && (
+        <div>
+          <div className="p-4 flex justify-between">
+            <h1 className="font-bold text-lg">Cart ({Object.keys(cartData).length})</h1>
+            <div>
+              <span className="text-xs text-gray-500 mr-2">Edit</span>
+              <span className="text-xs text-gray-500">Delete</span>
+            </div>
           </div>
-          <span className="text-xs text-gray-400">Visit Store</span>
+
+          <div className="mb-16">
+            {Object.entries(cartData).map(([storeId, storeInfo]) => (
+              <div key={storeId} className="bg-white rounded shadow-md m-4 p-2">
+                <div className="flex justify-between">
+                  <div className="flex">
+                    <input type="checkbox" className="mr-1" />
+                    <p className="text-sm">{storeInfo.storeName}</p>
+                  </div>
+                  <span className="text-xs text-gray-400">Visit Store</span>
+                </div>
+
+                {/* Cart Items */}
+                {Object.entries(storeInfo.CartList).map(([productId, productInfo]) => (
+                  <CartItem
+                    key={productId}
+                    id={productId}
+                    name={productInfo.product_name}
+                    price={productInfo.price}
+                    quantity={productInfo.qty}
+                    imgAlt={imageConfig[productInfo.keywords.toLowerCase()]}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* Cart Items */}
-        <CartItem id={1} name="Brown and Washed Sugar" price={20.0} quantity={1} imgAlt="Cart 1" />
-        <CartItem id={2} name="Red Onion" price={30.0} quantity={1} imgAlt="Cart 2" />
-
-        {/* Add more cart items as needed */}
-      </div>
+      )}
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
