@@ -74,7 +74,7 @@ const HomeConsumer = () => {
 
 
   return (
-    <div>
+    <div className="h-screen bg-gray-100">
          <div id="topView" className="p-4">
         <h1 className="text-green-700 font-bold">Hello Kadiwa User!</h1>
         <div id="userLocation" className="flex items-center mb-2 text-xs">
