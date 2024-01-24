@@ -30,7 +30,7 @@ const StoreConsumer = () => {
   }, []);
 
   return (
-    <div>
+    <div className="h-screen bg-gray-100">
       {/* Top Navigation with Search and Notification */}
       <div className="p-4 flex items-center justify-between bg-gray-100">
         {/* Search Input */}
