@@ -6,7 +6,7 @@ import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
-import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import StoreList from '../pagesConsumer/ProductStoreList'
 
