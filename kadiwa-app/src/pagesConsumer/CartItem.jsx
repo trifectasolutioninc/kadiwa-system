@@ -1,9 +1,14 @@
 import React from 'react';
 
-const CartItem = ({ id, name, price, quantity, imgAlt }) => (
-  <div className="items-center border-b py-2 grid grid-cols-10">
-    <div className="flex items-center mr-4 col-span-3">
-      <input type="checkbox" className="mr-2" />
+const CartItem = ({ id, name, price, quantity, imgAlt, isChecked, onCheckboxChange }) => (
+    <div className="items-center border-b py-2 grid grid-cols-10">
+      <div className="flex items-center mr-4 col-span-3">
+        <input
+          type="checkbox"
+          className="mr-2"
+          checked={isChecked}
+          onChange={onCheckboxChange}
+        />
       <img
         id={`cart${id}`}
         src={imgAlt} // Replace with the actual path to your images
