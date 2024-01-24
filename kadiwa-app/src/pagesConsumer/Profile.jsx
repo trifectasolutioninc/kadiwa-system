@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Add, Info, CreditCard, Link, History, LocalShipping, LocalMall, Done, Settings, Store } from '@mui/icons-material';
+import { Add, Info, CreditCard, Link as LinkIcon, History, LocalShipping, LocalMall, Done, Settings, Store } from '@mui/icons-material';
 import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
@@ -170,15 +171,15 @@ const ProfileConsumer = () => {
       <div className="flex justify-around p-4">
         {/* Icon with Name: Virtual Card */}
         <div className="text-center">
-          <a href="./card.html" className="block text-center">
-            <CreditCard className="text-6xl text-gray-500 mb-2" />
-            <p className="text-xs">Virtual Card</p>
-          </a>
-        </div>
+        <Link to="/main/virtual-card" className="block text-center">
+          <CreditCard className="text-6xl text-gray-500 mb-2" />
+          <p className="text-xs">Virtual Card</p>
+        </Link>
+      </div>
 
         {/* Icon with Name: Linked Account */}
         <div className="text-center">
-          <Link className="text-6xl text-gray-500 mb-2" />
+          <LinkIcon className="text-6xl text-gray-500 mb-2" />
           <p className="text-xs">Linked Account</p>
         </div>
 

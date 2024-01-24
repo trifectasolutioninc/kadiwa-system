@@ -47,10 +47,13 @@ import palmoilliter from '../Components/Assets/products/palmoilliter.png';
 import coconutoilml from '../Components/Assets/products/coconutoilml.png';
 import coconutoilliter from '../Components/Assets/products/coconutoilliter.png';
 
+import CardBg from '../Components/Assets/others/card-bg.png';
+import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
+
 const imageConfig = {
     //Logo
     DALogo: './src/assets/DA-logo.png',
-    AppLogo: './src/assets/logo/kadiwa-logo.png',
+    AppLogo: KadiwaLogo,
     KadiwaText: './src/assets/logo/kadiwa-text.png',
     KadiwaTopLogo: './src/assets/logo/kadiwa-top-logo.png',
     EntranceBG: './src/assets/raw/entrance-bg.jpg',
@@ -60,7 +63,7 @@ const imageConfig = {
     BannerV2: '../banner/banner-v2.png',
     BannerV3: '../banner/banner-v2.png',
     //Card
-    cardbg: '../card/card-bg.png',
+    cardbg: CardBg,
     AppLogoCard: '../logo/kadiwa-logo.png',
     //Products
     kadiwarice: kadiwa_rice,

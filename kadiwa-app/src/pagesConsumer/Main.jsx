@@ -7,6 +7,7 @@ import Cart from './Cart';
 import Chat from './Chat'; 
 import ProductDetails from './ProductInfo'; 
 import ProfileConsumer from './Profile'; 
+import Card from './Card';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
 const ConsumerMain = () => {
@@ -32,6 +33,7 @@ const ConsumerMain = () => {
 
         // React Router configuration
         <Route path="productinfo/:productCode" element={<ProductDetails />} />
+        <Route path="virtual-card" element={<Card />} />
 
       </Routes>
       <NavBttnAppHome />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Notifications } from '@mui/icons-material';
 import { ref, child, get } from 'firebase/database';
+import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import configFirebaseDB from '../Configuration/config';
 
 const StoreConsumer = () => {
