@@ -31,6 +31,8 @@ const StoreConsumer = () => {
     fetchStores();
   }, []);
 
+  
+
 
   return (
     <div className="h-screen bg-gray-100">
