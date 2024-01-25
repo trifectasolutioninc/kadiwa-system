@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config'
 import { ref, child, get } from 'firebase/database';
+import { imageConfig } from '../Configuration/config-file';
 
 
 const pageStyle = {
@@ -59,7 +60,7 @@ const SignInPages = () => {
           </span>
         </div>
         <div>
-          <img id="LogoText" alt="Logo" className="h-16" />
+          <img id="LogoText" src={imageConfig.KadiwaText} alt="Logo" className="h-16" />
         </div>
       </div>
 
@@ -113,7 +114,7 @@ const SignInPages = () => {
         <div className="mt-4 text-gray-700 text-center">
           <p className="text-white">
             Don't have an account?{' '}
-            <NavLink to="/main" className="text-blue-200">
+            <NavLink to="/tandc" className="text-blue-200">
               Register
             </NavLink>
           </p>

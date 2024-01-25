@@ -49,12 +49,14 @@ import coconutoilliter from '../Components/Assets/products/coconutoilliter.png';
 
 import CardBg from '../Components/Assets/others/card-bg.png';
 import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
+import KadiwaText from '../Components/Assets/logo/kadiwa-text.png'
+
 
 const imageConfig = {
     //Logo
     DALogo: './src/assets/DA-logo.png',
     AppLogo: KadiwaLogo,
-    KadiwaText: './src/assets/logo/kadiwa-text.png',
+    KadiwaText: KadiwaText,
     KadiwaTopLogo: './src/assets/logo/kadiwa-top-logo.png',
     EntranceBG: './src/assets/raw/entrance-bg.jpg',
     KadiwaText2: '../logo/kadiwa-text.png',
