@@ -49,7 +49,9 @@ import coconutoilliter from '../Components/Assets/products/coconutoilliter.png';
 
 import CardBg from '../Components/Assets/others/card-bg.png';
 import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
-import KadiwaText from '../Components/Assets/logo/kadiwa-text.png'
+import KadiwaText from '../Components/Assets/logo/kadiwa-text.png';
+
+
 
 
 const imageConfig = {

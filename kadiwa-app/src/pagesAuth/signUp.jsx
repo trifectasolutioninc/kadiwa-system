@@ -1,34 +1,309 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { imageConfig } from '../Configuration/config-file';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+import firebaseDB from '../Configuration/config'
+import { ref, set } from 'firebase/database';
+import {
+  regions,
+  regionByCode,
+  provinces,
+  provincesByCode,
+  provinceByName,
+  cities,
+  barangays,
+} from 'select-philippines-address';
+
+
+// Function to check if a value is blank
+function isBlank(value) {
+  return value.trim() === '';
+}
+
+
+// Function to generate unique ID
+function generateUniqueID() {
+  var currentDate = new Date();
+  var year = currentDate.getFullYear();
+  var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+  var day = ('0' + currentDate.getDate()).slice(-2);
+  var hours = ('0' + currentDate.getHours()).slice(-2);
+  var minutes = ('0' + currentDate.getMinutes()).slice(-2);
+  var random4DigitNumber = ('000' + Math.floor(1000 + Math.random() * 9000)).slice(-4);
+
+  return `${year}-${month}${day}-${hours}${minutes}-${random4DigitNumber}`;
+}
+
+// Function to reset consumer form
+function resetConsumerForm() {
+  document.getElementById("contact").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("confirmPassword").value = "";
+}
+// Function to reset partner form
+function resetPartnerForm() {
+  document.getElementById("ownerContact").value = "";
+  document.getElementById("partnerPassword").value = "";
+  document.getElementById("confirmPartnerPassword").value = "";
+  document.getElementById("storeName").value = "";
+  document.getElementById("storeType").value = "";
+  document.getElementById("region-text").value = "";
+  document.getElementById("province-text").value = "";
+  document.getElementById("city-text").value = "";
+  document.getElementById("barangay-text").value = "";
+  document.getElementById("landmark").value = "";
+  document.getElementById("ownerName").value = "";
+}
+
 
 const RegistrationPage = () => {
-    const [activeForm, setActiveForm] = useState('consumer');
+  const [activeForm, setActiveForm] = useState('consumer');
+  const [selectedRegion, setSelectedRegion] = useState('');  // Set default value accordingly
+  const [selectedProvince, setSelectedProvince] = useState('');  // Set default value accordingly
+  const [selectedCity, setSelectedCity] = useState('');  // Set default value accordingly
+  const [selectedBarangay, setSelectedBarangay] = useState('');  // Set default value accordingly
+  const [regionsData, setRegionsData] = useState([]);  // Add this line
+  const [provincesData, setProvincesData] = useState([]);  // Add this line
+  const [citiesData, setCitiesData] = useState([]);  // Add this line
+  const [barangaysData, setBarangaysData] = useState([]);  // Add this line
+  const db = firebaseDB();
+  
 
     const switchForm = (formType) => {
         setActiveForm(formType);
     };
+
+    // Add useEffect to fetch regions when the component mounts
+    useEffect(() => {
+      fetchRegions();
+    }, []);
+
+    const fetchRegions = async () => {
+      try {
+          const regionsData = await regions();
+          // console.log(regionsData);
+          if (regionsData.length > 0) {
+              const defaultRegion = regionsData[0].region_code;
+              setSelectedRegion(defaultRegion);
+              setRegionsData(regionsData);  // Add this line
+              fetchProvinces(defaultRegion);
+          }
+      } catch (error) {
+          console.error('Error fetching regions:', error);
+      }
+  };
+
+  const fetchProvinces = async (regionCode) => {
+      try {
+          const provinceData = await provinces(regionCode);
+          // console.log(provinceData);
+          if (provinceData.length > 0) {
+              const defaultProvince = provinceData[0].province_code;
+              setSelectedProvince(defaultProvince);
+              setProvincesData(provinceData);  // Add this line
+              fetchCities(defaultProvince);
+          }
+      } catch (error) {
+          console.error('Error fetching provinces:', error);
+      }
+  };
+
+  const fetchCities = async (provinceCode) => {
+      try {
+          const cityData = await cities(provinceCode);
+          // console.log(cityData);
+          if (cityData.length > 0) {
+              const defaultCity = cityData[0].city_code;
+              setSelectedCity(defaultCity);
+              setCitiesData(cityData);  // Add this line
+              fetchBarangays(defaultCity);
+          }
+      } catch (error) {
+          console.error('Error fetching cities:', error);
+      }
+  };
+
+  const fetchBarangays = async (cityCode) => {
+    try {
+        const barangayData = await barangays(cityCode);
+        // console.log(barangayData);
+        if (barangayData.length > 0) {
+            const defaultBarangay = barangayData[0].barangay_code;
+            setSelectedBarangay(defaultBarangay);
+            setBarangaysData(barangayData);  // Add this line
+        }
+    } catch (error) {
+        console.error('Error fetching barangays:', error);
+    }
+};
+
+const [consumerFormData, setConsumerFormData] = useState({
+  contact: '',
+  password: '',
+  confirmPassword: '',
+});
+
+
+const [partnerFormData, setPartnerFormData] = useState({
+  ownerContact: '',
+  partnerPassword: '',
+  confirmPartnerPassword: '',
+  storeName: '',
+  storeType: '',
+  region: '',
+  province: '',
+  city: '',
+  barangay: '',
+  landmark: '',
+  ownerName: '',
+});
+
+const handleConsumerSubmit = async (e) => {
+  e.preventDefault();
+
+  console.log("handleConsumerSubmit function called");
+  console.log("Contact:", consumerFormData.contact);
+console.log("Password:", consumerFormData.password);
+console.log("Confirm Password:", consumerFormData.confirmPassword);
+
+  // Validate required inputs
+  if (isBlank(consumerFormData.contact) || isBlank(consumerFormData.password) || isBlank(consumerFormData.confirmPassword)) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+
+
+  // Validate password match
+  if (consumerFormData.password !== consumerFormData.confirmPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
+  const userRef = ref(db, 'kadiwa_users_account/' + consumerFormData.contact);
+  const user = {
+    id: generateUniqueID(),
+    balance: 0,
+    points: 0,
+    usertype: "Consumer",
+    info_status: "Not Complete",
+    store_status: "No Store",
+    birthday: "",
+    gender: "",
+    storeName: "",
+    storeType: "",
+    region: "",
+    province: "",
+    city: "",
+    barangay: "",
+    landmark: "",
+    fullname: "",
+    contact: consumerFormData.contact,
+    password: consumerFormData.password
+  };
+
+  try {
+    await set(userRef, user);
+ 
+    resetConsumerForm(); // Call function to reset consumer form
+  } catch (error) {
+    console.error("Error saving data to database:", error);
+  }
+};
+
+const handlePartnerSubmit = async (e) => {
+  e.preventDefault();
+
+  // Validate required inputs
+  if (isBlank(partnerFormData.ownerContact) || isBlank(partnerFormData.partnerPassword) || isBlank(partnerFormData.confirmPartnerPassword)) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  // Validate password match
+  if (partnerFormData.partnerPassword !== partnerFormData.confirmPartnerPassword) {
+    alert("Passwords do not match.");
+    return;
+  }
+  const userRef = ref(db, 'kadiwa_users_account/' + partnerFormData.ownerContact);
+  const partner = {
+    id: generateUniqueID(),
+    balance: 0,
+    points: 0,
+    usertype: "Partner",
+    info_status: "Not Complete",
+    store_status: "Not Accredited",
+    birthday: "",
+    gender: "",
+    storeName: partnerFormData.storeName,
+    storeType: partnerFormData.storeType,
+    region: partnerFormData.region,
+    province: partnerFormData.province,
+    city: partnerFormData.city,
+    barangay: partnerFormData.barangay,
+    landmark: partnerFormData.landmark,
+    fullname: partnerFormData.ownerName,
+    contact: partnerFormData.ownerContact,
+    password: partnerFormData.partnerPassword
+  };
+
+  try {
+    await set(userRef, partner);
+    resetPartnerForm(); // Call function to reset partner form
+  } catch (error) {
+    console.error("Error saving data to database:", error);
+  }
+};
+
+
 
     const renderForm = () => {
         switch (activeForm) {
             case 'consumer':
                 return (
                   <div id="consumerForm" className="mt-8 p-8 rounded">
-                  <form action="#" className="space-y-4">
+                  <form action="#" className="space-y-4" onSubmit={handleConsumerSubmit}>
                       <div className="space-y-2 text-left">
                           <label  className="text-sm text-white">Phone Number</label>
-                          <input type="tel" id="phoneno" name="phoneno" placeholder="Phone Number" className="w-full p-2 border rounded-md" required/>
+                          <input
+                            type="tel"
+                            id="contact"
+                            name="contact"
+                            value={consumerFormData.contact}
+                            onChange={(e) => setConsumerFormData({ ...consumerFormData, contact: e.target.value })}
+                            placeholder="Phone Number"
+                            className="w-full p-2 border rounded-md"
+                            required
+                          />
+
                       </div>
                       <div className="space-y-2 text-left">
                           <label className="text-sm text-white">Password</label>
-                          <input type="password" id="password" name="password" placeholder="Password" className="w-full p-2 border rounded-md" required/>
+                          <input
+                            type="password"
+                            id="password"
+                            name="password" 
+                            value={consumerFormData.password}  
+                            onChange={(e) => setConsumerFormData({ ...consumerFormData, password: e.target.value })}
+                            placeholder="Password"
+                            className="w-full p-2 border rounded-md"
+                            required
+                          />
+
                       </div>
                       <div className="space-y-2 text-left">
                           <label  className="text-sm text-white">Confirm Password</label>
-                          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" className="w-full p-2 border rounded-md" required/>
+                          <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"  
+                            value={consumerFormData.confirmPassword}  
+                            onChange={(e) => setConsumerFormData({ ...consumerFormData, confirmPassword: e.target.value })}
+                            placeholder="Confirm Password"
+                            className="w-full p-2 border rounded-md"
+                            required
+                          />
                       </div>
                       <div className="items-center">
-                          <button type="submit" id="consumerSubmit" className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300">
+                          <button type="submit" id="consumerSubmit"  className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300">
                               Register
                           </button>
                       </div>
@@ -40,7 +315,7 @@ const RegistrationPage = () => {
                 );
             case 'partner':
                 return (
-                  <div id="partnerForm" className=" mt-8 p-8 rounded overflow-auto">
+                  <div id="partnerForm" className=" mt-8 p-8 rounded overflow-auto" onSubmit={handlePartnerSubmit}>
                   <form action="#" className="space-y-4">
            
                       <div className="space-y-2 text-left">
@@ -57,36 +332,101 @@ const RegistrationPage = () => {
                       </div>            
                       
                       <div className="space-y-2 text-left">
-                          <label htmlFor="region" className="text-sm text-white">Region</label>
-                          <select id="region" name="region" className="w-full p-2 border rounded-md" required>
-      
-                          </select>
-                          <input type="hidden" name="region_text" id="region-text"/>
-                      </div>
+                        <label htmlFor="region" className="text-sm text-white">
+                            Region
+                        </label>
+                        <select
+                            id="region"
+                            name="region"
+                            className="w-full p-2 border rounded-md"
+                            required
+                            value={selectedRegion|| ''}
+                            onChange={(e) => {
+                                const regionCode = e.target.value;
+                                setSelectedRegion(regionCode);
+                                fetchProvinces(regionCode);
+                            }}
+                        >
+                            {regionsData.map((region) => (
+                                <option key={region.region_code} value={region.region_code}>
+                                    {region.region_name}
+                                </option>
+                            ))}
+                        </select>
+                        <input type="hidden" name="region_text" id="region-text" />
+                    </div>
 
-                      <div className="space-y-2 text-left">
-                          <label htmlFor="province" className="text-sm text-white">Province</label>
-                          <select id="province" name="province" className="w-full p-2 border rounded-md" required>
-      
-                          </select>
-                          <input type="hidden" name="province_text" id="province-text"/>
-                      </div>
+                    <div className="space-y-2 text-left">
+                        <label htmlFor="province" className="text-sm text-white">
+                            Province
+                        </label>
+                        <select
+                            id="province"
+                            name="province"
+                            className="w-full p-2 border rounded-md"
+                            required
+                            value={selectedProvince|| ''}
+                            onChange={(e) => {
+                                const provinceCode = e.target.value;
+                                setSelectedProvince(provinceCode);
+                                fetchCities(provinceCode);
+                            }}
+                        >
+                            {provincesData.map((province) => (
+                                <option key={province.province_code} value={province.province_code}>
+                                    {province.province_name}
+                                </option>
+                            ))}
+                        </select>
+                        <input type="hidden" name="province_text" id="province-text" />
+                    </div>
 
-                      <div className="space-y-2 text-left">
-                          <label htmlFor="city" className="text-sm text-white">Municipality/City</label>
-                          <select id="city" name="city" className="w-full p-2 border rounded-md" required>
-     
-                          </select>
-                          <input type="hidden" name="city_text" id="city-text"/>
-                      </div>
+                    <div className="space-y-2 text-left">
+                        <label htmlFor="city" className="text-sm text-white">
+                            Municipality/City
+                        </label>
+                        <select
+                            id="city"
+                            name="city"
+                            className="w-full p-2 border rounded-md"
+                            required
+                            value={selectedCity|| ''}
+                            onChange={(e) => {
+                                const cityCode = e.target.value;
+                                setSelectedCity(cityCode);
+                                fetchBarangays(cityCode);
+                            }}
+                        >
+                            {citiesData.map((city) => (
+                                <option key={city.city_code} value={city.city_code}>
+                                    {city.city_name}
+                                </option>
+                            ))}
+                        </select>
+                        <input type="hidden" name="city_text" id="city-text" />
+                    </div>
 
-                      <div className="space-y-2 text-left">
-                          <label htmlFor="barangay" className="text-sm text-white">Barangay</label>
-                          <select id="barangay" name="barangay" className="w-full p-2 border rounded-md" required>
-         
-                          </select>
-                          <input type="hidden" name="barangay_text" id="barangay-text"/>
-                      </div>
+                    <div className="space-y-2 text-left">
+                        <label htmlFor="barangay" className="text-sm text-white">
+                            Barangay
+                        </label>
+                        <select
+                            id="barangay"
+                            name="barangay"
+                            className="w-full p-2 border rounded-md"
+                            required
+                            value={selectedBarangay|| ''}
+                            onChange={(e) => setSelectedBarangay(e.target.value)}
+                        >
+                            {barangaysData.map((barangay) => (
+                                <option key={barangay.brgy_code} value={barangay.brgy_code}>
+                                    {barangay.brgy_name}
+                                </option>
+                            ))}
+                        </select>
+                        <input type="hidden" name="barangay_text" id="barangay-text" />
+                    </div>
+
 
                       <div className="space-y-2 text-left">
                           <label htmlFor="landmark" className="text-sm text-white">Store Landmark (Optional)</label>
@@ -110,7 +450,7 @@ const RegistrationPage = () => {
                           <input type="password" id="confirmPartnerPassword" name="confirmPartnerPassword" placeholder="Confirm Password" className="w-full p-2 border rounded-md" required/>
                       </div>
                       <div className="items-center">
-                          <button type="submit" id="partnerSubmit" className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300">
+                          <button type="submit" id="partnerSubmit" onClick={handlePartnerSubmit} className="w-full py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300">
                               Register
                           </button>
                       </div>
