@@ -10,7 +10,6 @@ const Cart = () => {
   const [isStoreChecked, setIsStoreChecked] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
 
-
   useEffect(() => {
     const fetchCartData = async () => {
       const database = configFirebaseDB();
@@ -36,7 +35,7 @@ const Cart = () => {
 
   const getTotalQuantity = (cartData) => {
     let totalQuantity = 0;
-  
+
     if (cartData) {
       for (const storeKey in cartData) {
         const store = cartData[storeKey];
@@ -48,10 +47,10 @@ const Cart = () => {
         }
       }
     }
-  
+    
     return totalQuantity;
   };
-  
+
   const handleStoreCheckboxChange = (storeKey) => {
     setIsStoreChecked((prev) => {
       const newState = !prev[storeKey];
@@ -73,7 +72,6 @@ const Cart = () => {
       return updatedIsStoreChecked;
     });
   };
-  
 
   const handleItemCheckboxChange = (storeKey, productId) => {
     setSelectedItems((prevSelectedItems) => {
