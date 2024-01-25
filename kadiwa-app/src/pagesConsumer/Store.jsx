@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Notifications } from '@mui/icons-material';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
@@ -6,6 +7,7 @@ import configFirebaseDB from '../Configuration/config';
 
 const StoreConsumer = () => {
   const [storeList, setStoreList] = useState([]);
+
 
   useEffect(() => {
     const fetchStores = async () => {
@@ -28,6 +30,7 @@ const StoreConsumer = () => {
 
     fetchStores();
   }, []);
+
 
   return (
     <div className="h-screen bg-gray-100">
@@ -70,7 +73,7 @@ const StoreConsumer = () => {
 
                   </div>
                   <div className='col-span-1 flex justify-end '>
-                    <button className='text-center rounded-md bg-green-700 text-white px-4'>Visit</button>
+                  <Link to={`/main/storepage/${store.contact}`} className='text-center rounded-md bg-green-700 text-white px-4'>Visit</Link>
                   </div>
             
               </div>

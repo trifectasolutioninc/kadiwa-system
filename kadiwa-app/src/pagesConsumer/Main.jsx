@@ -8,6 +8,7 @@ import Chat from './Chat';
 import ProductDetails from './ProductInfo'; 
 import ProfileConsumer from './Profile'; 
 import Card from './Card';
+import StorePage from './StorePage';
 import LinkedAccount from './LinkedAccount';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
@@ -34,8 +35,10 @@ const ConsumerMain = () => {
 
         // React Router configuration
         <Route path="productinfo/:productCode" element={<ProductDetails />} />
+        <Route path="storepage/:storeID" component={StorePage}  element={<StorePage />} />
         <Route path="virtual-card" element={<Card />} />
         <Route path="linked-account" element={<LinkedAccount/>} />
+
 
       </Routes>
       <NavBttnAppHome />
