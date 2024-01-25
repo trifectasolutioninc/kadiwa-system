@@ -144,10 +144,6 @@ const Cart = () => {
       console.error('Error deleting items:', error);
     }
   };
-  
-  
-  
-  
 
   return (
     <div className="h-screen bg-gray-100">
