@@ -73,10 +73,10 @@ const LinkedAccount = () => {
             <span className="text-sm">Change</span>
           </div>
         </div>
-
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4'>
         {linkedAccounts.map((account, index) => (
-          <div key={index} className="bg-white shadow-lg rounded-2xl m-4">
-            <div className="p-4">
+          <div key={index} className="bg-white shadow-lg rounded-2xl m-4 ">
+            <div className="p-4 ">
               <div className="grid grid-cols-10">
                 <img
                   src={getAccountImageSrc(account.type)}
@@ -99,7 +99,9 @@ const LinkedAccount = () => {
               {account.type === 'Bank' && <span className="text-sm"></span>}
             </div>
           </div>
+          
         ))}
+        </div>
       </div>
     </div>
   );
