@@ -51,8 +51,19 @@ import CardBg from '../Components/Assets/others/card-bg.png';
 import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
 import KadiwaText from '../Components/Assets/logo/kadiwa-text.png';
 
+import MasterCard from '../Components/Assets/payment/mastercard.png';
+import Bank from '../Components/Assets/payment/bank.png';
+import Gcash from '../Components/Assets/payment/gcash.png';
+import Maya from '../Components/Assets/payment/maya.png';
+import Megapay from '../Components/Assets/payment/megapay.png';
 
-
+const paymentImg = {
+    MasterCard : MasterCard,
+    Bank : Bank,
+    Gcash : Gcash,
+    Maya : Maya,
+    Megapay : Megapay,
+}
 
 const imageConfig = {
     //Logo
@@ -158,4 +169,4 @@ const commodityTypes = [
 ];
 
 
-export { imageConfig, styleConfig, commodityTypes };
+export { imageConfig, styleConfig, commodityTypes, paymentImg };
