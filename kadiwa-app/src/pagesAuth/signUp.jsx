@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { imageConfig } from '../Configuration/config-file';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 
 const RegistrationPage = () => {
     const [activeForm, setActiveForm] = useState('consumer');
@@ -14,8 +16,8 @@ const RegistrationPage = () => {
                   <div id="consumerForm" className="mt-8 p-8 rounded">
                   <form action="#" className="space-y-4">
                       <div className="space-y-2 text-left">
-                          <label  className="text-sm text-white">Contact</label>
-                          <input type="tel" id="contact" name="contact" placeholder="Contact" className="w-full p-2 border rounded-md" required/>
+                          <label  className="text-sm text-white">Phone Number</label>
+                          <input type="tel" id="phoneno" name="phoneno" placeholder="Phone Number" className="w-full p-2 border rounded-md" required/>
                       </div>
                       <div className="space-y-2 text-left">
                           <label className="text-sm text-white">Password</label>
@@ -32,7 +34,7 @@ const RegistrationPage = () => {
                       </div>
                   </form>
                   <div className="mt-4 text-gray-700">
-                      <p className="text-white">Already have an account ? <a href="./signin.html" className="text-blue-500">Login</a></p>
+                      <p className="text-white">Already have an account ? <NavLink to="/" className="text-blue-500">Login</NavLink></p>
                   </div>
               </div>
                 );
@@ -114,9 +116,9 @@ const RegistrationPage = () => {
                       </div>
                   </form>
                   <div className="mt-4 text-gray-700">
-                      <p className="text-white">Already have an account ? <a href="./signin.html" className="text-blue-500">Login</a></p>
+                      <p className="text-white">Already have an account ? <NavLink to="/" className="text-blue-500">Login</NavLink></p>
                   </div>
-              </div>
+                  </div>
                 );
             default:
                 return null;
@@ -127,7 +129,7 @@ const RegistrationPage = () => {
         <div className="flex flex-col m-0 items-center text-center justify-center max-h-screen h-screen" style={{ background: 'linear-gradient(to bottom, #309340, #0D5B19)' }}>
             <div className="flex items-center p-4 justify-between gap-2">
               <span className="text-2xl font-bold" style={{ color: '#FAFF00' }}>Welcome to</span>
-              <img id="LogoText" alt="Logo" className="h-9" />
+              <img src={imageConfig.KadiwaText} alt="Logo" className="h-9" />
           </div>
 
             <div>
