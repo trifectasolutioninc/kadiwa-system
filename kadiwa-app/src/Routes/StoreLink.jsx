@@ -4,6 +4,8 @@ import NavBttnAppHome from '../Components/NavBttnAppHome/NavBttnStore';
 import { Route, Routes } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import HomePage from '../pagesPartner/Home';
+import Inventory from '../pagesPartner/Inventory';
+import InventoryProductList from '../pagesPartner/InventoryProductList';
 
 const StoreLink  = () => {
 
@@ -22,6 +24,8 @@ const StoreLink  = () => {
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="home"  element={<HomePage />} />
+        <Route path="inventory"  element={<Inventory />} />
+        <Route path="inventorylist"  element={<InventoryProductList />} />
 
       </Routes>
       <NavBttnAppHome />
