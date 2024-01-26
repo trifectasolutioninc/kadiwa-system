@@ -1,10 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Inventory = () => {
-  const storeSelectedValue = (selectedValue) => {
-    sessionStorage.setItem('selectedCommodity', selectedValue);
-    window.location.href = './inventorylist'; // Redirect to the new HTML page
-  };
+
+
+      const navigate = useNavigate();
+    
+      const storeSelectedValue = (selectedValue) => {
+        sessionStorage.setItem('selectedCommodity', selectedValue);
+    
+        // Use navigate to navigate to the new route
+        navigate('/partner/inventorylist');
+      };
 
   return (
     <div>

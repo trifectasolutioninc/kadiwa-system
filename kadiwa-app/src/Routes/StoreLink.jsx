@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import HomePage from '../pagesPartner/Home';
 import Inventory from '../pagesPartner/Inventory';
 import InventoryProductList from '../pagesPartner/InventoryProductList';
+import BarcodeScanner from '../pagesPartner/BarcodeScanner';
 
 const StoreLink  = () => {
 
@@ -26,6 +27,7 @@ const StoreLink  = () => {
         <Route path="home"  element={<HomePage />} />
         <Route path="inventory"  element={<Inventory />} />
         <Route path="inventorylist"  element={<InventoryProductList />} />
+        <Route path="barcodescanner"  element={<BarcodeScanner />} />
 
       </Routes>
       <NavBttnAppHome />

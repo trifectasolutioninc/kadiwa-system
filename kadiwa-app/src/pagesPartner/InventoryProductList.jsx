@@ -1,42 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import database from '../Configuration/config';
-import { ref, child, get } from 'firebase/database';
+import firebaseDB from '../Configuration/config';
+import { ref, get, update } from 'firebase/database';
 import { Add as AddIcon, Search as SearchIcon, Scanner as ScannerIcon } from '@mui/icons-material';
 import CropFreeIcon from '@mui/icons-material/CropFree';
+import { useNavigate } from 'react-router-dom';
 
 const InventoryProductList = () => {
+    const navigate = useNavigate();
     const [selectedCommodity, setSelectedCommodity] = useState(sessionStorage.getItem('selectedCommodity'));
     const [inventoryData, setInventoryData] = useState([]);
     const [currentItemID, setCurrentItemID] = useState(null);
+    const [quantityInput, setQuantityInput] = useState('');
+  
   
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const inventoryRef = ref(database, 'product_inventory');
-          const snapshot = await get(inventoryRef);
-  
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            const inventoryArray = Object.keys(data).map((key) => ({
-              id: key,
-              ...data[key],
-            }));
-            setInventoryData(inventoryArray);
-          } else {
-            console.log('No data available for the selected commodity.');
-          }
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-  
       fetchData();
-    }, []);
+    }, [selectedCommodity]); // Run fetchData when selectedCommodity changes
   
-    const openAddStockModal = (itemID) => {
-      setCurrentItemID(itemID);
-      // Add logic to show the modal or handle the state accordingly
+    const fetchData = async () => {
+      const db = firebaseDB();
+      const inventoryRef = ref(db, 'product_inventory');
+      const kdwconnect = sessionStorage.getItem('kdwconnect');
+  
+      try {
+        const snapshot = await get(inventoryRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          let filteredData;
+  
+          if (selectedCommodity === 'All Commodity') {
+            // Filter data based on the condition "item.id starts with contact"
+            filteredData = Object.values(data).filter(item => item.id.includes(kdwconnect));
+          } else {
+            // Filter data based on the selected commodity and contact
+            filteredData = Object.values(data).filter(item => item.commodity_type === selectedCommodity && item.id.includes(kdwconnect));
+          }
+  
+          setInventoryData(filteredData);
+        } else {
+          console.log('No data available.');
+          setInventoryData([]);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
+  
   
     const showBarcodeScannerModal = () => {
       document.getElementById('barcodeScannerModal').classList.remove('hidden');
@@ -48,27 +57,71 @@ const InventoryProductList = () => {
   
     const redirectToDeviceScannerPage = () => {
       // Replace 'device-scanner.html' with the actual path of your device scanner page
-      window.location.href = 'device-scanner.html';
+      navigate('device-scanner.html');
     };
   
     const redirectToCameraScannerPage = () => {
       // Replace 'camera-scanner.html' with the actual path of your camera scanner page
-      window.location.href = './inventoryscanner.html';
+      navigate('/partner/barcodescanner');
     };
   
-    const addStock = () => {
-      const quantityInput = document.getElementById('quantityInput');
-      const quantity = parseInt(quantityInput.value);
-  
-      // Rest of the addStock logic
-  
-      closeAddStockModal();
-    };
-  
-    const closeAddStockModal = () => {
-      document.getElementById('addStockModal').classList.add('hidden');
-    };
-  
+    const openAddStockModal = (itemID) => {
+        setCurrentItemID(itemID);
+      };
+    
+      const closeAddStockModal = () => {
+        setCurrentItemID(null);
+        setQuantityInput('');
+      };
+    
+      const addStock = async () => {
+        if (!currentItemID) {
+          console.error('No item selected for stock update.');
+          return;
+        }
+    
+        const quantity = parseInt(quantityInput);
+    
+        if (!isNaN(quantity) && quantity > 0) {
+          const db = firebaseDB();
+          const inventoryRef = ref(db, `product_inventory/${currentItemID}`);
+    
+          try {
+            const snapshot = await get(inventoryRef);
+            if (snapshot.exists()) {
+              const item = snapshot.val();
+              const updatedStock = item.stock + quantity;
+    
+              await update(inventoryRef, { stock: updatedStock });
+    
+              console.log('Stock updated successfully');
+    
+              // Update the displayed stock on the UI
+              const updatedInventoryData = inventoryData.map((dataItem) => {
+                if (dataItem.id === currentItemID) {
+                  return {
+                    ...dataItem,
+                    stock: updatedStock,
+                  };
+                }
+                return dataItem;
+              });
+    
+              setInventoryData(updatedInventoryData);
+              closeAddStockModal();
+            } else {
+              console.error('Item data not found.');
+            }
+          } catch (error) {
+            console.error('Error updating stock:', error);
+          }
+        } else {
+          alert('Please enter a valid quantity.');
+        }
+      };
+    
+      
+
 
   return (
     <div>
@@ -119,6 +172,7 @@ const InventoryProductList = () => {
           </div>
         </div>
 
+        <div id="listofcommodity">
         {inventoryData.map((item) => (
           <div key={item.id} className="bg-white p-4 rounded mb-2 shadow-md">
             <div className="flex justify-between items-center">
@@ -134,11 +188,12 @@ const InventoryProductList = () => {
                 aria-label="View Details"
                 onClick={() => openAddStockModal(item.id)}
               >
-                <AddIcon />
+                <AddIcon/>
               </button>
             </div>
           </div>
         ))}
+      </div>
 
         {/* Popup Modal for Barcode Scanner */}
         <div id="barcodeScannerModal" className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden">
@@ -165,10 +220,9 @@ const InventoryProductList = () => {
           </div>
         </div>
 
-        <div
-          id="addStockModal"
-          className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden"
-        >
+   {/* Modal for adding stock */}
+   {currentItemID && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
           <div className="bg-white p-4 rounded shadow-md max-w-md w-3/4 mx-auto sm:mt-8">
             <h1 className="text-lg font-semibold mb-4 text-center">Add Stock</h1>
             <label htmlFor="quantityInput" className="text-gray-700">
@@ -180,21 +234,24 @@ const InventoryProductList = () => {
               className="border p-2 rounded-md mb-4 w-full text-gray-600"
               min="1"
               required
+              value={quantityInput}
+              onChange={(e) => setQuantityInput(e.target.value)}
             />
             <button
-              onClick={() => addStock()}
+              onClick={addStock}
               className="w-full bg-green-500 text-white p-2 rounded mb-2 hover:bg-green-600 focus:outline-none focus:ring focus:border-blue-300"
             >
               Add Stock
             </button>
             <button
-              onClick={() => closeAddStockModal()}
+              onClick={closeAddStockModal}
               className="w-full text-sm text-gray-500 underline hover:text-gray-700 focus:outline-none focus:ring focus:border-blue-300"
             >
               Cancel
             </button>
           </div>
         </div>
+      )}
       </div>
     </div>
   );
