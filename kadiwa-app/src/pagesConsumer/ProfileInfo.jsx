@@ -11,12 +11,12 @@ const ProfileInfo = () => {
         // Your logout logic here
         console.log('Logout function called');
       };
-      
+
   return (
     <div>
       {/* Top Navigation with Search and Notification */}
-      <div className="p-4 flex items-center justify-between bg-gray-100">
-        {/* Search Input */}
+      {/* <div className="p-4 flex items-center justify-between bg-gray-100">
+  
         <div className="flex-grow">
           <TextField
             placeholder="Search..."
@@ -26,18 +26,18 @@ const ProfileInfo = () => {
           />
         </div>
 
-        {/* Notification Icon */}
+    
         <div className="ml-4">
           <Badge badgeContent={1} color="primary">
             <NotificationsIcon className="text-gray-700" />
           </Badge>
         </div>
-      </div>
+      </div> */}
 
-      <div className="px-4 flex justify-between">
-        <Typography variant="h5" className="font-bold">
+      <div className="p-4 flex justify-between">
+        <h1 variant="h5" className="font-bold text-lg text-green-600">
           Profile
-        </Typography>
+        </h1>
         <div></div>
       </div>
 
