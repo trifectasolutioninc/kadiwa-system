@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Button, Typography, Avatar, Badge } from '@mui/material';
+import { Typography, Avatar, Badge } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import EditIcon from '@mui/icons-material/Edit';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -146,15 +146,14 @@ const ProfileInfo = () => {
       </div>
 
       {/* Footer with Google Icons */}
-      <footer className="p-4 text-white flex justify-around fixed bottom-0 w-full">
-        <Button
+      <footer className="p-4 flex justify-around fixed bottom-0 w-full">
+        <button
           onClick={() => logout()}
-          className="flex w-full text-center items-center justify-center rounded-md p-2"
-          style={{ backgroundColor: '#FF0000' }}
+          className="flex w-full text-center items-center justify-center rounded-md p-2  text-white bg-red-600"
         >
           Logout
           <ExitToAppIcon />
-        </Button>
+        </button>
       </footer>
     </div>
   );
