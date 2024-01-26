@@ -1,85 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import Quagga from 'quagga'; // Import Quagga
-import firebaseDB from '../Configuration/config';
-import { ref, get, update } from 'firebase/database';
+import React, { useState, useRef } from 'react';
+import { useZxing } from 'react-zxing';
+import firebaseDB from '../Configuration/config-firebase2';
+import { ref, get, set } from 'firebase/database';
 
 const BarcodeScanner = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [productInfo, setProductInfo] = useState(null);
 
-  useEffect(() => {
-    const startBarcodeScanner = async () => {
-      try {
-        await import('quagga').then(() => {
-          Quagga.init(
-            {
-              inputStream: {
-                name: 'Live',
-                type: 'LiveStream',
-                target: document.querySelector('#barcode-reader'),
-              },
-              decoder: {
-                readers: ['ean_reader', 'code_128_reader', 'code_39_reader', 'upc_reader', 'codabar_reader'],
-              },
-            },
-            function (err) {
-              if (err) {
-                console.error(err);
-                return;
-              }
+  const { ref: zxingRef } = useZxing({
+    onDecodeResult: (result) => handleScan(result),
+  });
 
-              // Set willReadFrequently to true on the canvas element
-              const canvasElement = document.querySelector('#barcode-reader');
-              if (canvasElement) {
-                canvasElement.willReadFrequently = true;
-              }
-
-              Quagga.start();
-            }
-          );
-
-          Quagga.onDetected(function (result) {
-            const barcodeText = result.codeResult.code;
-
-            // Check if the barcode is in the database
-            const databaseRef = ref(firebaseDB, `products_info/${barcodeText}`);
-            get(databaseRef)
-              .then((snapshot) => {
-                const productData = snapshot.val();
-
-                if (productData) {
-                  setProductInfo(productData);
-                  setModalVisible(true);
-                } else {
-                  console.log('Product not found in the database.');
-                }
-              })
-              .catch((error) => {
-                console.error('Error fetching product information:', error);
-              });
-          });
-
-          document.querySelector('#barcode-reader').style.display = 'block';
-        });
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-      }
-    };
-
-    startBarcodeScanner();
-  }, []);
-
-  // Function to close the modal
-  const closeModal = () => {
-      setModalVisible(false);
-    };
+  const handleScan = async (result) => {
+    if (result && result.getText) {
+      const barcodeValue = result.getText();
+      console.log('Scanned barcode:', barcodeValue);
   
-    // Function to handle the "Add" button click
-    const handleAddButtonClick = () => {
+      // Now you can use the barcodeValue in your logic, such as fetching product information from the database.
+      const databaseRef = ref(firebaseDB, `products_info/${barcodeValue}`);
+
+      
+      try {
+        const snapshot = await get(databaseRef);
+        const productData = snapshot.val();
+  
+        if (productData) {
+          setProductInfo(productData);
+          setModalVisible(true);
+        } else {
+          console.log('Product not found in the database.');
+        }
+      } catch (error) {
+        console.error('Error fetching product information:', error);
+      }
+    }
+  };
+  
+
+  const handleError = (error) => {
+    console.error('Error accessing camera:', error);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleAddButtonClick = () => {
+    if (productInfo) {
       // Construct the unique key for the product entry
       const kdwconnect = sessionStorage.getItem('kdwconnect');
       const productKey = kdwconnect + '-' + productInfo.product_code;
-  
+
       const productInfoToAdd = {
         product_code: productInfo.product_code,
         product_name: productInfo.product_name,
@@ -90,10 +61,12 @@ const BarcodeScanner = () => {
         id: productKey,
         stock: 0,
       };
-  
+
       // Save data to Realtime Database with the unique key
       const inventoryRef = ref(firebaseDB, `product_inventory/${productKey}`);
-      update(inventoryRef, productInfoToAdd)
+      
+      // Use set() instead of update() to create a new entry if it doesn't exist
+      set(inventoryRef, productInfoToAdd)
         .then(() => {
           closeModal();
           console.log('Successfully saved.');
@@ -102,34 +75,29 @@ const BarcodeScanner = () => {
           console.error('Error saving data to database:', error);
           closeModal();
         });
-  };
-
-  // Placeholder function for fetching product information
-  const fetchProductInformation = async (barcode) => {
-    return {
-      product_code: '123456',
-      product_name: 'Sample Product',
-    };
+    } else {
+      console.warn('Product information is not available.');
+      closeModal();
+    }
   };
 
   return (
     <div>
-
       <div className="text-center py-4">
         <span className="text-green-700 font-bold text-lg">BARCODE SCANNER</span>
       </div>
 
       <div id="barcode-reader-container" className="h-screen">
-        <video id="barcode-reader" className="w-full h-full" ></video>
-      </div>
+        {/* Use zxingRef in place of videoRef */}
+        <video ref={zxingRef} style={{ width: '100%', height: '100%' }} />
 
+      </div>
       {/* Modal for displaying product information */}
       {modalVisible && (
         <div id="product-modal" className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-75 items-center justify-center">
           <div className="bg-white p-6 rounded shadow-md">
             <h2 className="text-2xl font-bold mb-4">Product Information</h2>
             <div>
-              {/* Display product information here using productInfo */}
               {productInfo && (
                 <div>
                   <p>Product Code: {productInfo.product_code}</p>
