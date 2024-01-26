@@ -123,9 +123,9 @@ const ProfileConsumer = () => {
             </div>
             <div className="ml-2 mt-4">
               {/* Make the settings icon clickable */}
-              <a href="../profile/viewprofiledetails.html">
+              <Link to="/route/profileinfo">
                 <Settings className="text-gray-500" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

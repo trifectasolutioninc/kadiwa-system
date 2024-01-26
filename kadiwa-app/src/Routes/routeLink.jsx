@@ -1,8 +1,8 @@
-
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { Route, Routes } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import ChatPage from '../pagesConsumer/ChatPage';
+import ProfileInfo from '../pagesConsumer/ProfileInfo';
 
 const RouteLink  = () => {
 
@@ -21,6 +21,7 @@ const RouteLink  = () => {
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="chatpage/:storeID"  element={<ChatPage />} />
+        <Route path="profileinfo"  element={<ProfileInfo />} />
 
       </Routes>
 
