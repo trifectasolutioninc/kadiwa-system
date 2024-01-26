@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import ChatPage from '../pagesConsumer/ChatPage';
 import ProfileInfo from '../pagesConsumer/ProfileInfo';
+import ProfileEdit from '../pagesConsumer/ProfileEdit';
 
 const RouteLink  = () => {
 
@@ -22,6 +23,7 @@ const RouteLink  = () => {
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="chatpage/:storeID"  element={<ChatPage />} />
         <Route path="profileinfo"  element={<ProfileInfo />} />
+        <Route path="profileedit"  element={<ProfileEdit />} />
 
       </Routes>
 

@@ -6,6 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
+import { Link } from 'react-router-dom';
 
 const ProfileInfo = () => {
 
@@ -106,19 +107,19 @@ const ProfileInfo = () => {
             </p>
           </div>
           {/* Make the edit icon clickable */}
-          <a href="./editprofile.html">
+          <Link to="/route/profileedit">
             <div className="ml-2 mt-4">
-              {/* MUI Edit Icon */}
-              <EditIcon className="text-gray-500" />
+           
+             <EditIcon className="text-gray-500" />
             </div>
-          </a>
+          </Link>
         </div>
       </div>
 
       <div className="px-4 py-2">
       <p variant="body2" className="font-bold text-gray-500">
           Email (Optional):
-          <span id="email" className="font-normal">
+          <span id="email" className="ml-2 font-normal">
             {userData.email}
           </span>
         </p>
@@ -127,7 +128,7 @@ const ProfileInfo = () => {
           className="font-bold text-gray-500 mb-2"
         >
           Contact:
-          <span id="contact" className="font-normal">
+          <span id="contact" className="ml-2 font-normal">
           {userData.contact}
           </span>
         </p>
