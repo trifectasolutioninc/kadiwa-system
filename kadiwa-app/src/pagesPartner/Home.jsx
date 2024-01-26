@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { Button, Grid, TextField, p } from '@mui/material';
 import {
   LocalShipping,
   Cancel,
@@ -28,7 +28,7 @@ const Home = () => {
   };
 
   const logoutUser = () => {
-    window.location.href = '../pages/profile.html';
+    window.location.href = '/main/profile';
   };
 
   return (
@@ -37,10 +37,10 @@ const Home = () => {
       <div className="p-4 flex items-center justify-between bg-gray-100">
         {/* Search Input */}
         <div className="flex-grow">
-          <Typography variant="h6" className="flex text-gray-700 font-bold">
+          <p variant="h6" className="flex text-gray-700 font-bold">
             <Store sx={{ color: 'gray.500', mr: 1 }} />
             SarisariStore
-          </Typography>
+          </p>
         </div>
 
         {/* Notification Icon */}
@@ -91,37 +91,37 @@ const Home = () => {
       {/* Total Cash */}
       <div className="p-4 items-center justify-around bg-green-200 m-2 rounded text-green-900">
         <div className="text-left w-full bg-white shadow-md rounded-xl p-2 mb-2">
-          <Typography variant="h6" className="font-bold">
+          <p variant="h6" className="font-bold">
             PHP 0.00
-          </Typography>
-          <Typography variant="caption">Total Cash</Typography>
+          </p>
+          <p variant="caption">Total Cash</p>
         </div>
 
         {/* Cash Details */}
         <div className="grid grid-cols-4 md:grid-cols-4 gap-1">
           <div className="text-center bg-white shadow-md rounded-xl p-1">
-            <Typography variant="caption">Cash on Hand</Typography>
-            <Typography variant="caption" className="font-semibold">
+            <p variant="caption">Cash on Hand</p>
+            <p variant="caption" className="font-semibold">
               Php 0.00
-            </Typography>
+            </p>
           </div>
           <div className="text-center bg-white shadow-md rounded-xl p-1">
-            <Typography variant="caption">Gcash</Typography>
-            <Typography variant="caption" className="font-semibold">
+            <p variant="caption">Gcash</p>
+            <p variant="caption" className="font-semibold">
               Php 0.00
-            </Typography>
+            </p>
           </div>
           <div className="text-center bg-white shadow-md rounded-xl p-1">
-            <Typography variant="caption">Maya</Typography>
-            <Typography variant="caption" className="font-semibold">
+            <p variant="caption">Maya</p>
+            <p variant="caption" className="font-semibold">
               Php 0.00
-            </Typography>
+            </p>
           </div>
           <div className="text-center bg-white shadow-md rounded-xl p-1">
-            <Typography variant="caption">Cash in Bank</Typography>
-            <Typography variant="caption" className="font-semibold">
+            <p variant="caption">Cash in Bank</p>
+            <p variant="caption" className="font-semibold">
               Php 0.00
-            </Typography>
+            </p>
           </div>
         </div>
       </div>
@@ -131,24 +131,24 @@ const Home = () => {
         {/* POS Icon */}
         <Button onClick={() => setSessionAndRedirect('./pos.html')} className="flex flex-col items-center rounded shadow-md bg-white w-1/4 p-2 m-2">
           <Store />
-          <Typography variant="caption">POS</Typography>
+          <p variant="caption">POS</p>
         </Button>
 
         <div className="flex items-center rounded shadow-md bg-white w-3/4 p-2 justify-around m-2">
           {/* Inbox Icon */}
           <div className="flex flex-col items-center">
             <Inbox />
-            <Typography variant="caption">Inbox</Typography>
+            <p variant="caption">Inbox</p>
           </div>
           {/* Purchases Icon */}
           <div className="flex flex-col items-center">
             <ShoppingCart />
-            <Typography variant="caption">Orders</Typography>
+            <p variant="caption">Orders</p>
           </div>
           {/* Reports Icon */}
           <div className="flex flex-col items-center">
             <InsertChart />
-            <Typography variant="caption">Reports</Typography>
+            <p variant="caption">Reports</p>
           </div>
         </div>
       </div>
@@ -157,14 +157,14 @@ const Home = () => {
 
       {/* Add Date and Day Display */}
       <div className="flex justify-between items-center p-4 ">
-        <Typography variant="h6" className="font-bold text-lg">
+        <p variant="h6" className="font-bold text-lg">
           Dashboard
-        </Typography>
+        </p>
 
         <div className="flex items-center">
           <TextField type="date" id="datePicker" onChange={updateDate} className="border p-1 text-sm" />
           <div className="ml-4">
-            <Typography variant="body2" id="dayToday" className="text-sm font-bold"></Typography>
+            <p variant="body2" id="dayToday" className="text-sm font-bold"></p>
           </div>
         </div>
       </div>
