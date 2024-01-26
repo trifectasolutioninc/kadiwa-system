@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import NavBttnAppHome from '../Components/NavBttnAppHome/NavBttnAppHome';
-import Home from './Home'; 
-import Store from './Store';
-import Cart from './Cart'; 
-import Chat from './Chat'; 
-import ProductDetails from './ProductInfo'; 
-import ProfileConsumer from './Profile'; 
-import Card from './Card';
-import StorePage from './StorePage';
+import Home from '../pagesConsumer/Home'; 
+import Store from '../pagesConsumer/Store';
+import Cart from '../pagesConsumer/Cart'; 
+import Chat from '../pagesConsumer/Chat'; 
+import ProductDetails from '../pagesConsumer/ProductInfo'; 
+import ProfileConsumer from '../pagesConsumer/Profile'; 
+import Card from '../pagesConsumer/Card';
+import StorePage from '../pagesConsumer/StorePage';
 
-import LinkedAccount from './LinkedAccount';
+import LinkedAccount from '../pagesConsumer/LinkedAccount';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
 const ConsumerMain = () => {

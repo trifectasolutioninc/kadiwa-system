@@ -138,7 +138,7 @@ const ProfileConsumer = () => {
 
       <div id="storePartner" className="bg-white mx-4 p-2 flex justify-between items-center rounded ">
         <span className="flex text-gray-700 font-bold"><Store className=" text-gray-500"/>SarisariStore</span>
-        <button id="storeButton" className="bg-blue-500 py-1 px-4 text-white rounded ">Store</button>
+        <Link to="/partner/home" id="storeButton" className="bg-blue-500 py-1 px-4 text-white rounded ">Store</Link>
       </div>
 
       <div className="px-4 flex justify-between mt-4">

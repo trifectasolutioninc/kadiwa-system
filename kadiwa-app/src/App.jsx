@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import ConsumerMain from './pagesConsumer/Main';
+import ConsumerMain from './Routes/Main';
 import SignInPages from './pagesAuth/signIn';
 import RegistrationPage from './pagesAuth/signUp';
 import TermsAndConditions from './pagesAuth/TandC'
-import RouteLink  from './pagesAuth/routeLink'
+import RouteLink  from './Routes/routeLink'
+import StoreLink from './Routes/StoreLink'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/tandc" element={<TermsAndConditions />} />
         <Route path="/main/*" element={<ConsumerMain />} />
         <Route path="/route/*" element={<RouteLink  />} />
+        <Route path="/partner/*" element={<StoreLink  />} />
       </Routes>
     </Router>
   );
