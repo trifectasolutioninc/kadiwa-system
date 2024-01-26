@@ -1,16 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Badge } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import EditIcon from '@mui/icons-material/Edit';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import configFirebaseDB from '../Configuration/config';
+import { ref, child, get } from 'firebase/database';
 
 const ProfileInfo = () => {
 
-    const logout = () => {
-        // Your logout logic here
-        console.log('Logout function called');
+    const [userData, setUserData] = useState({
+        usertype: '',
+        info_status: '',
+        fullname: 'No Name',
+        contact: 'No Contact',
+        email: 'No Email',
+      });
+    
+      useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const database = configFirebaseDB();
+            const getcontact = sessionStorage.getItem('kdwconnect');
+            const usersAccountRef = ref(database, 'kadiwa_users_account');
+    
+            const snapshot = await get(child(usersAccountRef, getcontact));
+            const userDataFromFirebase = snapshot.val();
+    
+            if (userDataFromFirebase) {
+              setUserData(userDataFromFirebase);
+            }
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
+    
+      const handleLogout = () => {
+        sessionStorage.setItem('contact', '');
+        window.location.href = '/';
       };
+    
 
   return (
     <div>
@@ -43,18 +75,14 @@ const ProfileInfo = () => {
 
       {/* Profile Information */}
       <div className="relative p-4 flex justify-between items-center bg-white m-4 rounded-md shadow-md">
-        <div>
+      <div>
           {/* Display Picture */}
-          <Avatar
-            id="profileImg"
-            alt="Profile Picture"
-            className="w-12 h-12 rounded-full"
-          />
+          <Avatar id="profileImg" alt="Profile Picture" className="w-12 h-12 rounded-full" />
         </div>
         <div className="ml-4 mt-2">
           {/* Display Name */}
           <p id="fullname" variant="h6" className="font-bold">
-            ......
+            {userData.fullname}
           </p>
           {/* Display Contact */}
           <p
@@ -62,7 +90,7 @@ const ProfileInfo = () => {
             variant="body2"
             className="text-gray-400 text-xs bg-gray-200 rounded-3xl text-center"
           >
-            ......
+            {userData.info_status}
           </p>
         </div>
         <div className="flex items-center">
@@ -74,7 +102,7 @@ const ProfileInfo = () => {
               className="rounded-3xl p-1 text-xs text-gray-800"
               style={{ backgroundColor: '#54FC6F' }}
             >
-              Consumer
+              {userData.usertype}
             </p>
           </div>
           {/* Make the edit icon clickable */}
@@ -88,10 +116,10 @@ const ProfileInfo = () => {
       </div>
 
       <div className="px-4 py-2">
-        <p variant="body2" className="font-bold text-gray-500">
+      <p variant="body2" className="font-bold text-gray-500">
           Email (Optional):
           <span id="email" className="font-normal">
-            No email
+            {userData.email}
           </span>
         </p>
         <p
@@ -100,7 +128,7 @@ const ProfileInfo = () => {
         >
           Contact:
           <span id="contact" className="font-normal">
-            No contact
+          {userData.contact}
           </span>
         </p>
         <p
@@ -148,7 +176,7 @@ const ProfileInfo = () => {
       {/* Footer with Google Icons */}
       <footer className="p-4 flex justify-around fixed bottom-0 w-full">
         <button
-          onClick={() => logout()}
+          onClick={handleLogout}
           className="flex w-full text-center items-center justify-center rounded-md p-2  text-white bg-red-600"
         >
           Logout
