@@ -92,9 +92,9 @@ const StorePage = () => {
         <p className='text-gray-500 text-sm'>Store Type: {storeData.storeType}</p>
         <p className='text-gray-500 text-sm'>{storeData.usertype}</p>
       </div>
-      <div>
+      <Link to={`/route/chatpage/${storeID}`} className="text-green-600">
         <button><ChatIcon className='text-green-600'/></button>
-      </div>
+      </Link>
     </div>
     <div className='flex justify-between mt-4 mx-4'>
       <div className='font-semibold text-gray-600'>

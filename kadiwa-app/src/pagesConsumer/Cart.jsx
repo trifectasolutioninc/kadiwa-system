@@ -18,7 +18,15 @@ const Cart = () => {
       try {
         const cartSnapshot = await get(cartRef);
         if (cartSnapshot.exists()) {
-          setCartData(cartSnapshot.val());
+          // Filter cart data based on the presence of kdwconnect
+          const filteredCartData = Object.entries(cartSnapshot.val())
+            .filter(([key]) => key.includes(kdwconnect))
+            .reduce((acc, [key, value]) => {
+              acc[key] = value;
+              return acc;
+            }, {});
+
+          setCartData(filteredCartData);
         } else {
           console.error('Cart data not found.');
           setCartData(null);
@@ -32,6 +40,7 @@ const Cart = () => {
       fetchCartData();
     }
   }, [kdwconnect]);
+
 
   const getTotalQuantity = (cartData) => {
     let totalQuantity = 0;
@@ -129,7 +138,15 @@ const Cart = () => {
       // After successful deletion, trigger a re-fetch of cart data
       const cartSnapshot = await get(ref(database, 'cart_collection'));
       if (cartSnapshot.exists()) {
-        setCartData(cartSnapshot.val());
+        // Filter cart data based on the presence of kdwconnect
+        const filteredCartData = Object.entries(cartSnapshot.val())
+          .filter(([key]) => key.includes(kdwconnect))
+          .reduce((acc, [key, value]) => {
+            acc[key] = value;
+            return acc;
+          }, {});
+  
+        setCartData(filteredCartData);
       } else {
         // If no cart data is found, set cartData to null
         setCartData(null);
@@ -142,6 +159,7 @@ const Cart = () => {
       console.error('Error deleting items:', error);
     }
   };
+  
 
   return (
     <div className="h-screen bg-gray-100">
