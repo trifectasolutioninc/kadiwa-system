@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Add, Info, CreditCard, Link as LinkIcon, History, LocalShipping, LocalMall, Done, Settings, Store } from '@mui/icons-material';
+import { Avatar, Badge } from '@mui/material';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
@@ -46,9 +47,14 @@ const ProfileConsumer = () => {
       const ptsElement = document.getElementById('points');
       const applyPartnerElement = document.getElementById('applyPartner');
       const storePartnerElement = document.getElementById('storePartner');
+      const storeNameElement = document.getElementById('storeName');
     
       if (typeofuserElement) {
         typeofuserElement.textContent = userData.usertype || 'No UserType';
+      }
+
+      if (storeNameElement) {
+        storeNameElement.textContent = userData.storeName || 'No Store';
       }
     
       if (fullnameElement) {
@@ -94,11 +100,7 @@ const ProfileConsumer = () => {
         <div className="relative p-4 flex justify-between items-center bg-white m-4 rounded-md shadow-md">
           <div>
             {/* Display Picture */}
-            <img
-              id="profileImg"
-              alt="Profile Picture"
-              className="w-12 h-12 rounded-full"
-            />
+            <Avatar className="w-12 h-12 rounded-full" />
           </div>
           <div className="ml-4 mt-2">
             {/* Display Name */}
@@ -137,7 +139,12 @@ const ProfileConsumer = () => {
       </div>
 
       <div id="storePartner" className="bg-white mx-4 p-2 flex justify-between items-center rounded ">
-        <span className="flex text-gray-700 font-bold"><Store className=" text-gray-500"/>SarisariStore</span>
+        <div className='flex justify-center items-center'>
+          <Store className=" text-gray-500"/>
+          <span id='storeName' className="flex text-gray-700 font-bold">....</span>
+
+        </div>
+        
         <Link to="/partner/home" id="storeButton" className="bg-blue-500 py-1 px-4 text-white rounded ">Store</Link>
       </div>
 
