@@ -6,6 +6,7 @@ import RegistrationPage from './pagesAuth/signUp';
 import TermsAndConditions from './pagesAuth/TandC'
 import RouteLink  from './Routes/routeLink'
 import StoreLink from './Routes/StoreLink'
+import POSLink from './Routes/POSLink';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/main/*" element={<ConsumerMain />} />
         <Route path="/route/*" element={<RouteLink  />} />
         <Route path="/partner/*" element={<StoreLink  />} />
+        <Route path="/pos/*" element={<POSLink  />} />
       </Routes>
     </Router>
   );

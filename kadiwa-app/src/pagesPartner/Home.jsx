@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Grid, TextField, p } from '@mui/material';
 import {
   LocalShipping,
@@ -129,27 +130,25 @@ const Home = () => {
       {/* Add POS, Inbox, Purchases, and Reports Icons */}
       <div className="py-2 flex items-center justify-around rounded text-green-900">
         {/* POS Icon */}
-        <Button onClick={() => setSessionAndRedirect('./pos.html')} className="flex flex-col items-center rounded shadow-md bg-white w-1/4 p-2 m-2">
-          <Store />
-          <p variant="caption">POS</p>
-        </Button>
-
+        <Link to="/pos/home">
+          <Button className="flex flex-col items-center rounded shadow-md bg-white w-1/4 p-2 m-2">
+            <Store />
+            <p variant="caption">POS</p>
+          </Button>
+        </Link>
         <div className="flex items-center rounded shadow-md bg-white w-3/4 p-2 justify-around m-2">
-          {/* Inbox Icon */}
-          <div className="flex flex-col items-center">
-            <Inbox />
-            <p variant="caption">Inbox</p>
-          </div>
-          {/* Purchases Icon */}
-          <div className="flex flex-col items-center">
-            <ShoppingCart />
-            <p variant="caption">Orders</p>
-          </div>
-          {/* Reports Icon */}
-          <div className="flex flex-col items-center">
-            <InsertChart />
-            <p variant="caption">Reports</p>
-          </div>
+          <Link to="/pos/inbox" className="flex flex-col items-center">
+              <Inbox />
+              <p variant="caption">Inbox</p>
+            </Link>
+            <Link to="/pos/orders" className="flex flex-col items-center">
+              <ShoppingCart />
+              <p variant="caption">Orders</p>
+            </Link>
+            <Link to="/pos/reports" className="flex flex-col items-center">
+              <InsertChart />
+              <p variant="caption">Reports</p>
+            </Link>
         </div>
       </div>
 
