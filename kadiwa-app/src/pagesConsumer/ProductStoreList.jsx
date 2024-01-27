@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ref, child, get, set } from 'firebase/database';
 import configFirebaseDB from '../Configuration/config';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
+import { useNavigate } from 'react-router-dom';
 
 const StoreList = ({ productCode }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
@@ -12,6 +13,10 @@ const StoreList = ({ productCode }) => {
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [deliveryOption, setDeliveryOption] = useState("pickup"); // Default to "pickup"
+  const navigate = useNavigate();
+
+
   const kdwconnect = sessionStorage.getItem('kdwconnect');
     useEffect(() => {
       const database = configFirebaseDB();
@@ -162,6 +167,52 @@ const decrementQuantity = () => {
   setSelectedQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
 };
 
+
+const handleCheckout = () => {
+
+  // Check if there is a selected store and product
+  if (!selectedStore || filteredProducts.length === 0) {
+    console.error('Cannot checkout: Selected store or product not available.');
+    return;
+  }
+
+  // Get the product details
+  const product = filteredProducts[0];
+
+  // Create the order object
+  const order = {
+    storeName: selectedStore.storeName,
+    city: selectedStore.city,
+    province: selectedStore.province,
+    product: {
+      commodity_type: product.commodity_type,
+      keywords: product.keywords,
+      price: product.price,
+      product_code: product.product_code,
+      product_name: product.product_name,
+      unit_measurement: product.unit_measurement,
+    },
+    quantity: selectedQuantity,
+    deliveryOption: deliveryOption,
+  };
+
+  console.log('Order:', order);
+
+  // Navigate to the respective page based on the delivery option
+  if (deliveryOption === 'pickup') {
+    // Pass the order information to the Pickup page
+    console.log('Navigating to Pickup page with order:', order);
+    navigate('/route/pickup', { state: { order } });
+  } else if (deliveryOption === 'delivery') {
+    // Pass the order information to the Delivery page
+    console.log('Navigating to Delivery page with order:', order);
+    navigate('/route/delivery', { state: { order } });
+  }
+
+  // Close the checkout modal
+  closeCheckoutModal();
+};
+
     return (
         <div>
         <h2 className="p-4 font-bold text-green-700">Stores</h2>
@@ -235,14 +286,34 @@ const decrementQuantity = () => {
 
             {/* Quantity input with add/subtract buttons */}
             <div className='flex items-center mt-2'>
-              <button className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
+              <button  onClick={decrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
               <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
-              <button className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
+              <button  onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
+            </div>
+            <div>
+              <label className="mr-2">
+                <input
+                  type="radio"
+                  value="pickup"
+                  checked={deliveryOption === "pickup"}
+                  onChange={() => setDeliveryOption("pickup")}
+                />
+                Pickup
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="delivery"
+                  checked={deliveryOption === "delivery"}
+                  onChange={() => setDeliveryOption("delivery")}
+                />
+                Delivery
+              </label>
             </div>
 
             <div className='flex items-center justify-between mt-4'>
               <button onClick={closeCheckoutModal} className='bg-gray-300 text-gray-800 px-4 py-2 rounded-md'>Cancel</button>
-              <button className='bg-yellow-600 text-white px-4 py-2 rounded-md' onClick={() => {/* Add your checkout logic here */}}>Checkout</button>
+              <button className='bg-yellow-600 text-white px-4 py-2 rounded-md' onClick={handleCheckout}>Checkout</button>
             </div>
           </div>
         </div>

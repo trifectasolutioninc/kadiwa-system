@@ -4,6 +4,8 @@ import React, { useEffect } from 'react';
 import ChatPage from '../pagesConsumer/ChatPage';
 import ProfileInfo from '../pagesConsumer/ProfileInfo';
 import ProfileEdit from '../pagesConsumer/ProfileEdit';
+import DeliveryPage from '../pagesConsumer/Delivery';
+import PickupPage from '../pagesConsumer/Pickup';
 
 const RouteLink  = () => {
 
@@ -24,6 +26,8 @@ const RouteLink  = () => {
         <Route path="chatpage/:storeID"  element={<ChatPage />} />
         <Route path="profileinfo"  element={<ProfileInfo />} />
         <Route path="profileedit"  element={<ProfileEdit />} />
+        <Route path="delivery"  element={<DeliveryPage />} />
+        <Route path="pickup"  element={<PickupPage />} />
 
       </Routes>
 
