@@ -290,7 +290,7 @@ const handleCheckout = () => {
               <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
               <button  onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
             </div>
-            <div>
+            <div className='mt-4'>
               <label className="mr-2">
                 <input
                   type="radio"
