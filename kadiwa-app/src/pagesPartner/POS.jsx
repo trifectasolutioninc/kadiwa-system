@@ -4,76 +4,72 @@ import firebaseDB from '../Configuration/config-firebase2';
 import { imageConfig, commodityTypes } from '../Configuration/config-file';
 
 const POS = () => {
+
     const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
     const [totalAmount, setTotalAmount] = useState(0);
     const [totalQuantity, setTotalQuantity] = useState(0);
     const [products, setProducts] = useState([]);
     const kdwconnect = sessionStorage.getItem('kdwconnect');
-
+    
     const handleCommodityClick = (commodityType) => {
         setSelectedCommodity(commodityType);
         displayProducts(commodityType);
     };
 
-    const updateProductQuantityInFirebase = (productKey, newQuantity, newTotalAmount) => {
-        const productRef = ref(firebaseDB, `product_inventory/${productKey}`);
-        update(productRef, {
-            pos_app_total_amount: newTotalAmount,
-            pos_app_qty: newQuantity,
-        })
-            .then(() => {
-                console.log(`Product quantity and total amount updated in Firebase: ${productKey}`);
-            })
-            .catch(error => {
-                console.error('Error updating product quantity and total amount in Firebase:', error);
+    const handleQuantityChange = (productCode, action) => {
+        setProducts(prevProducts => {
+            const updatedProducts = prevProducts.map(product => {
+                if (product.product_code === productCode) {
+                    const newQty = action === 'add' ? product.pos_app_qty + 1 : Math.max(product.pos_app_qty - 1, 0);
+                    return { ...product, pos_app_qty: newQty };
+                }
+                return product;
             });
-    };
-
-    const updateTotalAmountAndQuantity = () => {
-        const databaseRef = ref(firebaseDB, 'product_inventory');
-
-        onValue(databaseRef, (snapshot) => {
-            const product_inventory = snapshot.val();
-
-            const filteredProducts = Object.values(product_inventory || {})
-             .filter(product => product && product.id && product.id.indexOf(kdwconnect) !== -1);
-
-
-            let newTotalAmount = 0;
-            let newTotalQuantity = 0;
-
-            for (const product of filteredProducts) {
-                newTotalAmount += product.pos_app_total_amount || 0;
-                newTotalQuantity += product.pos_app_qty || 0;
-            }
-            console.log('kdwconnect:', kdwconnect);
-            console.log('Filtered Products:', filteredProducts);
-
-
-            setTotalAmount(newTotalAmount);
-            setTotalQuantity(newTotalQuantity);
-        }, (error) => {
-            console.error("Error setting up real-time listener:", error);
+            updatePosAppTotalAmount(updatedProducts);
+            return updatedProducts;
         });
     };
 
+    const handleSaveQuantity = (productCode) => {
+        // Save the quantity to the database (Firebase) here
+        // For example, you can use the update function from Firebase to update the 'pos_app_qty' field in the database
+    };
+
+  const updatePosAppTotalAmount = (updatedProducts) => {
+        const totalQty = updatedProducts.reduce((total, product) => {
+            return total + product.pos_app_qty;
+        }, 0);
+        setTotalQuantity(totalQty);
+
+        const totalAmount = updatedProducts.reduce((total, product) => {
+            return total + product.price * product.pos_app_qty;
+        }, 0);
+        setTotalAmount(totalAmount);
+    };
+
+    const handleClearQuantity = (productCode) => {
+        // Implement the logic to clear the quantity
+        // For example, update the state or perform any necessary actions
+    };
+    
     const displayProducts = (commodityType) => {
         const productsRef = ref(firebaseDB, 'product_inventory');
-    
+
         onValue(productsRef, (snapshot) => {
             const products = snapshot.val();
-    
+
             if (products) {
                 try {
                     const filteredProducts = Object.values(products || {})
-                        .filter(product => 
-                            product && 
-                            (product.commodity_type === commodityType || commodityType === 'All Commodities') && 
-                            product.id && 
+                        .filter(product =>
+                            product &&
+                            (product.commodity_type === commodityType || commodityType === 'All Commodities') &&
+                            product.id &&
                             product.id.includes(kdwconnect)
                         );
-    
+
                     setProducts(filteredProducts);
+                    updatePosAppTotalAmount(filteredProducts);
                 } catch (error) {
                     console.error('Error in filterProducts:', error);
                 }
@@ -85,93 +81,11 @@ const POS = () => {
     
 
     useEffect(() => {
-        resetValuesToZero();
+  
         displayProducts('All Commodities');
     }, [kdwconnect]);
 
-    const updateProductQuantities = (productInventory, newValues) => {
-        for (const productId in productInventory) {
-            const product = productInventory[productId];
-    
-            if (product && product.id && product.id.includes(kdwconnect)) {  // Add null checks for product and its id property
-                updateProductQuantityInFirebase(productId, newValues.qty, newValues.totalAmount);
-            }
-        }
-    
-        updateTotalAmountAndQuantity();
-    };
-    
-
-    const resetValuesToZero = () => {
-        const databaseRef = ref(firebaseDB, 'product_inventory');
-
-        onValue(databaseRef, (snapshot) => {
-            try {
-                const product_inventory = snapshot.val();
-                updateProductQuantities(product_inventory, { qty: 0, totalAmount: 0 });
-            } catch (error) {
-                console.error("Error handling data from Firebase:", error);
-            }
-        }, (error) => {
-            console.error("Error setting up real-time listener:", error);
-        });
-    };
-
-    const handleQuantityChange = (productId, action) => {
-        setProducts(prevProducts => {
-            return prevProducts.map(product => {
-                if (product.product_code === productId) {
-                    let newQty = product.pos_app_qty;
-    
-                    if (action === 'add') {
-                        // Increment quantity
-                        newQty += 1;
-                    } else if (action === 'subtract' && newQty > 0) {
-                        // Decrement quantity (if greater than 0)
-                        newQty -= 1;
-                    }
-    
-                    // Update quantity in the Firebase Realtime Database
-                    updateProductQuantityInFirebase(product.product_code, newQty, newQty * product.price);
-    
-                    // Return the updated product without modifying the original
-                    return {
-                        ...product,
-                        pos_app_qty: newQty,
-                    };
-                }
-                return product;
-            });
-        });
-    };
-    
-
-    const handleSaveQuantity = (productId) => {
-        const product = products.find(p => p.product_code === productId);
-
-        if (product) {
-            const newQty = product.pos_app_qty;
-            const newTotalAmount = newQty * product.price;
-
-            // Example: Log product data before the update
-            console.log('Product Data Before Update:', product);
-
-            updateProductQuantityInFirebase(productId, newQty, newTotalAmount);
-
-            // Example: Log product data after the update
-            console.log('Product Data After Update:', product);
-            updateTotalAmountAndQuantity();
-        }
-    };
-
-    const handleClearQuantity = (productId) => {
-        const product = products.find(p => p.product_code === productId);
-
-        if (product) {
-            updateProductQuantityInFirebase(productId, 0, 0);
-            updateTotalAmountAndQuantity();
-        }
-    };
+  
     
     return (
         <div>
@@ -228,7 +142,7 @@ const POS = () => {
                                     </button>
                                     <input
                                         type="number"
-                                        className="text-xs p-1 border border-gray-300 rounded-none w-8 text-center"
+                                        className="text-xs px-0 py-1 border border-gray-300 rounded-none w-10 text-center flex"
                                         value={product.pos_app_qty}
                                         readOnly
                                     />

@@ -8,7 +8,7 @@ const NavbttnPOS = () => {
     <footer className="p-4 text-white flex justify-around fixed bottom-0 w-full" style={{ backgroundColor: '#20802F' }}>
       {/* Home */}
       <div className="flex flex-col items-center">
-        <a href="./dashboard.html">
+        <a href="/pos/home">
           <HomeIcon />
         </a>
         <p variant="caption">Home</p>
