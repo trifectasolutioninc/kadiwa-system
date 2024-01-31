@@ -102,8 +102,7 @@ const StorePage = () => {
         <h1>Products</h1>
       </div>
       <div className=' space-x-2 '>
-        <button className='bg-yellow-500 px-3 rounded-md text-white'>Buy</button>
-        <button className='bg-green-500 px-3 rounded-md text-white'>Add to Cart</button>
+       
       </div>
     </div>
     
