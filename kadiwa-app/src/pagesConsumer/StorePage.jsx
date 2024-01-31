@@ -11,6 +11,7 @@ const StorePage = () => {
   const [storeData, setStoreData] = useState(null);
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
+  const kdwconnect = sessionStorage.getItem('kdwconnect');
 
   useEffect(() => {
     const fetchStoreData = async () => {
@@ -139,7 +140,7 @@ const StorePage = () => {
               <p className="text-xs font-bold text-green-600">Php {product.price.toFixed(2)}</p>
               {/* Adjust the link according to your route */}
               <Link
-                to={`/main/productinfo/${product.product_code}`}
+                to={`/route/product/${product.id}`}
                 className="text-xs font-semibold text-green-500 cursor-pointer border text-center border-green-600 p-2 rounded-md mt-1"
               >
                 View

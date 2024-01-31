@@ -6,6 +6,7 @@ import ProfileInfo from '../pagesConsumer/ProfileInfo';
 import ProfileEdit from '../pagesConsumer/ProfileEdit';
 import DeliveryPage from '../pagesConsumer/Delivery';
 import PickupPage from '../pagesConsumer/Pickup';
+import StoreProductDetails from '../pagesConsumer/StoreProductPageInfo';
 
 const RouteLink  = () => {
 
@@ -28,9 +29,9 @@ const RouteLink  = () => {
         <Route path="profileedit"  element={<ProfileEdit />} />
         <Route path="delivery"  element={<DeliveryPage />} />
         <Route path="pickup"  element={<PickupPage />} />
+        <Route path="product/:productCode" element={<StoreProductDetails />} />
 
       </Routes>
-
     </div>
   );
 };
