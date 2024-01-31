@@ -11,6 +11,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { TiArrowForward } from "react-icons/ti";
 import Reviews from './Review';
+import StoreInfo from './StoreofProduct';
 
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 
@@ -21,6 +22,7 @@ const ProductDetails = ({ productDetails }) => {
   }
 
   const { product_name, commodity_type, price, unit_measurement, keywords } = productDetails;
+
   const imageSrc = imageConfig[keywords];
 
   const handleAddToCart = () => {
@@ -69,6 +71,9 @@ const ProductDetails = ({ productDetails }) => {
                     <div className='flex justify-center'>
                         <p className='text-gray-500 text-xs'>1,032 sold</p>
                     </div>
+                </div>
+                <div>
+
                 </div>
 
            
@@ -126,7 +131,9 @@ const StoreProductDetails = ({ product_inventory , kadiwa_users_account }) => {
         <p className='p-5 text-green-600'>Loading...</p>
       ) : (
         <>
+           
           <ProductDetails productDetails={productDetails} />
+          <StoreInfo productCode={productCode} />
           <Reviews productCode={productCode} />
           <div className="flex justify-around fixed bottom-0 w-full" >
             <button className='bg-gray-300  h-16  text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none '>Add to Cart</button>
