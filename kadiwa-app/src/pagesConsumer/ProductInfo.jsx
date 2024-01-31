@@ -28,7 +28,7 @@ const ProductDetails = ({ productDetails }) => {
     <div className="p-2 bg-white rounded-md shadow-md m-2">
       <h1 className="font-bold text-green-700">Product Details</h1>
       <div id="product-details-container" className="h-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
-        <div className="h-56 sm:h-auto ">
+        <div className="h-56 sm:h-auto px-4">
           <img src={imageSrc} alt={product_name} className="rounded-md bg-cover h-full w-full" />
         </div>
         <div className=" px-4 py-4">
