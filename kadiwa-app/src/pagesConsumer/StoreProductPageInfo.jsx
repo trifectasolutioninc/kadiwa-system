@@ -10,9 +10,9 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 import { TiArrowForward } from "react-icons/ti";
+import Reviews from './Review';
 
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
-import StoreList from '../pagesConsumer/StoreofProduct'
 
 const ProductDetails = ({ productDetails }) => {
 
@@ -121,13 +121,17 @@ const StoreProductDetails = ({ product_inventory , kadiwa_users_account }) => {
   }, [productCode, productName]);
 
   return (
-    <div className="h-screen bg-gray-200">
+    <div className="h-screen bg-gray-100">
       {isLoading ? (
         <p className='p-5 text-green-600'>Loading...</p>
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />
-          <StoreList productCode={productCode} />
+          <Reviews productCode={productCode} />
+          <div className="flex justify-around fixed bottom-0 w-full" >
+            <button className='bg-gray-300  h-16  text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none '>Add to Cart</button>
+            <button className='bg-green-700  text-white text-xs font-bold w-full rounded-br-md md:rounded-none'>Buy Now</button>
+          </div>
 
         </>
       )}
