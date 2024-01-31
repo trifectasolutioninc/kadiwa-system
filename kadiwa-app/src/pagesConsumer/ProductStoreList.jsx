@@ -3,6 +3,11 @@ import { ref, child, get, set } from 'firebase/database';
 import configFirebaseDB from '../Configuration/config';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import { useNavigate } from 'react-router-dom';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+
 
 const StoreList = ({ productCode }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
@@ -213,9 +218,19 @@ const handleCheckout = () => {
   closeCheckoutModal();
 };
 
+const truncateStoreName = (name, maxLength) => {
+  return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
+};
+
     return (
         <div>
-        <h2 className="p-4 font-bold text-green-700">Stores</h2>
+          <div className='px-4'>
+            <h2 className=" font-bold text-green-700">Stores</h2>
+             <span className='text-black opacity-80 text-xs '>Choose the store you want to make a purchase from</span>
+        
+
+          </div>
+       
         {isLoading ? (
           <p className="p-5 text-green-600">Loading...</p>
         ) : noStoresFound ? (
@@ -223,14 +238,39 @@ const handleCheckout = () => {
         ) : (
           <ul>
             {storesWithProduct.map((store) => (
-              <div key={store.contact} className='bg-white mx-4 my-1 p-4 rounded-md shadow-md justify-between flex'>
-                <div>
-                  <p className='text-lg font-bold text-gray-800'>{store.storeName}</p>
-                  <p className='text-gray-700'>{store.city}, {store.province}</p>
+              <div key={store.contact} className='bg-white mx-4 my-1 rounded-md shadow-md grid grid-cols-10'>
+                <div className=' col-span-7 p-4'>
+                  <div className='flex  items-center space-x-2'>
+                  <p className='font-bold text-gray-800 text-xs'>
+                    {truncateStoreName(store.storeName, 12)}
+                  </p>
+                  <p className='text-xs text-blue-500 font-semibold cursor-pointer'>Visit</p>
+
+                  </div>
+                  
+                  <div className='flex space-x-1'>
+                  <LocationOnIcon fontSize='10px' className=''/>
+                  <p className='text-gray-800 text-xs font-semibold'>{store.city}, {store.province}</p>
+
+                  </div>
+                  
+                  <p className='text-gray-500 text-xs mt-4'>1,032 sold</p>
+                  <div className='flex space-x-2'>
+                    <div className='flex text-yellow-500' >
+                      <StarIcon fontSize='10px'/>
+                      <StarIcon fontSize='10px'/>
+                      <StarIcon fontSize='10px'/>
+                      <StarHalfIcon fontSize='10px'/>
+                      <StarBorderIcon fontSize='10px'/>
+
+                    </div>
+                    <p className='text-xs text-gray-500'>3.5/5.0</p>
+                  </div>
                 </div>
-                <div className='gap-2 items-center justify-center flex flex-col md:flex-row'>
-                  <button onClick={() => openCheckoutModal(store)} className='bg-green-700 rounded px-2 py-1 text-white text-sm w-full'>Check-out</button>
-                  <button onClick={() => openModal(store)} className='bg-gray-300 rounded px-2 py-1 text-gray-800 text-sm w-full whitespace-nowrap'>Add to Cart</button>
+                <div className=' items-center justify-center flex flex-col md:flex-row col-span-3 md:mx-4'>
+                  <button onClick={() => openModal(store)} className='bg-gray-300  h-1/2 text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none '>Add to Cart</button>
+                  <button onClick={() => openCheckoutModal(store)} className='bg-green-700  h-1/2  text-white text-xs font-bold w-full rounded-br-md md:rounded-none'>Buy Now</button>
+                  
                   {/* <button className=' rounded px-2 py-1'><AddShoppingCartOutlinedIcon className='text-green-700' /></button> */}
                 </div>
               </div>
@@ -243,7 +283,7 @@ const handleCheckout = () => {
         <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
             <div className='absolute bg-white p-6 rounded-md shadow-md w-3/4'>
                 <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
-                <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
+                <p className='text-gray-700 '>{selectedStore.city}, {selectedStore.province}</p>
 
                   {/* Display product details */}
                   {filteredProducts.length > 0 && (

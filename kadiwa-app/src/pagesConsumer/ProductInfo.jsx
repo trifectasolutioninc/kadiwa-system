@@ -27,21 +27,22 @@ const ProductDetails = ({ productDetails }) => {
   return (
     <div className="p-2 bg-white rounded-md shadow-md m-2">
       <h1 className="font-bold text-green-700">Product Details</h1>
-      <div id="product-details-container" className="h-full flex grid grid-cols-2">
-        <div className="">
-          <img src={imageSrc} alt={product_name} className="rounded-md bg-cover" />
+      <div id="product-details-container" className="h-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
+        <div className="h-56 sm:h-auto ">
+          <img src={imageSrc} alt={product_name} className="rounded-md bg-cover h-full w-full" />
         </div>
-        <div className=" p-2">
+        <div className=" px-4 py-4">
 
-            <div className='h-1/2'>
+            <div className=''>
                 <h2 className="text-gray-700 font-bold">{product_name}</h2>
-                <p className="text-xs text-gray-500">Commodity Type: {commodity_type}</p>
+                
                 <p className="text-sm text-green-600 font-semibold">
                     Price: ₱{price} ({unit_measurement})
                 </p>
+                <p className="text-xs text-gray-500">Commodity Type: {commodity_type}</p>
             </div>
           
-            <div className="items-center h-1/2  mt-2">
+            {/* <div className="items-center h-1/2  mt-2">
               <div className='justify-between flex '>
                <div className='border w-1/2 items-center flex  justify-center'>
                     <SpaOutlinedIcon className="text-green-500 mr-1" />
@@ -64,7 +65,7 @@ const ProductDetails = ({ productDetails }) => {
                 </div>
               </div>
  
-            </div>
+            </div> */}
           {/* Add more HTML elements for other product details */}
         </div>
       </div>
