@@ -118,7 +118,7 @@ const StorePage = () => {
             {commodityType}
           </button>
         ))}
-      </div>
+    </div>
 
     {/* Display filtered products */}
     <div id='Store List' className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mb-18 ">

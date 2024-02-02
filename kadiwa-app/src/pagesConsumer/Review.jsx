@@ -9,6 +9,7 @@ const Reviews = ({ productCode }) => {
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const kdwowner = productCode.split('-')[0];
+  const productno = productCode.split('-')[1];
   useEffect(() => {
     const fetchData = async () => {
       // Fetch product reviews
@@ -38,7 +39,13 @@ const Reviews = ({ productCode }) => {
         <h1 className=' text-gray-900 text-sm font-bold mb-4'>Reviews</h1>
       {Object.keys(reviews).map((reviewId) => {
         const review = reviews[reviewId];
-        if (review.storeOwnerID === userInfo.id) {
+        const productNumber = parseInt(productno);
+        console.log(review.productCode);
+        console.log(productNumber);
+        console.log(userInfo.id);
+        console.log(review.storeOwnerID);
+        if ((review.storeOwnerID === userInfo.id) && ( productNumber === review.productCode)) {
+          
           return (
             <div key={reviewId} >
                 <div className='grid grid-cols-10 bg-gray-200 py-2 px-1 items-center rounded-t-md'>
@@ -52,8 +59,7 @@ const Reviews = ({ productCode }) => {
                         <p className='text-xs font-bold text-gray-500'>Rating: {review.rating}</p>
 
                     </div>
-                
-
+              
 
                 </div>
                 <div className=' h-0.5 bg-gray-300 rounded-b-md'> </div>
@@ -62,6 +68,8 @@ const Reviews = ({ productCode }) => {
             
           );
         }
+
+ 
         return null;
       })}
     </div>

@@ -135,10 +135,7 @@ const StoreProductDetails = ({ product_inventory , kadiwa_users_account }) => {
           <ProductDetails productDetails={productDetails} />
           <StoreInfo productCode={productCode} />
           <Reviews productCode={productCode} />
-          <div className="flex justify-around fixed bottom-0 w-full" >
-            <button className='bg-gray-300  h-16  text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none '>Add to Cart</button>
-            <button className='bg-green-700  text-white text-xs font-bold w-full rounded-br-md md:rounded-none'>Buy Now</button>
-          </div>
+          
 
         </>
       )}

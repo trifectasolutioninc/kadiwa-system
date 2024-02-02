@@ -251,7 +251,7 @@ const truncateStoreName = (name, maxLength) => {
                   <div className='flex space-x-1'>
                   <LocationOnIcon fontSize='10px' className=''/>
                   <p className='text-gray-800 text-xs font-semibold'>{store.city}, {store.province}</p>
-
+ 
                   </div>
                   
                   <p className='text-gray-500 text-xs mt-4'>1,032 sold</p>
@@ -278,6 +278,7 @@ const truncateStoreName = (name, maxLength) => {
           </ul>
 
         )}
+         
       {/* Modal for adding to cart */}
       {isModalOpen && (
         <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
@@ -303,6 +304,8 @@ const truncateStoreName = (name, maxLength) => {
                     <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2  rounded-md'>Add to Cart</button>
 
                   </div>
+                  {/* #main.main.bg-gray-100>.container>li*3 */}
+                  
                 
                 
             </div>
@@ -347,7 +350,7 @@ const truncateStoreName = (name, maxLength) => {
                   checked={deliveryOption === "delivery"}
                   onChange={() => setDeliveryOption("delivery")}
                 />
-                Delivery
+                Deliverkrisi
               </label>
             </div>
 
