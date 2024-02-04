@@ -32,6 +32,7 @@ const StoreLink  = () => {
         <Route path="barcodescanner"  element={<BarcodeScanner />} />
         <Route path="inbox" element={<Inbox />} />
         <Route path="review" element={<ReceiptComponent />} />
+        
       </Routes>
       <NavBttnAppHome />
     </div>

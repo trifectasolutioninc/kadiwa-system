@@ -13,6 +13,8 @@ import StorePage from '../pagesConsumer/StorePage';
 import LinkedAccount from '../pagesConsumer/LinkedAccount';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
+import PickupTransaction from '../pagesConsumer/PickupTransaction';
+
 const ConsumerMain = () => {
 
     useEffect(() => {
@@ -40,6 +42,7 @@ const ConsumerMain = () => {
        
         <Route path="virtual-card" element={<Card />} />
         <Route path="linked-account" element={<LinkedAccount/>} />
+        <Route path='pickup/:PickUpStatus' element={<PickupTransaction/>} />
 
 
       </Routes>
