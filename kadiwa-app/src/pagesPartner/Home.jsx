@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid, TextField, p } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
 import {
   LocalShipping,
   Cancel,
@@ -16,8 +18,13 @@ import {
   Store,
   Logout,
 } from '@mui/icons-material';
+import { getDatabase, get, ref, update } from 'firebase/database';
+import firebaseDB from '../Configuration/config-firebase2';
 
 const Home = () => {
+  const kdwconnect = sessionStorage.getItem('kdwconnect');
+  const navigate  = useNavigate();
+
   const setSessionAndRedirect = (path) => {
     // Implement your session logic and redirection
     console.log('Setting session and redirecting to:', path);
@@ -31,6 +38,35 @@ const Home = () => {
   const logoutUser = () => {
     window.location.href = '/main/profile';
   };
+
+  const resetProductInventory = async () => {
+    try {
+      const db = firebaseDB;
+      const inventoryRef = ref(db, 'product_inventory');
+      
+      // Fetch the current inventory data
+      const snapshot = await get(inventoryRef);
+      const inventoryData = snapshot.val();
+  
+      // Create an update object to set pos_app_qty to 0 for each product
+      const updateObj = {};
+      Object.keys(inventoryData).forEach((productId) => {
+        if (productId.includes(kdwconnect)) {
+          updateObj[`${productId}/pos_app_qty`] = 0;
+        }
+      });
+  
+      // Update the database with the new values
+      await update(inventoryRef, updateObj);
+  
+      // Navigate to the desired location after successful update
+      navigate('/pos/home');
+    } catch (error) {
+      console.error('Error resetting product inventory:', error);
+    }
+  };
+  
+
 
   return (
     <div className="p-4 flex-grow overflow-y-auto mb-16">
@@ -130,12 +166,13 @@ const Home = () => {
       {/* Add POS, Inbox, Purchases, and Reports Icons */}
       <div className="py-2 flex items-center justify-around rounded text-green-900">
         {/* POS Icon */}
-        <Link to="/pos/home">
-          <Button className="flex flex-col items-center rounded shadow-md bg-white w-1/4 p-2 m-2">
+
+          <Button  onClick={resetProductInventory} className="flex flex-col items-center rounded shadow-md bg-white w-1/4 p-2 m-2">
             <Store />
             <p variant="caption">POS</p>
           </Button>
-        </Link>
+
+
         <div className="flex items-center rounded shadow-md bg-white w-3/4 p-2 justify-around m-2">
           <Link to="/partner/inbox" className="flex flex-col items-center">
               <Inbox />

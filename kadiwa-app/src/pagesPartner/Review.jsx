@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getDatabase, get, ref, set } from 'firebase/database';
+
 import { IoCloseOutline, IoStorefrontOutline, IoQrCode } from 'react-icons/io5';
 import { MdOutlineLocalOffer, MdOutlinePayment } from 'react-icons/md';
 import { CiDeliveryTruck } from 'react-icons/ci';
+import { getDatabase, get, ref, set } from 'firebase/database';
 import firebaseDB from '../Configuration/config-firebase2';
 import { useZxing } from "react-zxing";
 import { useNavigate } from 'react-router-dom';
@@ -406,13 +407,13 @@ const ReceiptComponent = () => {
         discounts: discountAmount,
         servicefee: 0, // Replace with your logic for service fee calculation
         delivery: parseFloat(deliveryFee).toFixed(2),
-        type: "pickup", // You may need to get this value from your component state
+        type: "onsite/pickup", // You may need to get this value from your component state
         payment_method: "N/A", // You may need to get this value from your component state
         payment_status: "pending", // You may need to get this value from your component state
         kadiwa_card: userInfo.id, // Assuming user ID is used as the kadiwa card
         date: formattedDate,
         products: products.reduce((result, product) => {
-          result[product.product_code] = {
+          result[product.id] = {
             product: product.product_name,
             qty: product.pos_app_qty,
             price: product.price,
@@ -426,7 +427,7 @@ const ReceiptComponent = () => {
       const receiptCollectionRef = ref(firebaseDB, `receipt_collections/${userInfo.id}/receipts/${receiptData.receiptno}`);
       await set(receiptCollectionRef, receiptData);
   
-      navigate(`/payment/${userInfo.id}/${receiptData.receiptno}`);
+      navigate(`/route/payment/${userInfo.id}/${receiptData.receiptno}`);
     } catch (error) {
       console.error('Error saving receipt data:', error);
     }
