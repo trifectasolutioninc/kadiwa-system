@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ref, child, get } from 'firebase/database';
 import configFirebaseDB from '../Configuration/config';
 import { IoQrCode } from "react-icons/io5";
+import { FaCheckCircle } from "react-icons/fa";
 
 const PickupTransaction = () => {
   const { status } = useParams();
@@ -33,8 +34,6 @@ const PickupTransaction = () => {
 
   return (
     <div className=' bg-gray-100'>
-      
-      
       {pickupOrders.length > 0 ? (
         <div className='px-4 '>
           <h2 className='text-green-700 font-bold py-2'>{status.toUpperCase()} STATUS</h2>
@@ -46,7 +45,12 @@ const PickupTransaction = () => {
                     <p className=' text-gray-400 text-xs  '>{order.date} </p>
                 </div>
                 <p className=' text-red-500 text-xs col-span-2 '>{order.pickup_status.toUpperCase()} </p>
-                <button className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
+                {status === 'pending' && (
+                  <button className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
+                )}
+                {status === 'complete' && (
+                  <button className='text-green-700 col-span-2 mx-auto'><FaCheckCircle /></button>
+                )}
               </li>
             ))}
           </ul>
