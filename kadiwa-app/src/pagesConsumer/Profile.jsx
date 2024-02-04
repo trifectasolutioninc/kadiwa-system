@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
+import { FaBox } from "react-icons/fa";
 
 const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
@@ -89,7 +90,7 @@ const ProfileConsumer = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-gray-100">
+    <div className="h-auto bg-gray-100">
       <div className="p-4 flex justify-between">
         <h1 className="font-bold text-lg text-green-700">Profile</h1>
         <div></div>
@@ -204,8 +205,9 @@ const ProfileConsumer = () => {
         <h1 className="font-bold text-lg text-gray-800">My Orders</h1>
         <div></div>
       </div>
-
-      <div className="flex justify-around px-4 py-8">
+      <p className='text-xs font-bold text-green-700 mx-4 mt-4'>Online</p>
+      <div className=' h-0.5 bg-gray-300 mx-4'></div>
+      <div className="flex justify-around px-4 py-2">
         {/* Icon with Name: To Ship */}
         <div className="text-center">
           <LocalShipping className="text-3xl text-gray-500 mb-2" />
@@ -223,6 +225,23 @@ const ProfileConsumer = () => {
           <Done className="text-3xl text-gray-500 mb-2" />
           <p className="text-sm">Complete</p>
         </div>
+      </div>
+      <p className='text-xs font-bold text-green-700 mx-4 mt-4'>Pickup</p>
+      <div className=' h-0.5 bg-gray-300 mx-4'></div>
+      <div className="flex justify-around px-4 py-2">
+        {/* Icon with Name: To Ship */}
+        <div className="text-center items-center">
+          <FaBox className="text-lg text-gray-500 mb-3 mt-0.5 mx-auto" />
+          <p className="text-sm">Orders</p>
+        </div>
+        {/* Icon with Name: Complete */}
+        <div className="text-center">
+          <Done className="text-3xl text-gray-500 mb-2" />
+          <p className="text-sm">Complete</p>
+        </div>
+      </div>
+      <div className='p-2 h-32'> 
+
       </div>
     </div>
   );

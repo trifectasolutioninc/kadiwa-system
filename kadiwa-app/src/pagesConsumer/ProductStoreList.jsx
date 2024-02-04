@@ -189,6 +189,7 @@ const handleCheckout = () => {
     storeName: selectedStore.storeName,
     city: selectedStore.city,
     province: selectedStore.province,
+    owner_id: selectedStore.id,
     product: {
       commodity_type: product.commodity_type,
       keywords: product.keywords,
