@@ -44,6 +44,7 @@ const PickupTransaction = () => {
   const [pickupOrders, setPickupOrders] = useState([]);
   const [showQRModal, setShowQRModal] = useState(false);
   const [pickupVerificationId, setPickupVerificationId] = useState('');
+  const kdwconnect = sessionStorage.getItem('kdwconnect');
 
   const handleQRButtonClick = (pickupVerificationId) => {
     setShowQRModal(true);
@@ -84,23 +85,25 @@ const PickupTransaction = () => {
           <h2 className='text-green-700 font-bold py-2'>{status.toUpperCase()} STATUS</h2>
           <ul>
             {pickupOrders.map(order => (
-              <li key={order.pickup_verification} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
-                <div className='col-span-6 '>
-                    <p className=' font-semibold text-xs '>{order.storename} </p>
-                    <p className=' text-gray-400 text-xs  '>{order.date} </p>
-                </div>
-                <p className=' text-red-500 text-xs col-span-2 '>{order.pickup_status.toUpperCase()} </p>
-                {status === 'pending' && (
-                  <button 
-                    onClick={() =>
-                        handleQRButtonClick(order.pickup_verification)
-                    }
-                   className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
-                )}
-                {status === 'complete' && (
-                  <button className='text-green-700 col-span-2 mx-auto'><FaCheckCircle /></button>
-                )}
-              </li>
+              (kdwconnect === order.consumer && order.pickup_status === status) && (
+                <li key={order.pickup_verification} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
+                  <div className='col-span-6 '>
+                      <p className=' font-semibold text-xs '>{order.storename} </p>
+                      <p className=' text-gray-400 text-xs  '>{order.date} </p>
+                  </div>
+                  <p className=' text-red-500 text-xs col-span-2 '>{order.pickup_status.toUpperCase()} </p>
+                  {status === 'pending' && (
+                    <button 
+                      onClick={() =>
+                          handleQRButtonClick(order.pickup_verification)
+                      }
+                     className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
+                  )}
+                  {status === 'complete' && (
+                    <button className='text-green-700 col-span-2 mx-auto'><FaCheckCircle /></button>
+                  )}
+                </li>
+              )
             ))}
           </ul>
         </div>

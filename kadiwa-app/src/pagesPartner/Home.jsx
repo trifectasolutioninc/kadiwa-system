@@ -178,7 +178,7 @@ const Home = () => {
               <Inbox />
               <p variant="caption">Inbox</p>
             </Link>
-            <Link to="/pos/orders" className="flex flex-col items-center">
+            <Link to="/partner/orders" className="flex flex-col items-center">
               <ShoppingCart />
               <p variant="caption">Orders</p>
             </Link>
