@@ -27,7 +27,7 @@ const NavbttnPOS = () => {
         <a>
           <CropFreeIcon />
         </a>
-        <p variant="caption">Scan Product</p>
+        <p variant="caption">Scan</p>
       </div>
 
       {/* Add Products (larger icon) */}
@@ -35,7 +35,7 @@ const NavbttnPOS = () => {
         <a>
           <AddCircleIcon style={{ fontSize: 24 }} />
         </a>
-        <p variant="caption">Add Products</p>
+        <p variant="caption">Add</p>
       </div>
     </footer>
   );
