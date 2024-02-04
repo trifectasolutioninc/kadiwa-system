@@ -7,6 +7,7 @@ import ProfileEdit from '../pagesConsumer/ProfileEdit';
 import DeliveryPage from '../pagesConsumer/Delivery';
 import PickupPage from '../pagesConsumer/Pickup';
 import StoreProductDetails from '../pagesConsumer/StoreProductPageInfo';
+import InboxPage from '../pagesPartner/InboxPage';
 
 const RouteLink  = () => {
 
@@ -30,7 +31,8 @@ const RouteLink  = () => {
         <Route path="delivery"  element={<DeliveryPage />} />
         <Route path="pickup"  element={<PickupPage />} />
         <Route path="product/:productCode" element={<StoreProductDetails />} />
-
+        <Route path="inboxpage/:storeID"  element={<InboxPage />} />
+        
       </Routes>
     </div>
   );

@@ -264,8 +264,8 @@ const truncateStoreName = (name, maxLength) => {
                       <StarBorderIcon fontSize='10px'/>
 
                     </div>
-                    <p className='text-xs text-gray-500'>3.5/5.0</p>
-                  </div>
+                      <p className='text-xs text-gray-500'>3.5/5.0</p>
+                    </div>         
                 </div>
                 <div className=' items-center justify-center flex flex-col md:flex-row col-span-3 md:mx-4'>
                   <button onClick={() => openModal(store)} className='bg-gray-300  h-1/2 text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none '>Add to Cart</button>
@@ -350,7 +350,7 @@ const truncateStoreName = (name, maxLength) => {
                   checked={deliveryOption === "delivery"}
                   onChange={() => setDeliveryOption("delivery")}
                 />
-                Deliverkrisi
+                Delivery
               </label>
             </div>
 

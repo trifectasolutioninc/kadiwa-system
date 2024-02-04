@@ -44,7 +44,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
   return (
     <Link to={`/route/chatpage/${id.split('-')[0]}`} className="no-underline">
       <li className="relative bg-white p-4 rounded-lg shadow-md flex m-2 items-center">
-       
+          
         <div >
           <p className="font-semibold">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>

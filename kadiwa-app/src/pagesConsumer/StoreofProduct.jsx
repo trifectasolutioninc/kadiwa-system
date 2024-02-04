@@ -159,4 +159,5 @@ const StoreInfo = () => {
   );
 };
 
+
 export default StoreInfo;

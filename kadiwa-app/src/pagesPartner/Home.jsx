@@ -137,7 +137,7 @@ const Home = () => {
           </Button>
         </Link>
         <div className="flex items-center rounded shadow-md bg-white w-3/4 p-2 justify-around m-2">
-          <Link to="/pos/inbox" className="flex flex-col items-center">
+          <Link to="/partner/inbox" className="flex flex-col items-center">
               <Inbox />
               <p variant="caption">Inbox</p>
             </Link>
@@ -151,9 +151,7 @@ const Home = () => {
             </Link>
         </div>
       </div>
-
-
-
+      
       {/* Add Date and Day Display */}
       <div className="flex justify-between items-center p-4 ">
         <p variant="h6" className="font-bold text-lg">
