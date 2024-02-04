@@ -393,6 +393,46 @@ const ReceiptComponent = () => {
     }
   };
 
+  const handleConfirmAndSaveReceipt = async () => {
+    try {
+      const leadingZeros = '0'.repeat(Math.max(0, 6 - latestReceiptNo.toString().length));
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()} ${currentDate.toLocaleTimeString()}`;
+      const receiptData = {
+        receiptno: `${leadingZeros}${latestReceiptNo}`, // Assuming you want to use latestReceiptNo as part of receipt number
+        grandtotal: grandTotal,
+        total: calculateTotal(),
+        kadiwapts: kadiwaPts,
+        discounts: discountAmount,
+        servicefee: 0, // Replace with your logic for service fee calculation
+        delivery: parseFloat(deliveryFee).toFixed(2),
+        type: "pickup", // You may need to get this value from your component state
+        payment_method: "N/A", // You may need to get this value from your component state
+        payment_status: "pending", // You may need to get this value from your component state
+        kadiwa_card: userInfo.id, // Assuming user ID is used as the kadiwa card
+        date: formattedDate,
+        products: products.reduce((result, product) => {
+          result[product.product_code] = {
+            product: product.product_name,
+            qty: product.pos_app_qty,
+            price: product.price,
+            subtotal: (product.pos_app_qty * product.price).toFixed(2),
+          };
+          return result;
+        }, {}),
+      };
+  
+      // Save the receiptData to the database
+      const receiptCollectionRef = ref(firebaseDB, `receipt_collections/${userInfo.id}/receipts/${receiptData.receiptno}`);
+      await set(receiptCollectionRef, receiptData);
+  
+      navigate(`/payment/${userInfo.id}/${receiptData.receiptno}`);
+    } catch (error) {
+      console.error('Error saving receipt data:', error);
+    }
+  };
+  
+
 
   return (
     <div>
@@ -546,10 +586,14 @@ const ReceiptComponent = () => {
 
       </div>
       <div className="w-screen flex">
-        <button className="w-full border border-green-600 m-2 rounded-md text-green-700 font-bold">
-          CONFIRM
-        </button>
+      <button
+        className="w-full border border-green-600 m-2 rounded-md text-green-700 font-bold"
+        onClick={handleConfirmAndSaveReceipt}
+      >
+        CONFIRM
+      </button>
       </div>
+
       {/* Render DiscountModal based on the state */}
       {showDiscountModal && (
         <DiscountModal
