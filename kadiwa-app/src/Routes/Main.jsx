@@ -42,7 +42,7 @@ const ConsumerMain = () => {
        
         <Route path="virtual-card" element={<Card />} />
         <Route path="linked-account" element={<LinkedAccount/>} />
-        <Route path='pickup/:PickUpStatus' element={<PickupTransaction/>} />
+        <Route path="pickup/:status" element={<PickupTransaction/>} />
 
 
       </Routes>

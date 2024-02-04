@@ -90,7 +90,6 @@ const ProductInfo = ({ product_inventory , kadiwa_users_account }) => {
       // Handle redirection or other actions
       return;
     }
-
     const database = configFirebaseDB();
     const productsInfoRef = ref(database, 'products_info');
 

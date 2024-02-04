@@ -230,15 +230,15 @@ const ProfileConsumer = () => {
       <div className=' h-0.5 bg-gray-300 mx-4'></div>
       <div className="flex justify-around px-4 py-2">
         {/* Icon with Name: To Ship */}
-        <div className="text-center items-center">
+        <Link to={'/main/pickup/pending'} className="text-center items-center">
           <FaBox className="text-lg text-gray-500 mb-3 mt-0.5 mx-auto" />
           <p className="text-sm">Orders</p>
-        </div>
+        </Link>
         {/* Icon with Name: Complete */}
-        <div className="text-center">
+        <Link to={'/main/pickup/complete'} className="text-center">
           <Done className="text-3xl text-gray-500 mb-2" />
           <p className="text-sm">Complete</p>
-        </div>
+        </Link>
       </div>
       <div className='p-2 h-32'> 
 
