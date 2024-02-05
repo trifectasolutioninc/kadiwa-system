@@ -53,7 +53,7 @@ const Cart = () => {
         if (store.CartList) {
           for (const productKey in store.CartList) {
             const product = store.CartList[productKey];
-            totalQuantity ++;
+            totalQuantity++;
           }
         }
       }
@@ -215,7 +215,7 @@ const Cart = () => {
             <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
               <p className='font-bold text-white'>Total: 0</p>
               <div className='bg-white px-4 rounded-md text-green-700'>
-                <p >BUY NOW</p>
+                <p >CHECKOUT</p>
 
               </div>
 
@@ -239,29 +239,32 @@ const Cart = () => {
               <div className='m-4 bg-green-600 p-2 rounded-md '>
                 <p className='font-bold text-white'>Total: 0</p>
                 <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
-              <p className='font-bold text-white'>Total: 0</p>
-              <div className='bg-white px-4 rounded-md text-green-700'>
-                <p >BUY NOW</p>
+                  <p className='font-bold text-white'>Total: 0</p>
+                  <div className='bg-white px-4 rounded-md text-green-700'>
+                    <p >CHECKOUT</p>
+
+                  </div>
+
+                </div>
 
               </div>
 
             </div>
-
-              </div>
-
-
-            </div>
-
-
 
 
           </div>
+
+
+
+
         </div>
+ 
 
-      )}
+  )
+}
 
 
-    </div>
+    </div >
   );
 };
 
