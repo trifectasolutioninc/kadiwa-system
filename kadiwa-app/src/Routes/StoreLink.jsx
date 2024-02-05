@@ -11,6 +11,7 @@ import Inbox from '../pagesPartner/Inbox';
 import ReceiptComponent from '../pagesPartner/Review';
 import Order from '../pagesPartner/Order';
 import Store from '../pagesPartner/Store';
+import Products from '../pagesPartner/Products';
 
 const StoreLink  = () => {
 
@@ -36,6 +37,7 @@ const StoreLink  = () => {
         <Route path="review" element={<ReceiptComponent />} />
         <Route path="orders" element={<Order />} />
         <Route path="store" element={<Store/>} />
+        <Route path="products" element={<Products/>} />
       </Routes>
       <NavBttnAppHome />
     </div>
