@@ -23,14 +23,14 @@ const CartItem = ({ id, name, price, quantity, imgAlt, isChecked, onCheckboxChan
         <div className="flex items-center ">
           <span className="text-xs pr-2 font-bold text-gray-500">Qty:</span>
           <div className="flex items-center">
-            <button className="text-sm px-2 border rounded" onClick={() => console.log('Decrement clicked')}>-</button>
+            <button className="text-sm px-2 border rounded bg-red-500 text-white" onClick={() => console.log('Decrement clicked')}>-</button>
             <input
               type="number"
               value={quantity}
               className="w-12 h-8 text-center border rounded-md text-xs"
               readOnly
             />
-            <button className="text-sm px-2 border rounded" onClick={() => console.log('Increment clicked')}>+</button>
+            <button className="text-sm px-2 border rounded bg-blue-500 text-white " onClick={() => console.log('Increment clicked')}>+</button>
           </div>
         </div>
       </div>
