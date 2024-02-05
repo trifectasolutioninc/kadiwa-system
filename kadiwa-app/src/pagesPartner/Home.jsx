@@ -230,12 +230,12 @@ const Home = () => {
        <div className="p-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {/* Sales Card */}
         <div className="flex flex-col items-center bg-white p-4 rounded text-green-800 shadow-md">
-          <span className="text-xs">Sales</span>
+          <span className="text-xs">Gross Sales</span>
           <div className="w-full bg-green-300 h-0.5"></div>
           <span className="text-lg font-bold">₱ 0</span>
         </div>
         <div className="flex flex-col items-center bg-white p-4 rounded text-green-800 shadow-md">
-          <span className="text-xs">Total Revenue</span>
+          <span className="text-xs">Total Income</span>
           <div className="w-full bg-green-300 h-0.5"></div>
           <span className="text-lg font-bold">₱ 0</span>
         </div>

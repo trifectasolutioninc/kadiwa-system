@@ -5,11 +5,12 @@ import configFirebaseDB from '../Configuration/config-firebase2';
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
-  const { storeID } = useParams();
+  const { storeID, consumerName } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [storeName, setStoreName] = useState('');
   const [ownerNo, setownerNo] = useState('');
+
   const kdwconnect = sessionStorage.getItem('kdwconnect');
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +95,6 @@ const sendChatMessage = async (message) => {
     const chatData = {
       storeName: storeName,
       storeOwner: ownerNo,
-      consumer: kdwconnect,
       Chat: {
         ...existingChat?.Chat, // Keep existing messages
         [timestamp]: newMessage, // Add the new message
@@ -150,7 +150,7 @@ const formatDate = (timestamp) => {
   return (
     <div className="h-screen bg-gray-200 flex flex-col">
       <div className="flex justify-between p-4 bg-white shadow-md">
-        <h1 className="text-gray-700 font-bold text-lg">{storeName || storeID}</h1>
+        <h1 className="text-gray-700 font-bold text-lg">{consumerName}</h1>
         <Link to={`/partner/inbox`} className="text-green-600">Back</Link>
       </div>
 

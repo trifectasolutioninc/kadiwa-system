@@ -42,7 +42,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
   };
 
   return (
-    <Link to={`/route/inboxpage/${id.split('-')[0]}`} className="no-underline">
+    <Link to={`/route/inboxpage/${id.split('-')[0]}/${name}`} className="no-underline">
       <li className="relative bg-white p-4 rounded-lg shadow-md flex m-2 items-center">
           
         <div >
@@ -56,22 +56,23 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
 
 const Inbox = () => {
   const [chatData, setChatData] = useState([]);
-
+  const kdwconnect = sessionStorage.getItem('kdwconnect');
   useEffect(() => {
     const fetchChatData = async () => {
       try {
-        // Replace 'yourApiCallToGetChatData' with your actual logic to fetch chat data
         const snapshot = await get(child(ref(configFirebaseDB), 'chat_collections'));
         const chatCollections = snapshot.val();
 
         if (chatCollections) {
-          // Convert the object into an array
-          const chatDataArray = Object.entries(chatCollections).map(([id, data]) => ({
-            id,
-            name: data.storeName,
-            Chat: data.Chat,
-            date: data.date, // Replace with your actual date property
-          }));
+          const chatDataArray = Object.entries(chatCollections)
+            .map(([id, data]) => ({
+              id,
+              name: data.consumerName,
+              Chat: data.Chat,
+              date: data.date,
+              storeOwner: data.storeOwner, // Assuming storeOwner is a property in your data
+            }))
+            .filter((store) => store.storeOwner === kdwconnect); // Filter based on the condition
 
           setChatData(chatDataArray);
         }
@@ -81,7 +82,7 @@ const Inbox = () => {
     };
 
     fetchChatData();
-  }, []);
+  }, [kdwconnect]);
 
   return (
     <div className='bg-gray-100  h-screen'>

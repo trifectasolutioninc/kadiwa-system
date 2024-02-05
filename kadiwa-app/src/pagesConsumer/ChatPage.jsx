@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ref, child, get, push, set, onValue , off} from 'firebase/database';
-import configFirebaseDB from '../Configuration/config-firebase2';
+import firebaseDB from '../Configuration/config-firebase2';
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
@@ -9,12 +9,13 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [storeName, setStoreName] = useState('');
+  const [userDetails, setUserDetails] = useState(null);
   const [ownerNo, setownerNo] = useState('');
   const kdwconnect = sessionStorage.getItem('kdwconnect');
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const snapshot = await get(child(ref(configFirebaseDB), 'kadiwa_users_account/' + storeID));
+        const snapshot = await get(child(ref(firebaseDB), 'kadiwa_users_account/' + storeID));
         const userData = snapshot.val();
 
         if (userData && userData.storeName) {
@@ -29,10 +30,31 @@ const ChatPage = () => {
     fetchData();
   }, [storeID]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const snapshot = await get(ref(firebaseDB, 'kadiwa_users_account'));
+        const userData = snapshot.val();
+
+        if (userData && userData[kdwconnect]) {
+          setUserDetails(userData[kdwconnect]);
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (kdwconnect) {
+      fetchData();
+    }
+  }, [kdwconnect]);
+
 
   useEffect(() => {
     const chatId = `${storeID}-${storeName}`;
-    const chatRef = ref(configFirebaseDB, `chat_collections/${chatId}`);
+    const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
 
     const handleNewMessage = (snapshot) => {
       const chatData = snapshot.val();
@@ -73,7 +95,7 @@ const generateUniqueId = () => {
 const sendChatMessage = async (message) => {
   try {
     const chatId = `${storeID}-${storeName}`;
-    const chatRef = ref(configFirebaseDB, `chat_collections/${chatId}`);
+    const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
 
     const timestamp = generateUniqueId(); // Use timestamp-based unique ID
 
@@ -85,6 +107,7 @@ const sendChatMessage = async (message) => {
       message,
       sender: 'consumer',
       time: timestamp,
+
     };
 
     // Get the current chat data
@@ -95,6 +118,7 @@ const sendChatMessage = async (message) => {
       storeName: storeName,
       storeOwner: ownerNo,
       consumer: kdwconnect,
+      consumerName: userDetails.fullname,
       Chat: {
         ...existingChat?.Chat, // Keep existing messages
         [timestamp]: newMessage, // Add the new message
@@ -150,7 +174,7 @@ const formatDate = (timestamp) => {
   return (
     <div className="h-screen bg-gray-200 flex flex-col">
       <div className="flex justify-between p-4 bg-white shadow-md">
-        <h1 className="text-gray-700 font-bold text-lg">{storeName || storeID}</h1>
+        <h1 className="text-gray-700 font-bold text-lg">{storeName}</h1>
         <Link to={`/main/storepage/${storeID}`} className="text-green-600">Back</Link>
       </div>
 

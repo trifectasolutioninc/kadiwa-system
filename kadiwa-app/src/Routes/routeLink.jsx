@@ -32,7 +32,7 @@ const RouteLink  = () => {
         <Route path="delivery"  element={<DeliveryPage />} />
         <Route path="pickup"  element={<PickupPage />} />
         <Route path="product/:productCode" element={<StoreProductDetails />} />
-        <Route path="inboxpage/:storeID"  element={<InboxPage />} />
+        <Route path="inboxpage/:storeID/:consumerName"  element={<InboxPage />} />
         <Route path="payment/:userId/:receiptNo"  element={<Payment />} />
       </Routes>
     </div>
