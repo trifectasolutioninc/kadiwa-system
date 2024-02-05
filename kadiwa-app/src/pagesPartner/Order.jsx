@@ -32,7 +32,7 @@ const QRCodeScanner = ({ onSave, onClose }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-white p-4 rounded-md shadow-md relative w-3/4">
-                <p className="text-lg font-bold mb-4">Pickup Order Confirmation</p>
+                <p className="text-lg font-bold mb-4">Pickup Scanner</p>
                 {error && <p className="text-red-500">Error accessing camera: {error.message}</p>}
                 <video
                     width="100%"
