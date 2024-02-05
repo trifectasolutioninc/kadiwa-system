@@ -59,6 +59,8 @@ import Megapay from '../Components/Assets/payment/megapay.png';
 
 import StoreBG from '../Components/Assets/others/store_bg.webp'
 
+import Banner1 from '../Components/Assets/banner/banner-v1.png'
+
 const paymentImg = {
     MasterCard : MasterCard,
     Bank : Bank,
@@ -76,7 +78,7 @@ const imageConfig = {
     EntranceBG: './src/assets/raw/entrance-bg.jpg',
     KadiwaText2: '../logo/kadiwa-text.png',
     //Banners
-    BannerV1: '../banner/banner-v1.png',
+    BannerV1: Banner1,
     BannerV2: '../banner/banner-v2.png',
     BannerV3: '../banner/banner-v2.png',
     //Card

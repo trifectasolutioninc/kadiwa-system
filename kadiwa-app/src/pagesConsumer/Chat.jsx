@@ -52,7 +52,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
       </li>
     </Link>
   );
-};
+};    
 
 const Chat = () => {
   const [chatData, setChatData] = useState([]);
@@ -69,6 +69,7 @@ const Chat = () => {
           const chatDataArray = Object.entries(chatCollections).map(([id, data]) => ({
             id,
             name: data.storeName,
+
             Chat: data.Chat,
             date: data.date, // Replace with your actual date property
           }));

@@ -77,10 +77,13 @@ const HomeConsumer = () => {
     <div className="h-screen bg-gray-100">
          <div id="topView" className="p-4">
         <h1 className="text-green-700 font-bold">Hello Kadiwa User!</h1>
-        <div id="userLocation" className="flex items-center mb-2 text-xs">
+        <div id="userLocation" className="flex items-center mb-1 text-xs">
           <LocationOn className="text-gray-700 mr-2" />
           <span id="userLocationText" className="text-gray-600">{userLocation}</span>
         </div>
+      </div>
+      <div className='px-4 pb-2'>
+        <img src={imageConfig.BannerV1} alt=""  className='rounded-md'/>
       </div>
 
       <div className="px-4 flex items-center justify-around ">
@@ -90,12 +93,10 @@ const HomeConsumer = () => {
             <input type="text" placeholder="Search..." className="w-full bg-gray-300 text-gray-600 focus:outline-none" />
           </div>
         </div>
-
         <div className="ml-4">
           <Notifications className="text-gray-700 text-lg" />
         </div>
       </div>
-
       <div className="overflow-x-auto w-screen flex px-2">
         {commodityTypes.map((commodityType, index) => (
           <button
