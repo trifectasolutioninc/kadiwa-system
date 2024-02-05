@@ -57,6 +57,8 @@ import Gcash from '../Components/Assets/payment/gcash.png';
 import Maya from '../Components/Assets/payment/maya.png';
 import Megapay from '../Components/Assets/payment/megapay.png';
 
+import StoreBG from '../Components/Assets/others/store_bg.webp'
+
 const paymentImg = {
     MasterCard : MasterCard,
     Bank : Bank,
@@ -136,6 +138,10 @@ const imageConfig = {
     palmoilliter: palmoilliter,
     coconutoilml: coconutoilml,
     coconutoilliter: coconutoilliter,
+
+
+
+    StoreBG: StoreBG,
     
     //Profile
     avataricon: '../profile/avatar-icon.png',

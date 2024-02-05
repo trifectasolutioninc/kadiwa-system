@@ -10,6 +10,7 @@ import BarcodeScanner from '../pagesPartner/BarcodeScanner'
 import Inbox from '../pagesPartner/Inbox';
 import ReceiptComponent from '../pagesPartner/Review';
 import Order from '../pagesPartner/Order';
+import Store from '../pagesPartner/Store';
 
 const StoreLink  = () => {
 
@@ -34,7 +35,7 @@ const StoreLink  = () => {
         <Route path="inbox" element={<Inbox />} />
         <Route path="review" element={<ReceiptComponent />} />
         <Route path="orders" element={<Order />} />
-        
+        <Route path="store" element={<Store/>} />
       </Routes>
       <NavBttnAppHome />
     </div>

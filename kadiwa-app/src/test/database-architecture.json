@@ -13,8 +13,8 @@
                     "servicefee": -9,
                     "delivery": -45,
                     "type": "pickup",
-                    "payment_method": "Gcash",
-                    "payment_status": "paid",
+                    "payment_method": "N/A",
+                    "payment_status": "pending",
                     "kadiwa_card": "2024-0111-1112-1900",
                     "date": "01/31/2024 3:00 PM",
                     "products": {
