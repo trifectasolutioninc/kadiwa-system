@@ -296,9 +296,9 @@ const truncateStoreName = (name, maxLength) => {
                 )}
                 {/* Quantity input with add/subtract buttons */}
                 <div className='flex items-center mt-2'>
-                    <button onClick={decrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
+                    <button onClick={decrementQuantity} className='bg-red-500 text-white px-2 py-1 rounded-l-md'>-</button>
                     <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
-                    <button onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
+                    <button onClick={incrementQuantity} className='bg-blue-500 text-white px-2 py-1 rounded-r-md'>+</button>
                 </div>
                   <div className='flex items-center justify-between mt-4'>
                     <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2  rounded-md' >Cancel</button>
@@ -330,9 +330,9 @@ const truncateStoreName = (name, maxLength) => {
 
             {/* Quantity input with add/subtract buttons */}
             <div className='flex items-center mt-2'>
-              <button  onClick={decrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-l-md'>-</button>
+              <button  onClick={decrementQuantity} className='bg-red-500 text-white px-2 py-1 rounded-l-md'>-</button>
               <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
-              <button  onClick={incrementQuantity} className='bg-gray-700 text-white px-2 py-1 rounded-r-md'>+</button>
+              <button  onClick={incrementQuantity} className='bg-blue-500 text-white px-2 py-1 rounded-r-md'>+</button>
             </div>
             <div className='mt-4'>
               <label className="mr-2">
@@ -342,8 +342,9 @@ const truncateStoreName = (name, maxLength) => {
                   checked={deliveryOption === "pickup"}
                   onChange={() => setDeliveryOption("pickup")}
                 />
-                Pickup
+                Book & Pickup
               </label>
+              <span className='mr-2 text-gray-400'>|</span>
               <label>
                 <input
                   type="radio"
