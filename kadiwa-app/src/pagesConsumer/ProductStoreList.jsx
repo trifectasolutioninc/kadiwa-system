@@ -200,6 +200,7 @@ const handleCheckout = () => {
     },
     quantity: selectedQuantity,
     deliveryOption: deliveryOption,
+  
   };
 
   console.log('Order:', order);

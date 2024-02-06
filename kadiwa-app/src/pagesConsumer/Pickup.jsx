@@ -91,7 +91,7 @@ const PickupPage = () => {
         contact: userDetails.contact,
         consumer_name: userDetails.fullname,
         date: getCurrentDateTime(), // Implement your logic to get the current date and time
-        payment: order.deliveryOption,
+        payment: paymentMethod,
         delivery_status: 'N/A',
         pickup_status: 'pending',
         pickup_verification: pickupVerificationId,
@@ -100,8 +100,8 @@ const PickupPage = () => {
         recieved_date: 'waiting',
         recieved_datime: 'waiting',
         discounts: '0%' ,
-        amount: order.product.price,
-        mode: 'pick-up',
+        amount: order.product.price * order.quantity,
+        mode: order.deliveryOption,
         productList: {
           [order.product.product_code]: {
             commodity_type: order.product.commodity_type,
