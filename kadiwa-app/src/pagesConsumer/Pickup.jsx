@@ -98,6 +98,7 @@ const PickupPage = () => {
         pickup_date: pickupDate,
         recieved_date: 'waiting',
         recieved_datime: 'waiting',
+        discounts: '0%' ,
         mode: 'pick-up',
         productList: {
           [order.product.product_code]: {
