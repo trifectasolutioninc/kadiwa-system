@@ -50,11 +50,14 @@ const PickupPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('Cash'); // Default to Cash
   const kdwconnect = sessionStorage.getItem('kdwconnect');
   console.log(order);
-  if (!order) {
-    return <div>Error: Order information not available.</div>;
-  }
 
   useEffect(() => {
+    // Move the conditional check inside the useEffect
+    if (!order) {
+      console.error('Error: Order information not available.');
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const snapshot = await get(ref(firebaseDB, 'kadiwa_users_account'));
@@ -73,7 +76,7 @@ const PickupPage = () => {
     if (kdwconnect) {
       fetchData();
     }
-  }, [kdwconnect]);
+  }, [kdwconnect, order]); 
 
 
   const handleConfirmPickup = async () => {
