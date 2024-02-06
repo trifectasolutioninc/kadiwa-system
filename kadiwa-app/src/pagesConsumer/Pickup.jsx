@@ -84,6 +84,7 @@ const PickupPage = () => {
       const pickupVerificationId = generateVerificationId(); // Implement your logic to generate a verification ID
   
       const pickupData = {
+        order_id: `${getCurrentDateTime2()}-${order.owner_id}-${kdwconnect}`,
         storename: order.storeName,
         owner_id: order.owner_id,
         consumer: kdwconnect,
@@ -99,6 +100,7 @@ const PickupPage = () => {
         recieved_date: 'waiting',
         recieved_datime: 'waiting',
         discounts: '0%' ,
+        amount: order.product.price,
         mode: 'pick-up',
         productList: {
           [order.product.product_code]: {
