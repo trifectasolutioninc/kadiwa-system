@@ -40,6 +40,7 @@ const Modal = ({ onClose, pickupVerificationId }) => {
 
 const PickupPage = () => {
   const navigate = useNavigate();
+  const [userDetails, setUserDetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [pickupVerificationId, setPickupVerificationId] = useState('');
   const location = useLocation();
@@ -53,6 +54,27 @@ const PickupPage = () => {
     return <div>Error: Order information not available.</div>;
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const snapshot = await get(ref(firebaseDB, 'kadiwa_users_account'));
+        const userData = snapshot.val();
+
+        if (userData && userData[kdwconnect]) {
+          setUserDetails(userData[kdwconnect]);
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    if (kdwconnect) {
+      fetchData();
+    }
+  }, [kdwconnect]);
+
 
   const handleConfirmPickup = async () => {
     try {
@@ -62,8 +84,10 @@ const PickupPage = () => {
         storename: order.storeName,
         owner_id: order.owner_id,
         consumer: kdwconnect,
+        contact: userDetails.contact,
+        consumer_name: userDetails.fullname,
         date: getCurrentDateTime(), // Implement your logic to get the current date and time
-        type: order.deliveryOption,
+        payment: order.deliveryOption,
         delivery_status: 'N/A',
         pickup_status: 'pending',
         pickup_verification: pickupVerificationId,
@@ -71,6 +95,7 @@ const PickupPage = () => {
         pickup_date: pickupDate,
         recieved_date: 'waiting',
         recieved_datime: 'waiting',
+        mode: 'pick-up',
         productList: {
           [order.product.product_code]: {
             commodity_type: order.product.commodity_type,
