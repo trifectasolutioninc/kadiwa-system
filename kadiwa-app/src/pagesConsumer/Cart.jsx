@@ -7,7 +7,7 @@ import { Link, useNavigate  } from 'react-router-dom';
 
 
 const Cart = () => {
-  const kdwconnect = sessionStorage.getItem('kdwconnect');
+  const uid = sessionStorage.getItem('uid');
   const [cartData, setCartData] = useState(null);
   const [isStoreChecked, setIsStoreChecked] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
@@ -20,9 +20,9 @@ const Cart = () => {
       try {
         const cartSnapshot = await get(cartRef);
         if (cartSnapshot.exists()) {
-          // Filter cart data based on the presence of kdwconnect
+          // Filter cart data based on the presence of uid
           const filteredCartData = Object.entries(cartSnapshot.val())
-            .filter(([key]) => key.includes(kdwconnect))
+            .filter(([key]) => key.includes(uid))
             .reduce((acc, [key, value]) => {
               acc[key] = value;
               return acc;
@@ -38,10 +38,10 @@ const Cart = () => {
       }
     };
 
-    if (kdwconnect) {
+    if (uid) {
       fetchCartData();
     }
-  }, [kdwconnect]);
+  }, [uid]);
 
 
   const getTotalQuantity = (cartData) => {
@@ -160,9 +160,9 @@ const Cart = () => {
       // After successful deletion, trigger a re-fetch of cart data
       const cartSnapshot = await get(ref(database, 'cart_collection'));
       if (cartSnapshot.exists()) {
-        // Filter cart data based on the presence of kdwconnect
+        // Filter cart data based on the presence of uid
         const filteredCartData = Object.entries(cartSnapshot.val())
-          .filter(([key]) => key.includes(kdwconnect))
+          .filter(([key]) => key.includes(uid))
           .reduce((acc, [key, value]) => {
             acc[key] = value;
             return acc;
@@ -184,7 +184,7 @@ const Cart = () => {
 
   const handleCheckout = () => {
     const selectedItemsArray = [];
-
+  
     for (const storeKey in selectedItems) {
       for (const productId in selectedItems[storeKey]) {
         if (selectedItems[storeKey][productId]) {
@@ -196,10 +196,20 @@ const Cart = () => {
         }
       }
     }
-
+  
     console.log("Selected Items Array:", selectedItemsArray); // Check if data is being prepared correctly
-
-    navigate('/route/checkout', { state: { selectedItems: selectedItemsArray } });
+  
+    // Extract store names
+    const storeNames = {};
+    for (const item of selectedItemsArray) {
+      const storeKey = item.storeKey;
+      const storeInfo = cartData?.[storeKey];
+      if (storeInfo) {
+        storeNames[storeKey] = storeInfo.storeName;
+      }
+    }
+  
+    navigate('/route/checkout', { state: { selectedItems: selectedItemsArray, storeNames: storeNames } });
   };
   
 

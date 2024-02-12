@@ -10,26 +10,31 @@ const StoreInfo = () => {
 
   const { productCode } = useParams();
   const [storeData, setStoreData] = useState(null);
+  const [storeAddress, setstoreAddress] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [qty, setQty] = useState(1);
   const kdwconnect = sessionStorage.getItem('kdwconnect');
-  const kdwowner = productCode.split('-')[0];
-  const productno = productCode.split('-')[1];
+  const sid = productCode.split('-')[0]+'-'+productCode.split('-')[1];
+  const productno = productCode.split('-')[2];
 
   useEffect(() => {
     const fetchStoreData = async () => {
       const database = configFirebaseDB();
-      const storeRef = ref(database, `kadiwa_users_account/${kdwowner}`);
+      const storeRef = ref(database, `store_information/${sid}`);
+      const storeaddRef = ref(database, `store_address_information/${sid}`);
 
       try {
         const storeSnapshot = await get(storeRef);
+        const storeaddSnapshot = await get(storeaddRef);
 
-        if (storeSnapshot.exists()) {
+        if (storeSnapshot.exists() && storeaddSnapshot.exists() ) {
           const storeInfo = storeSnapshot.val();
+          const storeaddInfo = storeaddSnapshot.val();
           setStoreData(storeInfo);
+          setstoreAddress(storeaddInfo);
         } else {
-          console.error(`Store with ID ${kdwowner} not found`);
+          console.error(`Store with ID ${sid} not found`);
         }
       } catch (error) {
         console.error('Error fetching store data:', error);
@@ -42,7 +47,7 @@ const StoreInfo = () => {
 
   const fetchProductDetails = async () => {
     const database = configFirebaseDB();
-    const productRef = ref(database, `product_inventory/${kdwowner}-${productno}`);
+    const productRef = ref(database, `product_inventory/${sid}-${productno}`);
 
     try {
       const productSnapshot = await get(productRef);
@@ -51,7 +56,7 @@ const StoreInfo = () => {
         const productDetails = productSnapshot.val();
         setSelectedProduct(productDetails);
       } else {
-        console.error(`Product with ID ${kdwowner}-${productno} not found`);
+        console.error(`Product with ID ${sid}-${productno} not found`);
       }
     } catch (error) {
       console.error('Error fetching product details:', error);
@@ -122,10 +127,10 @@ const StoreInfo = () => {
     <div className="">
     <div className=' justify-between flex p-4 rounded-md   m-4'>
       <div>
-        <h1 className='text-gray-700 font-bold text-lg'>{storeData.storeName}</h1>
-        <p className='text-gray-500 text-sm'>{storeData.city + ', ' + storeData.province}</p>
+        <h1 className='text-gray-700 font-bold text-lg'>{storeData.name}</h1>
+        <p className='text-gray-500 text-sm'>{storeAddress.city + ', ' + storeAddress.province}</p>
       </div>
-      <Link to={`/main/storepage/${kdwowner}`} className="">
+      <Link to={`/main/storepage/${sid}`} className="">
         <button className='bg-green-700 text-white rounded-xl px-2'>Visit</button>
       </Link>
     </div>

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const StorePage = () => {
   const { storeID } = useParams();
   const [storeData, setStoreData] = useState(null);
+  const [storeAddress, setstoreAddress] = useState(null);
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
   const kdwconnect = sessionStorage.getItem('kdwconnect');
@@ -16,14 +17,18 @@ const StorePage = () => {
   useEffect(() => {
     const fetchStoreData = async () => {
       const database = configFirebaseDB();
-      const storeRef = ref(database, `kadiwa_users_account/${storeID}`);
+      const storeRef = ref(database, `store_information/${storeID}`);
+      const storeaddRef = ref(database, `store_address_information/${storeID}`);
 
       try {
         const storeSnapshot = await get(storeRef);
+        const storeaddSnapshot = await get(storeaddRef);
 
-        if (storeSnapshot.exists()) {
+        if (storeSnapshot.exists() && storeaddSnapshot.exists()) {
           const storeInfo = storeSnapshot.val();
+          const storeaddInfo = storeaddSnapshot.val();
           setStoreData(storeInfo);
+          setstoreAddress(storeaddInfo);
           setSelectedCommodity("All Commodities"); // Set a default value or adjust as needed
         } else {
           console.error(`Store with ID ${storeID} not found`);
@@ -51,10 +56,9 @@ const StorePage = () => {
     return <div>Loading...</div>;
   }
 
-  // Extract storeContact from the storeData
-  const storeContact = storeData.contact;
+
   
-    if (!storeContact) {
+    if (!storeData.id) {
       console.error('Cannot fetch and filter products: storeData.contact is null');
       return;
     }
@@ -69,7 +73,7 @@ const StorePage = () => {
         const filteredProducts = Object.values(productsData)
           .filter((product) => {
             // Check if the product ID contains storeContact
-            return product.id.includes(storeContact) && (commodityType === 'All Commodities' || product.commodity_type === commodityType);
+            return product.id.includes(storeData.id) && (commodityType === 'All Commodities' || product.commodity_type === commodityType);
           });
   
         setProducts(filteredProducts);
@@ -88,10 +92,10 @@ const StorePage = () => {
     <div className="h-screen bg-gray-100 pt-1 ">
     <div className=' justify-between flex p-4 rounded-md bg-white shadow-md m-4'>
       <div>
-        <h1 className='text-gray-700 font-bold text-lg'>{storeData.storeName}</h1>
-        <p className='text-gray-500 text-sm'>{storeData.city + ', ' + storeData.province}</p>
-        <p className='text-gray-500 text-sm'>Store Type: {storeData.storeType}</p>
-        <p className='text-gray-500 text-sm'>{storeData.usertype}</p>
+        <h1 className='text-gray-700 font-bold text-lg'>{storeData.name}</h1>
+        <p className='text-gray-500 text-sm'>{storeAddress.city + ', ' + storeAddress.province}</p>
+        <p className='text-gray-500 text-sm'>Store Type: {storeData.type}</p>
+        <p className='text-gray-500 text-sm'>Partner</p>
       </div>
       <Link to={`/route/chatpage/${storeID}`} className="text-green-600">
         <button><ChatIcon className='text-green-600'/></button>

@@ -8,8 +8,8 @@ const Reviews = ({ productCode }) => {
   const [reviews, setReviews] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const kdwowner = productCode.split('-')[0];
-  const productno = productCode.split('-')[1];
+  const kdwowner = productCode.split('-')[0]+'-'+productCode.split('-')[1];
+  const productno = productCode.split('-')[2];
   useEffect(() => {
     const fetchData = async () => {
       // Fetch product reviews
@@ -19,7 +19,7 @@ const Reviews = ({ productCode }) => {
       setReviews(reviewsData);
 
       // Fetch user info based on contact
-      const usersRef = ref(configFirebaseDB, 'kadiwa_users_account');
+      const usersRef = ref(configFirebaseDB, 'store_information');
       const usersSnapshot = await get(child(usersRef, kdwowner));
       const userData = usersSnapshot.val();
       setUserInfo(userData);

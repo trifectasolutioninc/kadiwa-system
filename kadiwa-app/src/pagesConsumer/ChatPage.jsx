@@ -10,17 +10,19 @@ const ChatPage = () => {
   const [newMessage, setNewMessage] = useState('');
   const [storeName, setStoreName] = useState('');
   const [userDetails, setUserDetails] = useState(null);
-  const [ownerNo, setownerNo] = useState('');
+  const [ownerID, setownerID] = useState('');
   const kdwconnect = sessionStorage.getItem('kdwconnect');
+  const uid = sessionStorage.getItem('uid');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const snapshot = await get(child(ref(firebaseDB), 'kadiwa_users_account/' + storeID));
+        const snapshot = await get(child(ref(firebaseDB), 'store_information/' + storeID));
         const userData = snapshot.val();
 
-        if (userData && userData.storeName) {
-          setStoreName(userData.storeName);
-          setownerNo(userData.contact);
+        if (userData && userData.name) {
+          setStoreName(userData.name);
+          setownerID(userData.id);
         }
       } catch (error) {
         console.error('Error fetching store data:', error);
@@ -33,11 +35,11 @@ const ChatPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const snapshot = await get(ref(firebaseDB, 'kadiwa_users_account'));
+        const snapshot = await get(ref(firebaseDB, 'users_information'));
         const userData = snapshot.val();
 
-        if (userData && userData[kdwconnect]) {
-          setUserDetails(userData[kdwconnect]);
+        if (userData && userData[uid]) {
+          setUserDetails(userData[uid]);
         } else {
           console.error('User not found');
         }
@@ -46,14 +48,14 @@ const ChatPage = () => {
       }
     };
 
-    if (kdwconnect) {
+    if (uid) {
       fetchData();
     }
-  }, [kdwconnect]);
+  }, [uid]);
 
 
   useEffect(() => {
-    const chatId = `${storeID}-${storeName}`;
+    const chatId = `${uid}_${storeID}`;
     const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
 
     const handleNewMessage = (snapshot) => {
@@ -94,7 +96,7 @@ const generateUniqueId = () => {
 
 const sendChatMessage = async (message) => {
   try {
-    const chatId = `${storeID}-${storeName}`;
+    const chatId = `${uid}_${storeID}`;
     const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
 
     const timestamp = generateUniqueId(); // Use timestamp-based unique ID
@@ -116,9 +118,9 @@ const sendChatMessage = async (message) => {
 
     const chatData = {
       storeName: storeName,
-      storeOwner: ownerNo,
-      consumer: kdwconnect,
-      consumerName: userDetails.fullname,
+      storeOwner: ownerID,
+      consumer: uid,
+      consumerName: userDetails.first_name + " " + userDetails.last_name ,
       Chat: {
         ...existingChat?.Chat, // Keep existing messages
         [timestamp]: newMessage, // Add the new message
@@ -149,7 +151,7 @@ const handleSendMessage = () => {
 };
 
 const formatDate = (timestamp) => {
-  console.log("Raw Timestamp:", timestamp);
+  
   if (!timestamp) {
     return ''; // Handle the case where timestamp is undefined or null
   }

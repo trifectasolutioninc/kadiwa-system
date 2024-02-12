@@ -1,14 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
+import { ref, child, get, push, set, onValue , off} from 'firebase/database';
+import firebaseDB from '../Configuration/config-firebase2';
 
 const Checkout = () => {
   const location = useLocation();
   const selectedItems = location.state.selectedItems;
+  const storeNames = location.state.storeNames;
   const [paymentOption, setPaymentOption] = useState('Cash');
+  const [storeReceiptGenerator, setStoreReceiptGenerator] = useState(null);
+  const uid = sessionStorage.getItem('uid');
 
+  useEffect(() => {
+    const fetchStoreReceiptGenerator = async () => {
+      try {
+        const snapshot = await get(ref(firebaseDB, 'store_receipt_generator'));
+        if (snapshot.exists()) {
+          setStoreReceiptGenerator(snapshot.val());
+          console.log('storeReceiptGenerator fetched successfully:', snapshot.val());
+        } else {
+          console.error('store_receipt_generator data not found in Firebase.');
+        }
+      } catch (error) {
+        console.error('Error fetching store_receipt_generator data from Firebase:', error);
+      }
+    };
+  
+    fetchStoreReceiptGenerator();
+  }, []);
+  
   // Group items by store key
   const groupedItems = selectedItems.reduce((acc, item) => {
     if (!acc[item.storeKey]) {
@@ -66,6 +89,94 @@ const Checkout = () => {
   // Calculate total payment
   const totalPayment = merchandiseSubtotal + shippingSubtotal;
 
+  const placeOrder = () => {
+    if (!storeReceiptGenerator) {
+      console.error('storeReceiptGenerator is not fetched yet.');
+      return;
+    }
+  
+    Object.entries(groupedItems).forEach(([storeKey, items]) => {
+      // Check if storeReceiptGenerator has data for the current storeKey
+      if (!storeReceiptGenerator[storeKey.split('_')[1]]) {
+        console.error(`storeReceiptGenerator data not found for storeKey: ${storeKey}`);
+        return;
+      }
+  
+      // Get store receipt generator data for the current storeKey
+      const storeReceiptGeneratorData = storeReceiptGenerator[storeKey.split('_')[1]];
+      if (!storeReceiptGeneratorData || typeof storeReceiptGeneratorData !== 'object') {
+        console.error(`Invalid storeReceiptGenerator data for storeKey: ${storeKey.split('_')[1]}`);
+        return;
+      }
+  
+      const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      let perDayCount = storeReceiptGeneratorData.per_day_count;
+      let receiptTotal = storeReceiptGeneratorData.receipt_total;
+      let latestDate = storeReceiptGeneratorData.latest_date;
+      let receiptId;
+  
+      // Check if it's the same day as the latest date
+      if (latestDate === currentDate) {
+        perDayCount += 1; // Increment per day count
+      } else {
+        perDayCount = 1; // Reset per day count
+        latestDate = currentDate; // Update latest date
+      }
+  
+      // Construct receipt ID using storeKey, current date, and per day count
+      receiptId = `${storeKey.split('_')[1]}-${currentDate}-${perDayCount}`;
+  
+      // Update store receipt generator data
+      storeReceiptGenerator[storeKey.split('_')[1]] = {
+        ...storeReceiptGeneratorData,
+        per_day_count: perDayCount,
+        latest_date: latestDate
+      };
+  
+      // Update receipt total (if needed)
+      receiptTotal += 1; // Increment receipt total
+  
+      // Get a reference to the 'orders_list' node for the specific store in the Firebase database
+      const storeOrdersRef = ref(firebaseDB, `orders_list/${receiptId}`);
+  
+      const orderData = {
+        store_id: storeKey,
+        items: items,
+        shippingOption: shippingOptions[storeKey],
+        paymentOption: paymentOption,
+        totalPayment: calculateTotalPriceWithShipping(items, shippingOptions[storeKey]),
+        status: "Pending",
+        consumer: uid,
+        receiptId: receiptId
+      };
+  
+      // Set the order data to Firebase with the receiptId as the key
+      set(storeOrdersRef, orderData)
+        .then(() => {
+          console.log(`Order for store ${storeKey} placed successfully!`);
+        })
+        .catch(error => {
+          console.error(`Error placing order for store ${storeKey}:`, error);
+        });
+  
+      // Update store receipt generator data in the Firebase database
+      set(ref(firebaseDB, `store_receipt_generator/${storeKey.split('_')[1]}`), {
+        ...storeReceiptGeneratorData,
+        per_day_count: perDayCount,
+        latest_date: latestDate,
+        receipt_total: receiptTotal
+      })
+        .then(() => {
+          console.log(`Store receipt generator data updated for store ${storeKey.split('_')[1]}`);
+        })
+        .catch(error => {
+          console.error(`Error updating store receipt generator data for store ${storeKey.split('_')[1]}:`, error);
+        });
+    });
+  };
+  
+  
+
   return (
     <div className="container mx-auto bg-gray-200 h-screen">
       <div className='h-auto '>
@@ -85,7 +196,7 @@ const Checkout = () => {
         
         {Object.entries(groupedItems).map(([storeKey, items]) => (
           <div key={storeKey} className="mb-4 shadow-lg bg-gray-100 rounded-md m-1">
-            <h2 className="px-4 text-sm font-bold mb-4 text-green-600 py-2 flex items-center"><FaStore fontSize={"12px"} />{storeKey.split('-')[1]}</h2>
+            <h2 className="px-4 text-sm font-bold mb-4 text-green-600 py-2 flex items-center"><FaStore fontSize={"12px"} />{storeNames[storeKey]}</h2> {/* Updated line to display store name */}
             <div className="bg-white rounded shadow-md">
               <ul>
                 {items.map((item, index) => (
@@ -159,9 +270,9 @@ const Checkout = () => {
             <p className='text-green-700 font-bold '> ₱{totalPayment.toFixed(2)}</p>
 
           </div>
-          <button className='bg-red-500 text-white px-4'>
-            Place Order
-          </button>
+          <button className='bg-red-500 text-white px-4' onClick={placeOrder}>
+          Place Order
+        </button>
 
         </div>
         <div className='p-36'>

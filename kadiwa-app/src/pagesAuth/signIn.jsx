@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useHistory } from 'react-router-dom';
-import configFirebaseDB from '../Configuration/config'
+import { NavLink, useNavigate } from 'react-router-dom';
+import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import { imageConfig } from '../Configuration/config-file';
-
 
 const pageStyle = {
   backgroundColor: '#20802F',
@@ -15,41 +14,52 @@ const pageStyle = {
 };
 
 const SignInPages = () => {
-    const [contact, setContact] = useState('');
-    const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSignIn = async (event) => {
+    event.preventDefault();
   
-    const handleSignIn = async (event) => {
-      event.preventDefault();
+    try {
+      const db = configFirebaseDB();
+      const usersRef = ref(db, 'authentication');
+      const snapshot = await get(usersRef);
   
-      try {
-        const db = configFirebaseDB();
-        const usersRef = ref(db, 'kadiwa_users_account');
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
   
-        // Retrieve user data based on the provided contact number
-        const snapshot = await get(child(usersRef, contact));
-  
-        if (snapshot.exists()) {
-          const userData = snapshot.val();
-  
-          // Check if the provided password matches the stored password
-          if (userData.password === password) {
+          // Check if the provided username/email/contact matches the stored data
+          if (
+            (userData.username === username ||
+              userData.contact === username ||
+              userData.email === username) &&
+            userData.password === password
+          ) {
             // Handle successful login
-            sessionStorage.setItem('kdwconnect', contact);
+            sessionStorage.setItem('kdwconnect', userData.contact);
+            sessionStorage.setItem('uid', userData.id);
+            sessionStorage.setItem('sid', userData.store_id);
             console.log('Successfully logged in', userData);
   
-            // Open another page (replace "/main" with the desired URL)
-            window.location.href = '/main';
-          } else {
-            console.error('Incorrect password');
+            // Redirect to '/main'
+            navigate('/main');
           }
-        } else {
-          console.error('User not found');
-        }
-      } catch (error) {
-        // Handle login error
-        console.error('Error logging in:', error.message);
+        });
+  
+        // If no user with provided credentials is found
+        console.error('User not found or incorrect credentials');
+      } else {
+        console.error('No users found');
       }
-    };
+    } catch (error) {
+      // Handle login error
+      console.error('Error logging in:', error.message);
+    }
+  };
+  
+
 
   return (
     <div style={pageStyle}>
@@ -68,16 +78,16 @@ const SignInPages = () => {
         <form id="loginForm" className="space-y-4" onSubmit={handleSignIn}>
           <div className="space-y-2 text-left">
             <label htmlFor="contact" className="text-sm text-white">
-              Contact
+              Username/Email/Contact
             </label>
             <input
               type="tel"
               id="contact"
               name="contact"
-              placeholder="Contact"
+              placeholder="Username"
               className="w-full p-2 border rounded-md"
-              value={contact}
-              onChange={(e) => setContact(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 

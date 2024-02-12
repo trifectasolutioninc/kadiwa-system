@@ -12,7 +12,7 @@ const StoreConsumer = () => {
   useEffect(() => {
     const fetchStores = async () => {
       const database = configFirebaseDB();
-      const storeRef = ref(database, 'kadiwa_users_account');
+      const storeRef = ref(database, 'store_information');
 
       try {
         const storeSnapshot = await get(storeRef);
@@ -64,18 +64,18 @@ const StoreConsumer = () => {
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1">
           {storeList.map((store) => (
             // Conditionally render the container only for stores with 'usertype' as 'Partner'
-            store.usertype === 'Partner' && (
-              <div key={store.id} className="bg-white p-4 rounded-lg shadow-md flex m-2 items-center grid grid-cols-10">
+            store.status === 'open' && (
+              <div key={store.id} className="bg-white p-4 rounded-lg shadow-md m-2 items-center grid grid-cols-10">
                    {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                   <div className='col-span-9 text-left'>
                  
-                    <p className=" font-semibold">{store.storeName}</p>
-                    <p className="text-xs text-gray-500">{store.storeType}</p>
+                    <p className=" font-semibold">{store.name}</p>
+                    <p className="text-xs text-gray-500">{store.type}</p>
                     <p className="text-xs text-gray-500">Partner</p>
 
                   </div>
                   <div className='col-span-1 flex justify-end '>
-                  <Link to={`/main/storepage/${store.contact}`} className='text-center rounded-md bg-green-700 text-white px-4'>Visit</Link>
+                  <Link to={`/main/storepage/${store.id}`} className='text-center rounded-md bg-green-700 text-white px-4'>Visit</Link>
                   </div>
             
               </div>
