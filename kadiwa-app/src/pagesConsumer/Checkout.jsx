@@ -95,6 +95,10 @@ const Checkout = () => {
       return;
     }
   
+    const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const currentDate2 = new Date().toISOString().slice(0, 10).replace(/-/g, '/');
+
+  
     Object.entries(groupedItems).forEach(([storeKey, items]) => {
       // Check if storeReceiptGenerator has data for the current storeKey
       if (!storeReceiptGenerator[storeKey.split('_')[1]]) {
@@ -109,7 +113,6 @@ const Checkout = () => {
         return;
       }
   
-      const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
       let perDayCount = storeReceiptGeneratorData.per_day_count;
       let receiptTotal = storeReceiptGeneratorData.receipt_total;
       let latestDate = storeReceiptGeneratorData.latest_date;
@@ -140,14 +143,15 @@ const Checkout = () => {
       const storeOrdersRef = ref(firebaseDB, `orders_list/${receiptId}`);
   
       const orderData = {
-        store_id: storeKey,
+        store_id: storeKey.split('_')[1],
         items: items,
         shippingOption: shippingOptions[storeKey],
         paymentOption: paymentOption,
         totalPayment: calculateTotalPriceWithShipping(items, shippingOptions[storeKey]),
         status: "Pending",
         consumer: uid,
-        receiptId: receiptId
+        receiptId: receiptId,
+        date: currentDate2 // Include current date in orderData
       };
   
       // Set the order data to Firebase with the receiptId as the key
