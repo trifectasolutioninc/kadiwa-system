@@ -149,10 +149,12 @@ const Checkout = () => {
         shippingOption: shippingOptions[storeKey],
         paymentOption: paymentOption,
         totalPayment: calculateTotalPriceWithShipping(items, shippingOptions[storeKey]),
+        subtotalrevenue: calculateTotalPrice(items),
         status: "Pending",
         consumer: uid,
         receiptId: receiptId,
-        date: currentDate2 // Include current date in orderData
+        date: currentDate2,// Include current date in orderData
+        date_received: "N/A"
       };
   
       // Set the order data to Firebase with the receiptId as the key
