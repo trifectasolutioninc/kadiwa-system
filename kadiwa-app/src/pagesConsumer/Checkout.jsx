@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { FaLocationDot } from "react-icons/fa6";
+import { FaStore } from "react-icons/fa";
 
 const Checkout = () => {
   const location = useLocation();
@@ -65,11 +68,24 @@ const Checkout = () => {
 
   return (
     <div className="container mx-auto bg-gray-200 h-screen">
-      <div className='h-auto'>
-        <h1 className="text-3xl font-bold pt-4 mb-8 text-center">Checkout</h1>
+      <div className='h-auto '>
+        <div className='flex pt-4 mb-8 items-center space-x-2'>
+        <div className='px-4'>
+        <IoMdArrowRoundBack />
+          </div>
+        <h1 className="text-lg font-bold  text-green-700">Checkout</h1>
+
+        </div>
+        <div className=' px-4 bg-white py-2 mb-4 text-sm'>
+          <p className='flex items-center font-bold text-gray-700'><FaLocationDot fontSize={"12px"}/>  Delivery Address</p>
+          <p>Juan Dela Cruz | (+63) 900 000 0001</p>
+          <p>Juan Street</p>
+          <p>Coloong 1, Valenzuela, Metro Manila, 1445 </p>
+        </div>
+        
         {Object.entries(groupedItems).map(([storeKey, items]) => (
           <div key={storeKey} className="mb-4 shadow-lg bg-gray-100 rounded-md m-1">
-            <h2 className="px-4 text-sm font-bold mb-4 text-green-600 py-2">{storeKey.split('-')[1]}</h2>
+            <h2 className="px-4 text-sm font-bold mb-4 text-green-600 py-2 flex items-center"><FaStore fontSize={"12px"} />{storeKey.split('-')[1]}</h2>
             <div className="bg-white rounded shadow-md">
               <ul>
                 {items.map((item, index) => (
