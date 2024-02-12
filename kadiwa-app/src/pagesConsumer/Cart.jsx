@@ -62,6 +62,26 @@ const Cart = () => {
     return totalQuantity;
   };
 
+  const getTotalPrice = (cartData, selectedItems) => {
+    let totalPrice = 0;
+
+    if (cartData && selectedItems) {
+      for (const storeKey in selectedItems) {
+        const store = selectedItems[storeKey];
+        if (store) {
+          for (const productId in store) {
+            if (store[productId]) {
+              totalPrice += cartData[storeKey]?.CartList[productId]?.price || 0;
+            }
+          }
+        }
+      }
+    }
+
+    return totalPrice.toFixed(2);
+  };
+
+
   const handleStoreCheckboxChange = (storeKey) => {
     setIsStoreChecked((prev) => {
       const newState = !prev[storeKey];
@@ -213,7 +233,7 @@ const Cart = () => {
           </div>
           <div>
             <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
-              <p className='font-bold text-white'>Total: 0</p>
+              <p className='font-bold text-white'>Total:  {getTotalPrice(cartData, selectedItems)}</p>
               <div className='bg-white px-4 rounded-md text-green-700'>
                 <p >CHECKOUT</p>
 
@@ -237,7 +257,7 @@ const Cart = () => {
             </div>
             <div>
               <div className='m-4 bg-green-600 p-2 rounded-md '>
-                <p className='font-bold text-white'>Total: 0</p>
+         
                 <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
                   <p className='font-bold text-white'>Total: 0</p>
                   <div className='bg-white px-4 rounded-md text-green-700'>
