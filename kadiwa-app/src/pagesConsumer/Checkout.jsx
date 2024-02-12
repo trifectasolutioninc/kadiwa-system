@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
@@ -7,6 +7,7 @@ import { ref, child, get, push, set, onValue , off} from 'firebase/database';
 import firebaseDB from '../Configuration/config-firebase2';
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const selectedItems = location.state.selectedItems;
   const storeNames = location.state.storeNames;
@@ -158,6 +159,7 @@ const Checkout = () => {
       set(storeOrdersRef, orderData)
         .then(() => {
           console.log(`Order for store ${storeKey} placed successfully!`);
+          navigate('/main/cart');
         })
         .catch(error => {
           console.error(`Error placing order for store ${storeKey}:`, error);
@@ -177,6 +179,8 @@ const Checkout = () => {
           console.error(`Error updating store receipt generator data for store ${storeKey.split('_')[1]}:`, error);
         });
     });
+
+
   };
   
   
