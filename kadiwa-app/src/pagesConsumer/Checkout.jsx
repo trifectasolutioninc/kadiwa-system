@@ -152,6 +152,7 @@ const Checkout = () => {
         subtotalrevenue: calculateTotalPrice(items),
         status: "Pending",
         consumer: uid,
+        shippingOption_price: calculateShippingCost(shippingOptions[storeKey]),
         receiptId: receiptId,
         date: currentDate2,// Include current date in orderData
         date_received: "N/A"
