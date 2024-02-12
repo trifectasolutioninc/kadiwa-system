@@ -9,6 +9,7 @@ import PickupPage from '../pagesConsumer/Pickup';
 import StoreProductDetails from '../pagesConsumer/StoreProductPageInfo';
 import InboxPage from '../pagesPartner/InboxPage';
 import Payment from '../pagesPartner/Payment';
+import Checkout from '../pagesConsumer/Checkout';
 
 const RouteLink  = () => {
 
@@ -34,6 +35,7 @@ const RouteLink  = () => {
         <Route path="product/:productCode" element={<StoreProductDetails />} />
         <Route path="inboxpage/:storeID/:consumerName"  element={<InboxPage />} />
         <Route path="payment/:userId/:receiptNo"  element={<Payment />} />
+        <Route path="checkout"  element={<Checkout />} />
       </Routes>
     </div>
   );

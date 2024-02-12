@@ -3,7 +3,7 @@ import CartItem from './CartItem'; // Import your CartItem component here
 import { imageConfig, commodityTypes } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, get, remove, update } from 'firebase/database';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 
 
 const Cart = () => {
@@ -11,7 +11,7 @@ const Cart = () => {
   const [cartData, setCartData] = useState(null);
   const [isStoreChecked, setIsStoreChecked] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCartData = async () => {
       const database = configFirebaseDB();
@@ -182,6 +182,28 @@ const Cart = () => {
     }
   };
 
+  const handleCheckout = () => {
+    const selectedItemsArray = [];
+
+    for (const storeKey in selectedItems) {
+      for (const productId in selectedItems[storeKey]) {
+        if (selectedItems[storeKey][productId]) {
+          selectedItemsArray.push({
+            storeKey,
+            productId,
+            productInfo: cartData?.[storeKey]?.CartList?.[productId]
+          });
+        }
+      }
+    }
+
+    console.log("Selected Items Array:", selectedItemsArray); // Check if data is being prepared correctly
+
+    navigate('/route/checkout', { state: { selectedItems: selectedItemsArray } });
+  };
+  
+
+
 
   return (
     <div className="h-screen bg-gray-100">
@@ -234,10 +256,10 @@ const Cart = () => {
           <div>
             <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
               <p className='font-bold text-white'>Total:  {getTotalPrice(cartData, selectedItems)}</p>
-              <div className='bg-white px-4 rounded-md text-green-700'>
+              <button className='bg-white px-4 rounded-md text-green-700' onClick={handleCheckout}>
                 <p >CHECKOUT</p>
 
-              </div>
+              </button>
 
             </div>
 
