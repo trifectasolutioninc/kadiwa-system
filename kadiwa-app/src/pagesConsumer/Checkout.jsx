@@ -98,6 +98,24 @@ const Checkout = () => {
   
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const currentDate2 = new Date().toISOString().slice(0, 10).replace(/-/g, '/');
+    const generateTransactionCode = () => {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding leading zero if needed
+      const day = String(currentDate.getDate()).padStart(2, '0'); // Adding leading zero if needed
+      const hours = String(currentDate.getHours()).padStart(2, '0'); // Adding leading zero if needed
+      const minutes = String(currentDate.getMinutes()).padStart(2, '0'); // Adding leading zero if needed
+      const seconds = String(currentDate.getSeconds()).padStart(2, '0'); // Adding leading zero if needed
+    
+      // Generate random characters
+      const randomChars = [...Array(10)].map(() => Math.random().toString(36)[2]).join('');
+    
+      // Concatenate all parts to form the transaction code
+      const transactionCode = `${year}${month}${day}${hours}${minutes}${seconds}-${randomChars}`;
+      
+      return transactionCode;
+    };
+    
 
   
     Object.entries(groupedItems).forEach(([storeKey, items]) => {
@@ -155,7 +173,8 @@ const Checkout = () => {
         shippingOption_price: calculateShippingCost(shippingOptions[storeKey]),
         receiptId: receiptId,
         date: currentDate2,// Include current date in orderData
-        date_received: "N/A"
+        date_received: "N/A",
+        transaction_code: generateTransactionCode
       };
   
       // Set the order data to Firebase with the receiptId as the key
