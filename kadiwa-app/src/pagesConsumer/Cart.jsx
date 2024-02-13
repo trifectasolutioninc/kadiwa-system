@@ -240,9 +240,9 @@ const Cart = () => {
                         checked={isStoreChecked[storeKey] || false}
                         onChange={() => handleStoreCheckboxChange(storeKey)}
                       />
-                      <Link to={`/main/storepage/${storeKey.split('-')[0]}`} className="text-sm font-bold text-green-700">{storeInfo.storeName}</Link>
+                      <Link to={`/main/storepage/${storeKey.split('_')[1]}`} className="text-sm font-bold text-green-700">{storeInfo.storeName}</Link>
                     </div>
-                    <Link to={`/main/storepage/${storeKey.split('-')[0]}`} className="text-xs text-blue-400">Visit Store</Link>
+                    <Link to={`/main/storepage/${storeKey.split('_')[1]}`} className="text-xs text-blue-400">Visit Store</Link>
                   </div>
 
                   {/* Cart Items */}

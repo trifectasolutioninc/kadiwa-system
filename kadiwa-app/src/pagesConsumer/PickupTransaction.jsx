@@ -44,7 +44,7 @@ const PickupTransaction = () => {
   const [pickupOrders, setPickupOrders] = useState([]);
   const [showQRModal, setShowQRModal] = useState(false);
   const [pickupVerificationId, setPickupVerificationId] = useState('');
-  const kdwconnect = sessionStorage.getItem('kdwconnect');
+  const uid = sessionStorage.getItem('uid');
 
   const handleQRButtonClick = (pickupVerificationId) => {
     setShowQRModal(true);
@@ -59,13 +59,13 @@ const PickupTransaction = () => {
   useEffect(() => {
     const fetchPickupOrders = async () => {
       const database = configFirebaseDB();
-      const pickupOrdersRef = ref(database, 'pickup_orders');
+      const pickupOrdersRef = ref(database, 'orders_list');
       
       try {
         const snapshot = await get(pickupOrdersRef);
         if (snapshot.exists()) {
           const allPickupOrders = snapshot.val();
-          const filteredOrders = Object.values(allPickupOrders).filter(order => order.pickup_status === status);
+          const filteredOrders = Object.values(allPickupOrders).filter(order => order.status.toUpperCase() === status.toUpperCase());
           setPickupOrders(filteredOrders);
         } else {
           console.error('No pickup orders found.');
@@ -85,17 +85,17 @@ const PickupTransaction = () => {
           <h2 className='text-green-700 font-bold py-2'>{status.toUpperCase()} STATUS</h2>
           <ul>
             {pickupOrders.map(order => (
-              (kdwconnect === order.consumer && order.pickup_status === status) && (
-                <li key={order.pickup_verification} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
+              (uid === order.consumer && order.status.toUpperCase() === status.toUpperCase() && order.shippingOption === "Pickup" ) && (
+                <li key={order.transaction_code} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
                   <div className='col-span-6 '>
-                      <p className=' font-semibold text-xs '>{order.storename} </p>
+                      <p className=' font-semibold text-xs '>{order.store_id} </p>
                       <p className=' text-gray-400 text-xs  '>{order.date} </p>
                   </div>
-                  <p className=' text-red-500 text-xs col-span-2 '>{order.pickup_status.toUpperCase()} </p>
+                  <p className=' text-red-500 text-xs col-span-2 '>{order.status.toUpperCase()} </p>
                   {status === 'pending' && (
                     <button 
                       onClick={() =>
-                          handleQRButtonClick(order.pickup_verification)
+                          handleQRButtonClick(order.transaction_code)
                       }
                      className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
                   )}
