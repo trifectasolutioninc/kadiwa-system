@@ -5,21 +5,21 @@ import configFirebaseDB from '../Configuration/config-firebase2';
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
-  const { storeID, consumerName } = useParams();
+  const { storeID, consumerName, consumerID } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [storeName, setStoreName] = useState('');
   const [ownerNo, setownerNo] = useState('');
 
-  const kdwconnect = sessionStorage.getItem('kdwconnect');
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const snapshot = await get(child(ref(configFirebaseDB), 'kadiwa_users_account/' + storeID));
+        const snapshot = await get(child(ref(configFirebaseDB), 'authentication/' + storeID));
         const userData = snapshot.val();
 
-        if (userData && userData.storeName) {
-          setStoreName(userData.storeName);
+        if (userData) {
+          setStoreName(userData.first_name + userData.last_name );
           setownerNo(userData.contact);
         }
       } catch (error) {
@@ -32,7 +32,7 @@ const ChatPage = () => {
 
 
   useEffect(() => {
-    const chatId = `${storeID}-${storeName}`;
+    const chatId = `${consumerID}_${storeID}`;
     const chatRef = ref(configFirebaseDB, `chat_collections/${chatId}`);
 
     const handleNewMessage = (snapshot) => {

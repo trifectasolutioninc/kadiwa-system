@@ -4,7 +4,7 @@ import { ref, child, get, onValue, off } from 'firebase/database'; // Import Fir
 import configFirebaseDB from '../Configuration/config-firebase2';
 import { Link } from 'react-router-dom'; 
 
-const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
+const StoreCard = ({ id, name, consumer, logoAlt, chatMessages, date }) => {
 
   const formatDate = (timestamp) => {
     console.log("Raw Timestamp:", timestamp);
@@ -42,7 +42,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
   };
 
   return (
-    <Link to={`/route/inboxpage/${id.split('-')[0]}/${name}`} className="no-underline">
+    <Link to={`/route/inboxpage/${id.split('_')[1]}/${consumer}/${consumer}`} className="no-underline">
       <li className="relative bg-white p-4 rounded-lg shadow-md flex m-2 items-center">
           
         <div >
@@ -56,7 +56,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
 
 const Inbox = () => {
   const [chatData, setChatData] = useState([]);
-  const kdwconnect = sessionStorage.getItem('kdwconnect');
+  const sid = sessionStorage.getItem('sid');
   useEffect(() => {
     const fetchChatData = async () => {
       try {
@@ -68,21 +68,24 @@ const Inbox = () => {
             .map(([id, data]) => ({
               id,
               name: data.consumerName,
+              consumer_id: data.consumer,
               Chat: data.Chat,
               date: data.date,
               storeOwner: data.storeOwner, // Assuming storeOwner is a property in your data
             }))
-            .filter((store) => store.storeOwner === kdwconnect); // Filter based on the condition
+            .filter((store) => store.storeOwner === sid); // Filter based on the condition
 
           setChatData(chatDataArray);
         }
       } catch (error) {
+
         console.error('Error fetching chat data:', error);
+
       }
     };
 
     fetchChatData();
-  }, [kdwconnect]);
+  }, [sid]);
 
   return (
     <div className='bg-gray-100  h-screen'>
@@ -113,6 +116,7 @@ const Inbox = () => {
             <StoreCard
               key={store.id}
               id={store.id}
+              consumer={store.consumer_id}
               name={store.name}
               logoAlt={`Store ${store.id} Logo`}
               chatMessages={store.Chat}
