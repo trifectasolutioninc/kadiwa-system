@@ -272,6 +272,7 @@ const Checkout = () => {
             onChange={(e) => setPaymentOption(e.target.value)}
           >
             <option value="Cash">Cash</option>
+            <option value="Kadiwa Card">Kadiwa Card</option>
             <option value="Megapay">Megapay</option>
             <option value="Gcash">Gcash</option>
             <option value="Maya">Maya</option>
