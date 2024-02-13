@@ -73,7 +73,7 @@ const generateUniqueId = () => {
 
 const sendChatMessage = async (message) => {
   try {
-    const chatId = `${storeID}-${storeName}`;
+    const chatId = `${consumerID}_${storeID}`;
     const chatRef = ref(configFirebaseDB, `chat_collections/${chatId}`);
 
     const timestamp = generateUniqueId(); // Use timestamp-based unique ID

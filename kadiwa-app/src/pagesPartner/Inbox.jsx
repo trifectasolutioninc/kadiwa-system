@@ -42,7 +42,7 @@ const StoreCard = ({ id, name, consumer, logoAlt, chatMessages, date }) => {
   };
 
   return (
-    <Link to={`/route/inboxpage/${id.split('_')[1]}/${consumer}/${consumer}`} className="no-underline">
+    <Link to={`/route/inboxpage/${id.split('_')[1]}/${name}/${consumer}`} className="no-underline">
       <li className="relative bg-white p-4 rounded-lg shadow-md flex m-2 items-center">
           
         <div >
