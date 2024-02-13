@@ -9,18 +9,25 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [storeName, setStoreName] = useState('');
-  const [ownerNo, setownerNo] = useState('');
+  const [OwnerID, setOwnerID] = useState('');
+  const [ConsumerID, setConsumerID] = useState('');
+  const [ConsumerName, setConsumerName] = useState('');
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const snapshot = await get(child(ref(configFirebaseDB), 'authentication/' + storeID));
+        const snapshot = await get(child(ref(configFirebaseDB), 'store_information/' + storeID));
         const userData = snapshot.val();
 
-        if (userData) {
-          setStoreName(userData.first_name + userData.last_name );
-          setownerNo(userData.contact);
+        const snapshot2 = await get(child(ref(configFirebaseDB), 'users_information/' + consumerID));
+        const userData2 = snapshot2.val();
+
+        if (userData && userData2 ) {
+          setStoreName( userData.name );
+          setConsumerName( userData2.first_name + " " + userData2.last_name );
+          setOwnerID( userData.id );
+          setConsumerID( userData2.id );
         }
       } catch (error) {
         console.error('Error fetching store data:', error);
@@ -94,7 +101,9 @@ const sendChatMessage = async (message) => {
 
     const chatData = {
       storeName: storeName,
-      storeOwner: ownerNo,
+      storeOwner: OwnerID,
+      consumerName: consumerName,
+      consumer: consumerID,
       Chat: {
         ...existingChat?.Chat, // Keep existing messages
         [timestamp]: newMessage, // Add the new message
@@ -111,8 +120,7 @@ const sendChatMessage = async (message) => {
 };
 
 
-  
-  
+
   
   
 
