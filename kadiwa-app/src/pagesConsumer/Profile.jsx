@@ -31,14 +31,14 @@ const ProfileConsumer = () => {
         const userwalletSnapshot = await get(child(usersWalletRef, uid));
         const userstoreSnapshot = await get(child(usersStoreRef, sid));
 
-        if ((userSnapshot.exists() && userwalletSnapshot.exists()) && userstoreSnapshot.exists() ) {
+        if (userSnapshot.exists() && userwalletSnapshot.exists() && userstoreSnapshot.exists() ) {
           const userData = userSnapshot.val();
           const userWalletData = userwalletSnapshot.val();
           const userstoreData = userstoreSnapshot.val();
           setUserData(userData);
           setUserWalletData(userWalletData);
           setUserstoreData(userstoreData);
-          updateHTMLWithUserData(userData); // Call the function to update HTML
+          updateHTMLWithUserData(userData, userWalletData, userstoreData); // Call the function to update HTML
         } else {
           console.error('User not found');
         }
@@ -47,8 +47,8 @@ const ProfileConsumer = () => {
       }
     };
 
-    const updateHTMLWithUserData = (userData) => {
-      if (!userData) {
+    const updateHTMLWithUserData = (userData, userWalletData, userstoreData) => {
+      if ((!userData && !userstoreData) && !userWalletData) {
         return;
       }
     
@@ -95,13 +95,20 @@ const ProfileConsumer = () => {
         }
       }
     };
+
+    const fetchDataInterval = setInterval(() => {
+      fetchUserData();
+    }, 1000); // Fetch data every 5 seconds (adjust interval as needed)
+  
+    // Cleanup function to clear interval when component unmounts
+    return () => {
+      clearInterval(fetchDataInterval);
+    };
     
-    const interval = setInterval(fetchUserData, 5000); // Fetch data every minute
-    
-    fetchUserData(); // Fetch data initially
-    
-    return () => clearInterval(interval); // Clean up interval on component unmount
+
+   
   }, []);
+
   return (
     <div className="h-auto bg-gray-100">
       <div className="p-4 flex justify-between">
@@ -119,7 +126,7 @@ const ProfileConsumer = () => {
           <div className="ml-4 mt-2">
             {/* Display Name */}
             <h1 id="fullname" className="font-bold text-lg">
-              {userData.fullname}
+              {userData.first_name + " " + userData.last_name}
             </h1>
             {/* Display Contact */}
             <p id="contact" className="text-gray-600">
@@ -134,7 +141,7 @@ const ProfileConsumer = () => {
                 className="rounded-3xl p-1 text-xs text-gray-800"
                 style={{ backgroundColor: '#54FC6F' }}
               >
-                {userData.usertype}
+                {userData.type}
               </p>
             </div>
             <div className="ml-2 mt-4">
