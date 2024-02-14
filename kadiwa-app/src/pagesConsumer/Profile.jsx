@@ -10,6 +10,8 @@ import { FaBox } from "react-icons/fa";
 
 const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
+  const [userwalletData, setUserWalletData] = useState(null);
+  const [userstoreData, setUserstoreData] = useState(null);
 
   useEffect(() => {   
     const fetchUserData = async () => {
@@ -18,15 +20,24 @@ const ProfileConsumer = () => {
       }
 
       const database = configFirebaseDB();
-      const usersAccountRef = ref(database, 'kadiwa_users_account');
+      const usersAccountRef = ref(database, 'users_information');
+      const usersWalletRef = ref(database, 'user_wallet');
+      const usersStoreRef = ref(database, 'store_information');
 
       try {
-        const kdwconnect = sessionStorage.getItem('kdwconnect');
-        const userSnapshot = await get(child(usersAccountRef, kdwconnect));
+        const uid = sessionStorage.getItem('uid');
+        const sid = sessionStorage.getItem('sid');
+        const userSnapshot = await get(child(usersAccountRef, uid));
+        const userwalletSnapshot = await get(child(usersWalletRef, uid));
+        const userstoreSnapshot = await get(child(usersStoreRef, sid));
 
-        if (userSnapshot.exists()) {
+        if ((userSnapshot.exists() && userwalletSnapshot.exists()) && userstoreSnapshot.exists() ) {
           const userData = userSnapshot.val();
+          const userWalletData = userwalletSnapshot.val();
+          const userstoreData = userstoreSnapshot.val();
           setUserData(userData);
+          setUserWalletData(userWalletData);
+          setUserstoreData(userstoreData);
           updateHTMLWithUserData(userData); // Call the function to update HTML
         } else {
           console.error('User not found');
@@ -51,15 +62,15 @@ const ProfileConsumer = () => {
       const storeNameElement = document.getElementById('storeName');
     
       if (typeofuserElement) {
-        typeofuserElement.textContent = userData.usertype || 'No UserType';
+        typeofuserElement.textContent = userData.type || 'No UserType';
       }
 
       if (storeNameElement) {
-        storeNameElement.textContent = userData.storeName || 'No Store';
+        storeNameElement.textContent = userstoreData.name || 'No Store';
       }
     
       if (fullnameElement) {
-        fullnameElement.textContent = userData.fullname || 'No Name';
+        fullnameElement.textContent = userData.first_name + " " + userData.last_name || 'No Name';
       }
     
       if (contactElement) {
@@ -67,28 +78,30 @@ const ProfileConsumer = () => {
       }
     
       if (balanceElement) {
-        balanceElement.textContent = `PHP ${userData.balance.toFixed(2)}`;
+        balanceElement.textContent = `PHP ${userwalletData.balance}`;
       }
     
       if (ptsElement) {
-        ptsElement.textContent = `KDW ${userData.points.toFixed(2)}`;
+        ptsElement.textContent = `KDW ${userwalletData.points}`;
       }
     
       if (applyPartnerElement && storePartnerElement) {
-        if (userData.usertype === 'Consumer') {
+        if (userData.type === 'consumer') {
           applyPartnerElement.classList.remove('hidden');
           storePartnerElement.classList.add('hidden');
-        } else if (userData.usertype === 'Partner') {
+        } else if (userData.type === 'partner') {
           applyPartnerElement.classList.add('hidden');
           storePartnerElement.classList.remove('hidden');
         }
       }
     };
     
-
-    fetchUserData();
+    const interval = setInterval(fetchUserData, 5000); // Fetch data every minute
+    
+    fetchUserData(); // Fetch data initially
+    
+    return () => clearInterval(interval); // Clean up interval on component unmount
   }, []);
-
   return (
     <div className="h-auto bg-gray-100">
       <div className="p-4 flex justify-between">
@@ -154,22 +167,22 @@ const ProfileConsumer = () => {
         <div></div>
       </div>
 
-      {userData && (
+      {userwalletData && (
         <div className="p-4 flex justify-between bg-white m-4 rounded-md shadow-md">
           {/* Display PHP Amount */}
           <p id="balance" className="text-gray-600 font-semibold mr-2">
-            PHP {userData.balance.toFixed(2)}
+            PHP {userwalletData.balance}
           </p>
           {/* Plus Icon Circle */}
           <Add className="bg-green-500 text-white p-1 rounded-full" />
         </div>
       )}
 
-      {userData && (
+      {userwalletData && (
         <div className="p-4 flex justify-between bg-white m-4 rounded-md shadow-md">
           {/* Display PHP Amount */}
           <p id="points" className="text-gray-600 font-semibold mr-2">
-            KDW {userData.points.toFixed(2)}
+            KDW {userwalletData.points}
           </p>
           {/* Plus Icon Circle */}
           <Info className="bg-green-500 text-white p-1 rounded-full" />
@@ -235,6 +248,7 @@ const ProfileConsumer = () => {
           <p className="text-sm">Orders</p>
         </Link>
         {/* Icon with Name: Complete */}
+
         <Link to={'/main/pickup/complete'} className="text-center">
           <Done className="text-3xl text-gray-500 mb-2" />
           <p className="text-sm">Complete</p>
