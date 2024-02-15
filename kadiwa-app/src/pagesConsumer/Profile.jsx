@@ -31,7 +31,7 @@ const ProfileConsumer = () => {
         const userwalletSnapshot = await get(child(usersWalletRef, uid));
         const userstoreSnapshot = await get(child(usersStoreRef, sid));
 
-        if (userSnapshot.exists() && userwalletSnapshot.exists() && userstoreSnapshot.exists() ) {
+        if ((userSnapshot.exists() && userwalletSnapshot.exists()) || userstoreSnapshot.exists() ) {
           const userData = userSnapshot.val();
           const userWalletData = userwalletSnapshot.val();
           const userstoreData = userstoreSnapshot.val();

@@ -69,7 +69,7 @@ const QRCodeScanner = ({ onSave, onClose }) => {
 
 
 const Order = () => {
-    const kdwconnect = sessionStorage.getItem('kdwconnect');
+    const uid = sessionStorage.getItem('uid');
     const [userInfo, setuserInfo] = useState(null);
     const [storeID, setstoreID] = useState(null);
     const [pickupOrders, setPickupOrders] = useState([]);
@@ -79,17 +79,17 @@ const Order = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (kdwconnect) {
-                const userDatabaseRef = ref(firebaseDB, `kadiwa_users_account/${kdwconnect}`);
+            if (uid) {
+                const userDatabaseRef = ref(firebaseDB, `authentication/${uid}`);
 
 
                 try {
                     const userSnapshot = await get(userDatabaseRef);
                     const userData = userSnapshot.val();
                     setuserInfo(userData);
-                    console.log(userData.id);
-                    if (userData && userData.id) {
-                        setstoreID(userData.id);
+                    console.log(userData.store_id);
+                    if (userData && userData.store_id) {
+                        setstoreID(userData.store_id);
 
 
 
@@ -107,13 +107,13 @@ const Order = () => {
 
         const fetchPickupOrders = async () => {
 
-            const pickupOrdersRef = ref(firebaseDB, 'pickup_orders');
+            const pickupOrdersRef = ref(firebaseDB, 'orders_list');
 
             try {
                 const snapshot = await get(pickupOrdersRef);
                 if (snapshot.exists()) {
                     const allPickupOrders = snapshot.val();
-                    const filteredOrders = Object.values(allPickupOrders).filter(order => order.owner_id === storeID);
+                    const filteredOrders = Object.values(allPickupOrders).filter(order => order.store_id === storeID);
                     setPickupOrders(filteredOrders);
                 } else {
                     console.error('No pickup orders found.');
@@ -129,7 +129,7 @@ const Order = () => {
 
         fetchData();
 
-    }, [kdwconnect, storeID]);
+    }, [uid, storeID]);
 
 
     const openScannerModal = () => {
@@ -142,14 +142,14 @@ const Order = () => {
     
 
       const handleSaveScanResult = async (result) => {
-        const matchingOrder = pickupOrders.find(order => order.pickup_verification === result);
+        const matchingOrder = pickupOrders.find(order => order.transaction_code === result);
         setScannedResult(result);
         if (matchingOrder) {
             const updatedOrders = pickupOrders.map(order => {
-                if (order.pickup_verification === result) {
+                if (order.transaction_code === result) {
                     return {
                         ...order,
-                        pickup_status: 'complete',
+                        status: 'Complete',
                     };
                 } else {
                     return order;
@@ -160,7 +160,7 @@ const Order = () => {
             setPickupOrders(updatedOrders);
     
             // Update the order status in Firebase Realtime Database
-            const pickupOrdersRef = ref(firebaseDB, 'pickup_orders');
+            const pickupOrdersRef = ref(firebaseDB, 'orders_list');
             try {
                 await set(pickupOrdersRef, updatedOrders);
                 console.log('Order status updated successfully in Firebase.');
@@ -190,13 +190,13 @@ const Order = () => {
                     <h2 className='text-green-700 font-bold py-2'> ORDERS</h2>
                     <ul>
                         {pickupOrders.map(order => (
-                            (storeID === order.owner_id) && (
-                                <li key={order.pickup_verification} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
+                            (storeID === order.store_id) && (
+                                <li key={order.transaction_code} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
                                     <div className='col-span-6 '>
-                                        <p className=' font-semibold text-xs '>{order.storename} </p>
+                                        <p className=' font-semibold text-xs '>{order.store_id} </p>
                                         <p className=' text-gray-400 text-xs  '>{order.date} </p>
                                     </div>
-                                    <p className=' text-red-500 text-xs col-span-2 '>{order.pickup_status.toUpperCase()} </p>
+                                    <p className=' text-red-500 text-xs col-span-2 '>{order.status.toUpperCase()} </p>
 
                                     <button
                                         onClick={openScannerModal}
