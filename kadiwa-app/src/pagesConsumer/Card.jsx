@@ -9,9 +9,9 @@ const Card = () => {
 
     useEffect(() => {
       const fetchUserData = async () => {
-        const kdwconnect = sessionStorage.getItem('kdwconnect');
+        const uid = sessionStorage.getItem('uid');
         const database = configFirebaseDB();
-        const userRef = ref(database, `kadiwa_users_account/${kdwconnect}`);
+        const userRef = ref(database, `users_information/${uid}`);
   
         try {
           const userSnapshot = await get(userRef);
@@ -30,7 +30,7 @@ const Card = () => {
   
       const updateHTMLWithUserData = (userData) => {
         document.getElementById('cardid').innerText = userData.id.replace(/-/g, ' ');
-        document.getElementById('cardowner').innerText = userData.fullname;
+        document.getElementById('cardowner').innerText = userData.first_name + " " + userData.last_name;
       
         const qrCodeCanvas = document.getElementById('qrCodeCanvas');
       
@@ -63,7 +63,7 @@ const Card = () => {
       
               {/* Card Details */}
               <div className="text-white">
-                <p id="cardid" className="text-2xl font-semibold mb-2">.... .... .... ....</p>
+                <p id="cardid" className="text-lg font-semibold mb-2">.... .... .... ....</p>
               </div>
       
               <div className="flex justify-between">
