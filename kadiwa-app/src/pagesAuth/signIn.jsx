@@ -81,7 +81,7 @@ const SignInPages = () => {
               Username/Email/Contact
             </label>
             <input
-              type="tel"
+              type="text"
               id="contact"
               name="contact"
               placeholder="Username"
