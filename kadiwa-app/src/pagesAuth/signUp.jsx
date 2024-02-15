@@ -12,6 +12,7 @@ import {
   cities,
   barangays,
 } from 'select-philippines-address';
+import { Wallet } from '@mui/icons-material';
 
 
 // Function to check if a value is blank
@@ -178,30 +179,71 @@ console.log("Confirm Password:", consumerFormData.confirmPassword);
     alert("Passwords do not match.");
     return;
   }
-  const userRef = ref(db, 'kadiwa_users_account/' + consumerFormData.contact);
+
+  const userID = generateUniqueID();
+
+  const userRef = ref(db, 'users_information/' + userID);
   const user = {
-    id: generateUniqueID(),
-    balance: 0,
+    id: userID,
     points: 0,
-    usertype: "Consumer",
-    info_status: "Not Complete",
-    store_status: "No Store",
-    birthday: "",
-    gender: "",
-    storeName: "",
-    storeType: "",
-    region: "",
-    province: "",
-    city: "",
-    barangay: "",
-    landmark: "",
-    fullname: "",
+    type: "consumer",
+    bday: "N/A",
+    email: "N/A",
+    gender: "N/A",
+    first_name: "",
+    last_name: "",
+    middle_name: "",
+    suffix: "",
+    contact: consumerFormData.contact
+   
+  };
+
+  const authRef = ref(db, 'authentication/' + userID);
+  const authData = {
+    id: userID,
+    email: "N/A",
+    username: "N/A",
+    store_id: "None",
     contact: consumerFormData.contact,
     password: consumerFormData.password
   };
 
+  const walletRef = ref(db, 'user_wallet/' + userID);
+  const walletData = {
+    id: userID,
+    balance: 0,
+    points: 0,
+  };
+
+  const userAddressRef = ref(db, 'users_address/' + userID);
+  const userAddress = {
+    id: userID,
+    default: {
+        region: "",
+        province: "",
+        city: "",
+        barangay: "",
+        landmark: "",
+        fullname: "",
+        maplink: ""
+
+    }
+   
+  };
+
+  const storeRef = ref(db, 'store_information/' + 'None');
+  const storeData = {
+    id: "None",
+    name: "N/A"
+  };
+
+
   try {
     await set(userRef, user);
+    await set(storeRef, storeData);
+    await set(userAddressRef, userAddress);
+    await set(authRef, authData);
+    await set(walletRef, walletData);
  
     resetConsumerForm(); // Call function to reset consumer form
   } catch (error) {
@@ -223,16 +265,25 @@ const handlePartnerSubmit = async (e) => {
     alert("Passwords do not match.");
     return;
   }
-  const userRef = ref(db, 'kadiwa_users_account/' + partnerFormData.ownerContact);
+  const authRef = ref(db, 'authentiction/' + generateUniqueID());
+  const authdata = {
+    id: generateUniqueID(),
+    store_id: "None",
+    email: "N/A",
+    contact: partnerFormData.ownerContact,
+    password: partnerFormData.partnerPassword
+  };
+
+
+  const userRef = ref(db, 'users_information/' + generateUniqueID());
   const partner = {
     id: generateUniqueID(),
-    balance: 0,
     points: 0,
     usertype: "Partner",
     info_status: "Not Complete",
     store_status: "Not Accredited",
-    birthday: "",
-    gender: "",
+    birthday: "...",
+    gender: "...",
     storeName: partnerFormData.storeName,
     storeType: partnerFormData.storeType,
     region: partnerFormData.region,
@@ -244,6 +295,33 @@ const handlePartnerSubmit = async (e) => {
     contact: partnerFormData.ownerContact,
     password: partnerFormData.partnerPassword
   };
+
+  const useraddRef = ref(db, 'users_address/' + generateUniqueID());
+  const useradd = {
+    id: generateUniqueID(),
+
+    storeName: partnerFormData.storeName,
+    storeType: partnerFormData.storeType,
+    region: partnerFormData.region,
+    province: partnerFormData.province,
+    city: partnerFormData.city,
+    barangay: partnerFormData.barangay,
+    landmark: partnerFormData.landmark,
+    fullname: partnerFormData.ownerName,
+    contact: partnerFormData.ownerContact,
+    password: partnerFormData.partnerPassword
+  };
+
+
+  const storeRef = ref(db, 'users_address/' + 'N/A');
+  const store = {
+    id: generateUniqueID(),
+    name: partnerFormData.storeName,
+    storeType: partnerFormData.storeType
+    
+  };
+
+
 
   try {
     await set(userRef, partner);
