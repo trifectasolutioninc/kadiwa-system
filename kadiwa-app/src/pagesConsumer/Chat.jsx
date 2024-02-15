@@ -56,21 +56,20 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
 
 const Chat = () => {
   const [chatData, setChatData] = useState([]);
+  const uid = sessionStorage.getItem('uid');
 
   useEffect(() => {
     const fetchChatData = async () => {
       try {
-        // Replace 'yourApiCallToGetChatData' with your actual logic to fetch chat data
         const snapshot = await get(child(ref(configFirebaseDB), 'chat_collections'));
         const chatCollections = snapshot.val();
 
         if (chatCollections) {
-          // Convert the object into an array
           const chatDataArray = Object.entries(chatCollections).map(([id, data]) => ({
             id,
             name: data.storeName,
             Chat: data.Chat,
-            date: data.date, // Replace with your actual date property
+            date: data.date,
           }));
 
           setChatData(chatDataArray);
@@ -84,11 +83,8 @@ const Chat = () => {
   }, []);
 
   return (
-    <div className='bg-gray-100  h-screen'>
-     
-      {/* Top Navigation with Search and Notification */}
+    <div className='bg-gray-100 h-screen'>
       <div className="p-4 flex items-center justify-between bg-gray-100">
-        {/* Search Input */}
         <div className="flex-grow">
           <input
             type="text"
@@ -96,19 +92,15 @@ const Chat = () => {
             className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
           />
         </div>
-
-        {/* Notification Icon */}
         <div className="ml-4">
           <Notifications className="text-gray-700" />
         </div>
       </div>
       <h1 className='text-lg text-green-600 px-4 font-bold'>Messages </h1>
-      {/* Body Content */}
       <div className="container mx-auto mb-16">
-        {/* Store Chat List */}
         <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
-          {/* Map through chatData and render StoreCard for each chat */}
-          {chatData.map((store) => (
+          {/* Filter chatData based on uid and map through filtered data */}
+          {chatData.filter(store => uid === store.id.split('_')[1]).map((store) => (
             <StoreCard
               key={store.id}
               id={store.id}

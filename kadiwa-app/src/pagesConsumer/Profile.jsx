@@ -86,6 +86,7 @@ const ProfileConsumer = () => {
       }
     
       if (applyPartnerElement && storePartnerElement) {
+        console.log(userData.type);
         if (userData.type === 'consumer') {
           applyPartnerElement.classList.remove('hidden');
           storePartnerElement.classList.add('hidden');
