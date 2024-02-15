@@ -20,7 +20,7 @@ const InventoryProductList = () => {
     const fetchData = async () => {
       const db = firebaseDB();
       const inventoryRef = ref(db, 'product_inventory');
-      const kdwconnect = sessionStorage.getItem('kdwconnect');
+      const sid = sessionStorage.getItem('sid');
   
       try {
         const snapshot = await get(inventoryRef);
@@ -30,10 +30,10 @@ const InventoryProductList = () => {
   
           if (selectedCommodity === 'All Commodity') {
             // Filter data based on the condition "item.id starts with contact"
-            filteredData = Object.values(data).filter(item => item.id.includes(kdwconnect));
+            filteredData = Object.values(data).filter(item => item.id.includes(sid));
           } else {
             // Filter data based on the selected commodity and contact
-            filteredData = Object.values(data).filter(item => item.commodity_type === selectedCommodity && item.id.includes(kdwconnect));
+            filteredData = Object.values(data).filter(item => item.commodity_type === selectedCommodity && item.id.includes(sid));
           }
   
           setInventoryData(filteredData);

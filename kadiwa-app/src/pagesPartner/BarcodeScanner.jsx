@@ -48,8 +48,8 @@ const BarcodeScanner = () => {
   const handleAddButtonClick = () => {
     if (productInfo) {
       // Construct the unique key for the product entry
-      const kdwconnect = sessionStorage.getItem('kdwconnect');
-      const productKey = kdwconnect + '-' + productInfo.product_code;
+      const sid = sessionStorage.getItem('sid');
+      const productKey = sid + '-' + productInfo.product_code;
 
       const productInfoToAdd = {
         product_code: productInfo.product_code,
