@@ -181,7 +181,7 @@ console.log("Confirm Password:", consumerFormData.confirmPassword);
   }
 
   const userID = generateUniqueID();
-
+  console.log(userID);
   const userRef = ref(db, 'users_information/' + userID);
   const user = {
     id: userID,
