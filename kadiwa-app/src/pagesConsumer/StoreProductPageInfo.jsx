@@ -3,7 +3,7 @@ import { imageConfig } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
 import StarBorderIcon from '@mui/icons-material/StarBorder';

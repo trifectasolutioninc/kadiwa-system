@@ -22,14 +22,15 @@ const Orders = () => {
                 const ordersRef = ref(db, 'orders_list');
 
                 let filteredOrders = [];
-                if (tab === 'delivery') {
-                    const snapshot = await get(ordersRef);
-                    if (snapshot.exists()) {
-                        const ordersData = snapshot.val();
-                        // Filter orders based on the status
-                        filteredOrders = Object.values(ordersData).filter(order => order.shippingOption.toLowerCase() === tab && order.status === status && order.consumer === uid);
-                    }
+               
+                const snapshot = await get(ordersRef);
+                if (snapshot.exists()) {
+                    const ordersData = snapshot.val();
+                    // Filter orders based on the status
+                    filteredOrders = Object.values(ordersData).filter(order => order.shippingOption.toLowerCase() === tab && order.status === status && order.consumer === uid);
                 }
+            
+     
 
                 setOrders(filteredOrders);
             } catch (error) {
@@ -62,10 +63,10 @@ const Orders = () => {
                     )}
                     {tab === 'pickup' && (
                         <div className='flex space-x-2 overflow-x-auto mx-6'>
-                            <button className='text-[0.8em] whitespace-nowrap text-gray-800'><FaBoxOpen className=' mx-auto' /><span>To Pack</span></button>
-                            <button className='text-[0.8em] whitespace-nowrap text-gray-800'><FaBox className=' mx-auto' />To Distribute</button>
-                            <button className='text-[0.8em] whitespace-nowrap text-gray-800'><FaCheckCircle className=' mx-auto' />Completed</button>
-                            <button className='text-[0.8em] whitespace-nowrap text-gray-800'><FiMinusCircle className=' mx-auto' />Cancelled</button>
+                            <button className={`text-[0.8em] whitespace-nowrap text-gray-800  px-2 py-1 rounded-md ${status === 'Pending' && 'bg-green-200'}`} onClick={() => setStatus('Pending')}><FaBoxOpen className=' mx-auto' /><span>To Pack</span></button>
+                            <button className={`text-[0.8em] whitespace-nowrap text-gray-800  px-2 py-1 rounded-md ${status === 'To Distribute' && 'bg-green-200'}`} onClick={() => setStatus('To Distribute')}><FaBox className=' mx-auto' />To Distribute</button>
+                            <button className={`text-[0.8em] whitespace-nowrap text-gray-800  px-2 py-1 rounded-md ${status === 'Completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>
+                            <button className={`text-[0.8em] whitespace-nowrap text-gray-800  px-2 py-1 rounded-md ${status === 'Cancelled' && 'bg-green-200'}`} onClick={() => setStatus('Cancelled')}><FiMinusCircle className=' mx-auto' />Cancelled</button>
                         </div>
                     )}
                     {tab === 'history' && (
