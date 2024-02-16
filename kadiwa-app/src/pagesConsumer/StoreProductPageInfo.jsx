@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { imageConfig } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
-import { ref, child, get } from 'firebase/database';
+import { ref, child, get , getDatabase } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
