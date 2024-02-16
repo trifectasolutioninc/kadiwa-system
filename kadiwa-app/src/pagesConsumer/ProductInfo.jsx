@@ -29,7 +29,7 @@ const ProductDetails = ({ productDetails }) => {
   return (
     <>
       <div className="p-3 md:p-10 space-y-5">
-        <div className="fixed flex items-center gap-5 bg-gray-100 w-full top-0 p-3 md:p-5">
+        <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
           <BackButton />
           <h1 className="text-xl font-bold  text-green-700">Product Details</h1>
         </div>

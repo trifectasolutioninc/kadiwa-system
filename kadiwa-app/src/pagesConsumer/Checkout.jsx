@@ -248,7 +248,7 @@ const Checkout = () => {
   return (
     <>
       <div className="p-5 md:px-10 mb-28">
-        <div className="fixed flex items-center gap-5 bg-gray-100 w-full top-0 p-2">
+        <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
           <NavLink to={path}>
             <IoMdArrowRoundBack fontSize={"25px"} />
           </NavLink>
