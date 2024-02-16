@@ -165,7 +165,7 @@ const SignInPages = () => {
 
       {/* Modal for displaying login status */}
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 z-50 bg-opacity-50">
           <div className="bg-white p-4 rounded-md w-64 text-center">
             <p className="text-lg font-semibold">{modalMessage}</p>
             <button onClick={closeModal} className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md focus:outline-none hover:bg-green-700">Close</button>
