@@ -6,32 +6,41 @@ import { FaStore } from "react-icons/fa";
 import { ref, child, get, push, set, onValue, off } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 
-
 // Define Modal component
 const Modal = ({ isOpen, onClose, isSuccess, onConfirm }) => {
   return (
     <>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto">
-          <div className="fixed inset-0 bg-gray-700 opacity-70 blur-sm"></div>
+          <div
+            className="fixed inset-0 bg-gray-700 opacity-70 blur-sm"
+            onClick={onClose}
+          ></div>
           <div className="relative w-full max-w-lg mx-auto my-6">
-            <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
+            <div className="relative mx-5 flex flex-col bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">
               <div className="flex items-start justify-between p-5 border-b border-solid rounded-t border-blueGray-200">
                 <h3 className="text-3xl font-semibold">
-                  {isSuccess ? "Order Placed Successfully" : "Order Placement Failed"}
+                  {isSuccess
+                    ? "Order Placed Successfully"
+                    : "Order Placement Failed"}
                 </h3>
                 <button
                   className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                   onClick={onClose}
                 >
-                  <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">×</span>
+                  <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                    ×
+                  </span>
                 </button>
               </div>
               <div className="relative p-6 flex-auto">
                 {isSuccess ? (
                   <p>Your order has been successfully placed.</p>
                 ) : (
-                  <p>There was an error while placing your order. Please try again.</p>
+                  <p>
+                    There was an error while placing your order. Please try
+                    again.
+                  </p>
                 )}
               </div>
               <div className="flex items-center justify-end p-6 border-t border-solid rounded-b border-blueGray-200">
@@ -261,18 +270,15 @@ const Checkout = () => {
       set(storeOrdersRef, orderData)
         .then(() => {
           console.log(`Order for store ${storeKey} placed successfully!`);
-          
+
           setShowModal(true);
           setModalContent({ isSuccess: true }); // Indicate success
-          
-      
-    
         })
         .catch((error) => {
           console.error(`Error placing order for store ${storeKey}:`, error);
-                // Inside .catch of set(storeOrdersRef, orderData)
-                setShowModal(true);
-                setModalContent({ isSuccess: false }); 
+          // Inside .catch of set(storeOrdersRef, orderData)
+          setShowModal(true);
+          setModalContent({ isSuccess: false });
         });
 
       // Update store receipt generator data in the Firebase database
@@ -445,8 +451,8 @@ const Checkout = () => {
           Place Order
         </button>
       </div>
-       {/* Modal */}
-       <Modal
+      {/* Modal */}
+      <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         isSuccess={modalContent.isSuccess}
