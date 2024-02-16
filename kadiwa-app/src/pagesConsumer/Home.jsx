@@ -107,9 +107,17 @@ const HomeConsumer = () => {
             />
           </div>
         </div>
-        {/* <div className="ml-4">
-          <Notifications className="text-gray-700 text-lg" />
-        </div> */}
+        <div className="ml-4">
+          <select
+            name=""
+            id=""
+            className="p-2 border border-gray-600 rounded-md text-black/80"
+          >
+            <option value="">Sort by:</option>
+            <option value="">Lowest to Highest Price</option>
+            <option value="">Highest to Lowest Price</option>
+          </select>
+        </div>
       </section>
 
       <section className="overflow-x-auto flex gap-3">
