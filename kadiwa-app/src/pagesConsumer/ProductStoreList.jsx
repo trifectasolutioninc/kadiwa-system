@@ -180,9 +180,10 @@ const handleCheckout = (product) => {
   const selectedItems = [{
     productId: product.id.split('-')[2],
     productInfo: { ...product, qty: selectedQuantity },
-    storeKey: selectedStore.id,
+    storeKey: uid+"_"+selectedStore.id,
  
   }];
+  
   const storeNames = {
     [selectedStore.id]: selectedStore.name
   };

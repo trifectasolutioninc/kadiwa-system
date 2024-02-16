@@ -193,6 +193,7 @@ const Cart = () => {
             productId,
             productInfo: cartData?.[storeKey]?.CartList?.[productId]
           });
+          console.log(storeKey);
         }
       }
     }
@@ -208,6 +209,7 @@ const Cart = () => {
         storeNames[storeKey] = storeInfo.storeName;
       }
     }
+    
     const path = `/main/cart`;
     navigate('/route/checkout', { state: { selectedItems: selectedItemsArray, storeNames: storeNames, path: path } });
   };

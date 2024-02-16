@@ -185,7 +185,7 @@ const Checkout = () => {
       set(storeOrdersRef, orderData)
         .then(() => {
           console.log(`Order for store ${storeKey} placed successfully!`);
-          navigate('/main/cart');
+          navigate(path);
         })
         .catch(error => {
           console.error(`Error placing order for store ${storeKey}:`, error);
