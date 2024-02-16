@@ -79,21 +79,24 @@ const HomeConsumer = () => {
   };
 
   return (
-    <div className="p-5 bg-gray-100 space-y-5">
-      <div id="topView" className="space-y-3">
-        <h1 className="text-green-700 font-bold">Hello Kadiwa User!</h1>
-        <div id="userLocation" className="flex items-center text-xs">
+    <main className="p-3 md:px-10 space-y-5 mb-28">
+      <section id="topView" className="space-y-3">
+        <h1 className="text-[2em] text-green-700 font-bold">
+          Hello Kadiwa User!
+        </h1>
+        <div id="userLocation" className="flex items-center">
           <LocationOn className="text-gray-700 mr-2" />
           <span id="userLocationText" className="text-gray-600">
             {userLocation}
           </span>
         </div>
-      </div>
+      </section>
+
       <div className="">
         <img src={imageConfig.BannerV1} alt="" className="rounded-md" />
       </div>
 
-      <div className=" flex items-center justify-around ">
+      <section className=" flex items-center justify-around ">
         <div className="flex-grow flex items-center">
           <div className="relative flex items-center bg-gray-300 rounded-md p-2 flex-grow">
             <Search className="text-gray-700 text-lg mr-2" />
@@ -104,71 +107,65 @@ const HomeConsumer = () => {
             />
           </div>
         </div>
-        <div className="ml-4">
+        {/* <div className="ml-4">
           <Notifications className="text-gray-700 text-lg" />
-        </div>
-      </div>
+        </div> */}
+      </section>
 
-      <div className="overflow-x-auto flex gap-5">
+      <section className="overflow-x-auto flex gap-3">
         {commodityTypes.map((commodityType, index) => (
           <button
             key={index}
-            className={`border-green-700 border ${
+            className={`w-full border-green-700 border ${
               selectedCommodity === commodityType
                 ? "bg-green-700 text-white"
-                : "text-green-700"
-            } text-xs rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
+                : "text-green-700 bg-white"
+            }  rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
             data-commodity-type={commodityType}
             onClick={() => handleCommodityClick(commodityType)}
           >
             {commodityType}
           </button>
         ))}
-      </div>
+      </section>
 
-      <div
+      <section
         id="productlist"
-        className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
         {products.map((product, index) => (
           <div
             key={index}
-            className="container p-5  bg-white rounded-lg shadow-md"
+            className="container p-5 bg-white rounded-lg shadow-md"
           >
             <Link
               to={`/main/productinfo/${product.product_code}`}
-              className="space-y-5"
+              className="flex flex-col space-y-5"
             >
-              <div className="text-left h-1/2">
+              <div className="h-52 overflow-hidden">
                 <img
                   id={`product${product.product_code}`}
                   alt={product.product_name}
-                  className="h-full w-full object-cover"
+                  className="w-full h-full object-cover"
                   src={imageConfig[product.keywords.toLowerCase()]}
                 />
               </div>
-              <div className="space-y-2">
-                <h2 className="font-semibold truncate">
+              <div className="flex flex-col space-y-2">
+                <h2 className="text-black/80 text-lg font-bold truncate">
                   {product.product_name}
                 </h2>
-                <p className=" font-semibold text-gray-500 truncate">
+                <p className="font-semibold text-gray-500 truncate">
                   {product.commodity_type}
                 </p>
-                <p className=" font-bold text-green-600">
+                <p className="font-bold text-green-600">
                   Php {product.price.toFixed(2)}
                 </p>
-                {/* <Link className="text-xs font-semibold text-green-500 cursor-pointer border text-center border-green-600 p-2 rounded-md mt-1">
-                  View
-                </Link> */}
               </div>
             </Link>
           </div>
         ))}
-      </div>
-      <br />
-      <br />
-      <br />
-    </div>
+      </section>
+    </main>
   );
 };
 
