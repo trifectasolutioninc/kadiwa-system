@@ -103,7 +103,7 @@ const SignInPages = () => {
         <div className="mt-5 p-8 rounded">
           <form id="loginForm" className="space-y-1" onSubmit={handleSignIn}>
             <div className="text-left">
-              <label htmlFor="contact" className="text-sm text-white">
+              <label htmlFor="contact" className="text-sm text-gray-500">
                 Phone Number
               </label>
               <InputMask
@@ -121,7 +121,7 @@ const SignInPages = () => {
             </div>
 
             <div className="text-left">
-              <label htmlFor="password" className="text-sm text-white">
+              <label htmlFor="password" className="text-sm text-gray-500">
                 Password
               </label>
               <input
@@ -136,11 +136,11 @@ const SignInPages = () => {
               />
             </div>
 
-            <div className="items-center justify-center text-center mt-4">
+            <div className="items-center justify-center text-center">
               
               <button
                 type="submit"
-                className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300"
+                className="w-full py-2 mt-4 bg-green-600 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300"
               >
                 Login
               </button>
