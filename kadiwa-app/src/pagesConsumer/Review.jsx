@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import configFirebaseDB from '../Configuration/config-firebase2';
-import { ref, child, get } from 'firebase/database';
-import { Avatar, Badge } from '@mui/material';
-
+import React, { useState, useEffect } from "react";
+import configFirebaseDB from "../Configuration/config-firebase2";
+import { ref, child, get } from "firebase/database";
+import { Avatar, Badge } from "@mui/material";
 
 const Reviews = ({ productCode }) => {
   const [reviews, setReviews] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const kdwowner = productCode.split('-')[0]+'-'+productCode.split('-')[1];
-  const productno = productCode.split('-')[2];
+  const kdwowner = productCode.split("-")[0] + "-" + productCode.split("-")[1];
+  const productno = productCode.split("-")[2];
   useEffect(() => {
     const fetchData = async () => {
       // Fetch product reviews
-      const reviewsRef = ref(configFirebaseDB, 'product_reviews');
+      const reviewsRef = ref(configFirebaseDB, "product_reviews");
       const reviewsSnapshot = await get(reviewsRef);
       const reviewsData = reviewsSnapshot.val();
       setReviews(reviewsData);
 
       // Fetch user info based on contact
-      const usersRef = ref(configFirebaseDB, 'store_information');
+      const usersRef = ref(configFirebaseDB, "store_information");
       const usersSnapshot = await get(child(usersRef, kdwowner));
       const userData = usersSnapshot.val();
       setUserInfo(userData);
@@ -35,8 +34,8 @@ const Reviews = ({ productCode }) => {
   }
 
   return (
-    <div className='px-4 '>
-        <h1 className=' text-gray-900 text-sm font-bold mb-4'>Reviews</h1>
+    <div className="p-3 md:px-10 space-y-5 mb-28">
+      <h1 className=" text-gray-900 font-bold mb-4">Reviews</h1>
       {Object.keys(reviews).map((reviewId) => {
         const review = reviews[reviewId];
         const productNumber = parseInt(productno);
@@ -44,32 +43,28 @@ const Reviews = ({ productCode }) => {
         console.log(productNumber);
         console.log(userInfo.id);
         console.log(review.storeOwnerID);
-        if ((review.storeOwnerID === userInfo.id) && ( productNumber === review.productCode)) {
-          
+        if (
+          review.storeOwnerID === userInfo.id &&
+          productNumber === review.productCode
+        ) {
           return (
-            <div key={reviewId} >
-                <div className='grid grid-cols-10 bg-gray-200 py-2 px-1 items-center rounded-t-md'>
-                    <div className=' col-span-2'>
-                        <Avatar/>
-                    </div>
-                    <div className=' col-span-8'>
-                        <p className='font-black text-gray-800 text-sm'>{review.consumerName}</p>
-                        
-                        <p className='text-xs'>{review.suggestions}</p>
-                        <p className='text-xs font-bold text-gray-500'>Rating: {review.rating}</p>
-
-                    </div>
-              
-
+            <div key={reviewId}>
+              <div className="flex items-center bg-white p-3 gap-5 rounded-t-md">
+                <div className="space-y-3">
+                  <p className="font-black text-xl text-gray-800 ">
+                    {review.consumerName}
+                  </p>
+                  <p className="font-bold text-gray-500">
+                    Rating: {review.rating}
+                  </p>
+                  <p className="s">{review.suggestions}</p>
                 </div>
-                <div className=' h-0.5 bg-gray-300 rounded-b-md'> </div>
-              
+              </div>
+              <div className=" h-0.5 bg-gray-300 rounded-b-md"> </div>
             </div>
-            
           );
         }
 
- 
         return null;
       })}
     </div>
@@ -77,4 +72,3 @@ const Reviews = ({ productCode }) => {
 };
 
 export default Reviews;
-

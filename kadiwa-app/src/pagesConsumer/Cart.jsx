@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import CartItem from './CartItem'; // Import your CartItem component here
-import { imageConfig, commodityTypes } from '../Configuration/config-file';
-import configFirebaseDB from '../Configuration/config';
-import { ref, get, remove, update } from 'firebase/database';
-import { Link, useNavigate, NavLink  } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import CartItem from "./CartItem"; // Import your CartItem component here
+import { imageConfig, commodityTypes } from "../Configuration/config-file";
+import configFirebaseDB from "../Configuration/config";
+import { ref, get, remove, update } from "firebase/database";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import BackButton from "./BackToHome";
 
 const Cart = () => {
-  const uid = sessionStorage.getItem('uid');
+  const uid = sessionStorage.getItem("uid");
   const [cartData, setCartData] = useState(null);
   const [isStoreChecked, setIsStoreChecked] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
@@ -15,7 +16,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCartData = async () => {
       const database = configFirebaseDB();
-      const cartRef = ref(database, 'cart_collection');
+      const cartRef = ref(database, "cart_collection");
 
       try {
         const cartSnapshot = await get(cartRef);
@@ -30,11 +31,11 @@ const Cart = () => {
 
           setCartData(filteredCartData);
         } else {
-          console.error('Cart data not found.');
+          console.error("Cart data not found.");
           setCartData(null);
         }
       } catch (error) {
-        console.error('Error fetching cart data:', error);
+        console.error("Error fetching cart data:", error);
       }
     };
 
@@ -42,7 +43,6 @@ const Cart = () => {
       fetchCartData();
     }
   }, [uid]);
-
 
   const getTotalQuantity = (cartData) => {
     let totalQuantity = 0;
@@ -80,7 +80,6 @@ const Cart = () => {
 
     return totalPrice.toFixed(2);
   };
-
 
   const handleStoreCheckboxChange = (storeKey) => {
     setIsStoreChecked((prev) => {
@@ -136,9 +135,9 @@ const Cart = () => {
 
         if (itemsToDelete.length > 0) {
           // Check if the last item in the store is being deleted
-          const remainingItems = Object.keys(cartData[storeKey]?.CartList || {}).filter(
-            (productId) => !itemsToDelete.includes(productId)
-          );
+          const remainingItems = Object.keys(
+            cartData[storeKey]?.CartList || {}
+          ).filter((productId) => !itemsToDelete.includes(productId));
 
           if (remainingItems.length === 0) {
             // If no items are left in the store, delete the entire store
@@ -146,7 +145,8 @@ const Cart = () => {
           } else {
             // If items are still present, only delete the selected items
             itemsToDelete.forEach((productId) => {
-              updates[`cart_collection/${storeKey}/CartList/${productId}`] = null;
+              updates[`cart_collection/${storeKey}/CartList/${productId}`] =
+                null;
             });
           }
         }
@@ -158,7 +158,7 @@ const Cart = () => {
       await update(ref(database), updates);
 
       // After successful deletion, trigger a re-fetch of cart data
-      const cartSnapshot = await get(ref(database, 'cart_collection'));
+      const cartSnapshot = await get(ref(database, "cart_collection"));
       if (cartSnapshot.exists()) {
         // Filter cart data based on the presence of uid
         const filteredCartData = Object.entries(cartSnapshot.val())
@@ -178,28 +178,27 @@ const Cart = () => {
       setIsStoreChecked({});
       setSelectedItems({});
     } catch (error) {
-      console.error('Error deleting items:', error);
+      console.error("Error deleting items:", error);
     }
   };
 
   const handleCheckout = () => {
     const selectedItemsArray = [];
-  
+
     for (const storeKey in selectedItems) {
       for (const productId in selectedItems[storeKey]) {
         if (selectedItems[storeKey][productId]) {
           selectedItemsArray.push({
             storeKey,
             productId,
-            productInfo: cartData?.[storeKey]?.CartList?.[productId]
+            productInfo: cartData?.[storeKey]?.CartList?.[productId],
           });
-          console.log(storeKey);
         }
       }
     }
-  
+
     console.log("Selected Items Array:", selectedItemsArray); // Check if data is being prepared correctly
-  
+
     // Extract store names
     const storeNames = {};
     for (const item of selectedItemsArray) {
@@ -209,41 +208,40 @@ const Cart = () => {
         storeNames[storeKey] = storeInfo.storeName;
       }
     }
-    
     const path = `/main/cart`;
-    navigate('/route/checkout', { state: { selectedItems: selectedItemsArray, storeNames: storeNames, path: path } });
+    navigate("/route/checkout", {
+      state: {
+        selectedItems: selectedItemsArray,
+        storeNames: storeNames,
+        path: path,
+      },
+    });
   };
-  
-
-
 
   return (
-    <div className="h-screen bg-gray-100">
+    <main className="p-3 md:p-10 bg-gray-100 space-y-5">
       {cartData !== null ? (
         <div>
-          <div>
-          <div className='flex pt-4 mb-1 justify-between'>
-            <div className='flex items-center'>
-            <NavLink to={"/main"} className='px-4'>
-              <IoMdArrowRoundBack />
-            </NavLink>
-            <h1 className="text-lg text-green-600  font-bold">Cart ({getTotalQuantity(cartData)})</h1>
-
-            </div>
-            <div>
-                <span className="text-xs text-red-500 mr-2 bg-white rounded-full px-2 p-1 cursor-pointer" onClick={handleDelete}>
-                  Delete
-                </span>
+          <div className="space-y-5">
+            <section className="flex items-center justify-between">
+              <div className="flex items-center gap-5 ">
+                <BackButton />
+                <h1 className="text-xl text-green-600  font-bold">
+                  Cart ({getTotalQuantity(cartData)})
+                </h1>
               </div>
-            
+              <button
+                className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </section>
 
-          </div>
-          
-
-            <div className="mb-16">
+            <section className="space-y-5 mb-16">
               {Object.entries(cartData).map(([storeKey, storeInfo]) => (
-                <div key={storeKey} className="bg-white rounded shadow-md m-4 p-2">
-                  <div className="flex justify-between">
+                <div key={storeKey} className="bg-white rounded shadow-md p-2">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <input
                         type="checkbox"
@@ -251,85 +249,83 @@ const Cart = () => {
                         checked={isStoreChecked[storeKey] || false}
                         onChange={() => handleStoreCheckboxChange(storeKey)}
                       />
-                      <Link to={`/main/storepage/${storeKey.split('_')[1]}`} className="text-sm font-bold text-green-700">{storeInfo.storeName}</Link>
+                      <Link
+                        to={`/main/storepage/${storeKey.split("_")[1]}`}
+                        className="font-bold text-green-700"
+                      >
+                        {storeInfo.storeName}
+                      </Link>
                     </div>
-                    <Link to={`/main/storepage/${storeKey.split('_')[1]}`} className="text-xs text-blue-400">Visit Store</Link>
+                    <Link
+                      to={`/main/storepage/${storeKey.split("_")[1]}`}
+                      className=" text-blue-400"
+                    >
+                      Visit Store
+                    </Link>
                   </div>
 
                   {/* Cart Items */}
-                  {Object.entries(storeInfo.CartList).map(([productId, productInfo]) => (
-                    <CartItem
-                      key={productId}
-                      id={productId}
-                      name={productInfo.product_name}
-                      price={productInfo.price}
-                      quantity={productInfo.qty}
-                      imgAlt={imageConfig[productInfo.keywords.toLowerCase()]}
-                      isChecked={selectedItems[storeKey]?.[productId] || false}
-                      onCheckboxChange={() => handleItemCheckboxChange(storeKey, productId)}
-                    />
-                  ))}
+                  {Object.entries(storeInfo.CartList).map(
+                    ([productId, productInfo]) => (
+                      <CartItem
+                        key={productId}
+                        id={productId}
+                        name={productInfo.product_name}
+                        price={productInfo.price}
+                        quantity={productInfo.qty}
+                        imgAlt={imageConfig[productInfo.keywords.toLowerCase()]}
+                        isChecked={
+                          selectedItems[storeKey]?.[productId] || false
+                        }
+                        onCheckboxChange={() =>
+                          handleItemCheckboxChange(storeKey, productId)
+                        }
+                      />
+                    )
+                  )}
                 </div>
               ))}
-            </div>
-
+            </section>
           </div>
-          <div>
-            <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
-              <p className='font-bold text-white'>Total:  {getTotalPrice(cartData, selectedItems)}</p>
-              <button className='bg-white px-4 rounded-md text-green-700' onClick={handleCheckout}>
-                <p >CHECKOUT</p>
 
+          <div className="mt-10">
+            <div className=" bg-green-600 p-2 rounded-md flex justify-between">
+              <p className="font-bold text-white">
+                Total: {getTotalPrice(cartData, selectedItems)}
+              </p>
+              <button
+                className="bg-white px-4 rounded-md text-green-700"
+                onClick={handleCheckout}
+              >
+                <p>CHECKOUT</p>
               </button>
-
             </div>
-
           </div>
-
         </div>
       ) : (
         <div>
           <div>
-            <div className="p-4 flex justify-between">
-              <h1 className="font-bold text-lg p-4 text-green-600">Cart (0)</h1>
-              <div>
-                <span className="text-xs text-red-500 mr-2 bg-white rounded-full px-2 p-1 cursor-pointer">
-                  Delete
-                </span>
-              </div>
+            <div className="flex items-center justify-between">
+              <h1 className="text-xl text-green-600  font-bold">Cart (0)</h1>
+              <button className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1">
+                Delete
+              </button>
             </div>
             <div>
-              <div className='m-4 bg-green-600 p-2 rounded-md '>
-         
-                <div className='m-4 bg-green-600 p-2 rounded-md flex justify-between'>
-                  <p className='font-bold text-white'>Total: 0</p>
-                  <div className='bg-white px-4 rounded-md text-green-700'>
-                    <p >CHECKOUT</p>
-
-                  </div>
-
+              <div className="m-4 bg-green-600 p-2 rounded-md ">
+                <div className="m-4 bg-green-600 p-2 rounded-md flex justify-between">
+                  <p className="font-bold text-white">Total: 0</p>
+                  <button className="bg-white px-4 rounded-md text-green-700">
+                    <p>CHECKOUT</p>
+                  </button>
                 </div>
-
               </div>
-
             </div>
-
-
           </div>
-
-
-
-
         </div>
- 
-
-  )
-}
-
-
-    </div >
+      )}
+    </main>
   );
 };
-
 
 export default Cart;
