@@ -413,11 +413,12 @@ const Checkout = () => {
               onChange={(e) => setPaymentOption(e.target.value)}
             >
               <option value="Cash">Cash</option>
+              <option value="Kadiwa QR">Kadiwa QR</option>
               <option value="Kadiwa Card">Kadiwa Card</option>
               <option value="Megapay">Megapay</option>
               <option value="Gcash">Gcash</option>
               <option value="Maya">Maya</option>
-              <option value="Card">Card</option>
+              <option value="Bank">Bank</option>
             </select>
           </div>
           <div className="bg-white text-black/80 p-3 rounded-md shadow-md">

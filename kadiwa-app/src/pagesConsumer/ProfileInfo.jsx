@@ -22,10 +22,10 @@ const ProfileInfo = () => {
         const fetchData = async () => {
           try {
             const database = configFirebaseDB();
-            const getcontact = sessionStorage.getItem('kdwconnect');
-            const usersAccountRef = ref(database, 'kadiwa_users_account');
+            const uid = sessionStorage.getItem('uid');
+            const usersAccountRef = ref(database, 'users_information');
     
-            const snapshot = await get(child(usersAccountRef, getcontact));
+            const snapshot = await get(child(usersAccountRef, uid));
             const userDataFromFirebase = snapshot.val();
     
             if (userDataFromFirebase) {
@@ -40,7 +40,7 @@ const ProfileInfo = () => {
       }, []);
     
       const handleLogout = () => {
-        sessionStorage.setItem('contact', '');
+        sessionStorage.setItem('uid', '');
         window.location.href = '/';
       };
     
@@ -83,7 +83,7 @@ const ProfileInfo = () => {
         <div className="ml-4 mt-2">
           {/* Display Name */}
           <p id="fullname" variant="h6" className="font-bold">
-            {userData.fullname}
+            {userData.first_name + " " + userData.last_name}
           </p>
           {/* Display Contact */}
           <p
@@ -103,7 +103,7 @@ const ProfileInfo = () => {
               className="rounded-3xl p-1 text-xs text-gray-800"
               style={{ backgroundColor: '#54FC6F' }}
             >
-              {userData.usertype}
+              {userData.type}
             </p>
           </div>
           {/* Make the edit icon clickable */}
@@ -132,7 +132,7 @@ const ProfileInfo = () => {
           {userData.contact}
           </span>
         </p>
-        <p
+        {/* <p
           id="reminderofcompletion"
           variant="body2"
           className="font-bold text-gray-700 text-xs bg-gray-300 rounded p-1"
@@ -141,7 +141,7 @@ const ProfileInfo = () => {
           <span className="font-normal">
             Complete the information requirements to access the consumer features.
           </span>
-        </p>
+        </p> */}
       </div>
 
       <div className="px-4 flex justify-between">

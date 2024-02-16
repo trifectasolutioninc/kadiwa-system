@@ -126,7 +126,7 @@ const ProfileConsumer = () => {
 
       {/* Profile Information */}
       {userData && (
-        <div className="relative p-4 flex justify-between items-center bg-white m-4 rounded-md shadow-md">
+        <div className="relative p-4 flex justify-between items-center bg-white m-4 rounded-md shadow-md ">
           <div>
             {/* Display Picture */}
             <Avatar className="w-12 h-12 rounded-full" />
@@ -233,12 +233,29 @@ const ProfileConsumer = () => {
         <h1 className="font-bold text-lg text-gray-800">My Orders</h1>
         <div></div>
       </div>
-      <div className='mx-4 grid sm:grid-clos-1 md:grid-cols-3 gap-4 '>
-        <Link to={'/main/orders/delivery'} className='px-2 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><LocalShipping  className="text-[0.8em] text-gray-500 mr-1" />Delivery</Link>
-        <Link to={'/main/orders/pickup'} className='px-2 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><FaBox className=" text-gray-500  mt-0.5 mr-1"  />Pickup</Link>
-        <Link to={'/main/orders/history'} className='px-4 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><History className=" text-gray-500  mt-0.5 mr-1"  />Transaction History</Link>
+      <div className="mx-4 grid grid-cols-2 md:grid-cols-3 gap-4 ">
+        <Link
+          to={"/main/orders/delivery"}
+          className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border flex flex-col items-center justify-center gap-3"
+        >
+          <LocalShipping className="text-[0.8em] text-gray-500" />
+          Delivery
+        </Link>
+        <Link
+          to={"/main/orders/pickup"}
+          className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border flex flex-col items-center justify-center gap-3"
+        >
+          <FaBox className=" text-gray-500" />
+          Pickup
+        </Link>
+        <Link
+          to={"/main/orders/history"}
+          className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+        >
+          <History className=" text-gray-500" />
+          Transaction History
+        </Link>
       </div>
-    
       <div className='p-2 h-32'> 
 
       </div>
