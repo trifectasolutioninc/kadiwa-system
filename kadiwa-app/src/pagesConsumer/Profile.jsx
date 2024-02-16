@@ -112,9 +112,9 @@ const ProfileConsumer = () => {
   }, []);
 
   return (
-    <div className="h-auto bg-gray-100">
+    <div className="h-auto bg-gray-100 px-4">
       <div className='flex pt-4 mb-1 items-center '>
-        <NavLink to={"/main"} className='px-4'>
+        <NavLink to={"/main"} className=''>
           <IoMdArrowRoundBack />
         </NavLink>
         <h1 className="text-lg text-green-600  font-bold">Profile</h1>
@@ -171,10 +171,10 @@ const ProfileConsumer = () => {
 
         </div>
         
-        <Link to="/partner/home" id="storeButton" className="bg-blue-500 py-1 px-4 text-white rounded ">Store</Link>
+        <Link to="/partner/home" id="storeButton" className="bg-blue-500 py-1  text-white rounded ">Store</Link>
       </div> */}
 
-      <div className="px-4 flex justify-between mt-4">
+      <div className=" flex justify-between mt-4">
         <h1 className="font-bold text-lg text-gray-800">My Wallet</h1>
         <div></div>
       </div>
@@ -201,7 +201,7 @@ const ProfileConsumer = () => {
         </div>
       )}
 
-      <div className="flex justify-around px-4 py-8">
+      <div className="flex justify-around  py-8">
         {/* Icon with Name: Virtual Card */}
         <div className="text-center">
         <Link to="/main/virtual-card" className="block text-center">
@@ -226,46 +226,16 @@ const ProfileConsumer = () => {
         </div>
       </div>
 
-      <div className="px-4 flex justify-between">
+      <div className=" flex justify-between py-2">
         <h1 className="font-bold text-lg text-gray-800">My Orders</h1>
         <div></div>
       </div>
-      <p className='text-xs font-bold text-green-700 mx-4 mt-4'>Online</p>
-      <div className=' h-0.5 bg-gray-300 mx-4'></div>
-      <div className="flex justify-around px-4 py-2">
-        {/* Icon with Name: To Ship */}
-        <div className="text-center">
-          <LocalShipping className="text-3xl text-gray-500 mb-2" />
-          <p className="text-sm">To Ship</p>
-        </div>
-
-        {/* Icon with Name: To Received */}
-        <div className="text-center">
-          <LocalMall className="text-3xl text-gray-500 mb-2" />
-          <p className="text-sm">To Receive</p>
-        </div>
-
-        {/* Icon with Name: Complete */}
-        <div className="text-center">
-          <Done className="text-3xl text-gray-500 mb-2" />
-          <p className="text-sm">Complete</p>
-        </div>
+      <div className='mx-4 grid sm:grid-clos-1 md:grid-cols-3 gap-4 '>
+        <Link to={'/main/orders/delivery'} className='px-2 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><LocalShipping  className="text-[0.8em] text-gray-500 mr-1" />Delivery</Link>
+        <Link to={'/main/orders/pickup'} className='px-2 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><FaBox className=" text-gray-500  mt-0.5 mr-1"  />Pickup</Link>
+        <button className='px-4 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><History className=" text-gray-500  mt-0.5 mr-1"  />Load</button>
       </div>
-      <p className='text-xs font-bold text-green-700 mx-4 mt-4'>Pickup</p>
-      <div className=' h-0.5 bg-gray-300 mx-4'></div>
-      <div className="flex justify-around px-4 py-2">
-        {/* Icon with Name: To Ship */}
-        <Link to={'/main/pickup/pending'} className="text-center items-center">
-          <FaBox className="text-lg text-gray-500 mb-3 mt-0.5 mx-auto" />
-          <p className="text-sm">Orders</p>
-        </Link>
-        {/* Icon with Name: Complete */}
-
-        <Link to={'/main/pickup/complete'} className="text-center">
-          <Done className="text-3xl text-gray-500 mb-2" />
-          <p className="text-sm">Complete</p>
-        </Link>
-      </div>
+    
       <div className='p-2 h-32'> 
 
       </div>
