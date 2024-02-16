@@ -89,16 +89,12 @@ const SignInPages = () => {
   return (
     <div className=' bg-white flex items-center justify-center h-screen'>
       <div className=''>
-        <div className=" items-center flex p-4">
-          <div className=' mx-auto'>
-            <p className="text-2xl text-left font-bold">
-              Welcome to
-            </p>
-            <p className='text-6xl font-bold text-green-700'>
-              Kadiwa
-            </p>
-          </div>
-        </div>
+      <div className='flex justify-center mx-auto w-auto space-x-2'>
+                  <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
+                  <img className=" h-[5em] " src={imageConfig.AppLogo} alt="Farm Logo" />
+                  <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
+
+                  </div>
 
         <div className="mt-5 p-8 rounded">
           <form id="loginForm" className="space-y-1" onSubmit={handleSignIn}>

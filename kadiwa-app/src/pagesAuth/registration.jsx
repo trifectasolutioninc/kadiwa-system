@@ -161,9 +161,9 @@ const Registration = () => {
             <div className="max-w-md w-full my-auto bg-white p-8">
                 <div>
                   <div className='flex justify-center mx-auto w-auto space-x-2'>
-                  <img className=" h-16 " src={imageConfig.DALogo} alt="Farm Logo" />
-                  <img className=" h-16 " src={imageConfig.AppLogo} alt="Farm Logo" />
-                  <img className=" h-16 " src={imageConfig.BGPH} alt="Farm Logo" />
+                  <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
+                  <img className=" h-[5em] " src={imageConfig.AppLogo} alt="Farm Logo" />
+                  <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
 
                   </div>
                     
