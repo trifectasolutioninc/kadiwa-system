@@ -50,6 +50,8 @@ import coconutoilliter from '../Components/Assets/products/coconutoilliter.png';
 import CardBg from '../Components/Assets/others/card-bg.png';
 import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
 import KadiwaText from '../Components/Assets/logo/kadiwa-text.png';
+import BGPH from '../Components/Assets/logo/Bagong_Pilipinas_logo.png';
+import DALogo from '../Components/Assets/logo/DA-logo.png'
 
 import MasterCard from '../Components/Assets/payment/mastercard.png';
 import Bank from '../Components/Assets/payment/bank.png';
@@ -59,7 +61,7 @@ import Megapay from '../Components/Assets/payment/megapay.png';
 
 import StoreBG from '../Components/Assets/others/store_bg.webp'
 
-import Banner1 from '../Components/Assets/banner/banner-v1.png'
+import Banner1 from '../Components/Assets/banner/banner-v1.webp'
 
 const paymentImg = {
     MasterCard : MasterCard,
@@ -71,9 +73,10 @@ const paymentImg = {
 
 const imageConfig = {
     //Logo
-    DALogo: './src/assets/DA-logo.png',
+    DALogo: DALogo,
     AppLogo: KadiwaLogo,
     KadiwaText: KadiwaText,
+    BGPH : BGPH,
     KadiwaTopLogo: './src/assets/logo/kadiwa-top-logo.png',
     EntranceBG: './src/assets/raw/entrance-bg.jpg',
     KadiwaText2: '../logo/kadiwa-text.png',

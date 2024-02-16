@@ -160,7 +160,13 @@ const Registration = () => {
         <div className="flex flex-col items-center h-screen bg-white sm:px-6 lg:px-8">
             <div className="max-w-md w-full bg-white p-8">
                 <div>
-                    <img className="mx-auto h-20 w-auto overflow-hidden" src={imageConfig.AppLogo} alt="Farm Logo" />
+                  <div className='flex justify-center mx-auto w-auto space-x-2'>
+                  <img className=" h-16 " src={imageConfig.DALogo} alt="Farm Logo" />
+                  <img className=" h-16 " src={imageConfig.AppLogo} alt="Farm Logo" />
+                  <img className=" h-16 " src={imageConfig.BGPH} alt="Farm Logo" />
+
+                  </div>
+                    
                     <h2 className="mt-4 text-center text-xl font-extrabold text-gray-500">Create an Account</h2>
                 </div>
                 <form className="mt-4 space-y-4" onSubmit={handleConsumerSubmit}>
