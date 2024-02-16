@@ -136,12 +136,8 @@ const SignInPages = () => {
               />
             </div>
 
-            <div className="items-center justify-center text-center">
-              <div className='mt-4'>
-                <NavLink to="#" className="text-sm text-green-600">
-                  Forgot Password?
-                </NavLink>
-              </div>
+            <div className="items-center justify-center text-center mt-4">
+              
               <button
                 type="submit"
                 className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300"
@@ -150,8 +146,11 @@ const SignInPages = () => {
               </button>
             </div>
           </form>
-
+ 
           <div className="mt-4 text-gray-700 text-center">
+                <NavLink to="#" className="text-sm text-green-600">
+                  Forgot Password?
+                </NavLink>
             <p className="text-gray-500">
               Don't have an account?{' '}
               <NavLink to="/" className="text-green-600 font-semibold">
