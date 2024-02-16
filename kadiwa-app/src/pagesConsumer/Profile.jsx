@@ -222,7 +222,7 @@ const ProfileConsumer = () => {
         {/* Icon with Name: Transaction History */}
         <div className="text-center">
           <History className="text-6xl text-gray-500 mb-2" />
-          <p className="text-xs">Transaction History</p>
+          <p className="text-xs">Load</p>
         </div>
       </div>
 
@@ -233,7 +233,7 @@ const ProfileConsumer = () => {
       <div className='mx-4 grid sm:grid-clos-1 md:grid-cols-3 gap-4 '>
         <Link to={'/main/orders/delivery'} className='px-2 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><LocalShipping  className="text-[0.8em] text-gray-500 mr-1" />Delivery</Link>
         <Link to={'/main/orders/pickup'} className='px-2 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><FaBox className=" text-gray-500  mt-0.5 mr-1"  />Pickup</Link>
-        <button className='px-4 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><History className=" text-gray-500  mt-0.5 mr-1"  />Load</button>
+        <button className='px-4 py-1 bg-white rounded-md border-green-500 text-[0.8em] border flex items-center justify-center'><History className=" text-gray-500  mt-0.5 mr-1"  />Transaction History</button>
       </div>
     
       <div className='p-2 h-32'> 
