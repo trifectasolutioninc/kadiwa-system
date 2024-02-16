@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'; // Import useRef
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
 import { getDatabase, ref, get } from 'firebase/database';
@@ -9,9 +9,11 @@ const SignInPages = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [version, setVersion] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   const navigate = useNavigate();
-  const phoneNumberRef = useRef(null); // Create ref for phone number input
-  const passwordRef = useRef(null); // Create ref for password input
+  const phoneNumberRef = useRef(null);
+  const passwordRef = useRef(null);
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -41,10 +43,10 @@ const SignInPages = () => {
       const snapshot = await get(usersRef);
 
       if (snapshot.exists()) {
+        let success = false;
         snapshot.forEach((childSnapshot) => {
           const userData = childSnapshot.val();
 
-          // Access input values using refs
           const inputUsername = phoneNumberRef.current.value;
           const inputPassword = passwordRef.current.value;
           const inputUsername2 = inputUsername.replace(/\s/g, '');
@@ -59,16 +61,28 @@ const SignInPages = () => {
             sessionStorage.setItem('uid', userData.id);
             sessionStorage.setItem('sid', userData.store_id);
             console.log('Successfully logged in', userData);
-            navigate('/main');
+            success = true;
           }
         });
 
-        console.error('User not found or incorrect credentials');
+        if (success) {
+          setModalMessage('Login successful!');
+        } else {
+          setModalMessage('Incorrect username or password.');
+        }
+        setShowModal(true);
       } else {
         console.error('No users found');
       }
     } catch (error) {
       console.error('Error logging in:', error.message);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    if (modalMessage === 'Login successful!') {
+      navigate('/main');
     }
   };
 
@@ -148,8 +162,19 @@ const SignInPages = () => {
         </div>
 
       </div>
-      <div className='fixed bottom-0 text-center py-4 w-full text-xs  text-gray-600'>
-        <p> {version}</p>
+
+      {/* Modal for displaying login status */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-4 rounded-md w-64 text-center">
+            <p className="text-lg font-semibold">{modalMessage}</p>
+            <button onClick={closeModal} className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md focus:outline-none hover:bg-green-700">Close</button>
+          </div>
+        </div>
+      )}
+
+      <div className='flex items-end text-center py-4 text-xs text-gray-600  bg-white'>
+        <p className='mx-auto mt-auto '>{version}</p>
       </div>
 
     </div>
