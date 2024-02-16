@@ -209,7 +209,7 @@ const Cart = () => {
       }
     }
     const path = `/main/cart`;
-    navigate('/route/checkout', { state: { selectedItems: selectedItemsArray, storeNames: storeNames } });
+    navigate('/route/checkout', { state: { selectedItems: selectedItemsArray, storeNames: storeNames, path } });
   };
   
 
