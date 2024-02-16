@@ -87,8 +87,8 @@ const SignInPages = () => {
   };
 
   return (
-    <div className=' bg-white '>
-      <div className=' mt-8'>
+    <div className=' bg-white flex items-center justify-center h-screen'>
+      <div className=''>
         <div className=" items-center flex p-4">
           <div className=' mx-auto'>
             <p className="text-2xl text-left font-bold">
@@ -159,6 +159,9 @@ const SignInPages = () => {
             </p>
           </div>
         </div>
+        <div className='flex items-end text-center py-4 text-xs text-gray-600  bg-white'>
+        <p className='mx-auto mt-auto '>{version}</p>
+      </div>
 
       </div>
 
@@ -172,9 +175,7 @@ const SignInPages = () => {
         </div>
       )}
 
-      <div className='flex items-end text-center py-4 text-xs text-gray-600  bg-white'>
-        <p className='mx-auto mt-auto '>{version}</p>
-      </div>
+     
 
     </div>
   );

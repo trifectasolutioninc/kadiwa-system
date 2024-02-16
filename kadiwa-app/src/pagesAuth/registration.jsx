@@ -158,7 +158,7 @@ const Registration = () => {
 
     return (
         <div className="flex flex-col items-center h-screen bg-white sm:px-6 lg:px-8">
-            <div className="max-w-md w-full bg-white p-8">
+            <div className="max-w-md w-full my-auto bg-white p-8">
                 <div>
                   <div className='flex justify-center mx-auto w-auto space-x-2'>
                   <img className=" h-16 " src={imageConfig.DALogo} alt="Farm Logo" />
