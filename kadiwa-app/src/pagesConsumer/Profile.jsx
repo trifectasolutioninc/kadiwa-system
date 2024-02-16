@@ -8,6 +8,9 @@ import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { FaBox } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoWalletOutline } from "react-icons/io5";
+import { MdInsertLink } from "react-icons/md";
+import { CiCreditCard1 } from "react-icons/ci";
 
 const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
@@ -205,7 +208,7 @@ const ProfileConsumer = () => {
         {/* Icon with Name: Virtual Card */}
         <div className="text-center">
         <Link to="/main/virtual-card" className="block text-center">
-          <CreditCard className="text-6xl text-gray-500 mb-2" />
+          <CiCreditCard1 className="text-3xl mx-auto text-gray-500 mb-2" />
           <p className="text-xs">Virtual Card</p>
         </Link>
       </div>
@@ -213,7 +216,7 @@ const ProfileConsumer = () => {
         {/* Icon with Name: Linked Account */}
         <div className="text-center">
           <Link to="/main/linked-account" className="block text-center">
-            <LinkIcon className="text-6xl text-gray-500 mb-2" />
+            <MdInsertLink className="text-3xl mx-auto text-gray-500 mb-2" />
             <p className="text-xs">Linked Account</p>
           </Link>
         </div>
@@ -221,7 +224,7 @@ const ProfileConsumer = () => {
 
         {/* Icon with Name: Transaction History */}
         <div className="text-center">
-          <History className="text-6xl text-gray-500 mb-2" />
+          <IoWalletOutline className="text-3xl mx-auto text-gray-500 mb-2" />
           <p className="text-xs">Load</p>
         </div>
       </div>
