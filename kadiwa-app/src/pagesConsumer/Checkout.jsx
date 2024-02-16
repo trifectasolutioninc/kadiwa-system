@@ -11,6 +11,7 @@ const Checkout = () => {
   const location = useLocation();
   const selectedItems = location.state.selectedItems;
   const storeNames = location.state.storeNames;
+  const path = location.state.path;
   const [paymentOption, setPaymentOption] = useState('Cash');
   const [storeReceiptGenerator, setStoreReceiptGenerator] = useState(null);
   const uid = sessionStorage.getItem('uid');
@@ -214,7 +215,7 @@ const Checkout = () => {
     <div className="container mx-auto bg-gray-200 h-screen">
       <div className='h-auto '>
         <div className='flex pt-4 mb-8 items-center space-x-2'>
-        <NavLink to={"/main/cart/"} className='px-4'>
+        <NavLink to={path} className='px-4'>
         <IoMdArrowRoundBack />
           </NavLink>
         <h1 className="text-lg font-bold  text-green-700">Checkout</h1>

@@ -8,7 +8,6 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 
-
 const StoreList = ({ productCode }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,18 +18,17 @@ const StoreList = ({ productCode }) => {
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedStoreadd, setSelectedStoreadd] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-  const [deliveryOption, setDeliveryOption] = useState("pickup"); // Default to "pickup"
-  const navigate = useNavigate();
   const [storeAddress, setstoreAddress] = useState(null);
-
+  const navigate = useNavigate();
 
   const uid = sessionStorage.getItem('uid');
+
   useEffect(() => {
     const database = configFirebaseDB();
     const usersAccountRef = ref(database, 'store_information');
     const storeaddRef = ref(database, 'store_address_information');
     const productInventoryRef = ref(database, 'product_inventory');
-  
+    
     // Fetch store address information
     get(storeaddRef)
       .then((snapshot) => {
@@ -38,7 +36,6 @@ const StoreList = ({ productCode }) => {
           console.error('Store address information not found.');
           return;
         }
-  
         const storeAddressData = snapshot.val();
         // Set the store address state variable
         setstoreAddress(storeAddressData);
@@ -46,7 +43,7 @@ const StoreList = ({ productCode }) => {
       .catch((error) => {
         console.error('Error fetching store address:', error);
       });
-  
+    
     // Fetch product details
     get(productInventoryRef)
       .then((snapshot) => {
@@ -55,33 +52,22 @@ const StoreList = ({ productCode }) => {
           setIsLoading(false);
           return;
         }
-  
         const productDetails = snapshot.val();
-  
         // Filter products based on the desired product code
         const filteredProducts = Object.values(productDetails)
           .filter((product) => String(product.product_code) === String(productCode));
-  
-        console.log('Filtered Products:', filteredProducts);
-  
         setFilteredProducts(filteredProducts);
-  
         if (filteredProducts.length === 0) {
           console.error(`No product found with code ${productCode}`);
           setIsLoading(false);
           setNoStoresFound(true);
           return;
         }
-  
         // Extract store IDs from the filtered products
         const storeIds = filteredProducts.map((product) => product.id.split('-')[0] + '-' + product.id.split('-')[1]);
-  
-        console.log('Store IDs:', storeIds);
-  
         // Fetch store details for the identified stores
-const storePromises = storeIds.map((storeKey) => get(child(usersAccountRef, storeKey)));
-return Promise.all(storePromises);
-
+        const storePromises = storeIds.map((storeKey) => get(child(usersAccountRef, storeKey)));
+        return Promise.all(storePromises);
       })
       .then((storeSnapshots) => {
         const stores = [];
@@ -92,14 +78,11 @@ return Promise.all(storePromises);
             console.error('Store details not found for a specific store.');
           }
         });
-  
         if (stores.length === 0) {
           console.error('No store details found.');
           setNoStoresFound(true);
           return;
         }
-  
-        console.log('Stores with Product:', stores);
         setStoresWithProduct(stores);
       })
       .catch((error) => {
@@ -110,8 +93,6 @@ return Promise.all(storePromises);
         setIsLoading(false);
       });
   }, [productCode]);
-  
-  
 
   // Function to open the modal
   const openModal = (store, add) => {
@@ -127,19 +108,13 @@ return Promise.all(storePromises);
     setSelectedQuantity(1);
   };
 
+  // Function to add to cart
   const addToCart = () => {
-    // Check if there is a selected store and product
     if (!selectedStore || filteredProducts.length === 0) {
       console.error('Cannot add to cart: Selected store or product not available.');
       return;
     }
-
-
-
-    // Get the product details
     const product = filteredProducts[0];
-
-    // Create the cart item object
     const cartItem = {
       commodity_type: product.commodity_type,
       keywords: product.keywords,
@@ -149,17 +124,9 @@ return Promise.all(storePromises);
       unit_measurement: product.unit_measurement,
       qty: selectedQuantity,
     };
-
-    // Construct the key for the cart collection
     const cartKey = `${uid}_${selectedStore.id}`;
-
-    // Construct the cart collection path
     const cartCollectionPath = `cart_collection/${cartKey}`;
-
-    // Get a reference to the cart collection in the database
     const cartCollectionRef = ref(configFirebaseDB(), cartCollectionPath);
-
-    // Update the cart collection with the new item
     get(cartCollectionRef)
       .then((snapshot) => {
         const cartData = snapshot.exists() ? snapshot.val() : {};
@@ -168,8 +135,6 @@ return Promise.all(storePromises);
         cartData.consumer_id = uid;
         cartData.CartList = cartData.CartList || {};
         cartData.CartList[product.product_code] = cartItem;
-
-        // Save the updated cart data back to the database
         return set(cartCollectionRef, cartData);
       })
       .then(() => {
@@ -196,6 +161,7 @@ return Promise.all(storePromises);
     setSelectedStore(null);
   };
 
+  // Function to increment quantity
   const incrementQuantity = () => {
     setSelectedQuantity(prevQuantity => prevQuantity + 1);
   };
@@ -205,88 +171,49 @@ return Promise.all(storePromises);
     setSelectedQuantity(prevQuantity => Math.max(prevQuantity - 1, 1));
   };
 
-
-  const handleCheckout = () => {
-
-    // Check if there is a selected store and product
-    if (!selectedStore || filteredProducts.length === 0) {
-      console.error('Cannot checkout: Selected store or product not available.');
-      return;
-    }
-
-    // Get the product details
-    const product = filteredProducts[0];
-
-    // Create the order object
-    const order = {
-      storeName: selectedStore.name,
-      city: selectedStore.city,
-      province: selectedStore.province,
-      owner_id: selectedStore.id,
-      product: {
-        commodity_type: product.commodity_type,
-        keywords: product.keywords,
-        price: product.price,
-        product_code: product.product_code,
-        product_name: product.product_name,
-        unit_measurement: product.unit_measurement,
-      },
-      quantity: selectedQuantity,
-      deliveryOption: deliveryOption,
-
-    };
-
-    console.log('Order:', order);
-
-    // Navigate to the respective page based on the delivery option
-    if (deliveryOption === 'pickup') {
-      // Pass the order information to the Pickup page
-      console.log('Navigating to Pickup page with order:', order);
-      navigate('/route/pickup', { state: { order } });
-    } else if (deliveryOption === 'delivery') {
-      // Pass the order information to the Delivery page
-      console.log('Navigating to Delivery page with order:', order);
-      navigate('/route/delivery', { state: { order } });
-    }
-
-    // Close the checkout modal
-    closeCheckoutModal();
+// Function to handle checkout
+const handleCheckout = (product) => {
+  if (!product || !selectedStore) {
+    console.error('Cannot proceed to checkout: Product or store not available.');
+    return;
+  }
+  const selectedItems = [{
+    productId: product.id.split('-')[2],
+    productInfo: { ...product, qty: selectedQuantity },
+    storeKey: selectedStore.id,
+ 
+  }];
+  const storeNames = {
+    [selectedStore.id]: selectedStore.name
   };
+  const path = `/main/productinfo/${product.id.split('-')[2]}`;
+  navigate('/route/checkout', { state: { selectedItems, storeNames, path } });
+};
 
-  const truncateStoreName = (name, maxLength) => {
-    return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
-  };
 
   return (
     <div>
       <div className='px-4'>
         <h2 className=" font-bold text-green-700">Stores</h2>
         <span className='text-black opacity-80 text-xs '>Choose the store you want to make a purchase from</span>
-
-
       </div>
-
       {!isLoading && !noStoresFound && (
         <ul>
           {storesWithProduct.map((store) => {
-            // Extract store ID from store contact
             const storeId = store.id;
-            // Find the corresponding address data for this store ID
             const addressData = storeAddress && storeAddress[storeId];
-           
-
             return (
               <div key={store.id} className='bg-white mx-4 my-1 rounded-md shadow-md grid grid-cols-10'>
                 <div className=' col-span-7 p-4'>
                   <div className='flex items-center space-x-2'>
                     <p className='font-bold text-gray-800 text-xs'>
-                      {truncateStoreName(store.name, 12)}
+                      {store.name.length > 12 ? `${store.name.slice(0, 12)}...` : store.name}
                     </p>
                     <p className='text-xs text-blue-500 font-semibold cursor-pointer'>Visit</p>
                   </div>
                   <div className='flex space-x-1'>
                     <LocationOnIcon fontSize='10px' className='' />
-                    <p className='text-gray-800 text-xs font-semibold'>{addressData.city}, {addressData.province}</p>
+                    <p className='text-gray-800 text-xs font-semibold'>{addressData && `${addressData.city}, ${addressData.province}`}</p>
                   </div>
                   <p className='text-gray-500 text-xs mt-4'>1,032 sold</p>
                   <div className='flex space-x-2'>
@@ -301,31 +228,26 @@ return Promise.all(storePromises);
                   </div>
                 </div>
                 <div className=' items-center justify-center flex flex-col md:flex-row col-span-3 md:mx-4'>
-                  <button onClick={() => openModal(store, addressData)} className='bg-gray-300  h-1/2 text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none '>Add to Cart</button>
-                  <button onClick={() => openCheckoutModal(store, addressData)} className='bg-green-700  h-1/2  text-white text-xs font-bold w-full rounded-br-md md:rounded-none'>Buy Now</button>
+                  <button onClick={() => openModal(store, addressData)} className='bg-gray-300 h-1/2 text-gray-800 text-xs w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none'>Add to Cart</button>
+                  <button onClick={() => openCheckoutModal(store, addressData)} className='bg-green-700 h-1/2 text-white text-xs font-bold w-full rounded-br-md md:rounded-none'>Buy Now</button>
                 </div>
               </div>
             );
           })}
         </ul>
       )}
-
-
       {/* Modal for adding to cart */}
       {isModalOpen && (
         <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
           <div className='absolute bg-white p-6 rounded-md shadow-md w-3/4'>
             <h3 className='text-lg font-bold text-gray-800'>{selectedStore.name}</h3>
-            <p className='text-gray-700 '>{selectedStoreadd.city}, {selectedStoreadd.province}</p>
-
-            {/* Display product details */}
+            <p className='text-gray-700 '>{selectedStoreadd && `${selectedStoreadd.city}, ${selectedStoreadd.province}`}</p>
             {filteredProducts.length > 0 && (
               <div>
                 <p className='mt-4'>Product: {filteredProducts[0].product_name}</p>
                 <p>Price: {filteredProducts[0].price}</p>
               </div>
             )}
-            {/* Quantity input with add/subtract buttons */}
             <div className='flex items-center mt-2'>
               <button onClick={decrementQuantity} className='bg-red-500 text-white px-2 py-1 rounded-l-md'>-</button>
               <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
@@ -334,62 +256,30 @@ return Promise.all(storePromises);
             <div className='flex items-center justify-between mt-4'>
               <button onClick={closeModal} className='bg-gray-300 text-gray-800 px-4 py-2  rounded-md' >Cancel</button>
               <button onClick={addToCart} className='bg-green-700 text-white px-4 py-2  rounded-md'>Add to Cart</button>
-
             </div>
-            {/* #main.main.bg-gray-100>.container>li*3 */}
-
-
-
           </div>
         </div>
       )}
-
       {/* Modal for checkout */}
       {isCheckoutModalOpen && (
         <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm'>
           <div className='absolute bg-white p-6 rounded-md shadow-md w-3/4'>
-            <h3 className='text-lg font-bold text-gray-800'>{selectedStore.storeName}</h3>
-            <p className='text-gray-700'>{selectedStore.city}, {selectedStore.province}</p>
-
-            {/* Display product details (if needed) */}
+            <h3 className='text-lg font-bold text-gray-800'>{selectedStore.name}</h3>
+            <p className='text-gray-700 '>{selectedStoreadd && `${selectedStoreadd.city}, ${selectedStoreadd.province}`}</p>
             {filteredProducts.length > 0 && (
               <div>
                 <p className='mt-4'>Product: {filteredProducts[0].product_name}</p>
                 <p>Price: {filteredProducts[0].price}</p>
               </div>
             )}
-
-            {/* Quantity input with add/subtract buttons */}
             <div className='flex items-center mt-2'>
               <button onClick={decrementQuantity} className='bg-red-500 text-white px-2 py-1 rounded-l-md'>-</button>
               <input type='number' value={selectedQuantity} onChange={(e) => setSelectedQuantity(e.target.value)} className='border border-gray-300 px-2 py-1 w-16 text-center w-full' />
               <button onClick={incrementQuantity} className='bg-blue-500 text-white px-2 py-1 rounded-r-md'>+</button>
             </div>
-            <div className='mt-4'>
-              <label className="mr-2">
-                <input
-                  type="radio"
-                  value="pickup"
-                  checked={deliveryOption === "pickup"}
-                  onChange={() => setDeliveryOption("pickup")}
-                />
-                Book & Pickup
-              </label>
-              <span className='mr-2 text-gray-400'>|</span>
-              <label>
-                <input
-                  type="radio"
-                  value="delivery"
-                  checked={deliveryOption === "delivery"}
-                  onChange={() => setDeliveryOption("delivery")}
-                />
-                Delivery
-              </label>
-            </div>
-
             <div className='flex items-center justify-between mt-4'>
               <button onClick={closeCheckoutModal} className='bg-gray-300 text-gray-800 px-4 py-2 rounded-md'>Cancel</button>
-              <button className='bg-yellow-600 text-white px-4 py-2 rounded-md' onClick={handleCheckout}>Checkout</button>
+              <button className='bg-yellow-600 text-white px-4 py-2 rounded-md' onClick={() => handleCheckout(filteredProducts[0])}>Checkout</button>
             </div>
           </div>
         </div>

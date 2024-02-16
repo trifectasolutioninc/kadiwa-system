@@ -208,7 +208,7 @@ const Cart = () => {
         storeNames[storeKey] = storeInfo.storeName;
       }
     }
-  
+    const path = `/main/cart`;
     navigate('/route/checkout', { state: { selectedItems: selectedItemsArray, storeNames: storeNames } });
   };
   
