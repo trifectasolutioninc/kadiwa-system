@@ -273,7 +273,7 @@ const db = firebaseDB();
           </p>
         </div>
       </div>
-      <div className='fixed bottom-0 text-center py-4 text-xs text-gray-600'>
+      <div className='fixed bottom-0 text-center py-4 text-xs text-gray-600 mt-4'>
         <p> {version}</p>
       </div>
     </div>
