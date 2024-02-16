@@ -3,9 +3,10 @@ import { imageConfig } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import StoreList from '../pagesConsumer/ProductStoreList'
@@ -26,7 +27,14 @@ const ProductDetails = ({ productDetails }) => {
 
   return (
     <div className="p-2 bg-white rounded-md shadow-md m-2">
-      <h1 className="font-bold text-green-700">Product Details</h1>
+      <div className='flex pt-4 mb-1 items-center space-x-1'>
+        <NavLink to={"/main"} className='px-4'>
+          <IoMdArrowRoundBack />
+        </NavLink>
+        <h1 className="text-lg font-bold  text-green-700">Product Details</h1>
+
+      </div>
+     
       <div id="product-details-container" className="h-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
         <div className="h-56 sm:h-auto px-4">
           <img src={imageSrc} alt={product_name} className="rounded-md bg-cover h-full w-full" />

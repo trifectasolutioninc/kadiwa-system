@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Notifications } from '@mui/icons-material';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import configFirebaseDB from '../Configuration/config';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const StoreConsumer = () => {
   const [storeList, setStoreList] = useState([]);
@@ -36,6 +37,13 @@ const StoreConsumer = () => {
 
   return (
     <div className="h-screen bg-gray-100">
+      <div className='flex pt-4 mb-1 items-center '>
+        <NavLink to={"/main"} className='px-4'>
+          <IoMdArrowRoundBack />
+        </NavLink>
+        <h1 className="text-lg text-green-600  font-bold">Store</h1>
+
+      </div>
       {/* Top Navigation with Search and Notification */}
       <div className="p-4 flex items-center justify-between bg-gray-100">
         {/* Search Input */}
@@ -53,10 +61,7 @@ const StoreConsumer = () => {
         </div>
       </div>
 
-      <div className="p-4 flex justify-between">
-        <h1 className="font-bold text-lg text-green-600">Stores</h1>
-        <span className="bg-white rounded-2xl p-1 text-xs text-gray-500">Select Products</span>
-      </div>
+      
 
       {/* Body Content */}
       <div className="container mx-auto mb-16">

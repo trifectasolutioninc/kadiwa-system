@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Add, Info, CreditCard, Link as LinkIcon, History, LocalShipping, LocalMall, Done, Settings, Store } from '@mui/icons-material';
 import { Avatar, Badge } from '@mui/material';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link , NavLink } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { FaBox } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
@@ -112,9 +113,12 @@ const ProfileConsumer = () => {
 
   return (
     <div className="h-auto bg-gray-100">
-      <div className="p-4 flex justify-between">
-        <h1 className="font-bold text-lg text-green-700">Profile</h1>
-        <div></div>
+      <div className='flex pt-4 mb-1 items-center '>
+        <NavLink to={"/main"} className='px-4'>
+          <IoMdArrowRoundBack />
+        </NavLink>
+        <h1 className="text-lg text-green-600  font-bold">Profile</h1>
+
       </div>
 
       {/* Profile Information */}
@@ -155,7 +159,7 @@ const ProfileConsumer = () => {
         </div>
       )}
 
-      <div id="applyPartner" className="bg-green-300 mx-4 p-2 justify-between flex items-center rounded ">
+      {/* <div id="applyPartner" className="bg-green-300 mx-4 p-2 justify-between flex items-center rounded ">
         <span> Do you want to be Kadiwa Partner? Read more.</span>
         <Button className="bg-blue-500 p-1 text-white rounded">Apply</Button>
       </div>
@@ -168,7 +172,7 @@ const ProfileConsumer = () => {
         </div>
         
         <Link to="/partner/home" id="storeButton" className="bg-blue-500 py-1 px-4 text-white rounded ">Store</Link>
-      </div>
+      </div> */}
 
       <div className="px-4 flex justify-between mt-4">
         <h1 className="font-bold text-lg text-gray-800">My Wallet</h1>
@@ -238,7 +242,7 @@ const ProfileConsumer = () => {
         {/* Icon with Name: To Received */}
         <div className="text-center">
           <LocalMall className="text-3xl text-gray-500 mb-2" />
-          <p className="text-sm">To Received</p>
+          <p className="text-sm">To Receive</p>
         </div>
 
         {/* Icon with Name: Complete */}

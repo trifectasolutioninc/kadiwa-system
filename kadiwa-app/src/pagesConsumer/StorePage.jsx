@@ -4,7 +4,8 @@ import { ref, get } from 'firebase/database';
 import configFirebaseDB from '../Configuration/config';
 import ChatIcon from '@mui/icons-material/Chat';
 import { imageConfig, commodityTypes } from '../Configuration/config-file';
-import { Link } from 'react-router-dom'; 
+import { Link , NavLink} from 'react-router-dom'; 
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const StorePage = () => {
   const { storeID } = useParams();
@@ -90,7 +91,13 @@ const StorePage = () => {
 
   return (
     <div className="h-screen bg-gray-100 pt-1 ">
-    <div className=' justify-between flex p-4 rounded-md bg-white shadow-md m-4'>
+      <div className='p-4 rounded-md bg-white shadow-md m-4'>
+      <NavLink to={"/main/store/"} className=''>
+        <IoMdArrowRoundBack />
+      </NavLink>
+      <hr />
+      <div className=' justify-between flex '>
+      
       <div>
         <h1 className='text-gray-700 font-bold text-lg'>{storeData.name}</h1>
         <p className='text-gray-500 text-sm'>{storeAddress.city + ', ' + storeAddress.province}</p>
@@ -101,8 +108,14 @@ const StorePage = () => {
         <button><ChatIcon className='text-green-600'/></button>
       </Link>
     </div>
+        
+      </div>
+    
     <div className='flex justify-between mt-4 mx-4'>
       <div className='font-semibold text-gray-600'>
+     
+      
+   
         <h1>Products</h1>
       </div>
       <div className=' space-x-2 '>

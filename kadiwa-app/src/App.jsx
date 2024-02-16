@@ -7,19 +7,21 @@ import TermsAndConditions from './pagesAuth/TandC'
 import RouteLink  from './Routes/routeLink'
 import StoreLink from './Routes/StoreLink'
 import POSLink from './Routes/POSLink';
+import Registration from './pagesAuth/registration';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignInPages />} />
+        <Route path="/signin" element={<SignInPages />} />
         <Route path="/signup" element={<RegistrationPage />} />
         <Route path="/tandc" element={<TermsAndConditions />} />
         <Route path="/main/*" element={<ConsumerMain />} />
         <Route path="/route/*" element={<RouteLink  />} />
         <Route path="/partner/*" element={<StoreLink  />} />
         <Route path="/pos/*" element={<POSLink  />} />
+        <Route path='/' element={<Registration/>}/>
       </Routes>
     </Router>
   );

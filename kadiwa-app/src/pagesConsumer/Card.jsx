@@ -3,6 +3,8 @@ import { imageConfig , commodityTypes } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import QRCode from 'qrcode';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { NavLink } from 'react-router-dom';
 
 const Card = () => {
     const [userData, setUserData] = useState(null);
@@ -48,10 +50,13 @@ const Card = () => {
     return (
         <div className="h-screen bg-gray-100">
         <div className="h-full overflow-y-auto p-4">
-          <div className="flex justify-between">
-            <h1 className="font-bold text-lg">Virtual Card</h1>
-            <div></div>
-          </div>
+        <div className='flex pt-4 mb-1 items-center '>
+        <NavLink to={"/main/profile"} className='px-4'>
+          <IoMdArrowRoundBack />
+        </NavLink>
+        <h1 className="text-lg text-green-600  font-bold">Card</h1>
+
+      </div>
       
           <div className="relative max-w-md bg-cover bg-center rounded-lg overflow-hidden m-4">
             {/* Background Image */}

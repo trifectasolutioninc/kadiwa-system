@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import configFirebaseDB from '../Configuration/config';
 import { paymentImg } from '../Configuration/config-file';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { NavLink } from 'react-router-dom';
 
 const LinkedAccount = () => {
   const [linkedAccounts, setLinkedAccounts] = useState([]);
@@ -67,12 +69,13 @@ const LinkedAccount = () => {
   return (
     <div className="h-screen bg-gray-200">
       <div className="h-full overflow-y-auto p-4">
-        <div className="flex justify-between">
-          <h1 className="font-bold text-lg text-green-600">Linked Accounts</h1>
-          <div>
-            <span className="text-sm">Change</span>
-          </div>
-        </div>
+      <div className='flex pt-4 mb-1 items-center '>
+        <NavLink to={"/main/profile"} className='px-4'>
+          <IoMdArrowRoundBack />
+        </NavLink>
+        <h1 className="text-lg text-green-600  font-bold">Linked Account</h1>
+
+      </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4'>
         {linkedAccounts.map((account, index) => (
           <div key={index} className="bg-white shadow-lg rounded-2xl m-4 ">

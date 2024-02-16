@@ -1,43 +1,44 @@
 // PickupTransaction.jsx
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import { ref, child, get } from 'firebase/database';
 import configFirebaseDB from '../Configuration/config';
 import { IoQrCode } from "react-icons/io5";
 import { FaCheckCircle } from "react-icons/fa";
 import QRCode from 'qrcode';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const Modal = ({ onClose, pickupVerificationId }) => {
-    const qrCodeRef = useRef(null);
-  
-    useEffect(() => {
-      if (qrCodeRef.current) {
-        QRCode.toCanvas(qrCodeRef.current, pickupVerificationId, function (error) {
-          if (error) console.error(error);
-        });
-      }
-    }, [pickupVerificationId]);
-  
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-8 w-96 rounded-md">
-          <h2 className="text-2xl font-bold mb-4">Order Confirmation</h2>
-          <p className="text-gray-600 mb-4">
-            Please use the QR code below for the confirmation of your order.
-          </p>
-          <div className="flex justify-center mb-4">
-            <canvas ref={qrCodeRef} />
-          </div>
-          <button
-            className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-300"
-            onClick={onClose}
-          >
-            Okay
-          </button>
+  const qrCodeRef = useRef(null);
+
+  useEffect(() => {
+    if (qrCodeRef.current) {
+      QRCode.toCanvas(qrCodeRef.current, pickupVerificationId, function (error) {
+        if (error) console.error(error);
+      });
+    }
+  }, [pickupVerificationId]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-8 w-96 rounded-md">
+        <h2 className="text-2xl font-bold mb-4">Order Confirmation</h2>
+        <p className="text-gray-600 mb-4">
+          Please use the QR code below for the confirmation of your order.
+        </p>
+        <div className="flex justify-center mb-4">
+          <canvas ref={qrCodeRef} />
         </div>
+        <button
+          className="w-full bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition duration-300"
+          onClick={onClose}
+        >
+          Okay
+        </button>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 const PickupTransaction = () => {
   const { status } = useParams();
@@ -60,7 +61,7 @@ const PickupTransaction = () => {
     const fetchPickupOrders = async () => {
       const database = configFirebaseDB();
       const pickupOrdersRef = ref(database, 'orders_list');
-      
+
       try {
         const snapshot = await get(pickupOrdersRef);
         if (snapshot.exists()) {
@@ -82,22 +83,29 @@ const PickupTransaction = () => {
     <div className=' bg-gray-100'>
       {pickupOrders.length > 0 ? (
         <div className='px-4 '>
-          <h2 className='text-green-700 font-bold py-2'>{status.toUpperCase()} STATUS</h2>
+
+          <div className='flex pt-4 mb-1 items-center '>
+            <NavLink to={"/main/profile"} className='px-4'>
+              <IoMdArrowRoundBack />
+            </NavLink>
+            <h1 className="text-lg text-green-600  font-bold">{status.toUpperCase()} STATUS</h1>
+
+          </div>
           <ul>
             {pickupOrders.map(order => (
-              (uid === order.consumer && order.status.toUpperCase() === status.toUpperCase() && order.shippingOption === "Pickup" ) && (
+              (uid === order.consumer && order.status.toUpperCase() === status.toUpperCase() && order.shippingOption === "Pickup") && (
                 <li key={order.transaction_code} className='grid grid-cols-10 bg-white rounded-md shadow-md p-2 mb-2 items-center' >
                   <div className='col-span-6 '>
-                      <p className=' font-semibold text-xs '>{order.store_id} </p>
-                      <p className=' text-gray-400 text-xs  '>{order.date} </p>
+                    <p className=' font-semibold text-xs '>{order.store_id} </p>
+                    <p className=' text-gray-400 text-xs  '>{order.date} </p>
                   </div>
                   <p className=' text-red-500 text-xs col-span-2 '>{order.status.toUpperCase()} </p>
                   {status === 'pending' && (
-                    <button 
+                    <button
                       onClick={() =>
-                          handleQRButtonClick(order.transaction_code)
+                        handleQRButtonClick(order.transaction_code)
                       }
-                     className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
+                      className='text-green-700 col-span-2 mx-auto'><IoQrCode /></button>
                   )}
                   {status === 'complete' && (
                     <button className='text-green-700 col-span-2 mx-auto'><FaCheckCircle /></button>

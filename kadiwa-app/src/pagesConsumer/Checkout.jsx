@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, NavLink } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
@@ -214,9 +214,9 @@ const Checkout = () => {
     <div className="container mx-auto bg-gray-200 h-screen">
       <div className='h-auto '>
         <div className='flex pt-4 mb-8 items-center space-x-2'>
-        <div className='px-4'>
+        <NavLink to={"/main/cart/"} className='px-4'>
         <IoMdArrowRoundBack />
-          </div>
+          </NavLink>
         <h1 className="text-lg font-bold  text-green-700">Checkout</h1>
 
         </div>

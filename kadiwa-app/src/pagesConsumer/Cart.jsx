@@ -3,8 +3,8 @@ import CartItem from './CartItem'; // Import your CartItem component here
 import { imageConfig, commodityTypes } from '../Configuration/config-file';
 import configFirebaseDB from '../Configuration/config';
 import { ref, get, remove, update } from 'firebase/database';
-import { Link, useNavigate  } from 'react-router-dom';
-
+import { Link, useNavigate, NavLink  } from 'react-router-dom';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const Cart = () => {
   const uid = sessionStorage.getItem('uid');
@@ -220,14 +220,23 @@ const Cart = () => {
       {cartData !== null ? (
         <div>
           <div>
-            <div className="p-4 flex justify-between">
-              <h1 className="font-bold text-lg p-4 text-green-600">Cart ({getTotalQuantity(cartData)})</h1>
-              <div>
+          <div className='flex pt-4 mb-1 justify-between'>
+            <div className='flex items-center'>
+            <NavLink to={"/main"} className='px-4'>
+              <IoMdArrowRoundBack />
+            </NavLink>
+            <h1 className="text-lg text-green-600  font-bold">Cart ({getTotalQuantity(cartData)})</h1>
+
+            </div>
+            <div>
                 <span className="text-xs text-red-500 mr-2 bg-white rounded-full px-2 p-1 cursor-pointer" onClick={handleDelete}>
                   Delete
                 </span>
               </div>
-            </div>
+            
+
+          </div>
+          
 
             <div className="mb-16">
               {Object.entries(cartData).map(([storeKey, storeInfo]) => (

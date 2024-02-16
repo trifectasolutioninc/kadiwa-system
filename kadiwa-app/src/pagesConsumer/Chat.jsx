@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Notifications } from '@mui/icons-material';
 import { ref, child, get, onValue, off } from 'firebase/database'; // Import Firebase database methods
 import configFirebaseDB from '../Configuration/config-firebase2';
-import { Link } from 'react-router-dom'; 
+import { Link , NavLink} from 'react-router-dom'; 
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
 
@@ -84,6 +85,14 @@ const Chat = () => {
 
   return (
     <div className='bg-gray-100 h-screen'>
+      
+      <div className='flex pt-4 mb-1 items-center '>
+        <NavLink to={"/main"} className='px-4'>
+          <IoMdArrowRoundBack />
+        </NavLink>
+        <h1 className="text-lg text-green-600  font-bold">Messages</h1>
+
+      </div>
       <div className="p-4 flex items-center justify-between bg-gray-100">
         <div className="flex-grow">
           <input
@@ -96,7 +105,7 @@ const Chat = () => {
           <Notifications className="text-gray-700" />
         </div>
       </div>
-      <h1 className='text-lg text-green-600 px-4 font-bold'>Messages </h1>
+   
       <div className="container mx-auto mb-16">
         <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
           {/* Filter chatData based on uid and map through filtered data */}
