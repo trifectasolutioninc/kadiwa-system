@@ -1,12 +1,11 @@
 import React from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 function StoreMap() {
   // Specify the desired location
-  const embeddedLocation = {
-    lat: 40.7128, // Latitude of the location
-    lng: -74.006, // Longitude of the location
-  };
+  //   const embeddedLocation = {
+  //     lat: 40.7128, // Latitude of the location
+  //     lng: -74.006, // Longitude of the location
+  //   };
 
   return (
     <>
