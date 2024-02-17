@@ -80,6 +80,24 @@ const Checkout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contactPerson, setContactPerson] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+    // Group items by store key
+  const groupedItems = selectedItems.reduce((acc, item) => {
+    if (!acc[item.storeKey]) {
+      acc[item.storeKey] = [];
+    }
+    acc[item.storeKey].push(item);
+    return acc;
+  }, {});
+
+    // Initialize shipping option state for each store
+    const [shippingOptions, setShippingOptions] = useState(() => {
+      const initialOptions = {};
+      Object.keys(groupedItems).forEach((storeKey) => {
+        initialOptions[storeKey] = "Delivery";
+      });
+      return initialOptions;
+    });
+  
 
 
 
@@ -144,23 +162,7 @@ const Checkout = () => {
     fetchStoreReceiptGenerator();
   }, []);
 
-  // Group items by store key
-  const groupedItems = selectedItems.reduce((acc, item) => {
-    if (!acc[item.storeKey]) {
-      acc[item.storeKey] = [];
-    }
-    acc[item.storeKey].push(item);
-    return acc;
-  }, {});
 
-  // Initialize shipping option state for each store
-  const [shippingOptions, setShippingOptions] = useState(() => {
-    const initialOptions = {};
-    Object.keys(groupedItems).forEach((storeKey) => {
-      initialOptions[storeKey] = "Delivery";
-    });
-    return initialOptions;
-  });
 
   // Calculate total price for items in a store
   const calculateTotalPrice = (items) => {
@@ -179,14 +181,14 @@ const Checkout = () => {
   const calculateTotalPriceWithShipping = (items, option) => {
     return calculateTotalPrice(items) + calculateShippingCost(option);
   };
-
-  // Handle change in shipping option for a store
+  
   const handleShippingOptionChange = (storeKey, option) => {
     setShippingOptions((prevOptions) => ({
       ...prevOptions,
       [storeKey]: option,
     }));
   };
+  
 
   // Calculate merchandise subtotal
   const merchandiseSubtotal = Object.values(groupedItems).reduce(
@@ -330,6 +332,36 @@ const Checkout = () => {
             setShowModal(true);
                 setModalContent({ isSuccess: false });
             console.error(`Error deleting cart for store ${storeKey}:`, error);
+          });
+
+          set(storeOrdersRef, orderData)
+          .then(() => {
+            console.log(`Order for store ${storeKey} placed successfully!`);
+            // Remove items from the cart
+            const updates = {};
+            for (const item of items) {
+              updates[
+                `cart_collection/${storeKey}/CartList/${item.productId}`
+              ] = null;
+            }
+            // Apply all updates to the database in a single transaction
+            update(ref(firebaseDB), updates)
+              .then(() => {
+                console.log("Items removed from the cart successfully!");
+                setShowModal(true);
+                setModalContent({ isSuccess: true }); // Indicate success
+              })
+              .catch((error) => {
+                console.error("Error removing items from the cart:", error);
+                setShowModal(true);
+                setModalContent({ isSuccess: false });
+              });
+          })
+          .catch((error) => {
+            console.error(`Error placing order for store ${storeKey}:`, error);
+            // Inside .catch of set(storeOrdersRef, orderData)
+            setShowModal(true);
+            setModalContent({ isSuccess: false });
           });
       } else {
         // Proceed with individual items
