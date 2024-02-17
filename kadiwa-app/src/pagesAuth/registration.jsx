@@ -87,7 +87,7 @@ const Registration = () => {
             bday: "N/A",
             email: "N/A",
             gender: "N/A",
-            first_name: "",
+            first_name: "No name",
             last_name: "",
             middle_name: "",
             suffix: "",
@@ -98,7 +98,7 @@ const Registration = () => {
         const authData = {
             id: userID,
             email: "N/A",
-            username: "N/A",
+            username: userID,
             store_id: "None",
             contact: consumerFormData.contact,
             password: consumerFormData.password
@@ -122,11 +122,27 @@ const Registration = () => {
                 region: "",
                 province: "",
                 city: "",
-                barangay: "",
+                barangay: "No Address",
                 landmark: "",
-                fullname: "",
-                maplink: ""
-            }
+                person: "",
+                maplink: "",
+                contact: consumerFormData.contact,
+            },
+            additional: {
+              0 : {
+                id: 0,
+                region: "",
+                province: "",
+                city: "",
+                barangay: "No Address",
+                landmark: "",
+                person: "",
+                maplink: "",
+                contact: "No Contact Person",
+
+              }
+             
+          }
         };
 
         const storeRef = ref(db, 'store_information/' + 'None');
@@ -136,6 +152,7 @@ const Registration = () => {
         };
 
         try {
+
             await Promise.all([
                 set(userRef, user),
                 set(storeRef, storeData),

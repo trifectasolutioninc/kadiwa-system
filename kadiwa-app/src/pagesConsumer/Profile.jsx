@@ -3,7 +3,7 @@ import { Add, Info, CreditCard, Link as LinkIcon, History, LocalShipping, LocalM
 import { Avatar, Badge } from '@mui/material';
 import { Button } from '@mui/material';
 import { Link , NavLink } from 'react-router-dom';
-import configFirebaseDB from '../Configuration/config';
+import firebaseDB from '../Configuration/config';
 import { ref, child, get } from 'firebase/database';
 import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 import { FaBox } from "react-icons/fa";
@@ -23,7 +23,7 @@ const ProfileConsumer = () => {
         return;
       }
 
-      const database = configFirebaseDB();
+      const database = firebaseDB();
       const usersAccountRef = ref(database, 'users_information');
       const usersWalletRef = ref(database, 'user_wallet');
       const usersStoreRef = ref(database, 'store_information');

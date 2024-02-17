@@ -4,186 +4,260 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import EditIcon from '@mui/icons-material/Edit';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import configFirebaseDB from '../Configuration/config';
-import { ref, child, get } from 'firebase/database';
-import { Link } from 'react-router-dom';
+import firebaseDB from '../Configuration/config';
+import { ref, child, get, update } from 'firebase/database';
+import { useParams, NavLink, Link } from 'react-router-dom';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import EditAddress from './Profile/EditAddress';
+import AddAddressModal from './Profile/AddAddress';
+
 
 const ProfileInfo = () => {
 
-    const [userData, setUserData] = useState({
-        usertype: '',
-        info_status: '',
-        fullname: 'No Name',
-        contact: 'No Contact',
-        email: 'No Email',
+  const [userData, setUserData] = useState({
+    usertype: '',
+    info_status: '',
+    fullname: 'No Name',
+    contact: 'No Contact',
+    email: 'No Email',
+  });
+  const [userAddresses, setUserAddresses] = useState({
+    defaultAddress: null,
+    additionalAddresses: [],
+  });
+  const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
+  const [editAddressType, setEditAddressType] = useState(null);
+  const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false); // State for Add Address modal
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const database = firebaseDB();
+        const uid = sessionStorage.getItem('uid');
+        const usersAccountRef = ref(database, 'users_information');
+        const addressesRef = ref(database, 'users_address');
+
+        const snapshot = await get(child(usersAccountRef, uid));
+        const userDataFromFirebase = snapshot.val();
+
+        if (userDataFromFirebase) {
+          setUserData(userDataFromFirebase);
+        }
+
+        // Fetch user addresses
+        const addressSnapshot = await get(child(addressesRef, uid));
+        const userAddressesFromFirebase = addressSnapshot.val();
+
+        if (userAddressesFromFirebase) {
+          setUserAddresses(userAddressesFromFirebase);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleLogout = () => {
+    sessionStorage.setItem('uid', '');
+    window.location.href = '/';
+  };
+
+  const handleEditAddressToggle = (addressType) => {
+    setEditAddressType(addressType);
+    setIsEditAddressOpen(!isEditAddressOpen);
+  };
+
+  const handleAddAddress = async (newAddress) => {
+    try {
+      const database = firebaseDB();
+      const uid = sessionStorage.getItem('uid');
+      const addressesRef = ref(database, 'users_address');
+
+      // Update additional addresses in Firebase
+      await update(child(addressesRef, uid), {
+        additional: [...(userAddresses.additional || []), newAddress],
       });
-    
-      useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const database = configFirebaseDB();
-            const uid = sessionStorage.getItem('uid');
-            const usersAccountRef = ref(database, 'users_information');
-    
-            const snapshot = await get(child(usersAccountRef, uid));
-            const userDataFromFirebase = snapshot.val();
-    
-            if (userDataFromFirebase) {
-              setUserData(userDataFromFirebase);
-            }
-          } catch (error) {
-            console.error('Error fetching user data:', error);
-          }
-        };
-    
-        fetchData();
-      }, []);
-    
-      const handleLogout = () => {
-        sessionStorage.setItem('uid', '');
-        window.location.href = '/';
-      };
-    
+
+      // Update state
+      setUserAddresses((prevState) => ({
+        ...prevState,
+        additionalAddresses: [...(prevState.additionalAddresses || []), newAddress],
+      }));
+    } catch (error) {
+      console.error('Error adding address:', error);
+    }
+  };
+
+  const closeModal = () => {
+    setIsEditAddressOpen(false);
+    setIsAddAddressModalOpen(false);
+  };
 
   return (
-    <div>
-      {/* Top Navigation with Search and Notification */}
-      {/* <div className="p-4 flex items-center justify-between bg-gray-100">
-  
-        <div className="flex-grow">
-          <TextField
-            placeholder="Search..."
-            variant="outlined"
-            fullWidth
-            InputProps={{ className: 'bg-gray-300 text-gray-600' }}
-          />
+    <div className=' bg-gray-100 h-screen'>
+      <div className='px-4'>
+        <div className='flex pt-4 mb-1 items-center  space-x-1'>
+          <NavLink to={"/main/profile"} className=''>
+            <IoMdArrowRoundBack />
+          </NavLink>
+          <h1 className="text-lg text-green-600 font-bold">Profile</h1>
         </div>
-
-    
-        <div className="ml-4">
-          <Badge badgeContent={1} color="primary">
-            <NotificationsIcon className="text-gray-700" />
-          </Badge>
-        </div>
-      </div> */}
-
-      <div className="p-4 flex justify-between">
-        <h1 variant="h5" className="font-bold text-lg text-green-600">
-          Profile
-        </h1>
-        <div></div>
-      </div>
-
-      {/* Profile Information */}
-      <div className="relative p-4 flex justify-between items-center bg-white m-4 rounded-md shadow-md">
-      <div>
-          {/* Display Picture */}
-          <Avatar id="profileImg" alt="Profile Picture" className="w-12 h-12 rounded-full" />
-        </div>
-        <div className="ml-4 mt-2">
-          {/* Display Name */}
-          <p id="fullname" variant="h6" className="font-bold">
-            {userData.first_name + " " + userData.last_name}
-          </p>
-          {/* Display Contact */}
-          <p
-            id="infostatus"
-            variant="body2"
-            className="text-gray-400 text-xs bg-gray-200 rounded-3xl text-center"
-          >
-            {userData.info_status}
-          </p>
-        </div>
-        <div className="flex items-center">
-          <div className="absolute top-0 right-0 p-2">
-            {/* Display User Type */}
+        {/* Profile Information */}
+        <div className="relative p-4 flex justify-between items-center bg-white rounded-md shadow-md">
+          <div>
+            {/* Display Picture */}
+            <Avatar id="profileImg" alt="Profile Picture" className="w-12 h-12 rounded-full" />
+          </div>
+          <div className="ml-4 mt-2">
+            {/* Display Name */}
+            <p id="fullname" variant="h6" className="font-bold">
+              {userData.first_name + " " + userData.last_name}
+            </p>
+            {/* Display Contact */}
             <p
-              id="typeofuser"
+              id="infostatus"
               variant="body2"
-              className="rounded-3xl p-1 text-xs text-gray-800"
-              style={{ backgroundColor: '#54FC6F' }}
+              className="text-gray-400 text-xs bg-gray-200 rounded-3xl text-center"
             >
-              {userData.type}
+              {userData.info_status}
             </p>
           </div>
-          {/* Make the edit icon clickable */}
-          <Link to="/route/profileedit">
-            <div className="ml-2 mt-4">
-           
-             <EditIcon className="text-gray-500" />
+          <div className="flex items-center">
+            <div className="absolute top-0 right-0 p-2">
+              {/* Display User Type */}
+              <p
+                id="typeofuser"
+                variant="body2"
+                className="rounded-3xl p-1 text-xs text-gray-800"
+                style={{ backgroundColor: '#54FC6F' }}
+              >
+                {userData.type}
+              </p>
             </div>
-          </Link>
+            {/* Make the edit icon clickable */}
+            <Link to="/route/profileedit">
+              <div className="ml-2 mt-4">
+                <EditIcon className="text-gray-500" />
+              </div>
+            </Link>
+          </div>
         </div>
-      </div>
 
-      <div className="px-4 py-2">
-      <p variant="body2" className="font-bold text-gray-500">
-          Email (Optional):
-          <span id="email" className="ml-2 font-normal">
-            {userData.email}
-          </span>
-        </p>
-        <p
-          variant="body2"
-          className="font-bold text-gray-500 mb-2"
-        >
-          Contact:
-          <span id="contact" className="ml-2 font-normal">
-          {userData.contact}
-          </span>
-        </p>
-        {/* <p
-          id="reminderofcompletion"
-          variant="body2"
-          className="font-bold text-gray-700 text-xs bg-gray-300 rounded p-1"
-        >
-          Reminder:
-          <span className="font-normal">
-            Complete the information requirements to access the consumer features.
-          </span>
-        </p> */}
-      </div>
+        <div className=" py-2 text-[0.8em] ">
+          <p variant="body2" className="font-bold text-gray-500">
+            Email (Optional):
+            <span id="email" className="ml-2 font-normal">
+              {userData.email}
+            </span>
+          </p>
+          <p
+            variant="body2"
+            className="font-bold text-gray-500 mb-2"
+          >
+            Contact:
+            <span id="contact" className="ml-2 font-normal">
+              {userData.contact}
+            </span>
+          </p>
+        </div>
 
-      <div className="px-4 flex justify-between">
-        <p variant="body2" className="font-bold text-sm">
-          Delivery Information
-        </p>
         <div>
-          <p variant="body2" className="text-sm">
-            Add
-          </p>
+          <hr />
+          <h1 className='font-bold text-gray-800 mb-2'>Delivery Information</h1>
+
+          {/* Display default address */}
+          {userAddresses.default && (
+            <div className='bg-white rounded-md shadow-lg mb-4'>
+              <div className="px-1 flex justify-between ">
+                <p variant="body2" className="text-sm text-gray-600">
+                  Default Address
+                </p>
+                <div>
+                  <button onClick={() => handleEditAddressToggle("default")} className="text-sm px-2 font-bold text-green-700 cursor-pointer">Edit</button>
+                </div>
+              </div>
+              <hr className=' mx-1' />
+
+              <div className="p-4 bg-white rounded-b-md shadow-md">
+                <div className="flex justify-between w-full">
+                  <p variant="body1" className="text-gray-700 flex-grow">
+                    {userAddresses.default.person}
+                  </p>
+                  <p variant="body1" className="text-gray-700">
+                    {userAddresses.default.contact}
+                  </p>
+                </div>
+                <p variant="body1" className="text-gray-800 flex font-semibold">
+                  <LocationOnIcon className="text-gray-500" />
+                  {userAddresses.default.barangay}, {userAddresses.default.city}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Display additional addresses */}
+          <div className="px-1 flex justify-between bg-white rounded-t-md ">
+            <p variant="body2" className="text-sm text-gray-600">
+              Additional Address
+            </p>
+            <div>
+              <button
+                onClick={() => setIsAddAddressModalOpen(true)} // Open modal when Add button is clicked
+                className="text-sm px-2 font-bold text-green-700"
+              >
+                Add
+              </button>
+              <AddAddressModal
+                showModal={isAddAddressModalOpen}
+                closeModal={closeModal}
+                handleAddAddress={handleAddAddress}
+              />
+
+            </div>
+          </div>
+          {userAddresses.additional && userAddresses.additional.map((address, index) => (
+            <div key={index} className='bg-white shadow-lg'>
+
+              <hr className=' mx-1' />
+
+              <div className="p-4">
+                <div className=' text-right'>
+                  <button onClick={() => handleEditAddressToggle(`additional/${index}`)} className=" text-sm text-right font-bold text-green-700 cursor-pointer">Edit</button>
+
+                </div>
+
+                <div className="flex justify-between w-full">
+                  <p variant="body1" className="text-gray-700 flex-grow">
+                    {address.person}
+                  </p>
+                  <p variant="body1" className="text-gray-700">
+                    {address.contact}
+                  </p>
+                </div>
+                <p variant="body1" className="text-gray-800 flex font-semibold">
+                  <LocationOnIcon className="text-gray-500" />
+                  {address.barangay}, {address.city}
+                </p>
+
+              </div>
+            </div>
+          ))}
         </div>
+        <div className='h-16 p-2'></div>
       </div>
 
-      <div className="p-4 bg-gray-200 m-4 rounded-md shadow-md">
-        <div className="flex justify-between w-full">
-          {/* Receipt's Name on the left */}
-          <p variant="body1" className="text-gray-700 flex-grow">
-            John Doe
-          </p>
-
-          {/* Phone Number on the right */}
-          <p variant="body1" className="text-gray-700">
-            09012345678
-          </p>
-        </div>
-
-        <p variant="body1" className="text-gray-800 flex font-semibold">
-          <LocationOnIcon className="text-gray-500" />
-          123 Street, Cityville
-        </p>
-      </div>
-
-      {/* Footer with Google Icons */}
-      <footer className="p-4 flex justify-around fixed bottom-0 w-full">
+      <div className='flex items-center justify-end gap-3 w-full fixed bottom-0 bg-white p-2'>
         <button
           onClick={handleLogout}
-          className="flex w-full text-center items-center justify-center rounded-md p-2  text-white bg-red-600"
+          className="flex items-center justify-center mx-auto text-white bg-red-600 w-full rounded-md p-2"
         >
           Logout
           <ExitToAppIcon />
         </button>
-      </footer>
+      </div>
+      {isEditAddressOpen && <EditAddress addressType={editAddressType} closeModal={closeModal} />}
     </div>
   );
 };
