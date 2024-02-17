@@ -19,8 +19,6 @@ const [orders, setOrders] = useState([]);
 
     useEffect(() => {
 
-    
-
         const fetchData = async () => {
             try {
                 const db = getDatabase();
@@ -33,7 +31,7 @@ const [orders, setOrders] = useState([]);
                     const ordersData = snapshot.val();
                     // Filter orders based on the status
                
-                    filteredOrders = Object.values(ordersData).filter(order => ((order.shippingOption.toLowerCase() === tab && ( order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid)) || (tab === 'history' && order.status.toLowerCase() === status.toLowerCase && order.consumer === uid) )) ;
+                    filteredOrders = Object.values(ordersData).filter(order => ((order.shippingOption.toLowerCase() === tab && ( order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid)) || (tab === 'history' && order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid) )) ;
                     console.log(filteredOrders);
                 }
     
