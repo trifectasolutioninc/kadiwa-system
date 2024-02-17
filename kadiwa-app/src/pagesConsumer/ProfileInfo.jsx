@@ -11,6 +11,19 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import EditAddress from './Profile/EditAddress';
 import AddAddressModal from './Profile/AddAddress';
 
+const MaxAddressWarningModal = ({ showModal, closeModal }) => {
+  return (
+    showModal && (
+      <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white rounded-md p-8 max-w-sm">
+          <h2 className="text-lg font-bold mb-4">Maximum Address Limit Reached</h2>
+          <p className="text-gray-700">You can only add up to 5 additional addresses.</p>
+          <button onClick={closeModal} className="mt-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300">OK</button>
+        </div>
+      </div>
+    )
+  );
+};
 
 const ProfileInfo = () => {
 
@@ -68,18 +81,24 @@ const ProfileInfo = () => {
     setEditAddressType(addressType);
     setIsEditAddressOpen(!isEditAddressOpen);
   };
+  const [isMaxAddressReached, setIsMaxAddressReached] = useState(false);
 
   const handleAddAddress = async (newAddress) => {
     try {
+      if (userAddresses.additional.length >= 5) {
+        setIsMaxAddressReached(true); // Show modal warning
+        return; // Stop further execution
+      }
+  
       const database = firebaseDB();
       const uid = sessionStorage.getItem('uid');
       const addressesRef = ref(database, 'users_address');
-
+  
       // Update additional addresses in Firebase
       await update(child(addressesRef, uid), {
         additional: [...(userAddresses.additional || []), newAddress],
       });
-
+  
       // Update state
       setUserAddresses((prevState) => ({
         ...prevState,
@@ -89,6 +108,7 @@ const ProfileInfo = () => {
       console.error('Error adding address:', error);
     }
   };
+  
 
   const closeModal = () => {
     setIsEditAddressOpen(false);
@@ -258,6 +278,7 @@ const ProfileInfo = () => {
         </button>
       </div>
       {isEditAddressOpen && <EditAddress addressType={editAddressType} closeModal={closeModal} />}
+      <MaxAddressWarningModal showModal={isMaxAddressReached} closeModal={() => setIsMaxAddressReached(false)} />
     </div>
   );
 };
