@@ -6,6 +6,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { imageConfig, commodityTypes } from "../Configuration/config-file";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import StoreMap from "./StoreMap";
 
 const StorePage = () => {
   const { storeID } = useParams();
@@ -97,6 +98,7 @@ const StorePage = () => {
       <NavLink to={"/main/store"} className="">
         <IoMdArrowRoundBack fontSize={"25px"} />
       </NavLink>
+
       <section className="p-4 space-y-2 rounded-md bg-white shadow-md">
         <div className=" justify-between flex">
           <h1 className="text-gray-700 font-bold text-lg">{storeData.name}</h1>
@@ -115,6 +117,8 @@ const StorePage = () => {
           <p className="text-gray-500 text-sm">Partner</p>
         </div>
       </section>
+
+      <StoreMap />
 
       <div className="flex justify-between">
         <div className="font-semibold text-gray-600">
