@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Home, Store, Chat, ShoppingCart, AccountCircle } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
-import { getDatabase, ref, get , onChildChanged, off} from 'firebase/database';
+import { getDatabase, ref, get, onValue, off } from 'firebase/database';
 
 const NavBttnAppHome = () => {
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
@@ -46,11 +46,11 @@ const NavBttnAppHome = () => {
     fetchPendingOrdersCount();
   
     // Set up real-time listeners
-    const ordersListener = onChildChanged(ordersRef, () => {
+    const ordersListener = onValue(ordersRef, (snapshot) => {
       fetchPendingOrdersCount();
     });
   
-    const cartsListener = onChildChanged(cartsRef, () => {
+    const cartsListener = onValue(cartsRef, (snapshot) => {
       fetchPendingOrdersCount();
     });
   

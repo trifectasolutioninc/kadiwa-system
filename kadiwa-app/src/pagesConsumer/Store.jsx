@@ -50,7 +50,7 @@ const StoreConsumer = () => {
       </div>
 
       {/* Body Content */}
-      <div className="container mb-16">
+      <div className="container ">
         {/* Store List */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {storeList.map(
@@ -80,6 +80,9 @@ const StoreConsumer = () => {
               )
           )}
         </section>
+        <div className=" h-32">
+
+        </div>
       </div>
     </main>
   );
