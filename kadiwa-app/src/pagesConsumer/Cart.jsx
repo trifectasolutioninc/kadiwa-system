@@ -261,7 +261,7 @@ const Cart = () => {
               </button>
             </section>
 
-            <section className="space-y-5 mb-16">
+            <section className="space-y-5  max-h-screen overflow-y-auto">
               {Object.entries(cartData).map(([storeKey, storeInfo]) => (
                 <div key={storeKey} className="bg-white rounded shadow-md p-2">
                   <div className="flex items-center justify-between">
@@ -312,7 +312,7 @@ const Cart = () => {
           </div>
 
           <div className="mt-10">
-          <div className=" bg-green-600 p-2 rounded-md flex justify-between">
+          <div className=" bg-green-600 p-2 rounded-md flex justify-between mb-36">
   <p className="font-bold text-white">
     Total: {getTotalPrice(cartData, selectedItems)}
   </p>
