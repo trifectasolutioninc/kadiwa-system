@@ -17,6 +17,7 @@ import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 const ProductDetails = ({ productDetails }) => {
+  const { productCode, productName } = useParams();
   if (!productDetails) {
     return <div>Error: Product not found.</div>;
   }
@@ -35,7 +36,7 @@ const ProductDetails = ({ productDetails }) => {
     <>
       <div className="p-3 md:p-10 space-y-5">
         <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
-          <NavLink to={`/main/storepage/`} className="">
+          <NavLink to={`/main/storepage/${productCode.split('-')[0]}-${productCode.split('-')[1]}`} className="">
             <IoMdArrowRoundBack fontSize={"25px"} />
           </NavLink>
           <h1 className="text-xl font-bold  text-green-700">Product Details</h1>
