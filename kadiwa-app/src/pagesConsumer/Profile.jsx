@@ -30,6 +30,10 @@ const ProfileConsumer = () => {
   const [userwalletData, setUserWalletData] = useState(null);
   const [userstoreData, setUserstoreData] = useState(null);
 
+  const [pendingDeliveryCount, setPendingDeliveryCount] = useState(0);
+  const [pendingPickupCount, setPendingPickupCount] = useState(0);
+  
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (!redirectToIndexIfNoConnect()) {
@@ -40,6 +44,37 @@ const ProfileConsumer = () => {
       const usersAccountRef = ref(database, "users_information");
       const usersWalletRef = ref(database, "user_wallet");
       const usersStoreRef = ref(database, "store_information");
+
+      const ordersRef = ref(database, "orders_list");
+
+      try {
+        const uid = sessionStorage.getItem("uid");
+        const snapshot = await get(ordersRef);
+
+        if (snapshot.exists()) {
+          let deliveryCount = 0;
+          let pickupCount = 0;
+
+          snapshot.forEach((order) => {
+            const orderData = order.val();
+            if (
+              orderData.consumer === uid &&
+              orderData.status === "Pending"
+            ) {
+              if (orderData.shippingOption === "Delivery") {
+                deliveryCount++;
+              } else if (orderData.shippingOption === "Pickup") {
+                pickupCount++;
+              }
+            }
+          });
+
+          setPendingDeliveryCount(deliveryCount);
+          setPendingPickupCount(pickupCount);
+        }
+      } catch (error) {
+        console.error("Error fetching user orders:", error);
+      }
 
       try {
         const uid = sessionStorage.getItem("uid");
@@ -121,6 +156,9 @@ const ProfileConsumer = () => {
         }
       }
     };
+
+
+  
 
     const fetchDataInterval = setInterval(() => {
       fetchUserData();
@@ -257,19 +295,34 @@ const ProfileConsumer = () => {
         <div></div>
       </div>
       <section className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <Link
+      <Link
           to={"/main/orders/delivery"}
-          className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+          className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
         >
-          <LocalShipping className="text-[0.8em] text-gray-500" />
+          <LocalShipping className="text-[1.2em] text-gray-500" />
           Delivery
+          {pendingDeliveryCount > 0 && (
+            <Badge
+              color="error"
+              badgeContent={pendingDeliveryCount} // Display count in the badge
+              style={{ position: "absolute", top: "-1px", right: "-1px" }} // Adjust Badge position
+            />
+          )}
         </Link>
+        {/* Pickup Container */}
         <Link
           to={"/main/orders/pickup"}
-          className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+          className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
         >
-          <FaBox className=" text-gray-500" />
+          <FaBox className="text-[1.2em] text-gray-500" />
           Pickup
+          {pendingPickupCount > 0 && (
+            <Badge
+              color="error"
+              badgeContent={pendingPickupCount} // Display count in the badge
+              style={{ position: "absolute", top: "-1px", right: "-1px" }} // Adjust Badge position
+            />
+          )}
         </Link>
         <Link
           to={"/main/orders/history"}
