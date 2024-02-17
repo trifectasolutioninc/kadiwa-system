@@ -8,7 +8,9 @@ import RouteLink  from './Routes/routeLink'
 import StoreLink from './Routes/StoreLink'
 import POSLink from './Routes/POSLink';
 import Registration from './pagesAuth/registration';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TestLink from './Routes/TestLink';
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Route path="/route/*" element={<RouteLink  />} />
         <Route path="/partner/*" element={<StoreLink  />} />
         <Route path="/pos/*" element={<POSLink  />} />
+        <Route path="/test/*" element={<TestLink  />} />
         <Route path='/' element={<Registration/>}/>
       </Routes>
     </Router>

@@ -127,6 +127,9 @@ const Registration = () => {
                 person: "",
                 maplink: "",
                 contact: consumerFormData.contact,
+                address_name: "No Address", 
+                latitude: "0", 
+                longitude: "0"
             },
             additional: {
               0 : {
@@ -139,7 +142,9 @@ const Registration = () => {
                 person: "",
                 maplink: "",
                 contact: "No Contact Person",
-
+                address_name: "No Address", 
+                latitude: "0", 
+                longitude: "0"
               }
              
           }

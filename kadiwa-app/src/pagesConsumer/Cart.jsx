@@ -21,7 +21,6 @@ const Cart = () => {
       try {
         const cartSnapshot = await get(cartRef);
         if (cartSnapshot.exists()) {
-          // Filter cart data based on the presence of uid
           const filteredCartData = Object.entries(cartSnapshot.val())
             .filter(([key]) => key.includes(uid))
             .reduce((acc, [key, value]) => {
@@ -44,6 +43,27 @@ const Cart = () => {
     }
   }, [uid]);
 
+
+
+     // Handler for incrementing quantity
+  const handleIncrementQuantity = (storeKey, productId) => {
+    // Find the product in the cart data and update its quantity
+    const updatedCartData = { ...cartData };
+    updatedCartData[storeKey].CartList[productId].qty += 1;
+    setCartData(updatedCartData);
+  };
+
+  // Handler for decrementing quantity
+  const handleDecrementQuantity = (storeKey, productId) => {
+    // Find the product in the cart data and update its quantity
+    const updatedCartData = { ...cartData };
+    const currentQty = updatedCartData[storeKey].CartList[productId].qty;
+    if (currentQty > 1) {
+      updatedCartData[storeKey].CartList[productId].qty -= 1;
+      setCartData(updatedCartData);
+    }
+  };
+
   const getTotalQuantity = (cartData) => {
     let totalQuantity = 0;
 
@@ -53,7 +73,10 @@ const Cart = () => {
         if (store.CartList) {
           for (const productKey in store.CartList) {
             const product = store.CartList[productKey];
-            totalQuantity++;
+            if (product) {
+              totalQuantity += 1;
+            }
+           
           }
         }
       }
@@ -71,7 +94,7 @@ const Cart = () => {
         if (store) {
           for (const productId in store) {
             if (store[productId]) {
-              totalPrice += cartData[storeKey]?.CartList[productId]?.price || 0;
+              totalPrice += cartData[storeKey]?.CartList[productId]?.price * cartData[storeKey]?.CartList[productId]?.qty || 0;
             }
           }
         }
@@ -80,7 +103,7 @@ const Cart = () => {
 
     return totalPrice.toFixed(2);
   };
-
+  
   const handleStoreCheckboxChange = (storeKey) => {
     setIsStoreChecked((prev) => {
       const newState = !prev[storeKey];
@@ -268,19 +291,19 @@ const Cart = () => {
                   {Object.entries(storeInfo.CartList).map(
                     ([productId, productInfo]) => (
                       <CartItem
-                        key={productId}
-                        id={productId}
-                        name={productInfo.product_name}
-                        price={productInfo.price}
-                        quantity={productInfo.qty}
-                        imgAlt={imageConfig[productInfo.keywords.toLowerCase()]}
-                        isChecked={
-                          selectedItems[storeKey]?.[productId] || false
-                        }
-                        onCheckboxChange={() =>
-                          handleItemCheckboxChange(storeKey, productId)
-                        }
-                      />
+              key={productId}
+              id={productId}
+              name={productInfo.product_name}
+              price={productInfo.price}
+              quantity={productInfo.qty}
+              imgAlt={imageConfig[productInfo.keywords.toLowerCase()]}
+              isChecked={selectedItems[storeKey]?.[productId] || false}
+              onCheckboxChange={() =>
+                handleItemCheckboxChange(storeKey, productId)
+              }
+              onIncrement={() => handleIncrementQuantity(storeKey, productId)}
+              onDecrement={() => handleDecrementQuantity(storeKey, productId)}
+            />
                     )
                   )}
                 </div>
@@ -289,17 +312,18 @@ const Cart = () => {
           </div>
 
           <div className="mt-10">
-            <div className=" bg-green-600 p-2 rounded-md flex justify-between">
-              <p className="font-bold text-white">
-                Total: {getTotalPrice(cartData, selectedItems)}
-              </p>
-              <button
-                className="bg-white px-4 rounded-md text-green-700"
-                onClick={handleCheckout}
-              >
-                <p>CHECKOUT</p>
-              </button>
-            </div>
+          <div className=" bg-green-600 p-2 rounded-md flex justify-between">
+  <p className="font-bold text-white">
+    Total: {getTotalPrice(cartData, selectedItems)}
+  </p>
+  <button
+    className="bg-white px-4 rounded-md text-green-700"
+    onClick={handleCheckout}
+  >
+    <p>CHECKOUT</p>
+  </button>
+</div>
+
           </div>
         </div>
       ) : (

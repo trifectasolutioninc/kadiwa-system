@@ -3,7 +3,7 @@ import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
-import { ref, child, get, push, set, onValue, off } from "firebase/database";
+import { ref, child, get, update , set, onValue, remove } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import SelectedAddressModal from "./Profile/SelectedAddress";
 
@@ -78,6 +78,8 @@ const Checkout = () => {
   const [defaultAddress, setDefaultAddress] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [contactPerson, setContactPerson] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
 
 
@@ -106,9 +108,14 @@ const Checkout = () => {
     fetchDefaultAddress();
   }, []);
   
-  const handleAddressSelect = (address) => {
+  const handleAddressSelect = (address,  contactPerson, phoneNumber) => {
     setSelectedAddress(address);
     setIsModalOpen(false); // Close the modal after selecting an address
+    setContactPerson(contactPerson);
+    setPhoneNumber(phoneNumber);
+    console.log("Selected Address:", address);
+    console.log("Contact Person:", contactPerson);
+    console.log("Phone Number:", phoneNumber);
 
   };
 
@@ -220,19 +227,19 @@ const Checkout = () => {
     return transactionCode;
   };
 
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (!storeReceiptGenerator) {
       console.error("storeReceiptGenerator is not fetched yet.");
       return;
     }
-
+  
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const currentDate2 = new Date()
       .toISOString()
       .slice(0, 10)
       .replace(/-/g, "/");
-
-    Object.entries(groupedItems).forEach(([storeKey, items]) => {
+  
+    Object.entries(groupedItems).forEach(async ([storeKey, items]) => {
       // Check if storeReceiptGenerator has data for the current storeKey
       if (!storeReceiptGenerator[storeKey.split("_")[1]]) {
         console.error(
@@ -240,7 +247,7 @@ const Checkout = () => {
         );
         return;
       }
-
+  
       // Get store receipt generator data for the current storeKey
       const storeReceiptGeneratorData =
         storeReceiptGenerator[storeKey.split("_")[1]];
@@ -255,12 +262,12 @@ const Checkout = () => {
         );
         return;
       }
-
+  
       let perDayCount = storeReceiptGeneratorData.per_day_count;
       let receiptTotal = storeReceiptGeneratorData.receipt_total;
       let latestDate = storeReceiptGeneratorData.latest_date;
       let receiptId;
-
+  
       // Check if it's the same day as the latest date
       if (latestDate === currentDate) {
         perDayCount += 1; // Increment per day count
@@ -268,23 +275,23 @@ const Checkout = () => {
         perDayCount = 1; // Reset per day count
         latestDate = currentDate; // Update latest date
       }
-
+  
       // Construct receipt ID using storeKey, current date, and per day count
       receiptId = `${storeKey.split("_")[1]}-${currentDate}-${perDayCount}`;
-
+  
       // Update store receipt generator data
       storeReceiptGenerator[storeKey.split("_")[1]] = {
         ...storeReceiptGeneratorData,
         per_day_count: perDayCount,
         latest_date: latestDate,
       };
-
+  
       // Update receipt total (if needed)
       receiptTotal += 1; // Increment receipt total
-
+  
       // Get a reference to the 'orders_list' node for the specific store in the Firebase database
       const storeOrdersRef = ref(firebaseDB, `orders_list/${receiptId}`);
-
+  
       const orderData = {
         store_id: storeKey.split("_")[1],
         items: items,
@@ -303,22 +310,61 @@ const Checkout = () => {
         date_received: "N/A",
         transaction_code: generateTransactionCode(),
       };
-
-      // Set the order data to Firebase with the receiptId as the key
-      set(storeOrdersRef, orderData)
-        .then(() => {
-          console.log(`Order for store ${storeKey} placed successfully!`);
-
-          setShowModal(true);
-          setModalContent({ isSuccess: true }); // Indicate success
-        })
-        .catch((error) => {
-          console.error(`Error placing order for store ${storeKey}:`, error);
-          // Inside .catch of set(storeOrdersRef, orderData)
-          setShowModal(true);
-          setModalContent({ isSuccess: false });
-        });
-
+  
+      // Check if any item in the CartList has only one item
+      const cartListRef = ref(firebaseDB, `cart_collection/${storeKey}/CartList`);
+      const onecartListRef = ref(firebaseDB, `cart_collection/${storeKey}`);
+      const cartListSnapshot = await get(cartListRef);
+      if (
+        cartListSnapshot.exists() &&
+        Object.keys(cartListSnapshot.val()).length === items.length
+      ) {
+        // Delete the entire CartList
+        remove(onecartListRef)
+          .then(() => {
+            setShowModal(true);
+            setModalContent({ isSuccess: true }); // Indicate success
+            console.log(`Cart for store ${storeKey} deleted successfully!`);
+          })
+          .catch((error) => {
+            setShowModal(true);
+                setModalContent({ isSuccess: false });
+            console.error(`Error deleting cart for store ${storeKey}:`, error);
+          });
+      } else {
+        // Proceed with individual items
+        // Set the order data to Firebase with the receiptId as the key
+        set(storeOrdersRef, orderData)
+          .then(() => {
+            console.log(`Order for store ${storeKey} placed successfully!`);
+            // Remove items from the cart
+            const updates = {};
+            for (const item of items) {
+              updates[
+                `cart_collection/${storeKey}/CartList/${item.productId}`
+              ] = null;
+            }
+            // Apply all updates to the database in a single transaction
+            update(ref(firebaseDB), updates)
+              .then(() => {
+                console.log("Items removed from the cart successfully!");
+                setShowModal(true);
+                setModalContent({ isSuccess: true }); // Indicate success
+              })
+              .catch((error) => {
+                console.error("Error removing items from the cart:", error);
+                setShowModal(true);
+                setModalContent({ isSuccess: false });
+              });
+          })
+          .catch((error) => {
+            console.error(`Error placing order for store ${storeKey}:`, error);
+            // Inside .catch of set(storeOrdersRef, orderData)
+            setShowModal(true);
+            setModalContent({ isSuccess: false });
+          });
+      }
+  
       // Update store receipt generator data in the Firebase database
       set(
         ref(firebaseDB, `store_receipt_generator/${storeKey.split("_")[1]}`),
@@ -346,6 +392,9 @@ const Checkout = () => {
         });
     });
   };
+  
+  
+  
 
   return (
     <>
@@ -368,9 +417,10 @@ const Checkout = () => {
             <hr />
             {selectedAddress ? (
           <>
-            <p>{selectedAddress.person} | {selectedAddress.contact}</p>
-            <p>{selectedAddress.landmark}</p>
-            <p>{selectedAddress.barangay}, {selectedAddress.city}, {selectedAddress.zipcode}</p>
+            <p>{selectedAddress?.person || contactPerson } | {selectedAddress?.contact || phoneNumber }</p>
+            <p>{selectedAddress?.landmark || selectedAddress.display_name }</p>
+            <p>{selectedAddress?.barangay ? `${selectedAddress.barangay}, ` : ''}{selectedAddress?.city ? `${selectedAddress.city}, ` : ''} {selectedAddress?.zipcode ? `${selectedAddress.zipcode}, ` : ''}</p>
+
           </>
         ) : (
           <p>No address selected</p>
