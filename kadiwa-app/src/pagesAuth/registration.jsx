@@ -139,7 +139,7 @@ const Registration = () => {
             device: {
               0: {
                 id: deviceID,
-                type: deviceBrand,
+                type: deviceType,
                 brand: deviceBrand,
                 browser: deviceBrowser,
                 log: 'online'
