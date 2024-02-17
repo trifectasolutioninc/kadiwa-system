@@ -17,7 +17,7 @@ const MaxAddressWarningModal = ({ showModal, closeModal }) => {
       <div className="fixed inset-0 z-50 overflow-auto bg-gray-800 bg-opacity-50 flex justify-center items-center">
         <div className="bg-white rounded-md p-8 max-w-sm">
           <h2 className="text-lg font-bold mb-4">Maximum Address Limit Reached</h2>
-          <p className="text-gray-700">You can only add up to 5 additional addresses.</p>
+          <p className="text-gray-700">You can only add up to 3 additional addresses.</p>
           <button onClick={closeModal} className="mt-4 bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300">OK</button>
         </div>
       </div>
@@ -85,7 +85,7 @@ const ProfileInfo = () => {
 
   const handleAddAddress = async (newAddress) => {
     try {
-      if (userAddresses.additional.length >= 5) {
+      if (userAddresses.additional.length >= 3) {
         setIsMaxAddressReached(true); // Show modal warning
         return; // Stop further execution
       }
