@@ -5,6 +5,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
 import { ref, child, get, push, set, onValue, off } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
+import SelectedAddressModal from "./Profile/SelectedAddress";
 
 // Define Modal component
 const Modal = ({ isOpen, onClose, isSuccess, onConfirm }) => {
@@ -74,6 +75,43 @@ const Checkout = () => {
   const uid = sessionStorage.getItem("uid");
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
+  const [defaultAddress, setDefaultAddress] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+
+  useEffect(() => {
+    const fetchDefaultAddress = async () => {
+      try {
+        const uid = sessionStorage.getItem('uid');
+        const addressesRef = ref(firebaseDB, 'users_address');
+  
+        // Fetch default address
+        const snapshot = await get(child(addressesRef, uid, 'default'));
+        const defaultAddressFromFirebase = snapshot.val();
+        const selectedAdd = defaultAddressFromFirebase.default;
+        console.log('Default Address from Firebase:', defaultAddressFromFirebase);
+        console.log('Selected Address from Firebase:', selectedAdd); // Add this log
+  
+        if (defaultAddressFromFirebase) {
+          setDefaultAddress(defaultAddressFromFirebase);
+          setSelectedAddress(selectedAdd); // Set default address initially
+        }
+      } catch (error) {
+        console.error('Error fetching default address:', error);
+      }
+    };
+  
+    fetchDefaultAddress();
+  }, []);
+  
+  const handleAddressSelect = (address) => {
+    setSelectedAddress(address);
+    setIsModalOpen(false); // Close the modal after selecting an address
+
+  };
+
 
   useEffect(() => {
     const fetchStoreReceiptGenerator = async () => {
@@ -324,12 +362,19 @@ const Checkout = () => {
               <p className="text-lg flex items-center font-bold">
                 <FaLocationDot fontSize={"12px"} /> Delivery Address
               </p>
-              <button className="text-blue-400">Change Address</button>
+              <button className="text-blue-400" onClick={() => setIsModalOpen(true)}>Change Address</button>
+              
             </div>
             <hr />
-            <p>Juan Dela Cruz | (+63) 900 000 0001</p>
-            <p>Juan Street</p>
-            <p>Coloong 1, Valenzuela, Metro Manila, 1445 </p>
+            {selectedAddress ? (
+          <>
+            <p>{selectedAddress.person} | {selectedAddress.contact}</p>
+            <p>{selectedAddress.landmark}</p>
+            <p>{selectedAddress.barangay}, {selectedAddress.city}, {selectedAddress.zipcode}</p>
+          </>
+        ) : (
+          <p>No address selected</p>
+        )}
           </div>
 
           {Object.entries(groupedItems).map(([storeKey, items]) => (
@@ -459,6 +504,18 @@ const Checkout = () => {
         isSuccess={modalContent.isSuccess}
         onConfirm={() => navigate(path)}
       />
+
+<SelectedAddressModal
+  showModal={isModalOpen}
+  closeModal={() => setIsModalOpen(false)}
+  handleAddressSelect={handleAddressSelect}
+  defaultAddress={defaultAddress}
+  additionalAddresses={defaultAddress ? defaultAddress.additional : []}
+  selectedAddress={selectedAddress}
+  setSelectedAddress={setSelectedAddress} // Pass the setter function
+/>
+
+
     </>
   );
 };
