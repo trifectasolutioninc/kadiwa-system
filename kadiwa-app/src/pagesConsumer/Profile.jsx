@@ -289,7 +289,7 @@ const ProfileConsumer = () => {
       </div>
       <section className="grid grid-cols-2 md:grid-cols-3 gap-4">
       <Link
-          to={"/main/orders/delivery/pending"}
+          to={"/main/orders/delivery"}
           className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
         >
           <LocalShipping className="text-[1.2em] text-gray-500" />
@@ -304,7 +304,7 @@ const ProfileConsumer = () => {
         </Link>
         {/* Pickup Container */}
         <Link
-          to={"/main/orders/pickup/pending"}
+          to={"/main/orders/pickup"}
           className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
         >
           <FaBox className="text-[1.2em] text-gray-500" />
@@ -318,7 +318,7 @@ const ProfileConsumer = () => {
           )}
         </Link>
         <Link
-          to={"/main/orders/history/completed"}
+          to={"/main/orders/history"}
           className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
         >
           <History className=" text-gray-500" />
@@ -334,6 +334,7 @@ const ProfileConsumer = () => {
       </section>
       <div className="p-2 h-32"></div>
     </main>
+    </>
   );
 };
 
