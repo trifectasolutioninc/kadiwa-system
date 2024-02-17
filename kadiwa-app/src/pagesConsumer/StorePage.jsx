@@ -152,7 +152,7 @@ const StorePage = () => {
         {products.map((product, index) => (
           <div
             key={index}
-            className="container p-5 bg-white rounded-lg shadow-md"
+            className="container p-2 bg-white rounded-lg shadow-md"
           >
             <Link
               to={`/route/product/${product.id}`}
