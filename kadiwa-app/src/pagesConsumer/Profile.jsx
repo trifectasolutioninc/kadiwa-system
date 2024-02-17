@@ -223,12 +223,12 @@ const ProfileConsumer = () => {
         </div>
       )}
 
-      <section className="grid grid-cols-3 gap-5 my-10">
+      <section className="grid grid-cols-3 gap-3 md:gap-5 my-10">
         {/* Icon with Name: Virtual Card */}
 
         <Link
           to="/main/virtual-card"
-          className="text-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
+          className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
         >
           <CiCreditCard1 className="text-3xl mx-auto text-gray-500 mb-2" />
           <p className="text-black/80 text-sm">Virtual Card</p>
@@ -238,17 +238,15 @@ const ProfileConsumer = () => {
 
         <Link
           to="/main/linked-account"
-          className="text-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
+          className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
         >
           <MdInsertLink className="text-3xl mx-auto text-gray-500 mb-2" />
-          <p className="text-black/80 text-sm whitespace-nowrap">
-            Linked Account
-          </p>
+          <p className="text-black/80 text-sm">Linked Account</p>
         </Link>
 
         {/* Icon with Name: Transaction History */}
 
-        <Link className="text-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300">
+        <Link className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300">
           <IoWalletOutline className="text-3xl mx-auto text-gray-500 mb-2" />
           <p className="text-black/80 text-sm ">Load</p>
         </Link>
