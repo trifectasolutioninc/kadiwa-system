@@ -89,40 +89,43 @@ const Chat = () => {
   }, []);
 
   return (
-    <main className="p-3 md:p-10 space-y-5">
-      <div className="flex items-center gap-5 ">
-        <BackButton />
-        <h1 className="text-xl text-green-600  font-bold">Messages</h1>
-      </div>
-
-      <div className="p-4 flex items-center justify-between bg-gray-100">
-        <div className="flex-grow">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
-          />
+    <>
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
+        <div className="flex items-center gap-5 ">
+          <BackButton />
+          <h1 className="text-xl text-green-600  font-bold">Messages</h1>
         </div>
       </div>
+      <main className="p-3 md:p-10 space-y-5  mt-14">
+        <div className="p-4 flex items-center justify-between">
+          <div className="flex-grow">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
+            />
+          </div>
+        </div>
 
-      <div className="container mx-auto mb-16">
-        <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
-          {/* Filter chatData based on uid and map through filtered data */}
-          {chatData
-            .filter((store) => uid === store.id.split("_")[1])
-            .map((store) => (
-              <StoreCard
-                key={store.id}
-                id={store.id}
-                name={store.name}
-                logoAlt={`Store ${store.id} Logo`}
-                chatMessages={store.Chat}
-                date={store.date}
-              />
-            ))}
-        </ul>
-      </div>
-    </main>
+        <div className="container mx-auto mb-16">
+          <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
+            {/* Filter chatData based on uid and map through filtered data */}
+            {chatData
+              .filter((store) => uid === store.id.split("_")[1])
+              .map((store) => (
+                <StoreCard
+                  key={store.id}
+                  id={store.id}
+                  name={store.name}
+                  logoAlt={`Store ${store.id} Logo`}
+                  chatMessages={store.Chat}
+                  date={store.date}
+                />
+              ))}
+          </ul>
+        </div>
+      </main>
+    </>
   );
 };
 

@@ -94,96 +94,103 @@ const StorePage = () => {
   }
 
   return (
-    <main className="p-3 md:p-10 bg-gray-100 space-y-5">
-      <NavLink to={"/main/store"} className="">
-        <IoMdArrowRoundBack fontSize={"25px"} />
-      </NavLink>
-
-      <section className="p-4 space-y-2 rounded-md bg-white shadow-md">
-        <div className=" justify-between flex">
-          <h1 className="text-gray-700 font-bold text-lg">{storeData.name}</h1>
-          <Link to={`/route/chatpage/${storeID}`} className="text-green-600">
-            <button>
-              <ChatIcon className="text-green-600 " />
-            </button>
-          </Link>
-        </div>
-        <hr />
-        <div className="space-y-1">
-          <p className="text-gray-500 text-sm">
-            {storeAddress.city + ", " + storeAddress.province}
-          </p>
-          <p className="text-gray-500 text-sm">Store Type: {storeData.type}</p>
-          <p className="text-gray-500 text-sm">Partner</p>
-        </div>
-      </section>
-
-      <StoreMap />
-
-      <div className="flex justify-between">
-        <div className="font-semibold text-gray-600">
-          <h1>Products</h1>
-        </div>
-        <div className=" space-x-2 "></div>
+    <>
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
+        <NavLink to={"/main/store"} className="">
+          <IoMdArrowRoundBack fontSize={"25px"} />
+        </NavLink>
       </div>
-
-      <section className="overflow-x-auto flex gap-3">
-        {commodityTypes.map((commodityType, index) => (
-          <button
-            key={index}
-            className={`border-green-700 border ${
-              selectedCommodity === commodityType
-                ? "bg-green-700 text-white"
-                : "text-green-700 bg-white"
-            } w-full rounded py-2 px-4 whitespace-nowrap tab-button`}
-            data-commodity-type={commodityType}
-            onClick={() => handleCommodityClick(commodityType)}
-          >
-            {commodityType}
-          </button>
-        ))}
-      </section>
-
-      {/* Display filtered products */}
-      <section
-        id="Store List"
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-      >
-        {products.map((product, index) => (
-          <div
-            key={index}
-            className="container p-2 bg-white rounded-lg shadow-md"
-          >
-            <Link
-              to={`/route/product/${product.id}`}
-              className="flex flex-col space-y-5"
-            >
-              <div className="h-52 overflow-hidden">
-                <img
-                  id={`product${product.product_code}`}
-                  alt={product.product_name}
-                  className="h-full w-full object-cover"
-                  src={imageConfig[product.keywords.toLowerCase()]}
-                />
-              </div>
-              <div className="flex flex-col space-y-2">
-                <h2 className="text-black/80 text-lg font-bold truncate">
-                  {product.product_name}
-                </h2>
-                <p className="font-semibold text-gray-500 truncate">
-                  {product.commodity_type}
-                </p>
-                <p className="font-bold text-green-600">
-                  Php {product.price.toFixed(2)}
-                </p>
-              </div>
+      <main className="p-3 md:p-10 bg-gray-100 space-y-5 mt-14">
+        <section className="p-4 space-y-2 rounded-md bg-white shadow-md">
+          <div className=" justify-between flex">
+            <h1 className="text-gray-700 font-bold text-lg">
+              {storeData.name}
+            </h1>
+            <Link to={`/route/chatpage/${storeID}`} className="text-green-600">
+              <button>
+                <ChatIcon className="text-green-600 " />
+              </button>
             </Link>
           </div>
-        ))}
-      </section>
-      <h1 className="text-center text-black/80">-End of Page-</h1>
-      <div className="p-5"></div>
-    </main>
+          <hr />
+          <div className="space-y-1">
+            <p className="text-gray-500 text-sm">
+              {storeAddress.city + ", " + storeAddress.province}
+            </p>
+            <p className="text-gray-500 text-sm">
+              Store Type: {storeData.type}
+            </p>
+            <p className="text-gray-500 text-sm">Partner</p>
+          </div>
+        </section>
+
+        <StoreMap />
+
+        <div className="flex justify-between">
+          <div className="font-semibold text-gray-600">
+            <h1>Products</h1>
+          </div>
+          <div className=" space-x-2 "></div>
+        </div>
+
+        <section className="overflow-x-auto flex gap-3">
+          {commodityTypes.map((commodityType, index) => (
+            <button
+              key={index}
+              className={`border-green-700 border ${
+                selectedCommodity === commodityType
+                  ? "bg-green-700 text-white"
+                  : "text-green-700 bg-white"
+              } w-full rounded py-2 px-4 whitespace-nowrap tab-button`}
+              data-commodity-type={commodityType}
+              onClick={() => handleCommodityClick(commodityType)}
+            >
+              {commodityType}
+            </button>
+          ))}
+        </section>
+
+        {/* Display filtered products */}
+        <section
+          id="Store List"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        >
+          {products.map((product, index) => (
+            <div
+              key={index}
+              className="container p-2 bg-white rounded-lg shadow-md"
+            >
+              <Link
+                to={`/route/product/${product.id}`}
+                className="flex flex-col space-y-5"
+              >
+                <div className="h-52 overflow-hidden">
+                  <img
+                    id={`product${product.product_code}`}
+                    alt={product.product_name}
+                    className="h-full w-full object-cover"
+                    src={imageConfig[product.keywords.toLowerCase()]}
+                  />
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <h2 className="text-black/80 text-lg font-bold truncate">
+                    {product.product_name}
+                  </h2>
+                  <p className="font-semibold text-gray-500 truncate">
+                    {product.commodity_type}
+                  </p>
+                  <p className="font-bold text-green-600">
+                    Php {product.price.toFixed(2)}
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))}
+        </section>
+        <h1 className="text-center text-black/80">-End of Page-</h1>
+        <div className="p-8"></div>
+      </main>
+    </>
   );
 };
 
