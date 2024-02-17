@@ -141,7 +141,7 @@ const ProfileConsumer = () => {
 
       {/* Profile Information */}
       {userData && (
-        <section className="relative p-4 flex items-center justify-between bg-white rounded-md shadow-md ">
+        <section className="relative p-4 flex items-center justify-between border bg-white rounded-md shadow-md ">
           <div className="flex flex-col items-center gap-2">
             {/* Display Picture */}
             <Avatar className="w-12 h-12 rounded-full" />
@@ -202,7 +202,7 @@ const ProfileConsumer = () => {
       </div>
 
       {userwalletData && (
-        <div className="p-4 flex justify-between bg-white rounded-md shadow-md">
+        <div className="p-4 flex justify-between bg-white border rounded-md shadow-md">
           {/* Display PHP Amount */}
           <p id="balance" className="text-gray-600 font-semibold mr-2">
             PHP {userwalletData.balance}
@@ -213,7 +213,7 @@ const ProfileConsumer = () => {
       )}
 
       {userwalletData && (
-        <div className="p-4 flex justify-between bg-white rounded-md shadow-md">
+        <div className="p-4 flex justify-between bg-white border rounded-md shadow-md">
           {/* Display PHP Amount */}
           <p id="points" className="text-gray-600 font-semibold mr-2">
             KDW {userwalletData.points}
