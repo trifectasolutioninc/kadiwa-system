@@ -80,6 +80,9 @@ const Registration = () => {
           id = Math.random().toString(36).substring(7);
           localStorage.setItem('deviceID', id);
         }
+        else {
+          id = ''
+        }
         setDeviceID(id);
       };
   
@@ -138,10 +141,10 @@ const Registration = () => {
             password: consumerFormData.password,
             device: {
               0: {
-                id: deviceID,
-                type: deviceType,
-                brand: deviceBrand,
-                browser: deviceBrowser,
+                id: (deviceID || " "),
+                type: (deviceID || " "),
+                brand: (deviceID || " "),
+                browser: (deviceID || " "),
                 log: 'online'
               }
               
