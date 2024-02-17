@@ -21,24 +21,26 @@ const Orders = () => {
             try {
                 const db = getDatabase();
                 const ordersRef = ref(db, 'orders_list');
-
-                let filteredOrders = [];
-
+    
                 const snapshot = await get(ordersRef);
+                let filteredOrders = []; // Move declaration here
+    
                 if (snapshot.exists()) {
                     const ordersData = snapshot.val();
                     // Filter orders based on the status
                     filteredOrders = Object.values(ordersData).filter(order => order.shippingOption.toLowerCase() === tab && order.status === status && order.consumer === uid);
+                    console.log(filteredOrders);
                 }
-
+    
                 setOrders(filteredOrders);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
         };
-
+    
         fetchData();
     }, [tab, status]);
+    
 
     return (
         <div className='h-screen'>
@@ -75,18 +77,21 @@ const Orders = () => {
                     )}
                 </div>
                 <div className='flex-1'>
-            <div className='overflow-y-auto'>
+            <div className='overflow-y-auto bg-gray-100'>
                 {/* Display orders */}
+                <div className='mb-24 p-2'>
+
+                </div>
                 {orders && orders.map(order => (
                     <div key={order.receiptId} className="p-4 border-b ">
                         <h2 className="text-[0.7em] font-semibold">Order ID: {order.receiptId}</h2>
                         <p>Status: {order.status}</p>
                         <p>Date: {order.date}</p>
-                        {/* Render other order details as needed */}
+                        
                     </div>
                 ))}
-                <div className='mb-20 p-2'>
-
+                <div className='mb-20 p-2 h-auto'>
+                    
                 </div>
             </div>
         </div>
