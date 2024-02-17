@@ -79,7 +79,7 @@ const HomeConsumer = () => {
   };
 
   return (
-    <main className="p-3 md:px-10 space-y-5 mb-28">
+    <main className="p-3 md:px-10 space-y-5 mb-20">
       <section id="topView" className="space-y-3">
         <h1 className="text-[2em] text-green-700 font-bold">
           Hello Kadiwa User!
@@ -173,6 +173,7 @@ const HomeConsumer = () => {
           </div>
         ))}
       </section>
+      <h1 className="text-center text-black/80">-End of Page-</h1>
     </main>
   );
 };

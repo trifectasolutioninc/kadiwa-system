@@ -210,7 +210,7 @@ const StoreList = ({ productCode }) => {
         </span>
       </div>
       {!isLoading && !noStoresFound && (
-        <ul className="space-y-4 mb-28 p-3 md:px-10">
+        <ul className="space-y-4 mb-20 p-3 md:px-10">
           {storesWithProduct.map((store) => {
             const storeId = store.id;
             const addressData = storeAddress && storeAddress[storeId];
@@ -266,6 +266,7 @@ const StoreList = ({ productCode }) => {
               </div>
             );
           })}
+          <h1 className="text-center text-black/80">-End of Page-</h1>
         </ul>
       )}
       {/* Modal for adding to cart */}

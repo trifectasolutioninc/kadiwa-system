@@ -181,7 +181,8 @@ const StorePage = () => {
           </div>
         ))}
       </section>
-      <div className="p-16"></div>
+      <h1 className="text-center text-black/80">-End of Page-</h1>
+      <div className="p-5"></div>
     </main>
   );
 };
