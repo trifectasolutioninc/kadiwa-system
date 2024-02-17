@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { Notifications } from "@mui/icons-material";
+import {
+  LocationCityRounded,
+  LocationOn,
+  Notifications,
+} from "@mui/icons-material";
 import { ref, child, get } from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
 import configFirebaseDB from "../Configuration/config";
@@ -50,7 +54,7 @@ const StoreConsumer = () => {
       </div>
 
       {/* Body Content */}
-      <div className="container ">
+      <div className="container mb-16">
         {/* Store List */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {storeList.map(
@@ -60,12 +64,15 @@ const StoreConsumer = () => {
                 <Link
                   to={`/main/storepage/${store.id}`}
                   key={store.id}
-                  className="bg-white p-4 rounded-lg shadow-md m-2 items-center grid grid-cols-10"
+                  className="bg-white p-4 rounded-lg shadow-md items-center grid grid-cols-10"
                 >
                   {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                   <section className="col-span-9 text-left">
                     <p className="text-lg font-semibold">{store.name}</p>
                     <p className=" text-gray-500">{store.type}</p>
+                    <p className=" text-gray-500">
+                      <LocationOn fontSize="25px" /> Intramuros, City of Manila
+                    </p>
                     <p className=" text-gray-500">Partner</p>
                   </section>
                   <div className="col-span-1 flex justify-end ">
@@ -80,9 +87,6 @@ const StoreConsumer = () => {
               )
           )}
         </section>
-        <div className=" h-32">
-
-        </div>
       </div>
     </main>
   );
