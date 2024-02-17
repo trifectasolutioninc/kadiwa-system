@@ -4,6 +4,7 @@ import configFirebaseDB from '../Configuration/config';
 import { getDatabase, ref, get } from 'firebase/database';
 import InputMask from 'react-input-mask';
 import { imageConfig } from '../Configuration/config-file';
+import { v4 as uuidv4 } from 'uuid';
 
 const SignInPages = () => {
   const [username, setUsername] = useState('');
@@ -57,7 +58,7 @@ const SignInPages = () => {
               userData.email === inputUsername) &&
             userData.password === inputPassword
           ) {
-            sessionStorage.setItem('kdwconnect', userData.contact);
+            sessionStorage.setItem('log', 'online');
             sessionStorage.setItem('uid', userData.id);
             sessionStorage.setItem('sid', userData.store_id);
             console.log('Successfully logged in', userData);

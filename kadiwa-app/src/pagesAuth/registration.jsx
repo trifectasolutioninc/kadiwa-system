@@ -4,6 +4,7 @@ import InputMask from 'react-input-mask';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getDatabase, ref, get , set} from 'firebase/database';
 import firebaseDB from '../Configuration/config';
+const deviceDetect = require('device-detect')();
 
 function isBlank(value) {
     return value.trim() === '';
@@ -43,6 +44,10 @@ const Registration = () => {
         confirmPassword: '',
     });
     const [showModal, setShowModal] = useState(false);
+    const [deviceID, setDeviceID] = useState(null);
+    const [deviceType, setDeviceType] = useState(null);
+    const [deviceBrand, setDeviceBrand] = useState(null);
+    const [deviceBrowser, setDeviceBrowser] = useState(null);
     const navigate = useNavigate();
     const db = firebaseDB();
 
@@ -63,6 +68,35 @@ const Registration = () => {
         };
 
         fetchVersion();
+    }, []);
+
+  
+    useEffect(() => {
+      // Function to fetch or generate device ID
+      const fetchDeviceID = () => {
+        // Simulating fetching device ID (e.g., from localStorage)
+        let id = localStorage.getItem('deviceID');
+        if (!id) {
+          id = Math.random().toString(36).substring(7);
+          localStorage.setItem('deviceID', id);
+        }
+        setDeviceID(id);
+      };
+  
+      // Function to determine device type, brand, and browser
+      const determineDeviceInfo = () => {
+        setDeviceType(deviceDetect.device || 'Unknown');
+        setDeviceBrand(deviceDetect.device || 'Unknown');
+        setDeviceBrowser(deviceDetect.browser || 'Unknown');
+      };
+  
+      fetchDeviceID();
+      determineDeviceInfo();
+  
+      // Cleanup function if needed
+      return () => {
+        // Any cleanup code
+      };
     }, []);
 
     const handleConsumerSubmit = async (e) => {
@@ -101,7 +135,18 @@ const Registration = () => {
             username: userID,
             store_id: "None",
             contact: consumerFormData.contact,
-            password: consumerFormData.password
+            password: consumerFormData.password,
+            device: {
+              0: {
+                id: deviceID,
+                type: deviceBrand,
+                brand: deviceBrand,
+                browser: deviceBrowser,
+                log: 'online'
+              }
+              
+            },
+           
         };
 
         sessionStorage.setItem('uid', userID);

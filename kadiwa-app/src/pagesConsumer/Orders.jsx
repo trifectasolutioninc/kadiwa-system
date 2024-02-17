@@ -11,12 +11,16 @@ import { IoWalletOutline } from "react-icons/io5";
 import { ref, getDatabase, orderByChild, equalTo, get } from 'firebase/database';
 
 const Orders = () => {
-    const { tab } = useParams();
+    const { tab , getstatus } = useParams();
     const uid = sessionStorage.getItem('uid');
-    const [status, setStatus] = useState('Pending');
-    const [orders, setOrders] = useState([]);
+    const [status, setStatus] = useState(getstatus);
+
+const [orders, setOrders] = useState([]);
 
     useEffect(() => {
+
+    
+
         const fetchData = async () => {
             try {
                 const db = getDatabase();
@@ -28,7 +32,8 @@ const Orders = () => {
                 if (snapshot.exists()) {
                     const ordersData = snapshot.val();
                     // Filter orders based on the status
-                    filteredOrders = Object.values(ordersData).filter(order => order.shippingOption.toLowerCase() === tab && order.status === status && order.consumer === uid);
+               
+                    filteredOrders = Object.values(ordersData).filter(order => ((order.shippingOption.toLowerCase() === tab && ( order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid)) || (tab === 'history' && order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid) )) ;
                     console.log(filteredOrders);
                 }
     
@@ -41,6 +46,7 @@ const Orders = () => {
         fetchData();
     }, [tab, status]);
     
+
 
     return (
         <div className='h-screen'>
@@ -55,24 +61,24 @@ const Orders = () => {
                     <hr className='mx-4 pb-2' />
                     {tab === 'delivery' && (
                         <div className='flex justify-around gap-3 overflow-x-auto mx-6'>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'Pending' && 'bg-green-200'}`} onClick={() => setStatus('Pending')}><MdLocalShipping className=' mx-auto' />To Ship</button>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'To Receive' && 'bg-green-200'}`} onClick={() => setStatus('To Receive')}><FaJoget className=' mx-auto' />To Receive</button>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'Completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'Cancelled' && 'bg-green-200'}`} onClick={() => setStatus('Cancelled')}><FiMinusCircle className=' mx-auto' />Cancelled</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'pending' && 'bg-green-200'}`} onClick={() => setStatus('Pending')}><MdLocalShipping className=' mx-auto' />To Ship</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'to receive' && 'bg-green-200'}`} onClick={() => setStatus('To Receive')}><FaJoget className=' mx-auto' />To Receive</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'cancelled' && 'bg-green-200'}`} onClick={() => setStatus('Cancelled')}><FiMinusCircle className=' mx-auto' />Cancelled</button>
                         </div>
                     )}
                     {tab === 'pickup' && (
                         <div className='flex justify-around gap-3 overflow-x-auto mx-6'>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'Pending' && 'bg-green-200'}`} onClick={() => setStatus('Pending')}><FaBoxOpen className=' mx-auto' /><span>To Pack</span></button>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'To Distribute' && 'bg-green-200'}`} onClick={() => setStatus('To Distribute')}><FaBox className=' mx-auto' />To Distribute</button>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'Completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>
-                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status === 'Cancelled' && 'bg-green-200'}`} onClick={() => setStatus('Cancelled')}><FiMinusCircle className=' mx-auto' />Cancelled</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'pending' && 'bg-green-200'}`} onClick={() => setStatus('Pending')}><FaBoxOpen className=' mx-auto' /><span>To Pack</span></button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'to distribute' && 'bg-green-200'}`} onClick={() => setStatus('To Distribute')}><FaBox className=' mx-auto' />To Distribute</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'cancelled' && 'bg-green-200'}`} onClick={() => setStatus('Cancelled')}><FiMinusCircle className=' mx-auto' />Cancelled</button>
                         </div>
                     )}
                     {tab === 'history' && (
                         <div className='flex justify-around gap-3 overflow-x-auto mx-6'>
-                            <button className='text-[0.8em] whitespace-nowrap text-gray-800'><FaCheckCircle className=' mx-auto' />Completed</button>
-                            <button className='text-[0.8em] whitespace-nowrap text-gray-800'><FiMinusCircle className=' mx-auto' />Cancelled</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>
+                            <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'cancelled' && 'bg-green-200'}`} onClick={() => setStatus('Cancelled')}><FiMinusCircle className=' mx-auto' />Cancelled</button>
                         </div>
                     )}
                 </div>
@@ -91,7 +97,7 @@ const Orders = () => {
                     </div>
                 ))}
                 <div className='mb-20 p-2 h-auto'>
-                    
+
                 </div>
             </div>
         </div>

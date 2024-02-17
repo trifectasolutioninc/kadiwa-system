@@ -7,6 +7,8 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
+import Toast from "../Components/Notifications/Toast";
+
 
 const StoreList = ({ productCode }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
@@ -19,6 +21,8 @@ const StoreList = ({ productCode }) => {
   const [selectedStoreadd, setSelectedStoreadd] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [storeAddress, setstoreAddress] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
 
   const uid = sessionStorage.getItem("uid");
@@ -146,6 +150,8 @@ const StoreList = ({ productCode }) => {
       })
       .then(() => {
         console.log("Item added to cart successfully.");
+        setToastMessage("Item added to cart successfully.");
+        setShowToast(true);
       })
       .catch((error) => {
         console.error("Error adding item to cart:", error);
@@ -380,6 +386,9 @@ const StoreList = ({ productCode }) => {
             </div>
           </div>
         </div>
+      )}
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
     </div>
   );
