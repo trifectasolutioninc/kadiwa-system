@@ -4,6 +4,8 @@ import InputMask from 'react-input-mask';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getDatabase, ref, get , set} from 'firebase/database';
 import firebaseDB from '../Configuration/config';
+
+import { v4 as uuidv4 } from 'uuid';
 const deviceDetect = require('device-detect')();
 
 function isBlank(value) {
@@ -77,7 +79,7 @@ const Registration = () => {
         // Simulating fetching device ID (e.g., from localStorage)
         let id = localStorage.getItem('deviceID');
         if (!id) {
-          id = Math.random().toString(36).substring(7);
+          id = uuidv4();
           localStorage.setItem('deviceID', id);
         }
         else {
@@ -141,10 +143,10 @@ const Registration = () => {
             password: consumerFormData.password,
             device: {
               0: {
-                id: (deviceID || " "),
-                type: (deviceID || " "),
-                brand: (deviceID || " "),
-                browser: (deviceID || " "),
+                id: (uuidv4() || " "),
+                type: (deviceType || " "),
+                brand: (deviceBrand || " "),
+                browser: (deviceBrowser || " "),
                 log: 'online'
               }
               
