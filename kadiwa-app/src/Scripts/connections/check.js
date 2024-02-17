@@ -4,7 +4,7 @@ const redirectToIndexIfNoConnect = () => {
     const sid = sessionStorage.getItem('sid');
     const log = sessionStorage.getItem('log');
     
-    if ((uid === null || uid === '')) {
+    if (uid === null || uid === '') {
       // Redirect to the index page
       window.location.href = '/'; // Adjust the path accordingly
       return false; // Indicate that the redirection is performed

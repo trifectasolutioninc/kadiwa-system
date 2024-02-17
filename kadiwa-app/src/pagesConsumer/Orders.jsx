@@ -11,11 +11,11 @@ import { IoWalletOutline } from "react-icons/io5";
 import { ref, getDatabase, orderByChild, equalTo, get } from 'firebase/database';
 
 const Orders = () => {
-    const { tab , getstatus } = useParams();
+    const { tab, getstatus } = useParams();
     const uid = sessionStorage.getItem('uid');
     const [status, setStatus] = useState(getstatus);
 
-const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
 
@@ -23,28 +23,26 @@ const [orders, setOrders] = useState([]);
             try {
                 const db = getDatabase();
                 const ordersRef = ref(db, 'orders_list');
-    
+
                 const snapshot = await get(ordersRef);
                 let filteredOrders = []; // Move declaration here
-    
+
                 if (snapshot.exists()) {
                     const ordersData = snapshot.val();
                     // Filter orders based on the status
-               
-                    filteredOrders = Object.values(ordersData).filter(order => ((order.shippingOption.toLowerCase() === tab && ( order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid)) || (tab === 'history' && order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid) )) ;
+
+                    filteredOrders = Object.values(ordersData).filter(order => ((order.shippingOption.toLowerCase() === tab && (order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid)) || (tab === 'history' && order.status.toLowerCase() === status.toLowerCase() && order.consumer === uid)));
                     console.log(filteredOrders);
                 }
-    
+
                 setOrders(filteredOrders);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
         };
-    
+
         fetchData();
     }, [tab, status]);
-    
-
 
     return (
         <div className='h-screen'>
@@ -81,25 +79,25 @@ const [orders, setOrders] = useState([]);
                     )}
                 </div>
                 <div className='flex-1'>
-            <div className='overflow-y-auto bg-gray-100'>
-                {/* Display orders */}
-                <div className='mb-24 p-2'>
+                    <div className='overflow-y-auto bg-gray-100'>
+                        {/* Display orders */}
+                        <div className='mb-24 p-2'>
 
-                </div>
-                {orders && orders.map(order => (
-                    <div key={order.receiptId} className="p-4 border-b ">
-                        <h2 className="text-[0.7em] font-semibold">Order ID: {order.receiptId}</h2>
-                        <p>Status: {order.status}</p>
-                        <p>Date: {order.date}</p>
-                        
+                        </div>
+                        {orders && orders.map(order => (
+                            <div key={order.receiptId} className="p-4 border-b ">
+                                <h2 className="text-[0.7em] font-semibold">Order ID: {order.receiptId}</h2>
+                                <p>Status: {order.status}</p>
+                                <p>Date: {order.date}</p>
+
+                            </div>
+                        ))}
+                        <div className='mb-20 p-2 h-auto'>
+
+                        </div>
                     </div>
-                ))}
-                <div className='mb-20 p-2 h-auto'>
-
                 </div>
-            </div>
-        </div>
-               
+
 
             </div>
         </div>
