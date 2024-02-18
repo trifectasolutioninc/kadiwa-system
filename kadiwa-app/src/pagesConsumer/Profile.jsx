@@ -300,7 +300,7 @@ const ProfileConsumer = () => {
           className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
         >
           <LocalShipping className="text-[1.2em] text-gray-500" />
-          Delivery
+          Delivery Luck
           {pendingDeliveryCount > 0 && (
             <Badge
               color="error"

@@ -4,7 +4,7 @@ import { LocationOn, Search, Notifications } from "@mui/icons-material";
 import { imageConfig, commodityTypes } from "../Configuration/config-file";
 import configFirebaseDB from "../Configuration/config";
 import { ref, child, get } from "firebase/database";
-import { Link } from "react-router-dom";
+import { Link , useLocation } from "react-router-dom";
 
 const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
@@ -12,13 +12,30 @@ const HomeConsumer = () => {
   const [userLocation, setUserLocation] = useState("Loading...");
   const [sortBy, setSortBy] = useState(""); // State for sorting
   const database = configFirebaseDB();
+  const location = useLocation();
+  const scrollPositions = {};
 
   useEffect(() => {
     // Fetch and display products initially
     displayProducts(selectedCommodity);
     // Fetch and display user location
     fetchUserLocation();
-  }, [selectedCommodity, sortBy]); // Include sortBy in dependencies
+
+    // Restore scroll position if available
+    const path = location.pathname;
+    if (scrollPositions[path]) {
+      window.scrollTo(0, scrollPositions[path]);
+    }
+
+    // Event listener to store scroll position before unmounting
+    const handleScroll = () => {
+      scrollPositions[path] = window.scrollY;
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [selectedCommodity, sortBy, location.pathname]);
 
   const handleCommodityClick = (commodityType) => {
     setSelectedCommodity(commodityType);
