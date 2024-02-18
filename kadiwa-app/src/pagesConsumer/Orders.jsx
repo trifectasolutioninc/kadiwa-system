@@ -47,7 +47,7 @@ const Orders = () => {
 
     const handleOrderItemClick = (orderId) => {
         // Navigate to order details page with orderId as parameter
-        navigate(`/main/order-details/${orderId}`);
+        navigate(`/main/order-details/${tab}/${status}/${orderId}`);
     };
 
     return (

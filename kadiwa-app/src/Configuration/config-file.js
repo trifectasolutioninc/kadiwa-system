@@ -58,17 +58,21 @@ import Bank from '../Components/Assets/payment/bank.png';
 import Gcash from '../Components/Assets/payment/gcash.png';
 import Maya from '../Components/Assets/payment/maya.png';
 import Megapay from '../Components/Assets/payment/megapay.png';
-
+import Cash from '../Components/Assets/payment/cash-on-hand.png';
 import StoreBG from '../Components/Assets/others/store_bg.webp'
 
 import Banner1 from '../Components/Assets/banner/banner-v1.webp'
 
+
 const paymentImg = {
+    KadiwaCard: KadiwaLogo,
+    KadiwaQR: KadiwaLogo,
     MasterCard : MasterCard,
-    Bank : Bank,
     Gcash : Gcash,
     Maya : Maya,
+    Bank : Bank,
     Megapay : Megapay,
+    Cash: Cash
 }
 
 const imageConfig = {

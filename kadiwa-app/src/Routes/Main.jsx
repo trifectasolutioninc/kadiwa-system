@@ -47,7 +47,7 @@ const ConsumerMain = () => {
         <Route path="linked-account" element={<LinkedAccount/>} />
         <Route path="pickup/:status" element={<PickupTransaction/>} />
         <Route path="orders/:tab/:getstatus" element={<Orders/>} />
-        <Route path="order-details/:orderId" element={<OrdersData />} />
+        <Route path="order-details/:tab/:status/:orderId" element={<OrdersData />} />
 
 
       </Routes>
