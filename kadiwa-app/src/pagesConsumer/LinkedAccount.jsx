@@ -120,6 +120,8 @@ const LinkedAccount = () => {
             ))}
           </div>
         </div>
+        <h1 className="text-center text-black/80">-End of Page-</h1>
+        <div className="p-8"></div>
       </main>
     </>
   );
