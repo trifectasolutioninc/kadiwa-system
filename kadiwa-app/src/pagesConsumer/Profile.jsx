@@ -171,6 +171,12 @@ const ProfileConsumer = () => {
         <h1 className="text-xl text-green-600  font-bold">Profile</h1>
       </div>
       <main className="p-3 md:px-10 space-y-5 mt-14">
+        <section className="p-2 border rounded-md bg-green-600">
+          <div className="flex items-center justify-between text-white">
+            <h1 className=" font-bold tracking-wider">Kadiwa App</h1>
+            <p>Version: MM/DD.xx</p>
+          </div>
+        </section>
         {/* Profile Information */}
         {userData && (
           <section className="relative p-4 flex items-center justify-between border bg-white rounded-md shadow-md ">
