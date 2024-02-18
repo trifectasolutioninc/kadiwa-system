@@ -67,7 +67,7 @@ const NavBttnAppHome = () => {
 
   return (
     <React.Fragment>
-      <footer className="p-4 text-white flex items-center justify-around fixed bottom-0 w-full" style={{ backgroundColor: "#20802F" }}>
+      <footer className="p-4 text-white flex items-center justify-around fixed bottom-0 w-full z-50" style={{ backgroundColor: "#20802F" }}>
         <NavLink to="" className="text-white text-xs flex flex-col items-center">
           <Home />
           Home
