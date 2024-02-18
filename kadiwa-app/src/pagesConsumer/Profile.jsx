@@ -55,7 +55,6 @@ const ProfileConsumer = () => {
 }, []);
 
 
-
   useEffect(() => {
     const fetchUserData = async () => {
       if (!redirectToIndexIfNoConnect()) {
