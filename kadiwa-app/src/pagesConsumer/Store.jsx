@@ -76,12 +76,13 @@ const StoreConsumer = () => {
                     <section className="col-span-9 text-left">
                       <p className="text-lg font-semibold">{store.name}</p>
                       <p className=" text-gray-500">{store.type}</p>
-                      {storeAddressData[store.id] && (
+                      {storeAddressData.find(address => address.id === store.id) && (
                         <p className=" text-gray-500">
                           <LocationOn fontSize="25px" />
-                          {storeAddressData[store.id].province}
+                          {storeAddressData.find(address => address.id === store.id).city }, {storeAddressData.find(address => address.id === store.id).province }
                         </p>
                       )}
+
                       <p className=" text-gray-500">Partner</p>
                     </section>
                     <div className="col-span-1 flex justify-end ">
