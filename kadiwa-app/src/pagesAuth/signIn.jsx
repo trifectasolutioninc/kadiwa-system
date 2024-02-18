@@ -74,7 +74,6 @@ const SignInPages = () => {
   }, []);
 
 
-
   const handleSignIn = async (event) => {
     event.preventDefault();
   
@@ -107,6 +106,7 @@ const SignInPages = () => {
   
             // Check if the user has devices
             if (userData.device && userData.device.length > 0) {
+              let deviceExists = false;
               // Iterate over each device
               userData.device.forEach((device, index) => {
                 if (device.id === deviceID) {
@@ -117,13 +117,30 @@ const SignInPages = () => {
                   }).catch((error) => {
                     console.error('Error updating device status:', error);
                   });
+                  deviceExists = true;
                 }
               });
+              if (!deviceExists) {
+                // If the deviceID is not found in the user's devices, add the new device
+                const newDevice = {
+                  id: deviceID,
+                  type: deviceType,
+                  brand: deviceBrand,
+                  browser: deviceBrowser,
+                  log: 'online'
+                };
+                const deviceRef = ref(db, `authentication/${userData.id}/device`);
+                set(deviceRef.push(), newDevice).then(() => {
+                  console.log('New device added');
+                }).catch((error) => {
+                  console.error('Error adding new device:', error);
+                });
+              }
             } else {
-              // If the user has no devices or the device ID didn't match, add the new device
+              // If the user has no devices, add the new device
               const newDevice = {
                 id: deviceID,
-                type: "Android", // Corrected the device type
+                type: deviceType,
                 brand: deviceBrand,
                 browser: deviceBrowser,
                 log: 'online'
@@ -151,7 +168,6 @@ const SignInPages = () => {
       console.error('Error logging in:', error.message);
     }
   };
-  
   
   
   const closeModal = () => {
