@@ -10,33 +10,41 @@ const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
   const [userLocation, setUserLocation] = useState("Loading...");
+  const [sortBy, setSortBy] = useState(""); // State for sorting
   const database = configFirebaseDB();
 
   useEffect(() => {
     // Fetch and display products initially
     displayProducts(selectedCommodity);
-
     // Fetch and display user location
     fetchUserLocation();
-  }, [selectedCommodity]);
+  }, [selectedCommodity, sortBy]); // Include sortBy in dependencies
 
   const handleCommodityClick = (commodityType) => {
     setSelectedCommodity(commodityType);
   };
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
+
 
   const displayProducts = (commodityType) => {
     const productsRef = ref(database, "products_info");
-    // Use the 'value' event to fetch data once
     get(productsRef)
       .then((snapshot) => {
         const productsData = snapshot.val() || {};
-
-        // Assuming you have a specific node structure in your database
-        const filteredProducts = Object.values(productsData).filter(
+        let filteredProducts = Object.values(productsData).filter(
           (product) =>
             commodityType === "All Commodities" ||
             product.commodity_type === commodityType
         );
+
+        // Sorting logic
+        if (sortBy === "lowestToHighest") {
+          filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
+        } else if (sortBy === "highestToLowest") {
+          filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
+        }
 
         setProducts(filteredProducts);
       })
@@ -108,15 +116,16 @@ const HomeConsumer = () => {
           </div>
         </div>
         <div className="ml-4">
-          <select
-            name=""
-            id=""
-            className="p-2 border border-gray-600 rounded-md text-black/80"
-          >
-            <option value="">Sort by:</option>
-            <option value="">Lowest to Highest Price</option>
-            <option value="">Highest to Lowest Price</option>
-          </select>
+        <select
+          name=""
+          id=""
+          className="p-2 border border-gray-600 rounded-md text-black/80"
+          onChange={handleSortChange}
+        >
+          <option value="">Sort by:</option>
+          <option value="lowestToHighest">Lowest to Highest Price</option>
+          <option value="highestToLowest">Highest to Lowest Price</option>
+        </select>
         </div>
       </section>
 
