@@ -82,9 +82,7 @@ const Registration = () => {
           id = uuidv4();
           localStorage.setItem('deviceID', id);
         }
-        else {
-          id = ''
-        }
+  
         setDeviceID(id);
       };
   
@@ -142,8 +140,8 @@ const Registration = () => {
             contact: consumerFormData.contact,
             password: consumerFormData.password,
             device: {
-              Default: {
-                id: (uuidv4() || " "),
+                deviceID: {
+                id: (deviceID|| " "),
                 type: (deviceType || " "),
                 brand: (deviceBrand || " "),
                 browser: (deviceBrowser || " "),
