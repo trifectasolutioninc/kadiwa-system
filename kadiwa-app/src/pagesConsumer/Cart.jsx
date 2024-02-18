@@ -241,121 +241,133 @@ const Cart = () => {
   };
 
   return (
-    <main className="p-3 md:p-10 bg-gray-100 space-y-5">
-      {cartData !== null ? (
-        <div>
-          <div className="space-y-5">
-            <section className="flex items-center justify-between">
-              <div className="flex items-center gap-5 ">
-                <BackButton />
-                <h1 className="text-xl text-green-600  font-bold">
-                  Cart ({getTotalQuantity(cartData)})
-                </h1>
-              </div>
-              <button
-                className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-            </section>
-
-            <section className="space-y-5  max-h-screen overflow-y-auto">
-              {Object.entries(cartData).map(([storeKey, storeInfo]) => (
-                <div key={storeKey} className="bg-white rounded shadow-md p-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        className="mr-1"
-                        checked={isStoreChecked[storeKey] || false}
-                        onChange={() => handleStoreCheckboxChange(storeKey)}
-                      />
+    <>
+      <section className="fixed flex items-center justify-between gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10">
+        <div className="flex items-center gap-5 ">
+          <BackButton />
+          <h1 className="text-xl text-green-600  font-bold">
+            Cart ({getTotalQuantity(cartData)})
+          </h1>
+        </div>
+        <button
+          className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1"
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      </section>
+      <main className="p-3 md:p-10 space-y-5">
+        {cartData !== null ? (
+          <div>
+            <div className="space-y-5 mt-14">
+              <section className="space-y-5  max-h-screen overflow-y-auto">
+                {Object.entries(cartData).map(([storeKey, storeInfo]) => (
+                  <div
+                    key={storeKey}
+                    className="bg-gray-100 rounded-md shadow-md"
+                  >
+                    <div className="flex items-center justify-between bg-white top-0 left-0 right-0 p-2 border rounded-md">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="mr-1"
+                          checked={isStoreChecked[storeKey] || false}
+                          onChange={() => handleStoreCheckboxChange(storeKey)}
+                        />
+                        <Link
+                          to={`/main/storepage/${storeKey.split("_")[1]}`}
+                          className="font-bold text-green-700"
+                        >
+                          {storeInfo.storeName}
+                        </Link>
+                      </div>
                       <Link
                         to={`/main/storepage/${storeKey.split("_")[1]}`}
-                        className="font-bold text-green-700"
+                        className=" text-blue-400"
                       >
-                        {storeInfo.storeName}
+                        Visit Store
                       </Link>
                     </div>
-                    <Link
-                      to={`/main/storepage/${storeKey.split("_")[1]}`}
-                      className=" text-blue-400"
-                    >
-                      Visit Store
-                    </Link>
+
+                    <div className="p-2 space-y-3">
+                      {Object.entries(storeInfo.CartList).map(
+                        ([productId, productInfo]) => (
+                          <CartItem
+                            key={productId}
+                            id={productId}
+                            name={productInfo.product_name}
+                            price={productInfo.price}
+                            quantity={productInfo.qty}
+                            imgAlt={
+                              imageConfig[productInfo.keywords.toLowerCase()]
+                            }
+                            isChecked={
+                              selectedItems[storeKey]?.[productId] || false
+                            }
+                            onCheckboxChange={() =>
+                              handleItemCheckboxChange(storeKey, productId)
+                            }
+                            onIncrement={() =>
+                              handleIncrementQuantity(storeKey, productId)
+                            }
+                            onDecrement={() =>
+                              handleDecrementQuantity(storeKey, productId)
+                            }
+                          />
+                        )
+                      )}
+                    </div>
+                    {/* Cart Items */}
                   </div>
-
-                  {/* Cart Items */}
-                  {Object.entries(storeInfo.CartList).map(
-                    ([productId, productInfo]) => (
-                      <CartItem
-                        key={productId}
-                        id={productId}
-                        name={productInfo.product_name}
-                        price={productInfo.price}
-                        quantity={productInfo.qty}
-                        imgAlt={imageConfig[productInfo.keywords.toLowerCase()]}
-                        isChecked={
-                          selectedItems[storeKey]?.[productId] || false
-                        }
-                        onCheckboxChange={() =>
-                          handleItemCheckboxChange(storeKey, productId)
-                        }
-                        onIncrement={() =>
-                          handleIncrementQuantity(storeKey, productId)
-                        }
-                        onDecrement={() =>
-                          handleDecrementQuantity(storeKey, productId)
-                        }
-                      />
-                    )
-                  )}
-                </div>
-              ))}
-            </section>
-          </div>
-
-          <div className="mt-10">
-            <div className=" bg-green-600 p-2 rounded-md flex justify-between mb-36">
-              <p className="font-bold text-white">
-                Total: {getTotalPrice(cartData, selectedItems)}
-              </p>
-              <button
-                className="bg-white px-4 rounded-md text-green-700"
-                onClick={handleCheckout}
-              >
-                <p>CHECKOUT</p>
-              </button>
+                ))}
+              </section>
             </div>
+            <h1 className="text-center mt-10 mb-36 text-black/80">
+              -End of Page-
+            </h1>
           </div>
-        </div>
-      ) : (
-        <div>
+        ) : (
           <div>
-            <section className="flex items-center justify-between">
-              <div className="flex items-center gap-5 ">
-                <BackButton />
-                <h1 className="text-xl text-green-600  font-bold">Cart (0)</h1>
-              </div>
-              <button className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1">
-                Delete
-              </button>
-            </section>
             <div>
-              <div className="m-4 bg-green-600 p-2 rounded-md ">
-                <div className="m-4 bg-green-600 p-2 rounded-md flex justify-between">
-                  <p className="font-bold text-white">Total: 0</p>
-                  <button className="bg-white px-4 rounded-md text-green-700">
-                    <p>CHECKOUT</p>
-                  </button>
+              <section className="flex items-center justify-between">
+                <div className="flex items-center gap-5 ">
+                  <BackButton />
+                  <h1 className="text-xl text-green-600  font-bold">
+                    Cart (0)
+                  </h1>
+                </div>
+                <button className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1">
+                  Delete
+                </button>
+              </section>
+              <div>
+                <div className="m-4 bg-green-600 p-2 rounded-md ">
+                  <div className="m-4 bg-green-600 p-2 rounded-md flex justify-between">
+                    <p className="font-bold text-white">Total: 0</p>
+                    <button className="bg-white px-4 rounded-md text-green-700">
+                      <p>CHECKOUT</p>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+        )}
+        <div className="fixed bg-white bottom-20 right-2 left-2">
+          <div className=" bg-green-600 p-2 rounded-md flex justify-between">
+            <p className="font-bold text-white">
+              Total: {getTotalPrice(cartData, selectedItems)}
+            </p>
+            <button
+              className="bg-white px-4 rounded-md text-green-700"
+              onClick={handleCheckout}
+            >
+              <p>CHECKOUT</p>
+            </button>
+          </div>
         </div>
-      )}
-    </main>
+      </main>
+    </>
   );
 };
 
