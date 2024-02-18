@@ -289,7 +289,7 @@ const Cart = () => {
                       </Link>
                     </div>
 
-                    <div className="p-2 space-y-3">
+                    <div className="p-1 space-y-3">
                       {Object.entries(storeInfo.CartList).map(
                         ([productId, productInfo]) => (
                           <CartItem

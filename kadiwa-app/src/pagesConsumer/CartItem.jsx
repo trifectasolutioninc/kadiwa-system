@@ -35,7 +35,7 @@ const CartItem = ({
           <h1 className="text-gray-800 font-semibold">{name}</h1>
           <div>
             <div className=" justify-between flex items-center">
-              <p className="font-semibold text-green-700 text-lg">{`Php ${price.toFixed(
+              <p className="font-semibold text-green-700 text-lg">{`₱ ${price.toFixed(
                 2
               )}`}</p>
               <div className="flex items-center ">
