@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
-import { getDatabase, ref, get, set } from 'firebase/database';
+import { getDatabase, ref, get, set, push } from 'firebase/database';
 import InputMask from 'react-input-mask';
 import { imageConfig } from '../Configuration/config-file';
 import { v4 as uuidv4 } from 'uuid';
@@ -122,15 +122,14 @@ const SignInPages = () => {
               });
               if (!deviceExists) {
                 // If the deviceID is not found in the user's devices, add the new device
-                const newDevice = {
+                const newDeviceRef = push(ref(db, `authentication/${userData.id}/device`));
+                set(newDeviceRef, {
                   id: deviceID,
                   type: deviceType,
                   brand: deviceBrand,
                   browser: deviceBrowser,
                   log: 'online'
-                };
-                const deviceRef = ref(db, `authentication/${userData.id}/device`);
-                set(deviceRef.push(), newDevice).then(() => {
+                }).then(() => {
                   console.log('New device added');
                 }).catch((error) => {
                   console.error('Error adding new device:', error);
@@ -138,15 +137,14 @@ const SignInPages = () => {
               }
             } else {
               // If the user has no devices, add the new device
-              const newDevice = {
+              const newDeviceRef = push(ref(db, `authentication/${userData.id}/device`));
+              set(newDeviceRef, {
                 id: deviceID,
                 type: deviceType,
                 brand: deviceBrand,
                 browser: deviceBrowser,
                 log: 'online'
-              };
-              const deviceRef = ref(db, `authentication/${userData.id}/device`);
-              set(deviceRef.push(), newDevice).then(() => {
+              }).then(() => {
                 console.log('New device added');
               }).catch((error) => {
                 console.error('Error adding new device:', error);
@@ -168,6 +166,7 @@ const SignInPages = () => {
       console.error('Error logging in:', error.message);
     }
   };
+  
   
   
   const closeModal = () => {
