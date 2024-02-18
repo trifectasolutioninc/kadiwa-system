@@ -9,7 +9,6 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Toast from "../Components/Notifications/Toast";
 
-
 const StoreList = ({ productCode }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -294,6 +293,16 @@ const StoreList = ({ productCode }) => {
                 <p>Price: {filteredProducts[0].price}</p>
               </div>
             )}
+            <div>
+              <label>Variety:</label>
+              <select name="" id="">
+                <option value="">Select Variety</option>
+                <option value="">1 unit</option>
+                <option value="">3 unit</option>
+                <option value="">5 unit</option>
+              </select>
+            </div>
+
             <div className="flex items-center mt-2">
               <button
                 onClick={decrementQuantity}
@@ -350,6 +359,15 @@ const StoreList = ({ productCode }) => {
                 <p>Price: {filteredProducts[0].price}</p>
               </div>
             )}
+            <div>
+              <label>Variety:</label>
+              <select name="" id="">
+                <option value="">Select Variety</option>
+                <option value="">1 unit</option>
+                <option value="">3 unit</option>
+                <option value="">5 unit</option>
+              </select>
+            </div>
             <div className="flex items-center mt-2">
               <button
                 onClick={decrementQuantity}
