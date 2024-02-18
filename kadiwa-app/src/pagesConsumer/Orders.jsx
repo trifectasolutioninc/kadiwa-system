@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, NavLink } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdLocalShipping } from "react-icons/md";
 import { FaJoget } from "react-icons/fa";
@@ -16,6 +16,7 @@ const Orders = () => {
     const [status, setStatus] = useState(getstatus);
 
     const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -43,6 +44,11 @@ const Orders = () => {
 
         fetchData();
     }, [tab, status]);
+
+    const handleOrderItemClick = (orderId) => {
+        // Navigate to order details page with orderId as parameter
+        navigate(`/main/order-details/${orderId}`);
+    };
 
     return (
         <div className='h-screen'>
@@ -85,7 +91,7 @@ const Orders = () => {
 
                         </div>
                         {orders && orders.map(order => (
-                            <div key={order.receiptId} className="p-4 border-b ">
+                            <div key={order.receiptId} className="p-4 border-b cursor-pointer" onClick={() => handleOrderItemClick(order.receiptId)}>
                                 <h2 className="text-[0.7em] font-semibold">Order ID: {order.receiptId}</h2>
                                 <p>Status: {order.status}</p>
                                 <p>Date: {order.date}</p>

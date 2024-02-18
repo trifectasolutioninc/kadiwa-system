@@ -15,6 +15,8 @@ import redirectToIndexIfNoConnect from '../Scripts/connections/check';
 
 import PickupTransaction from '../pagesConsumer/PickupTransaction';
 import Orders from '../pagesConsumer/Orders';
+import OrdersData from '../pagesConsumer/Orders/OrdersData';
+
 
 const ConsumerMain = () => {
 
@@ -45,6 +47,7 @@ const ConsumerMain = () => {
         <Route path="linked-account" element={<LinkedAccount/>} />
         <Route path="pickup/:status" element={<PickupTransaction/>} />
         <Route path="orders/:tab/:getstatus" element={<Orders/>} />
+        <Route path="order-details/:orderId" element={<OrdersData />} />
 
 
       </Routes>

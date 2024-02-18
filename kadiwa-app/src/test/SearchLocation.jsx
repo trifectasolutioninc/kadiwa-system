@@ -50,8 +50,8 @@ function SearchLocation() {
           <div key={index} className="border border-gray-300 rounded-md p-4 mb-4">
             <p className="text-lg font-semibold">{result.display_name}</p>
             <p className="text-gray-700">{result.address ? `${result.address.city || result.address.town || ''}, ${result.address.country}` : ''}</p>
-            <p><strong>Latitude:</strong> {parseFloat(result.lat).toFixed(6)}</p>
-            <p><strong>Longitude:</strong> {parseFloat(result.lon).toFixed(6)}</p>
+            <p><strong>Latitude:</strong> {parseFloat(result.lat).toFixed(6)} </p>
+            <p><strong>Longitude:</strong> {parseFloat(result.lon).toFixed(6)} </p>
             <button
               onClick={() => handleMapClick(result.lat, result.lon)}
               className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
