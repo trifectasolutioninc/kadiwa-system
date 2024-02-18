@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
-import { getDatabase, ref, get } from 'firebase/database';
+import { getDatabase, ref, get, set } from 'firebase/database';
 import InputMask from 'react-input-mask';
 import { imageConfig } from '../Configuration/config-file';
 import { v4 as uuidv4 } from 'uuid';
+const deviceDetect = require('device-detect')();
 
 const SignInPages = () => {
   const [username, setUsername] = useState('');
@@ -16,56 +17,122 @@ const SignInPages = () => {
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
 
+  const [deviceID, setDeviceID] = useState(null);
+  const [deviceType, setDeviceType] = useState(null);
+  const [deviceBrand, setDeviceBrand] = useState(null);
+  const [deviceBrowser, setDeviceBrowser] = useState(null);
+
   useEffect(() => {
-    const fetchVersion = async () => {
-      try {
-        const database = getDatabase();
-        const versionRef = ref(database, '0_config_control/version');
-        const snapshot = await get(versionRef);
-        if (snapshot.exists()) {
-          setVersion(snapshot.val());
-        } else {
-          console.log("No version found");
-        }
-      } catch (error) {
-        console.error("Error getting version:", error);
+      const fetchVersion = async () => {
+          try {
+              const database = getDatabase();
+              const versionRef = ref(database, '0_config_control/version');
+              const snapshot = await get(versionRef);
+              if (snapshot.exists()) {
+                  setVersion(snapshot.val());
+              } else {
+                  console.log("No version found");
+              }
+          } catch (error) {
+              console.error("Error getting version:", error);
+          }
+      };
+
+      fetchVersion();
+  }, []);
+
+
+  useEffect(() => {
+    // Function to fetch or generate device ID
+    const fetchDeviceID = () => {
+      // Simulating fetching device ID (e.g., from localStorage)
+      let id = localStorage.getItem('deviceID');
+      if (!id) {
+        id = uuidv4();
+        localStorage.setItem('deviceID', id);
       }
+
+      setDeviceID(id);
     };
 
-    fetchVersion();
+    // Function to determine device type, brand, and browser
+    const determineDeviceInfo = () => {
+      setDeviceType(deviceDetect.device || 'Unknown');
+      setDeviceBrand(deviceDetect.device || 'Unknown');
+      setDeviceBrowser(deviceDetect.browser || 'Unknown');
+    };
+
+    fetchDeviceID();
+    determineDeviceInfo();
+
+    // Cleanup function if needed
+    return () => {
+      // Any cleanup code
+    };
   }, []);
+
+
 
   const handleSignIn = async (event) => {
     event.preventDefault();
-
+  
     try {
       const db = configFirebaseDB();
       const usersRef = ref(db, 'authentication');
       const snapshot = await get(usersRef);
-
+  
       if (snapshot.exists()) {
         let success = false;
         snapshot.forEach((childSnapshot) => {
           const userData = childSnapshot.val();
-
+  
           const inputUsername = phoneNumberRef.current.value;
           const inputPassword = passwordRef.current.value;
           const inputUsername2 = inputUsername.replace(/\s/g, '');
-
+  
           if (
             (userData.username === inputUsername ||
               userData.contact === inputUsername || userData.contact === inputUsername2.replace(/x/g, "+63") ||
               userData.email === inputUsername) &&
             userData.password === inputPassword
           ) {
-            sessionStorage.setItem('log', 'online');
-            sessionStorage.setItem('uid', userData.id);
-            sessionStorage.setItem('sid', userData.store_id);
-            console.log('Successfully logged in', userData);
-            success = true;
+  
+  
+            // Check if the user has devices
+            if (userData.device && userData.device.length > 0) {
+              // Iterate over each device
+              userData.device.forEach((device, index) => {
+                if (device.id === deviceID) {
+                  // Update the status of the device to "online"
+                  const deviceRef = ref(db, `authentication/${userData.id}/device/${index}/log`);
+                  set(deviceRef, 'online');
+                  sessionStorage.setItem('log', 'online');
+                  sessionStorage.setItem('uid', userData.id);
+                  sessionStorage.setItem('sid', userData.store_id);
+                  console.log('Successfully logged in', userData);
+                  success = true;
+                }
+              });
+            } else {
+              // If the user has no devices, add the new device
+              const newDevice = {
+                id: uuidv4(),
+                type: deviceType,
+                brand: deviceBrand,
+                browser: deviceBrowser,
+                log: 'online'
+              };
+              const deviceRef = ref(db, `authentication/${userData.id}/device`);
+              set(deviceRef, [newDevice]); // Set device data for the user
+              sessionStorage.setItem('log', 'online');
+              sessionStorage.setItem('uid', userData.id);
+              sessionStorage.setItem('sid', userData.store_id);
+              console.log('Successfully logged in', userData);
+              success = true;
+            }
           }
         });
-
+  
         if (success) {
           setModalMessage('Login successful!');
         } else {
@@ -79,7 +146,7 @@ const SignInPages = () => {
       console.error('Error logging in:', error.message);
     }
   };
-
+  
   const closeModal = () => {
     setShowModal(false);
     if (modalMessage === 'Login successful!') {
