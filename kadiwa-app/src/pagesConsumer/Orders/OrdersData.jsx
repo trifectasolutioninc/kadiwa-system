@@ -9,33 +9,37 @@ import { getDatabase, ref, get } from 'firebase/database'; // Make sure this is 
 const OrdersData = () => {
     const { tab, status, orderId } = useParams();
     const [order, setOrder] = useState(null);
+    const [componentMounted, setComponentMounted] = useState(false);
     const qrCodeCanvasRef = useRef(null);
+    const oid = orderId;
 
-
-
-    
     useEffect(() => {
-        console.log("orderId:", orderId); // Debugging: Log orderId
+        setComponentMounted(true);
+        return () => {
+            setComponentMounted(false);
+        };
+    }, []);
+
+    useEffect(() => {
         const fetchOrderData = async () => {
             try {
                 const db = getDatabase();
-                const orderRef = ref(db, `orders_list/${orderId}`);
+                const orderRef = ref(db, `orders_list/${oid}`);
                 const snapshot = await get(orderRef);
-    
+
                 if (snapshot.exists()) {
                     const orderData = snapshot.val();
                     setOrder(orderData);
-    
-                    // Generate QR code for order ID with transaction code
-                    if (qrCodeCanvasRef.current) {
-                        const transactionCode = orderData.transaction_code; // Assuming you have transaction_code in your order data
-                        const qrText = `${orderId}-${transactionCode}`;
-                        console.log("QR Text:", qrText); // Debugging: Log qrText
+
+                    const transactionCode = orderData.transaction_code;
+                    const qrText = `${oid}-${transactionCode}-${orderData.status}-${orderData.consumer}`;
+
+                    if (qrCodeCanvasRef.current && componentMounted) {
                         QRCode.toCanvas(qrCodeCanvasRef.current, qrText, function (error) {
                             if (error) {
                                 console.error('Error generating QR code:', error);
                             } else {
-                                console.log("QR code generated successfully"); // Debugging: Log success
+                                console.log("QR code generated successfully");
                             }
                         });
                     }
@@ -46,14 +50,14 @@ const OrdersData = () => {
                 console.error('Error fetching order data:', error);
             }
         };
-    
+
         fetchOrderData();
-    }, [orderId]);
-    
+    }, [oid, componentMounted]);
 
 
 
     return (
+
         <>
             <div className='bg-white pb-2 shadow-md top-0 fixed  w-full'>
 
@@ -161,11 +165,46 @@ const OrdersData = () => {
                         </div>
                         <div>
                             {order.paymentOption === 'Kadiwa QR' && (
-                            <canvas ref={qrCodeCanvasRef} className="mx-auto"></canvas>
+                                <div className=' text-center mt-16'>
+                                    <div className='flex justify-center items-center'>
+                                    <div className=' bg-green-600 w-fit p-2 rounded-md' >
+                                    <canvas id="qrCodeCanvas" ref={qrCodeCanvasRef} className="mx-auto"></canvas>
+
+                                    </div>
+
+                                    </div>
+                                    
+                                    <p className=' font-bold text-gray-800'>Reminder!</p>
+                                    <p>Use this as <span className='font-semibold text-green-800'>Payment Method</span> and <span className='font-semibold text-green-800'>Verification of transaction</span>.</p>
+
+                                    
+
+                                </div>
+
+
+                            )}
+                             {order.paymentOption != 'Kadiwa QR' && (
+                                <div className=' text-center mt-16'>
+                                    <div className='flex justify-center items-center'>
+                                    <div className=' bg-green-600 w-fit p-2 rounded-md' >
+                                    <canvas id="qrCodeCanvas" ref={qrCodeCanvasRef} className="mx-auto"></canvas>
+
+                                    </div>
+
+                                    </div>
+                                    
+                                    <p className=' font-bold text-gray-800'>Reminder!</p>
+                                    <p>Use this as <span className='font-semibold text-green-800'>Verification of transaction</span>.</p>
+
+                                    
+
+                                </div>
+
 
                             )}
 
                         </div>
+
 
 
 
