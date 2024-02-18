@@ -54,7 +54,8 @@ const HomeConsumer = () => {
   useEffect(() => {
     const handleScroll = () => {
       // Show/hide Fab based on scroll position
-      setIsFabVisible(window.scrollY > 100); // Adjust the threshold as needed
+      setIsFabVisible(window.scrollY > 100);
+       // Adjust the threshold as needed
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -68,6 +69,7 @@ const HomeConsumer = () => {
 
   const handleBackToTopClick = () => {
     const scrollPosition = 0; // Scroll to the top
+
     
     window.scrollTo({
       top: scrollPosition,
@@ -81,8 +83,11 @@ const HomeConsumer = () => {
         ...prevScrollPositions,
         [location.pathname]: { scrollPosition },
       }));
+      
       setIsAtTop(true); 
     }, 500); // Adjust the delay as needed
+
+     setIsFabVisible(false);
   };
   
   
