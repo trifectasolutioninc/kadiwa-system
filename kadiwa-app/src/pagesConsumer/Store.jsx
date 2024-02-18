@@ -42,7 +42,7 @@ const StoreConsumer = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 shadow-md">
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Store</h1>
       </div>

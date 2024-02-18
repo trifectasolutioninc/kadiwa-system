@@ -37,23 +37,22 @@ const ProfileConsumer = () => {
 
   useEffect(() => {
     const fetchVersion = async () => {
-        try {
-            const database = getDatabase();
-            const versionRef = ref(database, '0_config_control/version');
-            const snapshot = await get(versionRef);
-            if (snapshot.exists()) {
-                setVersion(snapshot.val());
-            } else {
-                console.log("No version found");
-            }
-        } catch (error) {
-            console.error("Error getting version:", error);
+      try {
+        const database = getDatabase();
+        const versionRef = ref(database, "0_config_control/version");
+        const snapshot = await get(versionRef);
+        if (snapshot.exists()) {
+          setVersion(snapshot.val());
+        } else {
+          console.log("No version found");
         }
+      } catch (error) {
+        console.error("Error getting version:", error);
+      }
     };
 
     fetchVersion();
-}, []);
-
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -187,7 +186,7 @@ const ProfileConsumer = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10">
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Profile</h1>
       </div>

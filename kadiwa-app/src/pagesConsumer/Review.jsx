@@ -49,7 +49,7 @@ const Reviews = ({ productCode }) => {
         ) {
           return (
             <div key={reviewId}>
-              <div className="flex items-center bg-white p-3 gap-5 rounded-t-md">
+              <div className="flex items-center bg-white p-3 gap-5 rounded-t-md shadow-md border">
                 <div className="space-y-3">
                   <p className="font-black text-xl text-gray-800 ">
                     {review.consumerName}

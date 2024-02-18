@@ -55,7 +55,7 @@ const Card = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10">
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <NavLink to={"/main/profile"}>
           <IoMdArrowRoundBack fontSize={"25px"} />
         </NavLink>

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { imageConfig } from '../Configuration/config-file';
-import configFirebaseDB from '../Configuration/config';
-import { ref, child, get } from 'firebase/database';
-import redirectToIndexIfNoConnect from '../Scripts/connections/check';
-import { useParams, NavLink } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import SpaOutlinedIcon from '@mui/icons-material/SpaOutlined';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
-import StarHalfIcon from '@mui/icons-material/StarHalf';
+import React, { useEffect, useState } from "react";
+import { imageConfig } from "../Configuration/config-file";
+import configFirebaseDB from "../Configuration/config";
+import { ref, child, get } from "firebase/database";
+import redirectToIndexIfNoConnect from "../Scripts/connections/check";
+import { useParams, NavLink } from "react-router-dom";
+import Button from "@mui/material/Button";
+import SpaOutlinedIcon from "@mui/icons-material/SpaOutlined";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
 import { TiArrowForward } from "react-icons/ti";
 import Reviews from "./Review";
 import StoreInfo from "./StoreofProduct";
@@ -35,8 +35,13 @@ const ProductDetails = ({ productDetails }) => {
   return (
     <>
       <div className="p-3 md:p-10 space-y-5">
-        <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
-          <NavLink to={`/main/storepage/${productCode.split('-')[0]}-${productCode.split('-')[1]}`} className="">
+        <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 shadow-md">
+          <NavLink
+            to={`/main/storepage/${productCode.split("-")[0]}-${
+              productCode.split("-")[1]
+            }`}
+            className=""
+          >
             <IoMdArrowRoundBack fontSize={"25px"} />
           </NavLink>
           <h1 className="text-xl font-bold  text-green-700">Product Details</h1>
