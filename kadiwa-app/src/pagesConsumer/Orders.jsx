@@ -56,7 +56,7 @@ const Orders = () => {
                     </div>
                     <hr className='mx-4 pb-2' />
                     {tab === 'delivery' && (
-                        <div className='flex justify-around gap-3 overflow-x-auto mx-6'>
+                        <div className='flex justify-around gap-3 overflow-x-hidden mx-6'>
                             <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'pending' && 'bg-green-200'}`} onClick={() => setStatus('Pending')}><MdLocalShipping className=' mx-auto' />To Ship</button>
                             <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'to receive' && 'bg-green-200'}`} onClick={() => setStatus('To Receive')}><FaJoget className=' mx-auto' />To Receive</button>
                             <button className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${status.toLowerCase() === 'completed' && 'bg-green-200'}`} onClick={() => setStatus('Completed')}><FaCheckCircle className=' mx-auto' />Completed</button>

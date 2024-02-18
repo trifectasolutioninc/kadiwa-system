@@ -209,7 +209,7 @@ const ChatPage = () => {
         ))}
       </div>
 
-      <div className="p-4 bg-white shadow-md fixed bottom-0 w-full">
+      <div className="p-4 bg-white shadow-md fixed bottom-0  w-full">
         <div className="flex items-center">
           <textarea
             value={newMessage}
