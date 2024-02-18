@@ -174,7 +174,7 @@ const ProfileConsumer = () => {
         <section className="p-2 border rounded-md bg-green-600">
           <div className="flex items-center justify-between text-white">
             <h1 className=" font-bold tracking-wider">Kadiwa App</h1>
-            <p>Version: MM/DD.xx</p>
+            <p>Version: Beta-MM/DD.xx</p>
           </div>
         </section>
         {/* Profile Information */}
