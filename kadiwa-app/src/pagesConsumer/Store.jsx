@@ -46,7 +46,7 @@ const StoreConsumer = () => {
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Store</h1>
       </div>
-      <main className="p-3 md:p-10 bg-gray-100 space-y-5">
+      <main className="p-3 md:p-10 space-y-5">
         {/* Top Navigation with Search and Notification */}
         <div className=" flex items-center justify-between bg-gray-100 mt-14">
           {/* Search Input */}
@@ -70,16 +70,28 @@ const StoreConsumer = () => {
                   <Link
                     to={`/main/storepage/${store.id}`}
                     key={store.id}
-                    className="bg-white p-4 rounded-lg shadow-md items-center grid grid-cols-10"
+                    className="bg-white p-4 rounded-lg shadow-md items-center grid grid-cols-10 border"
                   >
                     {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                     <section className="col-span-9 text-left">
                       <p className="text-lg font-semibold">{store.name}</p>
                       <p className=" text-gray-500">{store.type}</p>
-                      {storeAddressData.find(address => address.id === store.id) && (
+                      {storeAddressData.find(
+                        (address) => address.id === store.id
+                      ) && (
                         <p className=" text-gray-500">
                           <LocationOn fontSize="25px" />
-                          {storeAddressData.find(address => address.id === store.id).city }, {storeAddressData.find(address => address.id === store.id).province }
+                          {
+                            storeAddressData.find(
+                              (address) => address.id === store.id
+                            ).city
+                          }
+                          ,{" "}
+                          {
+                            storeAddressData.find(
+                              (address) => address.id === store.id
+                            ).province
+                          }
                         </p>
                       )}
 
