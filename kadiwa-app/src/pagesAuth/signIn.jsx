@@ -47,11 +47,13 @@ const SignInPages = () => {
     const fetchDeviceID = () => {
       // Simulating fetching device ID (e.g., from localStorage)
       let id = localStorage.getItem('deviceID');
+      console.log(id);
       if (!id) {
         id = uuidv4();
         localStorage.setItem('deviceID', id);
+        console.log(id);
       }
-
+      
       setDeviceID(id);
     };
 
@@ -96,7 +98,12 @@ const SignInPages = () => {
               userData.email === inputUsername) &&
             userData.password === inputPassword
           ) {
-  
+            // Update session storage
+            sessionStorage.setItem('log', 'online');
+            sessionStorage.setItem('uid', userData.id);
+            sessionStorage.setItem('sid', userData.store_id);
+            console.log('Successfully logged in', userData);
+            success = true;
   
             // Check if the user has devices
             if (userData.device && userData.device.length > 0) {
@@ -105,30 +112,28 @@ const SignInPages = () => {
                 if (device.id === deviceID) {
                   // Update the status of the device to "online"
                   const deviceRef = ref(db, `authentication/${userData.id}/device/${index}/log`);
-                  set(deviceRef, 'online');
-                  sessionStorage.setItem('log', 'online');
-                  sessionStorage.setItem('uid', userData.id);
-                  sessionStorage.setItem('sid', userData.store_id);
-                  console.log('Successfully logged in', userData);
-                  success = true;
+                  set(deviceRef, 'online').then(() => {
+                    console.log('Device status updated to online');
+                  }).catch((error) => {
+                    console.error('Error updating device status:', error);
+                  });
                 }
               });
             } else {
-              // If the user has no devices, add the new device
+              // If the user has no devices or the device ID didn't match, add the new device
               const newDevice = {
-                id: uuidv4(),
-                type: deviceType,
+                id: deviceID,
+                type: "Android", // Corrected the device type
                 brand: deviceBrand,
                 browser: deviceBrowser,
                 log: 'online'
               };
               const deviceRef = ref(db, `authentication/${userData.id}/device`);
-              set(deviceRef, [newDevice]); // Set device data for the user
-              sessionStorage.setItem('log', 'online');
-              sessionStorage.setItem('uid', userData.id);
-              sessionStorage.setItem('sid', userData.store_id);
-              console.log('Successfully logged in', userData);
-              success = true;
+              set(deviceRef.push(), newDevice).then(() => {
+                console.log('New device added');
+              }).catch((error) => {
+                console.error('Error adding new device:', error);
+              });
             }
           }
         });
@@ -146,6 +151,8 @@ const SignInPages = () => {
       console.error('Error logging in:', error.message);
     }
   };
+  
+  
   
   const closeModal = () => {
     setShowModal(false);
