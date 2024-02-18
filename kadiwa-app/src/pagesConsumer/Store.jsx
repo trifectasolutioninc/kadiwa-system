@@ -12,18 +12,23 @@ import BackButton from "./BackToHome";
 
 const StoreConsumer = () => {
   const [storeList, setStoreList] = useState([]);
+  const [storeAddressData, setStoreAddress] = useState([]);
 
   useEffect(() => {
     const fetchStores = async () => {
       const database = configFirebaseDB();
       const storeRef = ref(database, "store_information");
+      const storeAddressRef = ref(database, "store_address_information");
 
       try {
         const storeSnapshot = await get(storeRef);
+        const storeAddressSnapshot = await get(storeAddressRef);
 
-        if (storeSnapshot.exists()) {
+        if (storeSnapshot.exists() && storeAddressSnapshot.exists()) {
           const stores = Object.values(storeSnapshot.val());
+          const storeAddress = Object.values(storeAddressSnapshot.val());
           setStoreList(stores);
+          setStoreAddress(storeAddress);
         } else {
           console.error("No stores found");
         }
@@ -71,10 +76,12 @@ const StoreConsumer = () => {
                     <section className="col-span-9 text-left">
                       <p className="text-lg font-semibold">{store.name}</p>
                       <p className=" text-gray-500">{store.type}</p>
-                      <p className=" text-gray-500">
-                        <LocationOn fontSize="25px" /> Intramuros, City of
-                        Manila
-                      </p>
+                      {storeAddressData[store.id] && (
+                        <p className=" text-gray-500">
+                          <LocationOn fontSize="25px" />
+                          {storeAddressData[store.id].province}
+                        </p>
+                      )}
                       <p className=" text-gray-500">Partner</p>
                     </section>
                     <div className="col-span-1 flex justify-end ">
