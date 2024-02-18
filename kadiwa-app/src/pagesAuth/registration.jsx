@@ -142,7 +142,7 @@ const Registration = () => {
             contact: consumerFormData.contact,
             password: consumerFormData.password,
             device: {
-              0: {
+              Default: {
                 id: (uuidv4() || " "),
                 type: (deviceType || " "),
                 brand: (deviceBrand || " "),

@@ -105,13 +105,13 @@ const SignInPages = () => {
             success = true;
   
             // Check if the user has devices
-            if (userData.device && userData.device.length > 0) {
+            if (userData.device) {
               let deviceExists = false;
               // Iterate over each device
-              userData.device.forEach((device, index) => {
+              Object.values(userData.device).forEach((device) => {
                 if (device.id === deviceID) {
                   // Update the status of the device to "online"
-                  const deviceRef = ref(db, `authentication/${userData.id}/device/${index}/log`);
+                  const deviceRef = ref(db, `authentication/${userData.id}/device/${device.id}/log`);
                   set(deviceRef, 'online').then(() => {
                     console.log('Device status updated to online');
                   }).catch((error) => {
@@ -122,7 +122,7 @@ const SignInPages = () => {
               });
               if (!deviceExists) {
                 // If the deviceID is not found in the user's devices, add the new device
-                const newDeviceRef = push(ref(db, `authentication/${userData.id}/device`));
+                const newDeviceRef = ref(db, `authentication/${userData.id}/device/${deviceID}`);
                 set(newDeviceRef, {
                   id: deviceID,
                   type: deviceType,
@@ -137,7 +137,7 @@ const SignInPages = () => {
               }
             } else {
               // If the user has no devices, add the new device
-              const newDeviceRef = push(ref(db, `authentication/${userData.id}/device`));
+              const newDeviceRef = ref(db, `authentication/${userData.id}/device/${deviceID}`);
               set(newDeviceRef, {
                 id: deviceID,
                 type: deviceType,
@@ -166,7 +166,6 @@ const SignInPages = () => {
       console.error('Error logging in:', error.message);
     }
   };
-  
   
   
   const closeModal = () => {
