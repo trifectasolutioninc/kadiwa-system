@@ -44,7 +44,7 @@ const HomeConsumer = () => {
       }
     };
   
-    const delay = 500; 
+    const delay = 800; 
     
     const timeoutId = setTimeout(scrollToStoredPosition, delay);
   
