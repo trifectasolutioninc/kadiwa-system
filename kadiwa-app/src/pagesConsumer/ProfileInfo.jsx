@@ -6,10 +6,12 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import firebaseDB from '../Configuration/config';
 import { ref, child, get, update } from 'firebase/database';
-import { useParams, NavLink, Link } from 'react-router-dom';
+import { useParams, NavLink, Link, useNavigate  } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import EditAddress from './Profile/EditAddress';
 import AddAddressModal from './Profile/AddAddress';
+import { v4 as uuidv4 } from 'uuid';
+const deviceDetect = require('device-detect')();
 
 const MaxAddressWarningModal = ({ showModal, closeModal }) => {
   return (
@@ -41,6 +43,11 @@ const ProfileInfo = () => {
   const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
   const [editAddressType, setEditAddressType] = useState(null);
   const [isAddAddressModalOpen, setIsAddAddressModalOpen] = useState(false); // State for Add Address modal
+  const [deviceID, setDeviceID] = useState(null);
+  const [deviceType, setDeviceType] = useState(null);
+  const [deviceBrand, setDeviceBrand] = useState(null);
+  const [deviceBrowser, setDeviceBrowser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,11 +79,55 @@ const ProfileInfo = () => {
     fetchData();
   }, []);
 
-  const handleLogout = () => {
-    sessionStorage.setItem('uid', '');
-    window.location.href = '/';
-  };
 
+  useEffect(() => {
+    // Function to fetch or generate device ID
+    const fetchDeviceID = () => {
+      // Simulating fetching device ID (e.g., from localStorage)
+      let id = localStorage.getItem('deviceID');
+      console.log(id);
+      if (!id) {
+        id = uuidv4();
+        localStorage.setItem('deviceID', id);
+        console.log(id);
+      }
+      
+      setDeviceID(id);
+    };
+
+    // Function to determine device type, brand, and browser
+    const determineDeviceInfo = () => {
+      setDeviceType(deviceDetect.device || 'Unknown');
+      setDeviceBrand(deviceDetect.device || 'Unknown');
+      setDeviceBrowser(deviceDetect.browser || 'Unknown');
+    };
+
+    fetchDeviceID();
+    determineDeviceInfo();
+
+    // Cleanup function if needed
+    return () => {
+      // Any cleanup code
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const database = firebaseDB();
+      const uid = sessionStorage.getItem('uid');
+      const authRef = ref(database, `authentication/${uid}/device/${deviceID}/log`);
+    
+      // Update device log to offline
+      await update(authRef, {
+        'log' : 'offline',
+      });
+
+      sessionStorage.setItem('uid', '');
+      navigate('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
   const handleEditAddressToggle = (addressType) => {
     setEditAddressType(addressType);
     setIsEditAddressOpen(!isEditAddressOpen);
