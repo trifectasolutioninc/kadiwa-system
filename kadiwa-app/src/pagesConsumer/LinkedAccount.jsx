@@ -76,7 +76,7 @@ const LinkedAccount = () => {
       </div>
       <main className="p-3 md:px-10 space-y-5 mt-14">
         <div className="">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {linkedAccounts.map((account, index) => (
               <div
                 key={index}
