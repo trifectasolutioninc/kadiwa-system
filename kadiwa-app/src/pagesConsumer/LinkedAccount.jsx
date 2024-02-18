@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import configFirebaseDB from '../Configuration/config';
-import { paymentImg } from '../Configuration/config-file';
+import React, { useEffect, useState } from "react";
+import configFirebaseDB from "../Configuration/config";
+import { paymentImg } from "../Configuration/config-file";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const LinkedAccount = () => {
   const [linkedAccounts, setLinkedAccounts] = useState([]);
@@ -10,29 +10,29 @@ const LinkedAccount = () => {
   // Sample data for different account types
   const sampleData = {
     MasterCard: {
-      owner: 'Juan Dela Cruz',
-      number: '1234 5678 9123 4567',
-      type: 'MasterCard',
+      owner: "Juan Dela Cruz",
+      number: "1234 5678 9123 4567",
+      type: "MasterCard",
     },
     Megapay: {
-      owner: 'Juan Dela Cruz',
-      number: '9876 5432 1098 7654',
-      type: 'Megapay',
+      owner: "Juan Dela Cruz",
+      number: "9876 5432 1098 7654",
+      type: "Megapay",
     },
     Gcash: {
-      owner: 'Juan Dela Cruz',
-      number: '2468 1357 8024 6913',
-      type: 'Gcash',
+      owner: "Juan Dela Cruz",
+      number: "2468 1357 8024 6913",
+      type: "Gcash",
     },
     Paymaya: {
-      owner: 'Juan Dela Cruz',
-      number: '1357 2468 9132 8046',
-      type: 'Paymaya',
+      owner: "Juan Dela Cruz",
+      number: "1357 2468 9132 8046",
+      type: "Paymaya",
     },
     Bank: {
-      owner: 'Juan Dela Cruz',
-      number: '7890 1234 5678 9012',
-      type: 'Bank',
+      owner: "Juan Dela Cruz",
+      number: "7890 1234 5678 9012",
+      type: "Bank",
     },
   };
 
@@ -51,15 +51,15 @@ const LinkedAccount = () => {
   const getAccountImageSrc = (accountType) => {
     // Replace these paths with the actual paths to your images
     switch (accountType) {
-      case 'MasterCard':
+      case "MasterCard":
         return `${paymentImg.MasterCard}`;
-      case 'Megapay':
+      case "Megapay":
         return `${paymentImg.Megapay}`;
-      case 'Gcash':
+      case "Gcash":
         return `${paymentImg.Gcash}`;
-      case 'Paymaya':
+      case "Paymaya":
         return `${paymentImg.Maya}`;
-      case 'Bank':
+      case "Bank":
         return `${paymentImg.Bank}`;
       default:
         return `${paymentImg.Bank}`; // Provide a default image path
@@ -67,46 +67,61 @@ const LinkedAccount = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-200">
-      <div className="h-full overflow-y-auto p-4">
-      <div className='flex pt-4 mb-1 items-center '>
-        <NavLink to={"/main/profile"} className='px-4'>
-          <IoMdArrowRoundBack />
+    <>
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10">
+        <NavLink to={"/main/profile"}>
+          <IoMdArrowRoundBack fontSize={"25px"} />
         </NavLink>
-        <h1 className="text-lg text-green-600  font-bold">Linked Account</h1>
-
+        <h1 className="text-xl text-green-600  font-bold">Linked Account</h1>
       </div>
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4'>
-        {linkedAccounts.map((account, index) => (
-          <div key={index} className="bg-white shadow-lg rounded-2xl m-4 ">
-            <div className="p-4 ">
-              <div className="grid grid-cols-10">
-                <img
-                  src={getAccountImageSrc(account.type)}
-                  alt={account.type}
-                  className="w-10 h-10 object-contain col-span-3"
-                />
-                <div className=' col-span-7 items-center'>
-                  <p className="font-bold text-sm text-gray-700">{account.owner}</p>
-                  <p className="font-bold text-xs text-gray-500">{account.number}</p>
+      <main className="p-3 md:px-10 space-y-5 mt-14">
+        <div className="">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 space-y-5">
+            {linkedAccounts.map((account, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-lg rounded-2xl border"
+              >
+                <div className="p-4 ">
+                  <div className="grid grid-cols-10">
+                    <img
+                      src={getAccountImageSrc(account.type)}
+                      alt={account.type}
+                      className="w-10 h-10 object-contain col-span-3"
+                    />
+                    <div className=" col-span-7 items-center">
+                      <p className="font-bold text-sm text-gray-700">
+                        {account.owner}
+                      </p>
+                      <p className="font-bold text-xs text-gray-500">
+                        {account.number}
+                      </p>
+                    </div>
+                  </div>
+
+                  <span className="text-sm">{account.type}</span>
+
+                  {/* Render additional information based on account type */}
+                  {account.type === "MasterCard" && (
+                    <span className="text-sm"></span>
+                  )}
+                  {account.type === "Megapay" && (
+                    <span className="text-sm"></span>
+                  )}
+                  {account.type === "Gcash" && (
+                    <span className="text-sm"></span>
+                  )}
+                  {account.type === "Paymaya" && (
+                    <span className="text-sm"></span>
+                  )}
+                  {account.type === "Bank" && <span className="text-sm"></span>}
                 </div>
               </div>
-
-              <span className="text-sm">{account.type}</span>
-
-              {/* Render additional information based on account type */}
-              {account.type === 'MasterCard' && <span className="text-sm"></span>}
-              {account.type === 'Megapay' && <span className="text-sm"></span>}
-              {account.type === 'Gcash' && <span className="text-sm"></span>}
-              {account.type === 'Paymaya' && <span className="text-sm"></span>}
-              {account.type === 'Bank' && <span className="text-sm"></span>}
-            </div>
+            ))}
           </div>
-          
-        ))}
         </div>
-      </div>
-    </div>
+      </main>
+    </>
   );
 };
 

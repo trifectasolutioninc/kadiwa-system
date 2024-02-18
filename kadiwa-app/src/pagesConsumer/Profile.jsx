@@ -20,10 +20,11 @@ import { ref, child, get } from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
 import { FaBox } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { IoWalletOutline } from "react-icons/io5";
+import { IoWallet } from "react-icons/io5";
 import { MdInsertLink } from "react-icons/md";
 import { CiCreditCard1 } from "react-icons/ci";
 import BackButton from "./BackToHome";
+import { AiFillCreditCard } from "react-icons/ai";
 
 const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
@@ -189,7 +190,7 @@ const ProfileConsumer = () => {
             </div>
 
             <div>
-              <div className="">
+              <div className="text-black/80">
                 {/* Display Name */}
                 <h1 id="fullname" className="font-bold text-lg">
                   {userData.first_name + " " + userData.last_name}
@@ -261,7 +262,7 @@ const ProfileConsumer = () => {
             to="/main/virtual-card"
             className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
           >
-            <CiCreditCard1 className="text-3xl mx-auto text-gray-500 mb-2" />
+            <AiFillCreditCard className="text-3xl mx-auto text-blue-700 mb-2" />
             <p className="text-black/80 text-sm">Virtual Card</p>
           </Link>
 
@@ -271,14 +272,14 @@ const ProfileConsumer = () => {
             to="/main/linked-account"
             className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
           >
-            <MdInsertLink className="text-3xl mx-auto text-gray-500 mb-2" />
+            <MdInsertLink className="text-3xl mx-auto text-yellow-500 mb-2" />
             <p className="text-black/80 text-sm">Linked Account</p>
           </Link>
 
           {/* Icon with Name: Transaction History */}
 
           <Link className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300">
-            <IoWalletOutline className="text-3xl mx-auto text-gray-500 mb-2" />
+            <IoWallet className="text-3xl mx-auto text-green-700 mb-2" />
             <p className="text-black/80 text-sm ">Load</p>
           </Link>
         </section>
@@ -292,7 +293,7 @@ const ProfileConsumer = () => {
             to={"/main/orders/delivery/pending"}
             className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
           >
-            <LocalShipping className="text-[1.2em] text-gray-500" />
+            <LocalShipping className="text-[1.2em] text-green-500" />
             Delivery
             {pendingDeliveryCount > 0 && (
               <Badge
@@ -307,7 +308,7 @@ const ProfileConsumer = () => {
             to={"/main/orders/pickup/pending"}
             className="relative px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
           >
-            <FaBox className="text-[1.2em] text-gray-500" />
+            <FaBox className="text-[1.2em] text-green-500" />
             Pickup
             {pendingPickupCount > 0 && (
               <Badge
@@ -321,14 +322,14 @@ const ProfileConsumer = () => {
             to={"/main/orders/history/completed"}
             className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
           >
-            <History className=" text-gray-500" />
+            <History className=" text-green-500" />
             Transaction History
           </Link>
           <Link
             to={"/main/orders/history/completed"}
             className="px-4 py-2 bg-white rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
           >
-            <Timer className=" text-gray-500" />
+            <Timer className=" text-green-500" />
             Scheduled Delivery
           </Link>
         </section>
