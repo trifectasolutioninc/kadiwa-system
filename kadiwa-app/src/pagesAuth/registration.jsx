@@ -74,33 +74,66 @@ const Registration = () => {
 
   
     useEffect(() => {
-      // Function to fetch or generate device ID
-      const fetchDeviceID = () => {
-        // Simulating fetching device ID (e.g., from localStorage)
-        let id = localStorage.getItem('deviceID');
-        if (!id) {
-          id = uuidv4();
-          localStorage.setItem('deviceID', id);
-        }
-  
-        setDeviceID(id);
-      };
-  
-      // Function to determine device type, brand, and browser
-      const determineDeviceInfo = () => {
-        setDeviceType(deviceDetect.device || 'Unknown');
-        setDeviceBrand(deviceDetect.device || 'Unknown');
-        setDeviceBrowser(deviceDetect.browser || 'Unknown');
-      };
-  
-      fetchDeviceID();
-      determineDeviceInfo();
-  
-      // Cleanup function if needed
-      return () => {
-        // Any cleanup code
-      };
-    }, []);
+        // Function to fetch or generate device ID
+        const fetchDeviceID = () => {
+          // Simulating fetching device ID (e.g., from localStorage)
+          let id = localStorage.getItem('deviceID');
+          if (!id) {
+            id = uuidv4();
+            localStorage.setItem('deviceID', id);
+          }
+      
+          setDeviceID(id);
+        };
+      
+        // Function to determine device type, brand, and browser
+        const determineDeviceInfo = () => {
+          setDeviceType(deviceDetect.device || 'Unknown');
+          setDeviceBrand(deviceDetect.device || 'Unknown');
+          setDeviceBrowser(deviceDetect.browser || 'Unknown');
+        };
+      
+        const autoLoginIfOnline = async () => {
+          if (deviceID) {
+            const db = firebaseDB();
+            const authRef = ref(db, 'authentication');
+            const snapshot = await get(authRef);
+      
+            if (snapshot.exists()) {
+              snapshot.forEach((childSnapshot) => {
+                const userData = childSnapshot.val();
+                const devices = userData.device;
+                if (devices) {
+                  // Iterate over devices
+                  for (const deviceKey in devices) {
+                    const deviceData = devices[deviceKey];
+                    if (deviceData.id === deviceID && deviceData.log === 'online') {
+                      // If the device is marked as online, automatically log in
+                      sessionStorage.setItem('log', 'online');
+                      sessionStorage.setItem('uid', userData.id);
+                      sessionStorage.setItem('sid', userData.store_id);
+                      console.log('Automatically logged in');
+                      // You can navigate to the desired page after login
+                      navigate('/main/');
+                      return; // Exit loop if found online device
+                    }
+                  }
+                }
+              });
+            }
+          }
+        };
+      
+        fetchDeviceID();
+        determineDeviceInfo();
+        autoLoginIfOnline();
+      
+        // Cleanup function if needed
+        return () => {
+          // Any cleanup code
+        };
+      }, [deviceID]); // Add deviceID as dependency to re-run the effect when it changes
+      
 
     const handleConsumerSubmit = async (e) => {
         e.preventDefault();
