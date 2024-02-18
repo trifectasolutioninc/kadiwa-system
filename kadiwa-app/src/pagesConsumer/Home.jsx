@@ -44,7 +44,8 @@ const HomeConsumer = () => {
       }
     };
   
-    const delay = 50; 
+    const delay = 100; 
+    
     const timeoutId = setTimeout(scrollToStoredPosition, delay);
   
     return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
