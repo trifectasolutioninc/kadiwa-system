@@ -152,6 +152,12 @@ const StoreInfo = () => {
               </p>
               <p className="mt-4">{selectedProduct.product_name}</p>
               <p className="">Price: ${selectedProduct.price}</p>
+              <select name="" id="">
+                <option value="">Select Variety</option>
+                <option value="">1 unit</option>
+                <option value="">2 unit</option>
+                <option value="">3 unit</option>
+              </select>
               <div className="flex items-center mt-2">
                 <button
                   onClick={decrementQty}
