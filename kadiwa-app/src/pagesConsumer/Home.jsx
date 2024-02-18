@@ -44,7 +44,7 @@ const HomeConsumer = () => {
       }
     };
   
-    const delay = 100; 
+    const delay = 500; 
     
     const timeoutId = setTimeout(scrollToStoredPosition, delay);
   
@@ -86,7 +86,7 @@ const HomeConsumer = () => {
       }));
       
       setIsAtTop(true); 
-    }, 500); // Adjust the delay as needed
+    }, 800); // Adjust the delay as needed
 
      setIsFabVisible(false);
   };
