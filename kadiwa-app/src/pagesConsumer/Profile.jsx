@@ -16,7 +16,7 @@ import { Avatar, Badge } from "@mui/material";
 import { Button } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
 import firebaseDB from "../Configuration/config";
-import { ref, child, get } from "firebase/database";
+import { ref, child, get, getDatabase } from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
 import { FaBox } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -30,9 +30,31 @@ const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
   const [userwalletData, setUserWalletData] = useState(null);
   const [userstoreData, setUserstoreData] = useState(null);
+  const [version, setVersion] = useState("");
 
   const [pendingDeliveryCount, setPendingDeliveryCount] = useState(0);
   const [pendingPickupCount, setPendingPickupCount] = useState(0);
+
+  useEffect(() => {
+    const fetchVersion = async () => {
+        try {
+            const database = getDatabase();
+            const versionRef = ref(database, '0_config_control/version');
+            const snapshot = await get(versionRef);
+            if (snapshot.exists()) {
+                setVersion(snapshot.val());
+            } else {
+                console.log("No version found");
+            }
+        } catch (error) {
+            console.error("Error getting version:", error);
+        }
+    };
+
+    fetchVersion();
+}, []);
+
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -174,7 +196,7 @@ const ProfileConsumer = () => {
         <section className="p-2 border rounded-md bg-green-600">
           <div className="flex items-center justify-between text-white">
             <h1 className=" font-bold tracking-wider">Kadiwa App</h1>
-            <p>Version: Beta-MM/DD.xx</p>
+            <p>Version: {version}</p>
           </div>
         </section>
         {/* Profile Information */}
