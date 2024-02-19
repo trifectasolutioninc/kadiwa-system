@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import {
   Add,
   Info,
@@ -14,9 +15,9 @@ import {
 } from "@mui/icons-material";
 import { Avatar, Badge } from "@mui/material";
 import { Button } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink , useNavigate} from "react-router-dom";
 import firebaseDB from "../Configuration/config";
-import { ref, child, get, getDatabase } from "firebase/database";
+import { ref, child, get, getDatabase , update} from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
 import { FaBox } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -25,6 +26,8 @@ import { MdInsertLink } from "react-icons/md";
 import { CiCreditCard1 } from "react-icons/ci";
 import BackButton from "./BackToHome";
 import { AiFillCreditCard } from "react-icons/ai";
+import { v4 as uuidv4 } from 'uuid';
+const deviceDetect = require('device-detect')();
 
 const ProfileConsumer = () => {
   const [userData, setUserData] = useState(null);
@@ -34,6 +37,11 @@ const ProfileConsumer = () => {
 
   const [pendingDeliveryCount, setPendingDeliveryCount] = useState(0);
   const [pendingPickupCount, setPendingPickupCount] = useState(0);
+  const [deviceID, setDeviceID] = useState(null);
+  const [deviceType, setDeviceType] = useState(null);
+  const [deviceBrand, setDeviceBrand] = useState(null);
+  const [deviceBrowser, setDeviceBrowser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -183,6 +191,56 @@ const ProfileConsumer = () => {
       clearInterval(fetchDataInterval);
     };
   }, []);
+
+  useEffect(() => {
+    // Function to fetch or generate device ID
+    const fetchDeviceID = () => {
+      // Simulating fetching device ID (e.g., from localStorage)
+      let id = localStorage.getItem('deviceID');
+      console.log(id);
+      if (!id) {
+        id = uuidv4();
+        localStorage.setItem('deviceID', id);
+        console.log(id);
+      }
+      
+      setDeviceID(id);
+    };
+
+    // Function to determine device type, brand, and browser
+    const determineDeviceInfo = () => {
+      setDeviceType(deviceDetect.device || 'Unknown');
+      setDeviceBrand(deviceDetect.device || 'Unknown');
+      setDeviceBrowser(deviceDetect.browser || 'Unknown');
+    };
+
+    fetchDeviceID();
+    determineDeviceInfo();
+
+    // Cleanup function if needed
+    return () => {
+      // Any cleanup code
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const database = firebaseDB();
+      const uid = sessionStorage.getItem('uid');
+      const authRef = ref(database, `authentication/${uid}/device/${deviceID}/log`);
+    
+      // Update device log to offline
+      await update(authRef, {
+        'log' : 'offline',
+      });
+
+      sessionStorage.setItem('uid', '');
+      navigate('/');
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
 
   return (
     <>
@@ -363,6 +421,15 @@ const ProfileConsumer = () => {
             Scheduled Delivery
           </Link>
         </section>
+        <div className='flex items-center justify-end gap-3 w-full  bg-white p-2'>
+        <button
+          onClick={handleLogout}
+          className="flex items-center justify-center mx-auto text-white bg-red-500 w-full rounded-md p-2"
+        >
+          Logout
+          <ExitToAppIcon />
+        </button>
+      </div>
         <div className="p-2 h-32"></div>
       </main>
     </>
