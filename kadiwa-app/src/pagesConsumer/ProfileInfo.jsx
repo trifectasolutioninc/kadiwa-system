@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Badge } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Avatar} from '@mui/material';
+// import NotificationsIcon from '@mui/icons-material/Notifications';
 import EditIcon from '@mui/icons-material/Edit';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-
 import firebaseDB from '../Configuration/config';
 import { ref, child, get, update } from 'firebase/database';
-import { useParams, NavLink, Link, useNavigate  } from 'react-router-dom';
+import { NavLink, Link  } from 'react-router-dom';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import EditAddress from './Profile/EditAddress';
 import AddAddressModal from './Profile/AddAddress';
@@ -117,11 +116,17 @@ const ProfileInfo = () => {
 
   return (
     <div className=' bg-gray-100 h-screen'>
+      
       <div className='px-4'>
         <div className='flex pt-4 mb-1 items-center  space-x-1'>
+          <div className='flex'>
           <NavLink to={"/main/profile"} className=''>
             <IoMdArrowRoundBack />
           </NavLink>
+
+          </div>
+          div.
+          
           <h1 className="text-lg text-green-600 font-bold">Profile</h1>
         </div>
         {/* Profile Information */}
@@ -267,7 +272,6 @@ const ProfileInfo = () => {
         </div>
         <div className='h-16 p-2'></div>
       </div>
-
       
       {isEditAddressOpen && <EditAddress addressType={editAddressType} closeModal={closeModal} />}
       <MaxAddressWarningModal showModal={isMaxAddressReached} closeModal={() => setIsMaxAddressReached(false)} />

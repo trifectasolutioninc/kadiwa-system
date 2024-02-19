@@ -5,7 +5,6 @@ import configFirebaseDB from "../Configuration/config";
 import { ref, get } from "firebase/database";
 import { Link, useLocation } from "react-router-dom";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Fab } from "@mui/material";
 
 const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
@@ -19,6 +18,10 @@ const HomeConsumer = () => {
   const home_position = sessionStorage.getItem("home_position");
 
   const [scrollPositions, setScrollPositions] = useState({});
+  console.log(isFabVisible);
+  console.log(isAtTop);
+
+  
 
   useEffect(() => {
     // Fetch and display products initially
@@ -185,9 +188,9 @@ const HomeConsumer = () => {
         </div>
       </section>
 
-      <div className="">
-        <img src={imageConfig.BannerV1} alt="" className="rounded-md" />
-      </div>
+      <div className="w-full bg-cover flex items-center justify-center">
+  <img src={imageConfig.BannerV1} alt="" className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto" />
+</div>
 
       <section className=" flex items-center justify-around ">
         <div className="flex-grow flex items-center">
