@@ -3,7 +3,7 @@ import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
-import { ref, child, get, update , set, onValue, remove } from "firebase/database";
+import { ref, child, get, update , set, remove } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import SelectedAddressModal from "./Profile/SelectedAddress";
 

@@ -14,7 +14,6 @@ const StorePage = () => {
   const [storeAddress, setstoreAddress] = useState(null);
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
-  const kdwconnect = sessionStorage.getItem("kdwconnect");
 
   useEffect(() => {
     const fetchStoreData = async () => {

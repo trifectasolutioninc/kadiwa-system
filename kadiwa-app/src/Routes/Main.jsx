@@ -37,7 +37,6 @@ const ConsumerMain = () => {
         <Route path="chat" element={<Chat />} />
         <Route path="cart" element={<Cart />} />
         <Route path="profile" element={<ProfileConsumer />} />
-        // React Router configuration
         <Route path="productinfo/:productCode" element={<ProductDetails />} />
         <Route
           path="storepage/:storeID"

@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from "react";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import {
-  Add,
   Info,
-  CreditCard,
-  Link as LinkIcon,
   History,
   LocalShipping,
-  LocalMall,
-  Done,
   Settings,
-  Store,
   Timer,
 } from "@mui/icons-material";
 import { Avatar, Badge } from "@mui/material";
-import { Button } from "@mui/material";
-import { Link, NavLink , useNavigate} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import firebaseDB from "../Configuration/config";
 import { ref, child, get, getDatabase , update} from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
 import { FaBox } from "react-icons/fa";
-import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoWallet } from "react-icons/io5";
 import { MdInsertLink } from "react-icons/md";
-import { CiCreditCard1 } from "react-icons/ci";
 import BackButton from "./BackToHome";
 import { AiFillCreditCard } from "react-icons/ai";
 import { v4 as uuidv4 } from 'uuid';
@@ -42,6 +33,11 @@ const ProfileConsumer = () => {
   const [deviceBrand, setDeviceBrand] = useState(null);
   const [deviceBrowser, setDeviceBrowser] = useState(null);
   const navigate = useNavigate();
+  console.log(deviceBrand);
+  console.log(deviceBrowser);
+  console.log(deviceDetect);
+  console.log(deviceType);
+  console.log(userstoreData);
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -190,7 +186,7 @@ const ProfileConsumer = () => {
     return () => {
       clearInterval(fetchDataInterval);
     };
-  }, []);
+  }, [userwalletData]);
 
   useEffect(() => {
     // Function to fetch or generate device ID
@@ -235,6 +231,7 @@ const ProfileConsumer = () => {
       });
 
       sessionStorage.setItem('uid', '');
+     
       navigate('/');
     } catch (error) {
       console.error('Error logging out:', error);
@@ -245,6 +242,7 @@ const ProfileConsumer = () => {
   return (
     <>
       <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+        
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Profile</h1>
       </div>

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { imageConfig, commodityTypes } from "../Configuration/config-file";
+import { imageConfig } from "../Configuration/config-file";
 import configFirebaseDB from "../Configuration/config";
-import { ref, child, get } from "firebase/database";
+import { ref,  get } from "firebase/database";
 import QRCode from "qrcode";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 const Card = () => {
   const [userData, setUserData] = useState(null);
+console.log(userData);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -65,7 +66,7 @@ const Card = () => {
         <div className="space-y-5 p-5 w-fit m-auto">
           <div className="relative max-w-md bg-cover bg-center rounded-lg overflow-hidden mx-auto">
             {/* Background Image */}
-            <img
+            <image
               src={imageConfig.cardbg}
               alt="Background Image"
               className="w-full h-full object-cover"
@@ -73,7 +74,7 @@ const Card = () => {
 
             <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col justify-end">
               {/* Kadiwa Logo */}
-              <img
+              <image
                 src={imageConfig.AppLogo}
                 alt="Kadiwa Logo"
                 className="h-16 w-16"

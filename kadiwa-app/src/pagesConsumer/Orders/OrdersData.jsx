@@ -216,7 +216,7 @@ const OrdersData = () => {
                     </p>
                   </div>
                 )}
-                {order.paymentOption != "Kadiwa QR" && (
+                {order.paymentOption !== "Kadiwa QR" && (
                   <div className=" text-center mt-16">
                     <div className="flex justify-center items-center">
                       <div className=" bg-green-600 w-fit p-2 rounded-md">

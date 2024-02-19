@@ -10,7 +10,7 @@ import StoreProductDetails from '../pagesConsumer/StoreProductPageInfo';
 import InboxPage from '../pagesPartner/InboxPage';
 import Payment from '../pagesPartner/Payment';
 import Checkout from '../pagesConsumer/Checkout';
-import EditAddress from '../pagesConsumer/Profile/EditAddress';
+// import EditAddress from '../pagesConsumer/Profile/EditAddress';
 
 
 const RouteLink  = () => {

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Notifications } from "@mui/icons-material";
-import { ref, child, get, onValue, off } from "firebase/database"; // Import Firebase database methods
+import { ref, child, get} from "firebase/database"; // Import Firebase database methods
 import configFirebaseDB from "../Configuration/config-firebase2";
-import { Link, NavLink } from "react-router-dom";
-import { IoMdArrowRoundBack } from "react-icons/io";
+import { Link } from "react-router-dom";
+
 import BackButton from "./BackToHome";
 
 const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {

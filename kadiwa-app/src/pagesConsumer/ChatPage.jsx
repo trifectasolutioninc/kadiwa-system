@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, NavLink } from "react-router-dom";
-import { ref, get, onValue, off, push, set } from "firebase/database";
+import { ref, get, onValue, off, set } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ChatBOT } from "../services/AI/chat-bot";
+
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
@@ -12,7 +13,7 @@ const ChatPage = () => {
   const [newMessage, setNewMessage] = useState("");
   const [storeName, setStoreName] = useState("");
   const [ownerID, setOwnerID] = useState("");
-  const [getpage, setPage] = useState(page);
+  const [getpage] = useState(page);
   const [userDetails, setUserDetails] = useState(null);
   const uid = sessionStorage.getItem("uid");
   const messageEndRef = useRef(null);
@@ -84,7 +85,7 @@ const ChatPage = () => {
       // Detach the event listener when component unmounts
       off(chatRef, "value", handleNewMessage);
     };
-  }, [storeID, storeName]);
+  }, [storeID, storeName, uid]);
 
   useEffect(() => {
     if (messageEndRef.current) {

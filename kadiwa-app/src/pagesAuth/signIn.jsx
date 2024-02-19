@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import configFirebaseDB from '../Configuration/config';
-import { getDatabase, ref, get, set, push } from 'firebase/database';
+import { getDatabase, ref, get, set } from 'firebase/database';
 import InputMask from 'react-input-mask';
 import { imageConfig } from '../Configuration/config-file';
 import { v4 as uuidv4 } from 'uuid';
