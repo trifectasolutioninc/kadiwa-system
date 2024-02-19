@@ -23,6 +23,14 @@ const ChatBOT = {
         sender:"bot",
         message: "How can I help you? 1. How to buy? 2. Report"
     },
+    chat4 : {
+        id: "chat4",
+        keywords : [
+            "no", 
+        ] ,
+        sender:"bot",
+        message: "Okay, thank you. Just ask chat us if you want help next time."
+    },
 
 };
 

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link, NavLink } from "react-router-dom";
-import { ref, child, get, push, set, onValue, off } from "firebase/database";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, NavLink } from "react-router-dom";
+import { ref, get, onValue, off, push, set } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ChatBOT } from "../services/AI/chat-bot";
@@ -11,22 +11,22 @@ const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [storeName, setStoreName] = useState("");
+  const [ownerID, setOwnerID] = useState("");
   const [userDetails, setUserDetails] = useState(null);
-  const [ownerID, setownerID] = useState("");
-  const kdwconnect = sessionStorage.getItem("kdwconnect");
   const uid = sessionStorage.getItem("uid");
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const snapshot = await get(
-          child(ref(firebaseDB), "store_information/" + storeID)
+          ref(firebaseDB, "store_information/" + storeID)
         );
         const userData = snapshot.val();
 
         if (userData && userData.name) {
           setStoreName(userData.name);
-          setownerID(userData.id);
+          setOwnerID(userData.id);
         }
       } catch (error) {
         console.error("Error fetching store data:", error);
@@ -84,7 +84,13 @@ const ChatPage = () => {
       off(chatRef, "value", handleNewMessage);
     };
   }, [storeID, storeName]);
-  // Function to generate timestamp-based unique ID
+
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
   const generateUniqueId = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -106,21 +112,23 @@ const ChatPage = () => {
   
       console.log("Store ID:", storeID);
       console.log("Store Name:", storeName);
-      console.log(message);
+     
   
-      let botMessage = null;
+      let botReply = null;
+      let maxMatchingKeywords = 0;
   
       // Iterate through each chat bot object
       for (const bot of Object.values(ChatBOT)) {
+        let matchingKeywords = 0;
         // Check if the message matches any keyword from the chat bot
-        if (bot.keywords.includes(message.toLowerCase())) {
-          botMessage = {
-            img: "",
-            message: bot.message,
-            sender: bot.sender,
-            time: timestamp,
-          };
-          break;
+        for (const keyword of bot.keywords) {
+          if (message.toLowerCase().includes(keyword)) {
+            matchingKeywords++;
+          }
+        }
+        if (matchingKeywords > maxMatchingKeywords) {
+          maxMatchingKeywords = matchingKeywords;
+          botReply = bot;
         }
       }
   
@@ -146,20 +154,29 @@ const ChatPage = () => {
         },
       };
   
-      if (botMessage) {
-        // Add the bot message to the chat data
-        chatData.Chat[generateUniqueId()] = botMessage;
+      if (botReply) {
+        // Add a delay of 3 seconds before sending the bot reply
+        setTimeout(() => {
+          const botMessage = {
+            img: "",
+            message: botReply.message,
+            sender: botReply.sender,
+            time: generateUniqueId(),
+          };
+          chatData.Chat[generateUniqueId()] = botMessage;
+          // Set the updated data under the unique chatId
+          set(chatRef, chatData);
+        }, 1000);
       }
   
-      // Set the updated data under the unique chatId
-      await set(chatRef, chatData);
+      // Set the updated data under the unique chatId immediately for user message
+      set(chatRef, chatData);
   
       console.log("Message sent successfully!");
     } catch (error) {
       console.error("Error sending chat message:", error);
     }
   };
-  
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
@@ -231,9 +248,12 @@ const ChatPage = () => {
             </p>
           </div>
         ))}
+        {/* Empty div used as a reference point to scroll to */}
+        <div ref={messageEndRef}></div>
       </div>
-
-      <div className="p-4 bg-white shadow-md fixed bottom-0  w-full">
+      <div className="h-20" ></div>
+      
+      <div className="p-4 bg-white shadow-md fixed bottom-0  w-full z-50">
         <div className="flex items-center">
           <textarea
             value={newMessage}
