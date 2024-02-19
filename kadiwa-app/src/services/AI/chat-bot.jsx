@@ -31,6 +31,14 @@ const ChatBOT = {
         sender:"bot",
         message: "Okay, thank you. Just ask chat us if you want help next time."
     },
+    chat5 : {
+        id: "chat5",
+        keywords : [
+            "kadiwa commodity", "kadiwa commodities"
+        ] ,
+        sender:"bot",
+        message: `1. Rice \n 2. Corn \n 3.Fish \n 4. Live Stock and Poultry Poultry \n 5. Vegetables \n 6. Spices \n 7. Fruits \n 8. Other Basic Commodities.`
+    },
 
 };
 

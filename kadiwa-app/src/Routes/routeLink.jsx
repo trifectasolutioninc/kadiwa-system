@@ -29,7 +29,7 @@ const RouteLink  = () => {
     <div>
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-        <Route path="chatpage/:storeID"  element={<ChatPage />} />
+        <Route path="chatpage/:storeID/:page"  element={<ChatPage />} />
         <Route path="profileinfo"  element={<ProfileInfo />} />
         <Route path="profileedit"  element={<ProfileEdit />} />
         <Route path="delivery"  element={<DeliveryPage />} />

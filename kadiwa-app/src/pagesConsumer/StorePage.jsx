@@ -106,7 +106,7 @@ const StorePage = () => {
             <h1 className="text-gray-700 font-bold text-lg">
               {storeData.name}
             </h1>
-            <Link to={`/route/chatpage/${storeID}`} className="text-green-600">
+            <Link to={`/route/chatpage/${storeID}/store`} className="text-green-600">
               <button>
                 <ChatIcon className="text-green-600 " />
               </button>

@@ -7,11 +7,12 @@ import { ChatBOT } from "../services/AI/chat-bot";
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
-  const { storeID } = useParams();
+  const { storeID , page } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [storeName, setStoreName] = useState("");
   const [ownerID, setOwnerID] = useState("");
+  const [getpage, setPage] = useState(page);
   const [userDetails, setUserDetails] = useState(null);
   const uid = sessionStorage.getItem("uid");
   const messageEndRef = useRef(null);
@@ -213,9 +214,21 @@ const ChatPage = () => {
   return (
     <div className="h-screen bg-gray-200 flex flex-col">
       <div className="flex gap-5 items-center p-4 bg-white shadow-md">
+      { getpage === "store" && (
+
         <NavLink to={`/main/storepage/${storeID}`} className="">
           <IoMdArrowRoundBack fontSize={"25px"} />
         </NavLink>
+
+      )}
+      { getpage === "store" && (
+
+        <NavLink to={`/main/chat`} className="">
+          <IoMdArrowRoundBack fontSize={"25px"} />
+        </NavLink>
+
+        )}
+        
         <h1 className="text-gray-700 font-bold text-lg">{storeName}</h1>
       </div>
 
