@@ -3,6 +3,7 @@ import { useParams, Link, NavLink } from "react-router-dom";
 import { ref, child, get, push, set, onValue, off } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { ChatBOT } from "../services/AI/chat-bot";
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
@@ -100,23 +101,40 @@ const ChatPage = () => {
     try {
       const chatId = `${uid}_${storeID}`;
       const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
-
+  
       const timestamp = generateUniqueId(); // Use timestamp-based unique ID
-
+  
       console.log("Store ID:", storeID);
       console.log("Store Name:", storeName);
-
+      console.log(message);
+  
+      let botMessage = null;
+  
+      // Iterate through each chat bot object
+      for (const bot of Object.values(ChatBOT)) {
+        // Check if the message matches any keyword from the chat bot
+        if (bot.keywords.includes(message.toLowerCase())) {
+          botMessage = {
+            img: "",
+            message: bot.message,
+            sender: bot.sender,
+            time: timestamp,
+          };
+          break;
+        }
+      }
+  
       const newMessage = {
         img: "",
         message,
         sender: "consumer",
         time: timestamp,
       };
-
+  
       // Get the current chat data
       const currentChatData = await get(chatRef);
       const existingChat = currentChatData.val();
-
+  
       const chatData = {
         storeName: storeName,
         storeOwner: ownerID,
@@ -127,15 +145,21 @@ const ChatPage = () => {
           [timestamp]: newMessage, // Add the new message
         },
       };
-
+  
+      if (botMessage) {
+        // Add the bot message to the chat data
+        chatData.Chat[generateUniqueId()] = botMessage;
+      }
+  
       // Set the updated data under the unique chatId
       await set(chatRef, chatData);
-
+  
       console.log("Message sent successfully!");
     } catch (error) {
       console.error("Error sending chat message:", error);
     }
   };
+  
 
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {

@@ -227,7 +227,7 @@ const ProfileConsumer = () => {
     try {
       const database = firebaseDB();
       const uid = sessionStorage.getItem('uid');
-      const authRef = ref(database, `authentication/${uid}/device/${deviceID}/log`);
+      const authRef = ref(database, `authentication/${uid}/device/${deviceID}`);
     
       // Update device log to offline
       await update(authRef, {
