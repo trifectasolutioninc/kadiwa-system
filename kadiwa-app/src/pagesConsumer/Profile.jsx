@@ -266,7 +266,8 @@ const ProfileConsumer = () => {
               PHP {userwalletData.balance}
             </p>
             {/* Plus Icon Circle */}
-            <Add className="bg-green-500 text-white p-1 rounded-full" />
+
+            <Info className="bg-green-500 text-white p-1 rounded-full" />
           </div>
         )}
 
@@ -304,7 +305,10 @@ const ProfileConsumer = () => {
 
           {/* Icon with Name: Transaction History */}
 
-          <Link className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300">
+          <Link
+            to={"/main/Wallet"}
+            className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-white shadow-md hover:bg-green-300"
+          >
             <IoWallet className="text-3xl mx-auto text-green-700 mb-2" />
             <p className="text-black/80 text-sm ">Load</p>
           </Link>
