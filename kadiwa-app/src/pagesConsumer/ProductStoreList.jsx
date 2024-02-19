@@ -286,22 +286,36 @@ const StoreList = ({ productCode }) => {
                 `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
             </p>
             {filteredProducts.length > 0 && (
-              <div>
-                <p className="mt-4">
-                  Product: {filteredProducts[0].product_name}
+              <div className="space-y-1 my-4 text-black/80">
+                <p className="">
+                  Product:{" "}
+                  <span className="font-medium">
+                    {filteredProducts[0].product_name}
+                  </span>
                 </p>
-                <p>Price: {filteredProducts[0].price}</p>
+                <p>
+                  Price:
+                  <span className="font-medium">
+                    {" "}
+                    ₱ {filteredProducts[0].price}
+                  </span>
+                  / unit
+                </p>
+                <div>
+                  <label>Variety: </label>
+                  <select
+                    name=""
+                    id=""
+                    className="p-1 border font-medium rounded-md"
+                  >
+                    <option value="">Select Variety</option>
+                    <option value="">1 unit</option>
+                    <option value="">3 unit</option>
+                    <option value="">5 unit</option>
+                  </select>
+                </div>
               </div>
             )}
-            <div>
-              <label>Variety:</label>
-              <select name="" id="">
-                <option value="">Select Variety</option>
-                <option value="">1 unit</option>
-                <option value="">3 unit</option>
-                <option value="">5 unit</option>
-              </select>
-            </div>
 
             <div className="flex items-center mt-2">
               <button
@@ -352,22 +366,36 @@ const StoreList = ({ productCode }) => {
                 `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
             </p>
             {filteredProducts.length > 0 && (
-              <div>
-                <p className="mt-4">
-                  Product: {filteredProducts[0].product_name}
+              <div className="space-y-1 my-4 text-black/80">
+                <p className="">
+                  Product:{" "}
+                  <span className="font-medium">
+                    {filteredProducts[0].product_name}
+                  </span>
                 </p>
-                <p>Price: {filteredProducts[0].price}</p>
+                <p>
+                  Price:
+                  <span className="font-medium">
+                    {" "}
+                    ₱ {filteredProducts[0].price}
+                  </span>
+                  / unit
+                </p>
+                <div>
+                  <label>Variety: </label>
+                  <select
+                    name=""
+                    id=""
+                    className="p-1 border font-medium rounded-md"
+                  >
+                    <option value="">Select Variety</option>
+                    <option value="">1 unit</option>
+                    <option value="">3 unit</option>
+                    <option value="">5 unit</option>
+                  </select>
+                </div>
               </div>
             )}
-            <div>
-              <label>Variety:</label>
-              <select name="" id="">
-                <option value="">Select Variety</option>
-                <option value="">1 unit</option>
-                <option value="">3 unit</option>
-                <option value="">5 unit</option>
-              </select>
-            </div>
             <div className="flex items-center mt-2">
               <button
                 onClick={decrementQuantity}
