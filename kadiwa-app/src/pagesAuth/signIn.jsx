@@ -5,6 +5,7 @@ import { getDatabase, ref, get, set } from 'firebase/database';
 import InputMask from 'react-input-mask';
 import { imageConfig } from '../Configuration/config-file';
 import { v4 as uuidv4 } from 'uuid';
+import Toast from '../Components/Notifications/Toast';
 const deviceDetect = require('device-detect')();
 
 const SignInPages = () => {
@@ -16,7 +17,8 @@ const SignInPages = () => {
   const navigate = useNavigate();
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
-
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
   const [deviceID, setDeviceID] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
   const [deviceBrand, setDeviceBrand] = useState(null);
@@ -154,11 +156,18 @@ const SignInPages = () => {
         });
   
         if (success) {
-          setModalMessage('Login successful!');
+
+          setToastMessage('Login successful!');
+          setShowToast(true);
+          setTimeout(function() {
+            navigate('/main');
+        }, 900); 
+        
         } else {
-          setModalMessage('Incorrect username or password.');
+          setShowToast(true);
+          setToastMessage('Incorrect username or password.');
         }
-        setShowModal(true);
+        // setShowModal(true);
       } else {
         console.error('No users found');
       }
@@ -171,7 +180,7 @@ const SignInPages = () => {
   const closeModal = () => {
     setShowModal(false);
     if (modalMessage === 'Login successful!') {
-      navigate('/main');
+      
     }
   };
 
@@ -250,7 +259,7 @@ const SignInPages = () => {
 
       </div>
 
-      {/* Modal for displaying login status */}
+      {/* Modal for displaying login status
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 z-50 bg-opacity-50">
           <div className="bg-white p-4 rounded-md w-64 text-center">
@@ -258,8 +267,10 @@ const SignInPages = () => {
             <button onClick={closeModal} className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md focus:outline-none hover:bg-green-700">Close</button>
           </div>
         </div>
+      )} */}
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
-
      
 
     </div>
