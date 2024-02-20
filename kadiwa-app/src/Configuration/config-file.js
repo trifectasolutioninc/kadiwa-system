@@ -74,6 +74,7 @@ import Fish from "../Components/Assets/Category/fish.webp";
 import Fruits from "../Components/Assets/Category/fruits.webp";
 import Vegetables from "../Components/Assets/Category/vegetables.webp";
 import Spices from "../Components/Assets/Category/spices2.webp";
+import Egg from "../Components/Assets/Category/egg.webp";
 
 const paymentImg = {
   KadiwaCard: KadiwaLogo,
@@ -246,7 +247,7 @@ const foodCategory = [
     category: "Spices",
   },
   {
-    pic: "",
+    pic: Egg,
     category: "Egg",
   },
   {

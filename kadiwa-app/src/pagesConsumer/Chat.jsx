@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ref, child, get} from "firebase/database"; // Import Firebase database methods
+import { ref, child, get } from "firebase/database"; // Import Firebase database methods
 import configFirebaseDB from "../Configuration/config-firebase2";
 import { Link } from "react-router-dom";
 
@@ -44,8 +44,11 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
   };
 
   return (
-    <Link to={`/route/chatpage/${id.split("_")[1]}/chat`} className="no-underline">
-      <li className="relative bg-white p-4 rounded-lg shadow-md flex m-2 items-center">
+    <Link
+      to={`/route/chatpage/${id.split("_")[1]}/chat`}
+      className="no-underline"
+    >
+      <li className="relative bg-white p-4 rounded-lg shadow-md flex items-center border">
         <div>
           <p className="font-semibold">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -96,7 +99,7 @@ const Chat = () => {
         </div>
       </div>
       <main className="p-3 md:p-10 space-y-5  mt-14">
-        <div className="p-4 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div className="flex-grow">
             <input
               type="text"
