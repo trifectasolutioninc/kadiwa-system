@@ -1,5 +1,4 @@
 import React from "react";
-import { BiSolidBowlRice } from "react-icons/bi";
 import { foodCategory } from "../Configuration/config-file";
 
 function GoodsCluster() {
@@ -17,7 +16,7 @@ function GoodsCluster() {
                 <img
                   src={foods.pic}
                   alt={foods.category}
-                  className="w-full h-28 md:h-44"
+                  className="w-full h-28 md:h-64"
                 />
               )}
               <h1 className="text-lg font-medium text-black/80 text-center">
