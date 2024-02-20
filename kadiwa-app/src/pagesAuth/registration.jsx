@@ -117,6 +117,7 @@ const Registration = () => {
                       navigate('/main/');
                       return; // Exit loop if found online device
                     }
+    
                   }
                 }
               });

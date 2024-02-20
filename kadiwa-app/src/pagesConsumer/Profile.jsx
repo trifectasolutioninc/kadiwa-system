@@ -228,7 +228,7 @@ const ProfileConsumer = () => {
 
       sessionStorage.setItem('uid', '');
      
-      navigate('/');
+      navigate('/signin');
     } catch (error) {
       console.error('Error logging out:', error);
     }
