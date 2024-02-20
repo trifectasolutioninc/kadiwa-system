@@ -72,12 +72,12 @@ console.log(userData);
               className="w-full h-full object-cover"
             />
 
-            <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col justify-end">
+            <div className="absolute inset-0 bg-black bg-opacity-10 p-4 flex flex-col justify-end">
               {/* Kadiwa Logo */}
               <img
                 src={imageConfig.AppLogo}
                 alt="Kadiwa Logo"
-                className="h-[4em] w-[4em] mt-2"
+                className="h-[4em] w-[4em] "
               />
 
               {/* Card Details */}
