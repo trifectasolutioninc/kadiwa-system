@@ -158,7 +158,7 @@ const HomeConsumer = () => {
               }${data.address?.quarter + ", " || ""}${
                 data.address?.city_district + ", " || ""
               }${data.address?.city + " " || ""}`;
-              
+
               const formattedAddress = `${address}`;
               setUserLocation(formattedAddress);
             })
@@ -206,7 +206,7 @@ const HomeConsumer = () => {
         </div>
       )}
 
-      <section className=" flex items-center justify-around ">
+      <section className="sticky top-0 right-0 left-0 p-1 bg-white flex items-center justify-around ">
         <div className="flex-grow flex items-center">
           <div className="relative flex items-center bg-gray-300 rounded-md p-2 flex-grow">
             <Search className="text-gray-700 text-lg mr-2" />

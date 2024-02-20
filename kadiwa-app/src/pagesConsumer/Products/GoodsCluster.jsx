@@ -5,11 +5,11 @@ import { foodCategory } from "../../Configuration/config-file";
 function GoodsCluster() {
   return (
     <>
-      <section className="p-2">
-        <h1 className="text-xl text-white font-bold mb-5 bg-green-600 p-2 rounded-md tracking-widest">
+      <section className="p-1">
+        <h1 className="text-xl text-black/80 font-bold mb-5 p-2 rounded-md tracking-widest">
           Categories
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {foodCategory.map((foods, index) => (
             <NavLink
               to={`/main/products-page/${foods.category.toLowerCase()}`}
