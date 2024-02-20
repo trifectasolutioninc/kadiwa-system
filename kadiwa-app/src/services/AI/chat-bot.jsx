@@ -13,7 +13,7 @@ const ChatBOT = {
             "help", "assit" , "good day! welcome to our store!"
         ] ,
         sender:"bot",
-        message: "You want my help?  Reply Yes or No. "
+        message: "How can I help you? Do you want to order? Reply Yes or No. "
     },
     chat3 : {
         id: "chat3",
