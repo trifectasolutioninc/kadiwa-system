@@ -125,7 +125,7 @@ const ProfileInfo = () => {
           </NavLink>
 
           </div>
-          div.
+  
           
           <h1 className="text-lg text-green-600 font-bold">Profile</h1>
         </div>
