@@ -14,7 +14,7 @@ function GoodsCluster() {
             <NavLink
               to={`/main/products-page/${foods.category.toLowerCase()}`}
               key={index}
-              className="w-full bg-slate-50 hover:bg-green-200 rounded-md shadow-md border border-green-300"
+              className="w-full p-0.5 border bg-gradient-to-br from-lime-600 to-green-600 hover:bg-green-200 rounded-md shadow-md"
             >
               {foods.pic && (
                 <img
@@ -23,7 +23,7 @@ function GoodsCluster() {
                   className="w-full h-28 md:h-64 rounded-md"
                 />
               )}
-              <h1 className="text-lg font-bold text-black/80 text-center p-4 tracking-widest">
+              <h1 className="text-lg font-bold text-white text-center p-4 tracking-widest">
                 {foods.category}
               </h1>
             </NavLink>
