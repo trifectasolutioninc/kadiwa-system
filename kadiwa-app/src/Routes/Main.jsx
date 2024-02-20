@@ -39,7 +39,7 @@ const ConsumerMain = () => {
         <Route path="chat" element={<Chat />} />
         <Route path="cart" element={<Cart />} />
         <Route path="profile" element={<ProfileConsumer />} />
-        <Route path="productinfo/:productCode" element={<ProductDetails />} />
+        <Route path="productinfo/:productCode/:category" element={<ProductDetails />} />
         <Route
           path="storepage/:storeID"
           component={StorePage}

@@ -163,48 +163,54 @@ const ProductsPage = () => {
 
                 </div>
 
-               
-                
+
+
             </div>
             <div className=" h-16">
 
             </div>
-           
+
 
             <main className="px-4">
-            <section className="overflow-x-auto flex gap-3">
-                {/* Button to show all products */}
-                <button 
-                    onClick={() => setSelectedSubcategory(null)}
-                    className={`w-full border-green-700 border
+                <section className="overflow-x-auto flex gap-3">
+                    {/* Button to show all products */}
+                    <button
+                        onClick={() => setSelectedSubcategory(null)}
+                        className={` border-green-700 border
                             ${selectedSubcategory === null ? " bg-green-700 text-white" :
-                             " text-green-700 bg-white"} 
-                             rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
-                >
-                    All
-                </button>
-                {/* Subcategory buttons */}
-                {subcategories
-                    .sort((a, b) => {
-                        // Move "Other" subcategory to the end
-                        if (a === "other") return 1;
-                        if (b === "other") return -1;
-                        return 0;
-                    })
-                    .map(subcategory => (
-                        <button
-                            key={subcategory}
-                            onClick={() => handleSubcategoryClick(subcategory)}
-                            className={`w-full border-green-700 border
-                            ${selectedSubcategory === subcategory ? " bg-green-700 text-white" :
-                             " text-green-700 bg-white"} 
-                             rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
-                        >
-                            {subcategory.charAt(0).toUpperCase() + subcategory.slice(1)}
-                        </button>
-                    ))
-                }
-            </section>
+                                " text-green-700 bg-white"} 
+                             rounded py-2 px-6 w-auto whitespace-nowrap tab-button`}
+                    >
+                        All
+                    </button>
+                    {/* Subcategory buttons */}
+                    {subcategories
+                        .sort((a, b) => {
+                            // Move "Other" subcategory to the end
+                            if (a === "other") return 1;
+                            if (b === "other") return -1;
+                            return 0;
+                        })
+                        .map(subcategory => {
+                            // Exclude subcategory if it's the same as the category
+                            if (subcategory === category) return null;
+
+                            return (
+                                <button
+                                    key={subcategory}
+                                    onClick={() => handleSubcategoryClick(subcategory)}
+                                    className={`w-full border-green-700 border
+                ${selectedSubcategory === subcategory ? " bg-green-700 text-white" :
+                                            " text-green-700 bg-white"} 
+                rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
+                                >
+                                    {subcategory.charAt(0).toUpperCase() + subcategory.slice(1)}
+                                </button>
+                            );
+                        })
+                    }
+
+                </section>
                 {/* Display Products */}
                 <section
                     id="productlist"
@@ -216,7 +222,7 @@ const ProductsPage = () => {
                             className="container p-2 bg-white rounded-lg shadow-md"
                         >
                             <Link
-                                to={`/main/productinfo/${product.product_code}`}
+                                to={`/main/productinfo/${product.product_code}/${category}`}
                                 onClick={() => handleProductLinkClick(product.product_code)}
                                 className="flex flex-col space-y-5"
                             >
