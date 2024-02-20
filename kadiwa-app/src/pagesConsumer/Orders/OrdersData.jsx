@@ -118,7 +118,7 @@ const OrdersData = () => {
               </div>
               <div className=" justify-between flex text-black/80">
                 <p>Total</p>
-                <p className="font-semibold">₱</p>
+                <p className="font-semibold">₱ {order.subtotalrevenue}</p>
               </div>
               <div className=" justify-between flex text-black/80">
                 <p>{order.shippingOption}</p>

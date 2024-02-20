@@ -242,7 +242,9 @@ const ProfileConsumer = () => {
   return (
     <>
       <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
-        
+        <div>
+          
+        </div>
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Profile</h1>
       </div>
@@ -254,7 +256,7 @@ const ProfileConsumer = () => {
           </div>
         </section>
         {/* Profile Information */}
-        {userData && (
+        {userData ? (
           <section className="relative p-4 flex items-center justify-between border bg-white rounded-md shadow-md ">
             <div className="flex flex-col items-center gap-2">
               {/* Display Picture */}
@@ -293,6 +295,48 @@ const ProfileConsumer = () => {
               </div>
             </div>
           </section>
+        ) : (
+
+          <section className="relative p-4 flex items-center justify-between border bg-white rounded-md shadow-md ">
+          <div className="flex flex-col items-center gap-2">
+            {/* Display Picture */}
+            <Avatar className="w-12 h-12 rounded-full" />
+            <div className="">
+              {/* Display User Type */}
+              <p
+                id="typeofuser"
+                className="w-fit text-center rounded-full px-2 py-1 text-xs text-black/80"
+                style={{ backgroundColor: "#54FC6F" }}
+              >
+                Consumer
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-black/80">
+              {/* Display Name */}
+              <h1 id="fullname" className="font-bold text-lg">
+                ......
+              </h1>
+              {/* Display Contact */}
+              <p id="contact" className="text-black/80 font-semibold">
+                ......
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center">
+            <div className="">
+              {/* Make the settings icon clickable */}
+              <Link to="/route/profileinfo">
+                <Settings className="text-gray-500" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+
         )}
 
         {/* <div id="applyPartner" className="bg-green-300 mx-4 p-2 justify-between flex items-center rounded ">
@@ -315,7 +359,7 @@ const ProfileConsumer = () => {
           <div></div>
         </div>
 
-        {userwalletData && (
+        {userwalletData ? (
           <div className="p-4 flex justify-between bg-white border rounded-md shadow-md">
             {/* Display PHP Amount */}
             <p id="balance" className="text-gray-600 font-semibold mr-2">
@@ -325,9 +369,21 @@ const ProfileConsumer = () => {
 
             <Info className="bg-green-500 text-white p-1 rounded-full" />
           </div>
+        ): (
+
+          <div className="p-4 flex justify-between bg-white border rounded-md shadow-md">
+          {/* Display PHP Amount */}
+          <p id="balance" className="text-gray-600 font-semibold mr-2">
+            PHP 0
+          </p>
+          {/* Plus Icon Circle */}
+
+          <Info className="bg-green-500 text-white p-1 rounded-full" />
+        </div>
+
         )}
 
-        {userwalletData && (
+        {userwalletData ? (
           <div className="p-4 flex justify-between bg-white border rounded-md shadow-md">
             {/* Display PHP Amount */}
             <p id="points" className="text-gray-600 font-semibold mr-2">
@@ -336,7 +392,17 @@ const ProfileConsumer = () => {
             {/* Plus Icon Circle */}
             <Info className="bg-green-500 text-white p-1 rounded-full" />
           </div>
+        ) : (
+          <div className="p-4 flex justify-between bg-white border rounded-md shadow-md">
+             {/* Display PHP Amount */}
+             <p id="points" className="text-gray-600 font-semibold mr-2">
+              KDW 0
+            </p>
+            {/* Plus Icon Circle */}
+            <Info className="bg-green-500 text-white p-1 rounded-full" />
+          </div>
         )}
+
 
         <section className="grid grid-cols-3 gap-3 md:gap-5 my-10">
           {/* Icon with Name: Virtual Card */}
