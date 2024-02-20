@@ -187,10 +187,19 @@ const HomeConsumer = () => {
           </span>
         </div>
       </section>
-
+    { imageConfig.BannerV1 ? (
       <div className="w-full bg-cover flex items-center justify-center">
-  <img src={imageConfig.BannerV1} alt="" className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto" />
-</div>
+        <img src={imageConfig.BannerV1} alt="" className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto" />
+      </div>
+
+    ): (
+      <div className="w-full bg-cover flex items-center justify-center">
+         <canvas className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto bg-green-700"></canvas>
+     </div>
+    )
+
+    }
+      
 
       <section className=" flex items-center justify-around ">
         <div className="flex-grow flex items-center">

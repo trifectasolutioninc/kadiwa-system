@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import configFirebaseDB from "../Configuration/config-firebase2";
 import { ref, child, get } from "firebase/database";
-import { Avatar, Badge } from "@mui/material";
 
 const Reviews = ({ productCode }) => {
   const [reviews, setReviews] = useState([]);
@@ -27,7 +26,7 @@ const Reviews = ({ productCode }) => {
     };
 
     fetchData();
-  }, []); // Run once on component mount
+  }, []); 
 
   if (loading) {
     return <div>Loading...</div>;

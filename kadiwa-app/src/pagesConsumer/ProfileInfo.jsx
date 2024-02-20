@@ -119,6 +119,9 @@ const ProfileInfo = () => {
       
       <div className='px-4'>
         <div className='flex pt-4 mb-1 items-center  space-x-1'>
+          <div>
+            
+          </div>
           <div className='flex'>
           <NavLink to={"/main/profile"} className=''>
             <IoMdArrowRoundBack />
