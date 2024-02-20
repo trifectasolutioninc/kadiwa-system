@@ -9,10 +9,7 @@ const redirectToIndexIfNoConnect = () => {
       window.location.href = '/'; // Adjust the path accordingly
       return false; // Indicate that the redirection is performed
     } else {
-      // Use the username as needed in your dashboard page
-      console.log('userID: ' + uid);
-      console.log('uid: ' + uid);
-      console.log('sid: ' + sid);
+
       return true; // Indicate that the contact is valid
     }
   };

@@ -33,11 +33,7 @@ const ProfileConsumer = () => {
   const [deviceBrand, setDeviceBrand] = useState(null);
   const [deviceBrowser, setDeviceBrowser] = useState(null);
   const navigate = useNavigate();
-  console.log(deviceBrand);
-  console.log(deviceBrowser);
-  console.log(deviceDetect);
-  console.log(deviceType);
-  console.log(userstoreData);
+
 
   useEffect(() => {
     const fetchVersion = async () => {

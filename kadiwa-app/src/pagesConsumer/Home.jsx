@@ -153,7 +153,8 @@ const HomeConsumer = () => {
           )
             .then((response) => response.json())
             .then((data) => {
-              const address = data.display_name;
+              console.log(data);
+              const address = `${(data.address.road + ", " || "")}${(data.address.neighbourhood  + ", " || "")}${(data.address.quarter + ", " || "")}${(data.address.city_district + ", " || "")}${(data.address.city + " " || "")} `;
               const formattedAddress = `${address}`;
               setUserLocation(formattedAddress);
             })

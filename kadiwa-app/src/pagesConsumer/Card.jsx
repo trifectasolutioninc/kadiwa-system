@@ -66,7 +66,7 @@ console.log(userData);
         <div className="space-y-5 p-5 w-fit m-auto">
           <div className="relative max-w-md bg-cover bg-center rounded-lg overflow-hidden mx-auto">
             {/* Background Image */}
-            <image
+            <img
               src={imageConfig.cardbg}
               alt="Background Image"
               className="w-full h-full object-cover"
@@ -74,27 +74,27 @@ console.log(userData);
 
             <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col justify-end">
               {/* Kadiwa Logo */}
-              <image
+              <img
                 src={imageConfig.AppLogo}
                 alt="Kadiwa Logo"
-                className="h-16 w-16"
+                className="h-[4em] w-[4em] mt-2"
               />
 
               {/* Card Details */}
               <div className="text-white">
-                <p id="cardid" className="text-lg font-semibold mb-2">
+                <p id="cardid" className="text-[1.5em] font-semibold mb-2">
                   .... .... .... ....
                 </p>
               </div>
 
               <div className="flex justify-between">
                 {/* Card Owner Information */}
-                <span id="cardowner" className="text-white text-xs">
+                <span id="cardowner" className="text-white text-[1em]">
                   ......
                 </span>
 
                 {/* Card Security Dots */}
-                <span className="text-white">⬤ ⬤ ⬤</span>
+                <span className="text-white text-[1em]">⬤ ⬤ ⬤</span>
               </div>
             </div>
           </div>

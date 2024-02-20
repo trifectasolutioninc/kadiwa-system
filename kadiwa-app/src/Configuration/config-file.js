@@ -47,7 +47,8 @@ import palmoilliter from '../Components/Assets/products/palmoilliter.webp';
 import coconutoilml from '../Components/Assets/products/coconutoilml.webp';
 import coconutoilliter from '../Components/Assets/products/coconutoilliter.webp';
 
-import CardBg from '../Components/Assets/others/card-bg.png';
+import CardBg from '../Components/Assets/others/card-bg.webp';
+import CardBg2 from '../Components/Assets/others/card-bg-v2.webp';
 import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
 import KadiwaText from '../Components/Assets/logo/kadiwa-text.png';
 import BGPH from '../Components/Assets/logo/Bagong_Pilipinas_logo.png';
@@ -89,7 +90,7 @@ const imageConfig = {
     BannerV2: '../banner/banner-v2.png',
     BannerV3: '../banner/banner-v2.png',
     //Card
-    cardbg: CardBg,
+    cardbg: CardBg2,
     AppLogoCard: '../logo/kadiwa-logo.png',
     //Products
     kadiwarice: kadiwa_rice,
