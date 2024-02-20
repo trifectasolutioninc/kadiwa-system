@@ -75,8 +75,10 @@ const Orders = () => {
               {tab.toUpperCase()}
             </h1>
           </div>
-          <hr className="mx-4 pb-2" />
-          {tab === "delivery" && (
+        </div>
+        <div className="mb-16 p-2"></div>
+        <div className=" bg-white ">
+        {tab === "delivery" && (
             <div className="flex justify-around gap-3 overflow-x-hidden mx-6">
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
@@ -178,11 +180,12 @@ const Orders = () => {
               </button>
             </div>
           )}
+
         </div>
         <div className="flex-1">
           <div className="overflow-y-auto space-y-3 mb-20 p-3 md:px-10">
             {/* Display orders */}
-            <div className="mb-24 p-2"></div>
+            
             {orders &&
               orders.map((order) => (
                 <div

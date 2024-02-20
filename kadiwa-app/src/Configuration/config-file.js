@@ -246,6 +246,10 @@ const foodCategory = [
     category: "Spices",
   },
   {
+    pic: "",
+    category: "Egg",
+  },
+  {
     pic: Other,
     category: "Other Commodities",
   },

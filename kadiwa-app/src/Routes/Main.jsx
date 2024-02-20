@@ -17,6 +17,8 @@ import PickupTransaction from "../pagesConsumer/PickupTransaction";
 import Orders from "../pagesConsumer/Orders";
 import OrdersData from "../pagesConsumer/Orders/OrdersData";
 import Wallet from "../pagesConsumer/Wallet";
+import ProductsPage from "../pagesConsumer/Products/ProductsPage";
+
 
 const ConsumerMain = () => {
   useEffect(() => {
@@ -52,6 +54,7 @@ const ConsumerMain = () => {
           element={<OrdersData />}
         />
         <Route path="Wallet" element={<Wallet />} />
+        <Route path="products-page/:category" element={<ProductsPage />} />
       </Routes>
       <NavBttnAppHome />
     </div>
