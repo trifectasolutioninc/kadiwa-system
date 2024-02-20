@@ -10,7 +10,8 @@ import StoreProductDetails from '../pagesConsumer/StoreProductPageInfo';
 import InboxPage from '../pagesPartner/InboxPage';
 import Payment from '../pagesPartner/Payment';
 import Checkout from '../pagesConsumer/Checkout';
-// import EditAddress from '../pagesConsumer/Profile/EditAddress';
+import PersonalInfoPage from '../pagesConsumer/Profile/Account_Management/PersonalInfoPage';
+
 
 
 const RouteLink  = () => {
@@ -38,6 +39,7 @@ const RouteLink  = () => {
         <Route path="inboxpage/:storeID/:consumerName/:consumerID"  element={<InboxPage />} />
         <Route path="payment/:userId/:receiptNo"  element={<Payment />} />
         <Route path="checkout"  element={<Checkout />} />
+        <Route path="personal-info"  element={<PersonalInfoPage />} />
       </Routes>
     </div>
   );

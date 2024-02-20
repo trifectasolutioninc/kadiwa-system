@@ -5,12 +5,12 @@ const ChatBOT = {
             "hello", "hi", "watsup"
         ] ,
         sender:"bot",
-        message: "Hello Good Day!"
+        message: "Hello Good Day! Welcome to Kadiwa App."
     },
     chat2 : {
         id: "chat2",
         keywords : [
-            "help", "assit" , "good day! welcome to our store!"
+            "help", "assit" , "good day! welcome to our store!", "order"
         ] ,
         sender:"bot",
         message: "How can I help you? Do you want to order? Reply Yes or No. "
