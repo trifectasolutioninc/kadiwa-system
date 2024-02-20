@@ -263,7 +263,7 @@ const ProfileConsumer = () => {
                     <div className=" flex justify-between">
                       <div></div>
                       <div className=" z-30">
-                        <NavLink to={'/route/profileedit/'} className="border block border-white rounded-full text-white px-2 text-[0.8em]">Edit Information</NavLink>
+                        <NavLink to={'/route/profileedit/'} className="border block border-white rounded-full text-white px-2 text-[0.8em]">Settings</NavLink>
                       </div>
 
                     </div>
@@ -294,7 +294,7 @@ const ProfileConsumer = () => {
             <div className=" flex justify-between">
               <div></div>
               <div >
-                <NavLink  className=" border border-white rounded-full text-white px-2 text-[0.8em]">Edit Information</NavLink>
+                <NavLink  className=" border border-white rounded-full text-white px-2 text-[0.8em]">Settings</NavLink>
               </div>
 
             </div>
@@ -462,7 +462,7 @@ const ProfileConsumer = () => {
 
       </section>
       <section className=" mx-6 px-2 border rounded-md ">
-          <div className="flex items-center justify-between text-gray-500">
+          <div className="flex items-center justify-between                                                                                                          text-gray-500">
             <h1 className=" font-bold tracking-wider">Kadiwa</h1>
             <p>Version: {version}</p>
           </div>

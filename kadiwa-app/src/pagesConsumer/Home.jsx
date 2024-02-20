@@ -5,7 +5,7 @@ import configFirebaseDB from "../Configuration/config";
 import { ref, get } from "firebase/database";
 import { Link, useLocation } from "react-router-dom";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import GoodsCluster from "../test/GoodsCluster";
+import GoodsCluster from "./Products/GoodsCluster";
 
 const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
@@ -29,87 +29,87 @@ const HomeConsumer = () => {
     fetchUserLocation();
 
     // Delayed smooth scroll to the stored position
-    const storedPosition = JSON.parse(home_position);
-    const scrollPosition =
-      storedPosition?.scrollPosition ||
-      scrollPositions[location.pathname]?.scrollPosition;
+    // const storedPosition = JSON.parse(home_position);
+    // const scrollPosition =
+    //   storedPosition?.scrollPosition ||
+    //   scrollPositions[location.pathname]?.scrollPosition;
 
-    const scrollToStoredPosition = () => {
-      if (scrollPosition !== undefined) {
-        window.scrollTo({
-          top: scrollPosition,
-        });
-        // If the stored scroll position is not at the top, set isAtTop to false
-        setIsAtTop(scrollPosition === 0);
-      } else {
-        window.scrollTo({
-          top: 0,
-        });
-      }
-    };
+    // const scrollToStoredPosition = () => {
+    //   if (scrollPosition !== undefined) {
+    //     window.scrollTo({
+    //       top: scrollPosition,
+    //     });
+    //     // If the stored scroll position is not at the top, set isAtTop to false
+    //     setIsAtTop(scrollPosition === 0);
+    //   } else {
+    //     window.scrollTo({
+    //       top: 0,
+    //     });
+    //   }
+    // };
 
-    const delay = 800;
+    // const delay = 800;
 
-    const timeoutId = setTimeout(scrollToStoredPosition, delay);
+    // const timeoutId = setTimeout(scrollToStoredPosition, delay);
 
-    return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
+    // return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [selectedCommodity, sortBy, location.pathname, scrollPositions]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show/hide Fab based on scroll position
-      setIsFabVisible(window.scrollY > 100);
-      // Adjust the threshold as needed
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     // Show/hide Fab based on scroll position
+  //     setIsFabVisible(window.scrollY > 100);
+  //     // Adjust the threshold as needed
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
-  const handleBackToTopClick = () => {
-    const scrollPosition = 0; // Scroll to the top
+  // const handleBackToTopClick = () => {
+  //   const scrollPosition = 0; // Scroll to the top
 
-    window.scrollTo({
-      top: scrollPosition,
-      behavior: "smooth",
-    });
+  //   window.scrollTo({
+  //     top: scrollPosition,
+  //     behavior: "smooth",
+  //   });
 
-    // Save the new scroll position after a slight delay
-    setTimeout(() => {
-      sessionStorage.setItem(
-        "home_position",
-        JSON.stringify({ scrollPosition })
-      );
-      setScrollPositions((prevScrollPositions) => ({
-        ...prevScrollPositions,
-        [location.pathname]: { scrollPosition },
-      }));
+  //   // Save the new scroll position after a slight delay
+  //   setTimeout(() => {
+  //     sessionStorage.setItem(
+  //       "home_position",
+  //       JSON.stringify({ scrollPosition })
+  //     );
+  //     setScrollPositions((prevScrollPositions) => ({
+  //       ...prevScrollPositions,
+  //       [location.pathname]: { scrollPosition },
+  //     }));
 
-      setIsAtTop(true);
-    }, 800); // Adjust the delay as needed
+  //     setIsAtTop(true);
+  //   }, 800); // Adjust the delay as needed
 
-    setIsFabVisible(false);
-  };
+  //   setIsFabVisible(false);
+  // };
 
-  const handleProductLinkClick = (productCode) => {
-    // Store scroll position and product code when clicking a product link
-    const scrollPosition = window.scrollY;
-    sessionStorage.setItem(
-      "home_position",
-      JSON.stringify({ scrollPosition, productCode })
-    );
-    setScrollPositions((prevScrollPositions) => ({
-      ...prevScrollPositions,
-      [location.pathname]: { scrollPosition, productCode },
-    }));
-  };
+  // const handleProductLinkClick = (productCode) => {
+  //   // Store scroll position and product code when clicking a product link
+  //   const scrollPosition = window.scrollY;
+  //   sessionStorage.setItem(
+  //     "home_position",
+  //     JSON.stringify({ scrollPosition, productCode })
+  //   );
+  //   setScrollPositions((prevScrollPositions) => ({
+  //     ...prevScrollPositions,
+  //     [location.pathname]: { scrollPosition, productCode },
+  //   }));
+  // };
 
-  const handleCommodityClick = (commodityType) => {
-    setSelectedCommodity(commodityType);
-  };
+  // const handleCommodityClick = (commodityType) => {
+  //   setSelectedCommodity(commodityType);
+  // };
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
@@ -234,7 +234,7 @@ const HomeConsumer = () => {
         <GoodsCluster />
       </section>
 
-      <section className="overflow-x-auto flex gap-3">
+      {/* <section className="overflow-x-auto flex gap-3">
         {commodityTypes.map((commodityType, index) => (
           <button
             key={index}
@@ -249,9 +249,9 @@ const HomeConsumer = () => {
             {commodityType}
           </button>
         ))}
-      </section>
+      </section> */}
 
-      <section
+      {/* <section
         id="productlist"
         className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
@@ -287,17 +287,17 @@ const HomeConsumer = () => {
             </Link>
           </div>
         ))}
-      </section>
+      </section> */}
       <h1 className="text-center text-black/80">-End of Page-</h1>
 
-      <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
+      {/* <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
         <div
           className="rounded-full bg-green-700 px-2 py-2 text-white items-center justify-center flex"
           onClick={handleBackToTopClick}
         >
           <KeyboardArrowUpIcon fontSize="10px" />
         </div>
-      </div>
+      </div> */}
     </main>
   );
 };
