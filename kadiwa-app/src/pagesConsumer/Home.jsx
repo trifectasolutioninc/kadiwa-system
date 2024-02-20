@@ -5,6 +5,7 @@ import configFirebaseDB from "../Configuration/config";
 import { ref, get } from "firebase/database";
 import { Link, useLocation } from "react-router-dom";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import GoodsCluster from "../test/GoodsCluster";
 
 const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
@@ -20,8 +21,6 @@ const HomeConsumer = () => {
   const [scrollPositions, setScrollPositions] = useState({});
   console.log(isFabVisible);
   console.log(isAtTop);
-
-  
 
   useEffect(() => {
     // Fetch and display products initially
@@ -154,7 +153,11 @@ const HomeConsumer = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
-              const address = `${(data.address.road + ", " || "")}${(data.address.neighbourhood  + ", " || "")}${(data.address.quarter + ", " || "")}${(data.address.city_district + ", " || "")}${(data.address.city + " " || "")} `;
+              const address = `${data.address.road + ", " || ""}${
+                data.address.neighbourhood + ", " || ""
+              }${data.address.quarter + ", " || ""}${
+                data.address.city_district + ", " || ""
+              }${data.address.city + " " || ""} `;
               const formattedAddress = `${address}`;
               setUserLocation(formattedAddress);
             })
@@ -188,19 +191,19 @@ const HomeConsumer = () => {
           </span>
         </div>
       </section>
-    { imageConfig.BannerV1 ? (
-      <div className="w-full bg-cover flex items-center justify-center">
-        <img src={imageConfig.BannerV1} alt="" className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto" />
-      </div>
-
-    ): (
-      <div className="w-full bg-cover flex items-center justify-center">
-         <canvas className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto bg-green-700"></canvas>
-     </div>
-    )
-
-    }
-      
+      {imageConfig.BannerV1 ? (
+        <div className="w-full bg-cover flex items-center justify-center">
+          <img
+            src={imageConfig.BannerV1}
+            alt=""
+            className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto"
+          />
+        </div>
+      ) : (
+        <div className="w-full bg-cover flex items-center justify-center">
+          <canvas className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto bg-green-700"></canvas>
+        </div>
+      )}
 
       <section className=" flex items-center justify-around ">
         <div className="flex-grow flex items-center">
@@ -225,6 +228,10 @@ const HomeConsumer = () => {
             <option value="highestToLowest">Highest to Lowest Price</option>
           </select>
         </div>
+      </section>
+
+      <section>
+        <GoodsCluster />
       </section>
 
       <section className="overflow-x-auto flex gap-3">
