@@ -62,10 +62,10 @@ const ChatPage = () => {
   useEffect(() => {
     const chatId = `${uid}_${storeID}`;
     const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
-
+  
     const handleNewMessage = (snapshot) => {
       const chatData = snapshot.val();
-
+  
       if (chatData && chatData.Chat) {
         const messagesArray = Object.values(chatData.Chat).map((message) => {
           return {
@@ -74,19 +74,22 @@ const ChatPage = () => {
             time: message.time,
           };
         });
-
+  
         setMessages(messagesArray);
+      } else if (messages.length === 0) { // Add this condition to check if messages length is 0
+        // If there are no messages, initiate conversation with bot
+        sendChatMessage("Good Day! Welcome to our store!", "bot"); // Specify sender as "bot"
       }
     };
-
+  
     onValue(chatRef, handleNewMessage);
-
+  
     return () => {
       // Detach the event listener when component unmounts
       off(chatRef, "value", handleNewMessage);
     };
-  }, [storeID, storeName, uid]);
-
+  }, [storeID, storeName, uid, messages.length]);
+  
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -105,7 +108,7 @@ const ChatPage = () => {
     return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
   };
 
-  const sendChatMessage = async (message) => {
+  const sendChatMessage = async (message, sender) => {
     try {
       const chatId = `${uid}_${storeID}`;
       const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
@@ -114,7 +117,13 @@ const ChatPage = () => {
   
       console.log("Store ID:", storeID);
       console.log("Store Name:", storeName);
-     
+  
+      let consumerName = "Unknown"; // Default consumer name
+  
+      // Check if userDetails is not null and contains first_name
+      if (userDetails && userDetails.first_name) {
+        consumerName = userDetails.first_name + " " + userDetails.last_name;
+      }
   
       let botReply = null;
       let maxMatchingKeywords = 0;
@@ -137,7 +146,7 @@ const ChatPage = () => {
       const newMessage = {
         img: "",
         message,
-        sender: "consumer",
+        sender: sender || "consumer", // Default sender is consumer
         time: timestamp,
       };
   
@@ -149,7 +158,7 @@ const ChatPage = () => {
         storeName: storeName,
         storeOwner: ownerID,
         consumer: uid,
-        consumerName: userDetails.first_name + " " + userDetails.last_name,
+        consumerName: consumerName,
         Chat: {
           ...existingChat?.Chat, // Keep existing messages
           [timestamp]: newMessage, // Add the new message
@@ -162,7 +171,7 @@ const ChatPage = () => {
           const botMessage = {
             img: "",
             message: botReply.message,
-            sender: botReply.sender,
+            sender: "bot", // Set sender as bot
             time: generateUniqueId(),
           };
           chatData.Chat[generateUniqueId()] = botMessage;
@@ -179,7 +188,7 @@ const ChatPage = () => {
       console.error("Error sending chat message:", error);
     }
   };
-
+  
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
       setMessages([...messages, { sender: "user", text: newMessage }]);

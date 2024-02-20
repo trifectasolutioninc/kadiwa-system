@@ -2,7 +2,7 @@ const ChatBOT = {
     chat1 : {
         id: "chat1",
         keywords : [
-            "hello", "hi", "watsup", "good day"
+            "hello", "hi", "watsup"
         ] ,
         sender:"bot",
         message: "Hello Good Day!"
@@ -10,7 +10,7 @@ const ChatBOT = {
     chat2 : {
         id: "chat2",
         keywords : [
-            "help", "assit"
+            "help", "assit" , "good day! welcome to our store!"
         ] ,
         sender:"bot",
         message: "You want my help?  Reply Yes or No. "
