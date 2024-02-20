@@ -52,7 +52,8 @@ import CardBg2 from '../Components/Assets/others/card-bg-v2.webp';
 import KadiwaLogo from '../Components/Assets/logo/kadiwa-logo.png';
 import KadiwaText from '../Components/Assets/logo/kadiwa-text.png';
 import BGPH from '../Components/Assets/logo/Bagong_Pilipinas_logo.png';
-import DALogo from '../Components/Assets/logo/DA-logo.png'
+import DALogo from '../Components/Assets/logo/DA-logo.png';
+import StoreBG from '../Components/Assets/others/store_bg.webp'
 
 import MasterCard from '../Components/Assets/payment/mastercard.png';
 import Bank from '../Components/Assets/payment/bank.png';
@@ -60,7 +61,7 @@ import Gcash from '../Components/Assets/payment/gcash.png';
 import Maya from '../Components/Assets/payment/maya.png';
 import Megapay from '../Components/Assets/payment/megapay.png';
 import Cash from '../Components/Assets/payment/cash-on-hand.png';
-import StoreBG from '../Components/Assets/others/store_bg.webp'
+import profileaccountBG from '../Components/Assets/others/account.webp'
 
 import Banner1 from '../Components/Assets/banner/banner-v1.webp'
 
@@ -152,6 +153,7 @@ const imageConfig = {
 
 
     StoreBG: StoreBG,
+    profileaccountBG : profileaccountBG,
     
     //Profile
     avataricon: '../profile/avatar-icon.png',

@@ -8,7 +8,7 @@ import {
   Timer,
 } from "@mui/icons-material";
 import { Avatar, Badge } from "@mui/material";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, NavLink, useNavigate} from "react-router-dom";
 import firebaseDB from "../Configuration/config";
 import { ref, child, get, getDatabase , update} from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
@@ -18,6 +18,9 @@ import { MdInsertLink } from "react-icons/md";
 import BackButton from "./BackToHome";
 import { AiFillCreditCard } from "react-icons/ai";
 import { v4 as uuidv4 } from 'uuid';
+import { imageConfig } from "../Configuration/config-file";
+import DeliveryPage from './Delivery';
+import { FaPhoneAlt } from "react-icons/fa";
 const deviceDetect = require('device-detect')();
 
 const ProfileConsumer = () => {
@@ -237,120 +240,85 @@ const ProfileConsumer = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-50 shadow-md">
         <div>
           
         </div>
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Profile</h1>
       </div>
-      <main className="p-3 md:px-10 space-y-5 mt-14">
-        <section className="p-2 border rounded-md bg-green-600">
-          <div className="flex items-center justify-between text-white">
-            <h1 className=" font-bold tracking-wider">Kadiwa App</h1>
-            <p>Version: {version}</p>
-          </div>
-        </section>
+      <main className=" mt-14">
+
+      
         {/* Profile Information */}
         {userData ? (
-          <section className="relative p-4 flex items-center justify-between border bg-white rounded-md shadow-md ">
-            <div className="flex flex-col items-center gap-2">
-              {/* Display Picture */}
-              <Avatar className="w-12 h-12 rounded-full" />
-              <div className="">
-                {/* Display User Type */}
-                <p
-                  id="typeofuser"
-                  className="w-fit text-center rounded-full px-2 py-1 text-xs text-black/80"
-                  style={{ backgroundColor: "#54FC6F" }}
-                >
-                  {userData.type}
-                </p>
-              </div>
-            </div>
+              <section className="relative w-full bg-cover bg-center  overflow-hidden ">
+                  {/* Background Image */}
+                  <img
+                    src={imageConfig.profileaccountBG}
+                    alt="Background Image"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0  justify-start flex-col p-4 flex">
+                    <div className=" flex justify-between">
+                      <div></div>
+                      <div className=" z-30">
+                        <NavLink to={'/route/profileedit/'} className="border block border-white rounded-full text-white px-2 text-[0.8em]">Edit Information</NavLink>
+                      </div>
 
-            <div>
-              <div className="text-black/80">
-                {/* Display Name */}
-                <h1 id="fullname" className="font-bold text-lg">
-                  {userData.first_name + " " + userData.last_name}
-                </h1>
-                {/* Display Contact */}
-                <p id="contact" className="text-black/80 font-semibold">
-                  {userData.contact}
-                </p>
-              </div>
-            </div>
+                    </div>
+                      
+                  </div>
+                  <div className="absolute inset-0  justify-end flex-col p-4 flex">
+                    <div className=" text-[1.5em] text-white">
+                      <p> {userData.first_name + " " + userData.last_name}</p>
+                      <div className=" text-gray-100 text-[0.8em] flex items-center gap-2">
+                      <FaPhoneAlt fontSize={"0.8em"} />
+                      <p> {userData.contact}</p>
 
-            <div className="flex items-center">
-              <div className="">
-                {/* Make the settings icon clickable */}
-                <Link to="/route/profileinfo">
-                  <Settings className="text-gray-500" />
-                </Link>
-              </div>
-            </div>
-          </section>
+                      </div>
+                    </div>
+                    
+                  </div>
+              </section>
+       
         ) : (
+          <section className="relative w-full bg-cover bg-center  overflow-hidden ">
+          {/* Background Image */}
+          <img
+            src={imageConfig.profileaccountBG}
+            alt="Background Image"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0  justify-start flex-col p-4 flex">
+            <div className=" flex justify-between">
+              <div></div>
+              <div >
+                <NavLink  className=" border border-white rounded-full text-white px-2 text-[0.8em]">Edit Information</NavLink>
+              </div>
 
-          <section className="relative p-4 flex items-center justify-between border bg-white rounded-md shadow-md ">
-          <div className="flex flex-col items-center gap-2">
-            {/* Display Picture */}
-            <Avatar className="w-12 h-12 rounded-full" />
-            <div className="">
-              {/* Display User Type */}
-              <p
-                id="typeofuser"
-                className="w-fit text-center rounded-full px-2 py-1 text-xs text-black/80"
-                style={{ backgroundColor: "#54FC6F" }}
-              >
-                Consumer
-              </p>
             </div>
+              
           </div>
+          <div className="absolute inset-0  justify-end flex-col p-4 flex">
+            <div className=" text-[1.5em] text-white">
+            <p className=" bg-gray-300 px-5 py-3 mb-2 w-2/3 rounded-md">  </p>
+              <div className=" text-gray-100 text-[0.8em] flex items-center gap-2">
+              <FaPhoneAlt fontSize={"0.8em"} />
+              <p className=" bg-gray-300 px-5 py-3 w-1/2 rounded-md">  </p>
 
-          <div>
-            <div className="text-black/80">
-              {/* Display Name */}
-              <h1 id="fullname" className="font-bold text-lg">
-                ......
-              </h1>
-              {/* Display Contact */}
-              <p id="contact" className="text-black/80 font-semibold">
-                ......
-              </p>
+              </div>
             </div>
+            
           </div>
-
-          <div className="flex items-center">
-            <div className="">
-              {/* Make the settings icon clickable */}
-              <Link to="/route/profileinfo">
-                <Settings className="text-gray-500" />
-              </Link>
-            </div>
-          </div>
-        </section>
+      </section>
 
 
         )}
 
-        {/* <div id="applyPartner" className="bg-green-300 mx-4 p-2 justify-between flex items-center rounded ">
-        <span> Do you want to be Kadiwa Partner? Read more.</span>
-        <Button className="bg-blue-500 p-1 text-white rounded">Apply</Button>
-      </div>
 
-      <div id="storePartner" className="bg-white mx-4 p-2 flex justify-between items-center rounded ">
-        <div className='flex justify-center items-center'>
-          <Store className=" text-gray-500"/>
-          <span id='storeName' className="flex text-gray-700 font-bold">....</span>
-
-        </div>
-        
-        <Link to="/partner/home" id="storeButton" className="bg-blue-500 py-1  text-white rounded ">Store</Link>
-      </div> */}
-
-        <div className=" flex justify-between">
+      <section className="p-3 md:px-10 space-y-5">
+      <div className=" flex justify-between">
           <h1 className="font-bold text-lg text-gray-800">My Wallet</h1>
           <div></div>
         </div>
@@ -481,6 +449,7 @@ const ProfileConsumer = () => {
             Scheduled Delivery
           </Link>
         </section>
+    
         <div className='flex items-center justify-end gap-3 w-full  bg-white p-2'>
         <button
           onClick={handleLogout}
@@ -490,6 +459,15 @@ const ProfileConsumer = () => {
           <ExitToAppIcon />
         </button>
       </div>
+
+      </section>
+      <section className=" mx-6 px-2 border rounded-md ">
+          <div className="flex items-center justify-between text-gray-500">
+            <h1 className=" font-bold tracking-wider">Kadiwa</h1>
+            <p>Version: {version}</p>
+          </div>
+        </section>
+        
         <div className="p-2 h-32"></div>
       </main>
     </>
