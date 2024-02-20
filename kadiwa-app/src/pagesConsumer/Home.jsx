@@ -153,11 +153,12 @@ const HomeConsumer = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
-              const address = `${data.address.road + ", " || ""}${
-                data.address.neighbourhood + ", " || ""
-              }${data.address.quarter + ", " || ""}${
-                data.address.city_district + ", " || ""
-              }${data.address.city + " " || ""} `;
+              const address = `${data.address?.road + ", " || ""}${
+                data.address?.neighbourhood + ", " || ""
+              }${data.address?.quarter + ", " || ""}${
+                data.address?.city_district + ", " || ""
+              }${data.address?.city + " " || ""}`;
+              
               const formattedAddress = `${address}`;
               setUserLocation(formattedAddress);
             })
