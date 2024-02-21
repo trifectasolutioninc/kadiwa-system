@@ -94,18 +94,21 @@ const StorePage = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
         <NavLink to={"/main/store"} className="">
           <IoMdArrowRoundBack fontSize={"25px"} />
         </NavLink>
       </div>
-      <main className="p-3 md:p-10 bg-gray-100 space-y-5 mt-14">
-        <section className="p-4 space-y-2 rounded-md bg-white shadow-md">
+      <main className="p-3 md:p-10 space-y-5 mt-14">
+        <section className="p-4 space-y-2 rounded-md bg-slate-50 shadow-md">
           <div className=" justify-between flex">
             <h1 className="text-gray-700 font-bold text-lg">
               {storeData.name}
             </h1>
-            <Link to={`/route/chatpage/${storeID}/store`} className="text-green-600">
+            <Link
+              to={`/route/chatpage/${storeID}/store`}
+              className="text-green-600"
+            >
               <button>
                 <ChatIcon className="text-green-600 " />
               </button>
@@ -157,7 +160,7 @@ const StorePage = () => {
           {products.map((product, index) => (
             <div
               key={index}
-              className="container p-2 bg-white rounded-lg shadow-md"
+              className="container p-2 bg-slate-50 rounded-md shadow-md"
             >
               <Link
                 to={`/route/product/${product.id}`}
@@ -167,7 +170,7 @@ const StorePage = () => {
                   <img
                     id={`product${product.product_code}`}
                     alt={product.product_name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full rounded-md object-cover"
                     src={imageConfig[product.keywords.toLowerCase()]}
                   />
                 </div>

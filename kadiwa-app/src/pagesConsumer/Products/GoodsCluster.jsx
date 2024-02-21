@@ -16,7 +16,7 @@ function GoodsCluster() {
               key={index}
               className="w-full p-1 border bg-gradient-to-br from-green-300 to-green-700 hover:bg-green-200 rounded-md shadow-md"
               //className="w-full p-1 border bg-gradient-to-tr from-emerald-300 to-emerald-100 rounded-md shadow-md"
-              //className="w-full p-1 border bg-green-700 to-emerald-100 rounded-md shadow-md"
+              //className="w-full p-1 border bg-green-700 rounded-md shadow-md"
             >
               {foods.pic && (
                 <div className="flex justify-center">

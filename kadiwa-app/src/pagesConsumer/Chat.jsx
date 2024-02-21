@@ -112,7 +112,7 @@ const Chat = () => {
         </div>
 
         <div className="container mx-auto mb-16">
-          <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
+          <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
             {/* Filter chatData based on uid and map through filtered data */}
             {chatData
               .filter((store) => uid === store.id.split("_")[0])

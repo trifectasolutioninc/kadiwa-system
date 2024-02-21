@@ -257,13 +257,13 @@ const StoreList = ({ productCode }) => {
                 <div className=" items-center justify-center flex flex-col md:flex-row col-span-3 md:mx-4">
                   <button
                     onClick={() => openModal(store, addressData)}
-                    className="bg-gray-300 h-1/2 text-gray-800  w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-none"
+                    className="bg-gray-300 h-1/2 text-gray-800  w-full font-bold whitespace-nowrap rounded-tr-md md:rounded-l-md"
                   >
                     Add to Cart
                   </button>
                   <button
                     onClick={() => openCheckoutModal(store, addressData)}
-                    className="bg-green-700 h-1/2 text-white  font-bold w-full rounded-br-md md:rounded-none"
+                    className="bg-green-700 h-1/2 text-slate-50  font-bold w-full rounded-br-md md:rounded-r-md"
                   >
                     Buy Now
                   </button>
@@ -277,7 +277,7 @@ const StoreList = ({ productCode }) => {
       {/* Modal for adding to cart */}
       {isModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
-          <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
+          <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-3/4">
             <h3 className="text-lg font-bold text-gray-800">
               {selectedStore.name}
             </h3>

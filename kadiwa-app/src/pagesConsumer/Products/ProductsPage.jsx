@@ -153,42 +153,36 @@ const ProductsPage = () => {
     setSortBy(selectedValue);
     // Sort products based on selected sorting option
     if (selectedValue === "priceHighToLow") {
-      const sortedProducts = [...products].sort(
-        (a, b) => b.price - a.price
-      );
+      const sortedProducts = [...products].sort((a, b) => b.price - a.price);
       setProducts(sortedProducts);
     } else if (selectedValue === "priceLowToHigh") {
-      const sortedProducts = [...products].sort(
-        (a, b) => a.price - b.price
-      );
+      const sortedProducts = [...products].sort((a, b) => a.price - b.price);
       setProducts(sortedProducts);
     }
   };
   return (
     <>
       <div className="bg-neutral-100">
-      <div className="fixed gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
-        <div className=" flex justify-between"> 
-        <div className="flex items-center gap-5">
-            <NavLink to={`/main/`}>
-              <IoMdArrowRoundBack fontSize={"25px"} />
-            </NavLink>
+        <div className="fixed gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+          <div className=" flex justify-between">
+            <div className="flex items-center gap-5">
+              <NavLink to={`/main/`}>
+                <IoMdArrowRoundBack fontSize={"25px"} />
+              </NavLink>
 
-            <h1 className="text-xl text-green-600 font-bold">Products</h1>
+              <h1 className="text-xl text-neutral-100 font-bold">Products</h1>
+            </div>
+            {/* Sorting Dropdown */}
+            <select
+              className="border border-green-700 rounded-md px-2 py-1 ml-3"
+              value={sortBy}
+              onChange={handleSortChange}
+            >
+              <option value="">Sort By</option>
+              <option value="priceHighToLow">Price (Highest to Lowest)</option>
+              <option value="priceLowToHigh">Price (Lowest to Highest)</option>
+            </select>
           </div>
-          {/* Sorting Dropdown */}
-          <select
-            className="border border-green-700 rounded-md px-2 py-1"
-            value={sortBy}
-            onChange={handleSortChange}
-          >
-            <option value="">Sort By</option>
-            <option value="priceHighToLow">Price (Highest to Lowest)</option>
-            <option value="priceLowToHigh">Price (Lowest to Highest)</option>
-          </select>
-
-        </div>
-          
         </div>
         <div className=" h-16"></div>
 
@@ -257,6 +251,7 @@ const ProductsPage = () => {
                       alt={product.product_name}
                       className="w-full h-full object-cover rounded-md"
                       src={imageConfig[product.keywords.toLowerCase()]}
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex flex-col space-y-2 p-2">
