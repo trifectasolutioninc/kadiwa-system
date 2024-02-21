@@ -49,10 +49,10 @@ import coconutoilliter from "../Components/Assets/products/coconutoilliter.webp"
 
 import CardBg from "../Components/Assets/others/card-bg.webp";
 import CardBg2 from "../Components/Assets/others/card-bg-v2.webp";
-import KadiwaLogo from "../Components/Assets/logo/kadiwa-logo.png";
-import KadiwaText from "../Components/Assets/logo/kadiwa-text.png";
-import BGPH from "../Components/Assets/logo/Bagong_Pilipinas_logo.png";
-import DALogo from "../Components/Assets/logo/DA-logo.png";
+import KadiwaLogo from "../Components/Assets/logo/kadiwa-logo.webp";
+import KadiwaText from "../Components/Assets/logo/kadiwa-text.webp";
+import BGPH from "../Components/Assets/logo/Bagong_Pilipinas_logo.webp";
+import DALogo from "../Components/Assets/logo/DA-logo.webp";
 import StoreBG from "../Components/Assets/others/store_bg.webp";
 
 import MasterCard from "../Components/Assets/payment/mastercard.png";
@@ -93,9 +93,9 @@ const imageConfig = {
   AppLogo: KadiwaLogo,
   KadiwaText: KadiwaText,
   BGPH: BGPH,
-  KadiwaTopLogo: "./src/assets/logo/kadiwa-top-logo.png",
+  KadiwaTopLogo: "./src/assets/logo/kadiwa-top-logo.webp",
   EntranceBG: "./src/assets/raw/entrance-bg.jpg",
-  KadiwaText2: "../logo/kadiwa-text.png",
+  KadiwaText2: "../logo/kadiwa-text.webp",
   //Banners
   BannerV1: Banner1,
   BannerV2: "../banner/banner-v2.png",
