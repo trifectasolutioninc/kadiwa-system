@@ -28,7 +28,9 @@ const ChatPage = () => {
 
         if (userData && userData.name) {
           setStoreName(userData.name);
+          sessionStorage.setItem('STRN', userData.name);
           setOwnerID(userData.id);
+          sessionStorage.setItem('STRID', userData.id);
         }
       } catch (error) {
         console.error("Error fetching store data:", error);
@@ -171,7 +173,12 @@ const ChatPage = () => {
       // Get the current chat data
       const currentChatData = await get(chatRef);
       const existingChat = currentChatData.val();
-  
+      const STRN = sessionStorage.getItem('STRN');
+      const STRID = sessionStorage.getItem('STRID');
+      if (storeName == "" || ownerID == "" ){
+        storeName = STRN;
+        ownerID = STRID;
+      }
       const chatData = {
         storeName: storeName,
         storeOwner: ownerID,
@@ -186,16 +193,27 @@ const ChatPage = () => {
       if (botReply) {
         // Add a delay of 3 seconds before sending the bot reply
         setTimeout(() => {
+          const timestamp2 = generateUniqueId()
           const botMessage = {
             img: "",
             message: botReply.message,
             sender: "bot", // Set sender as bot
-            time: generateUniqueId(),
+            time: timestamp2, // Use the same timestamp as the user's message
             status: "unread",
           };
-          chatData.Chat[generateUniqueId()] = botMessage;
+          // Update the chatData with botMessage
+          const updatedChatData = {
+            storeName: storeName,
+            storeOwner: ownerID,
+            consumer: uid,
+            consumerName: consumerName,
+            Chat: {
+              ...chatData.Chat,
+              [timestamp2]: botMessage,
+            },
+          };
           // Set the updated data under the unique chatId
-          set(chatRef, chatData);
+          update(chatRef, updatedChatData);
         }, 1000);
       }
   
