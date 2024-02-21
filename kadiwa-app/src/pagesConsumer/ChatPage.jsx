@@ -257,7 +257,7 @@ const ChatPage = () => {
         </NavLink>
 
         )}
-        { getpage === "store" && (
+        { getpage === "store-home" && (
 
 <NavLink to={`/main/store`} className="">
   <IoMdArrowRoundBack fontSize={"25px"} />
