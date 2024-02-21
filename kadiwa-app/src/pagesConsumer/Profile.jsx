@@ -417,7 +417,7 @@ const ProfileConsumer = () => {
               to={"/main/orders/pickup/pending"}
               className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
-              <FaBox fontSize={"35px"} className=" text-green-500" />
+              <FaBox fontSize={"20px"} className=" text-green-500" />
               Pickup
               {pendingPickupCount > 0 && (
                 <Badge
@@ -431,14 +431,14 @@ const ProfileConsumer = () => {
               to={"/main/orders/history/completed"}
               className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
-              <MdHistory fontSize={"35px"} className=" text-green-500" />
+              <MdHistory fontSize={"30px"} className=" text-green-500" />
               Transaction History
             </Link>
             <Link
               to={"/main/orders/history/completed"}
               className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
-              <RiTimer2Fill fontSize={"35px"} className=" text-green-500" />
+              <RiTimer2Fill fontSize={"25px"} className=" text-green-500" />
               Scheduled Delivery
             </Link>
           </section>
