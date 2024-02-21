@@ -18,7 +18,13 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress }) => {
       const messageStyle = lastMessage.status === "unread" && lastMessage.sender === "partner" ? boldStyle : {};
   
       return (
-        <p style={messageStyle}>{lastMessage.message} - {lastMessage.time}</p>
+        <div>
+            
+
+            <p style={messageStyle}>{lastMessage.message} - {lastMessage.time}</p>
+
+        </div>
+        
       );
     }
   
@@ -59,25 +65,29 @@ const Chat = () => {
           child(ref(configFirebaseDB), "chat_collections")
         );
         const chatCollections = snapshot.val();
-
+    
+        console.log("chatCollections:", chatCollections); // Log chatCollections to check if data is fetched correctly
+    
         if (chatCollections) {
           const chatDataArray = Object.entries(chatCollections).map(
-            ([id, data]) => ({
-              id,
-              name: data.storeName,
-              Chat: data.Chat,
-              date: data.date,
-            
-            })
+            ([id, data]) => {
+              console.log("storeName:", data.storeName); // Log storeName to check if it's fetched correctly
+              return {
+                id,
+                name: data.storeName,
+                Chat: data.Chat,
+                date: data.date,
+              };
+            }
           );
-
+    
           setChatData(chatDataArray);
         }
       } catch (error) {
         console.error("Error fetching chat data:", error);
       }
     };
-
+    
     fetchChatData();
   }, []);
 
