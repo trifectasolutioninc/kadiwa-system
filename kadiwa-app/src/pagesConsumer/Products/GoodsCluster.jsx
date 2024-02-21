@@ -6,7 +6,7 @@ function GoodsCluster() {
   return (
     <>
       <section className="p-1">
-        <h1 className="text-xl text-black/80 font-bold mb-5 p-2 rounded-md tracking-widest">
+        <h1 className="text-xl text-black/80 font-bold mb-5 p-2 rounded-md tracking-wide">
           Categories
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -28,7 +28,7 @@ function GoodsCluster() {
                   />
                 </div>
               )}
-              <h1 className="text-lg font-bold text-black/80 text-center p-1 tracking-widest">
+              <h1 className="text-lg font-bold text-black/80 text-center p-1 tracking-wide">
                 {foods.category}
               </h1>
             </NavLink>
