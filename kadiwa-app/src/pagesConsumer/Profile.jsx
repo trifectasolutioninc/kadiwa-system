@@ -400,7 +400,7 @@ const ProfileConsumer = () => {
           <section className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link
               to={"/main/orders/delivery/pending"}
-              className="relative px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+              className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
               <MdDeliveryDining fontSize={"50px"} className=" text-green-500" />
               Delivery
@@ -415,7 +415,7 @@ const ProfileConsumer = () => {
             {/* Pickup Container */}
             <Link
               to={"/main/orders/pickup/pending"}
-              className="relative px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+              className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
               <FaBox fontSize={"35px"} className=" text-green-500" />
               Pickup
@@ -429,14 +429,14 @@ const ProfileConsumer = () => {
             </Link>
             <Link
               to={"/main/orders/history/completed"}
-              className="px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+              className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
               <MdHistory fontSize={"35px"} className=" text-green-500" />
               Transaction History
             </Link>
             <Link
               to={"/main/orders/history/completed"}
-              className="px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+              className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
               <RiTimer2Fill fontSize={"35px"} className=" text-green-500" />
               Scheduled Delivery
