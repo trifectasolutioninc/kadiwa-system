@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import configFirebaseDB from '../Configuration/config';
 import { getDatabase, ref, get, set } from 'firebase/database';
 import InputMask from 'react-input-mask';
 import { imageConfig } from '../Configuration/config-file';
@@ -12,13 +11,11 @@ const SignInPages = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [version, setVersion] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
   const [toastMessage, setToastMessage] = useState("");
-  const [showToast, setShowToast] = useState(false);
   const [deviceID, setDeviceID] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
   const [deviceBrand, setDeviceBrand] = useState(null);
@@ -26,7 +23,7 @@ const SignInPages = () => {
 
   useEffect(() => {
       const fetchVersion = async () => {
-          try {
+          try { 
               const database = getDatabase();
               const versionRef = ref(database, '0_config_control/version');
               const snapshot = await get(versionRef);
@@ -42,7 +39,6 @@ const SignInPages = () => {
 
       fetchVersion();
   }, []);
-
 
   useEffect(() => {
     // Function to fetch or generate device ID
@@ -75,13 +71,12 @@ const SignInPages = () => {
     };
   }, []);
 
-
   const handleSignIn = async (event) => {
     event.preventDefault();
   
     try {
-      const db = configFirebaseDB();
-      const usersRef = ref(db, 'authentication');
+      const database = getDatabase(); // get database directly
+      const usersRef = ref(database, 'authentication');
       const snapshot = await get(usersRef);
   
       if (snapshot.exists()) {
@@ -113,7 +108,7 @@ const SignInPages = () => {
               Object.values(userData.device).forEach((device) => {
                 if (device.id === deviceID) {
                   // Update the status of the device to "online"
-                  const deviceRef = ref(db, `authentication/${userData.id}/device/${device.id}/log`);
+                  const deviceRef = ref(database, `authentication/${userData.id}/device/${device.id}/log`);
                   set(deviceRef, 'online').then(() => {
                     console.log('Device status updated to online');
                   }).catch((error) => {
@@ -124,7 +119,7 @@ const SignInPages = () => {
               });
               if (!deviceExists) {
                 // If the deviceID is not found in the user's devices, add the new device
-                const newDeviceRef = ref(db, `authentication/${userData.id}/device/${deviceID}`);
+                const newDeviceRef = ref(database, `authentication/${userData.id}/device/${deviceID}`);
                 set(newDeviceRef, {
                   id: deviceID,
                   type: deviceType,
@@ -139,7 +134,7 @@ const SignInPages = () => {
               }
             } else {
               // If the user has no devices, add the new device
-              const newDeviceRef = ref(db, `authentication/${userData.id}/device/${deviceID}`);
+              const newDeviceRef = ref(database, `authentication/${userData.id}/device/${deviceID}`);
               set(newDeviceRef, {
                 id: deviceID,
                 type: deviceType,
@@ -156,18 +151,15 @@ const SignInPages = () => {
         });
   
         if (success) {
-
           setToastMessage('Login successful!');
           setShowToast(true);
           setTimeout(function() {
             navigate('/main');
-        }, 900); 
-        
+          }, 900); 
         } else {
           setShowToast(true);
           setToastMessage('Incorrect username or password.');
         }
-        // setShowModal(true);
       } else {
         console.error('No users found');
       }
@@ -176,14 +168,6 @@ const SignInPages = () => {
     }
   };
   
-  
-  const closeModal = () => {
-    setShowModal(false);
-    if (modalMessage === 'Login successful!') {
-      
-    }
-  };
-
   return (
     <div className=' bg-white flex items-center justify-center h-screen'>
       <div className=''>
@@ -191,9 +175,7 @@ const SignInPages = () => {
                   <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
                   <img className=" h-[5em] " src={imageConfig.AppLogo} alt="Farm Logo" />
                   <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
-
                   </div>
-
         <div className="mt-5 p-8 rounded">
           <form id="loginForm" className="space-y-1" onSubmit={handleSignIn}>
             <div className="text-left">
@@ -259,20 +241,9 @@ const SignInPages = () => {
 
       </div>
 
-      {/* Modal for displaying login status
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 z-50 bg-opacity-50">
-          <div className="bg-white p-4 rounded-md w-64 text-center">
-            <p className="text-lg font-semibold">{modalMessage}</p>
-            <button onClick={closeModal} className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md focus:outline-none hover:bg-green-700">Close</button>
-          </div>
-        </div>
-      )} */}
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
-     
-
     </div>
   );
 };
