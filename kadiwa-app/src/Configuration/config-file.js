@@ -70,7 +70,7 @@ import Rice from "../Components/Assets/Category/rice2.webp";
 import Pork from "../Components/Assets/Category/pork3.webp";
 import Beef from "../Components/Assets/Category/beef3.webp";
 import Chicken from "../Components/Assets/Category/chicken2.webp";
-import Fish from "../Components/Assets/Category/fish.webp";
+import Fish from "../Components/Assets/Category/fish2.webp";
 import Fruits from "../Components/Assets/Category/fruits.webp";
 import Vegetables from "../Components/Assets/Category/vegetables.webp";
 import Spices from "../Components/Assets/Category/spices2.webp";

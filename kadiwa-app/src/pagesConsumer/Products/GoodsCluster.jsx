@@ -15,14 +15,14 @@ function GoodsCluster() {
               to={`/main/products-page/${foods.category.toLowerCase()}`}
               key={index}
               // className="w-full p-1 border bg-gradient-to-br from-lime-600 to-green-600 hover:bg-green-200 rounded-md shadow-md"
-              className="w-full p-2 border bg-slate-50 hover:bg-green-200 rounded-md shadow-md"
+              className="w-full p-1 border bg-slate-50 hover:bg-green-200 rounded-md shadow-md"
             >
               {foods.pic && (
                 <div className="flex justify-center">
                   <img
                     src={foods.pic}
                     alt={foods.category}
-                    className="w-44 md:w-72 h-44 md:h-72 rounded-full object-cover"
+                    className="w-full h-44 md:h-72 rounded-md object-cover"
                   />
                 </div>
               )}
