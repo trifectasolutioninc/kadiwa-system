@@ -48,7 +48,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
       to={`/route/chatpage/${id.split("_")[1]}/chat`}
       className="no-underline"
     >
-      <li className="relative bg-white p-4 rounded-lg shadow-md flex items-center border">
+      <li className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border">
         <div>
           <p className="font-semibold">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -92,13 +92,13 @@ const Chat = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 shadow-md">
         <div className="flex items-center gap-5 ">
           <BackButton />
           <h1 className="text-xl text-green-600  font-bold">Messages</h1>
         </div>
       </div>
-      <main className="p-3 md:p-10 space-y-5  mt-14">
+      <main className="p-3 md:p-10 space-y-5  mt-14 ">
         <div className="flex items-center justify-between">
           <div className="flex-grow">
             <input

@@ -19,7 +19,6 @@ import OrdersData from "../pagesConsumer/Orders/OrdersData";
 import Wallet from "../pagesConsumer/Wallet";
 import ProductsPage from "../pagesConsumer/Products/ProductsPage";
 
-
 const ConsumerMain = () => {
   useEffect(() => {
     // Use the utility function
@@ -39,7 +38,10 @@ const ConsumerMain = () => {
         <Route path="chat" element={<Chat />} />
         <Route path="cart" element={<Cart />} />
         <Route path="profile" element={<ProfileConsumer />} />
-        <Route path="productinfo/:productCode/:category" element={<ProductDetails />} />
+        <Route
+          path="productinfo/:productCode/:category"
+          element={<ProductDetails />}
+        />
         <Route
           path="storepage/:storeID"
           component={StorePage}

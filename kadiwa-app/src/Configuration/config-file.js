@@ -66,15 +66,15 @@ import profileaccountBG from "../Components/Assets/others/account.webp";
 import Banner1 from "../Components/Assets/banner/banner-v1.webp";
 
 import Other from "../Components/Assets/Category/other.webp";
-import Rice from "../Components/Assets/Category/rice.webp";
-import Pork from "../Components/Assets/Category/pork.webp";
-import Beef from "../Components/Assets/Category/beef.webp";
-import Chicken from "../Components/Assets/Category/chicken.webp";
+import Rice from "../Components/Assets/Category/rice2.webp";
+import Pork from "../Components/Assets/Category/pork3.webp";
+import Beef from "../Components/Assets/Category/beef3.webp";
+import Chicken from "../Components/Assets/Category/chicken2.webp";
 import Fish from "../Components/Assets/Category/fish.webp";
 import Fruits from "../Components/Assets/Category/fruits.webp";
 import Vegetables from "../Components/Assets/Category/vegetables.webp";
 import Spices from "../Components/Assets/Category/spices2.webp";
-import Egg from "../Components/Assets/Category/egg.webp";
+import Egg from "../Components/Assets/Category/egg2.webp";
 
 const paymentImg = {
   KadiwaCard: KadiwaLogo,

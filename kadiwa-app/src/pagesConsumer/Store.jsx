@@ -42,11 +42,11 @@ const StoreConsumer = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 shadow-md">
         <BackButton />
         <h1 className="text-xl text-green-600  font-bold">Store</h1>
       </div>
-      <main className="p-3 md:p-10 space-y-5">
+      <main className="p-3 md:p-10 space-y-5 bg-neutral-100">
         {/* Top Navigation with Search and Notification */}
         <div className=" flex items-center justify-between bg-gray-100 mt-14">
           {/* Search Input */}
@@ -70,7 +70,7 @@ const StoreConsumer = () => {
                   <Link
                     to={`/main/storepage/${store.id}`}
                     key={store.id}
-                    className="bg-white p-4 rounded-lg shadow-md items-center grid grid-cols-10 border"
+                    className="bg-slate-50 p-4 rounded-lg shadow-md items-center grid grid-cols-10 border"
                   >
                     {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                     <section className="col-span-9 text-left">
