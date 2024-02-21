@@ -21,6 +21,10 @@ import { v4 as uuidv4 } from "uuid";
 import { imageConfig } from "../Configuration/config-file";
 import DeliveryPage from "./Delivery";
 import { FaPhoneAlt } from "react-icons/fa";
+import { MdDeliveryDining } from "react-icons/md";
+import { MdHistory } from "react-icons/md";
+import { RiTimer2Fill } from "react-icons/ri";
+
 const deviceDetect = require("device-detect")();
 
 const ProfileConsumer = () => {
@@ -396,9 +400,9 @@ const ProfileConsumer = () => {
           <section className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link
               to={"/main/orders/delivery/pending"}
-              className="relative px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+              className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
-              <LocalShipping className="text-[1.2em] text-green-500" />
+              <MdDeliveryDining fontSize={"50px"} className=" text-green-500" />
               Delivery
               {pendingDeliveryCount > 0 && (
                 <Badge
@@ -411,9 +415,9 @@ const ProfileConsumer = () => {
             {/* Pickup Container */}
             <Link
               to={"/main/orders/pickup/pending"}
-              className="relative px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+              className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
-              <FaBox className="text-[1.2em] text-green-500" />
+              <FaBox fontSize={"20px"} className=" text-green-500" />
               Pickup
               {pendingPickupCount > 0 && (
                 <Badge
@@ -425,16 +429,16 @@ const ProfileConsumer = () => {
             </Link>
             <Link
               to={"/main/orders/history/completed"}
-              className="px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+              className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
-              <History className=" text-green-500" />
+              <MdHistory fontSize={"30px"} className=" text-green-500" />
               Transaction History
             </Link>
             <Link
               to={"/main/orders/history/completed"}
-              className="px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+              className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
-              <Timer className=" text-green-500" />
+              <RiTimer2Fill fontSize={"25px"} className=" text-green-500" />
               Scheduled Delivery
             </Link>
           </section>
