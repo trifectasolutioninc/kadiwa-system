@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  Home,
-  Store,
-  Chat,
-  ShoppingCart,
-  AccountCircle,
-} from "@mui/icons-material";
+import { Home, Store, Chat, ShoppingCart, AccountCircle } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
-import { getDatabase, ref, get, onValue, off } from "firebase/database";
+import { getDatabase, ref, get, onValue, off } from 'firebase/database';
 
 const NavBttnAppHome = () => {
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const uid = sessionStorage.getItem("uid"); // Assuming you have the user's ID stored in sessionStorage
 
   useEffect(() => {
     const database = getDatabase();
-    const ordersRef = ref(database, "orders_list");
-    const cartsRef = ref(database, "cart_collection");
-
+    const ordersRef = ref(database, 'orders_list');
+    const cartsRef = ref(database, 'cart_collection');
+    const chatRef = ref(database, `chat_collections`);
+  
     const fetchPendingOrdersCount = async () => {
       try {
         // Fetch initial pending orders count
@@ -26,12 +22,12 @@ const NavBttnAppHome = () => {
         const ordersSnapshot = await get(ordersRef);
         ordersSnapshot.forEach((order) => {
           const orderData = order.val();
-          if (orderData.consumer === uid && orderData.status === "Pending") {
+          if (orderData.consumer === uid && orderData.status === 'Pending') {
             count++;
           }
         });
         setPendingOrdersCount(count);
-
+  
         // Fetch initial cart count
         let cart = 0;
         const cartsSnapshot = await get(cartsRef);
@@ -45,74 +41,89 @@ const NavBttnAppHome = () => {
         });
         setCartCount(cart);
       } catch (error) {
-        console.error("Error fetching initial data:", error);
+        console.error('Error fetching initial data:', error);
       }
     };
 
+    const fetchUnreadMessagesCount = async () => {
+      try {
+        let unreadCount = 0;
+        const chatSnapshot = await get(chatRef);
+        chatSnapshot.forEach((chat) => {
+          const chatData = chat.val();
+          // Check if the consumer is equal to uid
+          if (chatData.consumer === uid) {
+            // Iterate through messages and count unread messages from bot and partner
+            Object.values(chatData.Chat).forEach((message) => {
+              if ((message.sender === 'bot' || message.sender === 'partner') && message.status === 'unread') {
+                unreadCount++;
+              }
+            });
+          }
+        });
+        setUnreadMessagesCount(unreadCount);
+      } catch (error) {
+        console.error('Error fetching unread messages count:', error);
+      }
+    };
+    
+    
+  
     fetchPendingOrdersCount();
-
+    fetchUnreadMessagesCount();
+  
     // Set up real-time listeners
-    const ordersListener = onValue(ordersRef, (snapshot) => {
+    const ordersListener = onValue(ordersRef, () => {
+      fetchPendingOrdersCount();
+    });
+  
+    const cartsListener = onValue(cartsRef, () => {
       fetchPendingOrdersCount();
     });
 
-    const cartsListener = onValue(cartsRef, (snapshot) => {
-      fetchPendingOrdersCount();
+    const chatListener = onValue(chatRef, () => {
+      fetchUnreadMessagesCount();
     });
-
+  
     // Clean up listeners
     return () => {
-      off(ordersRef, "value", ordersListener);
-      off(cartsRef, "value", cartsListener);
+      off(ordersRef, 'value', ordersListener);
+      off(cartsRef, 'value', cartsListener);
+      off(chatRef, 'value', chatListener);
     };
+  
   }, [uid]);
-
+  
   return (
     <React.Fragment>
-      <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-0 w-full z-50 rounded-t-md">
-        <NavLink
-          to=""
-          className="text-white text-xs flex flex-col items-center"
-        >
+      <footer className="p-4 text-white flex items-center justify-around fixed bottom-0 w-full z-50" style={{ backgroundColor: "#20802F" }}>
+        <NavLink to="" className="text-white text-xs flex flex-col items-center">
           <Home />
           Home
         </NavLink>
-        <NavLink
-          to="store"
-          className="text-white text-xs flex flex-col items-center"
-        >
+        <NavLink to="store" className="text-white text-xs flex flex-col items-center">
           <Store />
           Stores
         </NavLink>
-        <NavLink
-          to="chat"
-          className="text-white text-xs flex flex-col items-center"
-        >
+        <NavLink to="chat" className="text-white text-xs flex flex-col items-center relative">
           <Chat />
           Chat
+          {unreadMessagesCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">{unreadMessagesCount}</span>
+          )}
         </NavLink>
-        <NavLink
-          to="cart"
-          className="text-white text-xs flex flex-col items-center relative"
-        >
+        <NavLink to="cart" className="text-white text-xs flex flex-col items-center relative">
           <ShoppingCart />
           Cart
           {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
-              {cartCount}
-            </span>
+            <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">{cartCount}</span>
           )}
         </NavLink>
-        <NavLink
-          to="profile"
-          className="text-white text-xs flex flex-col items-center relative"
-        >
+        <NavLink to="profile" className="text-white text-xs flex flex-col items-center relative">
           <AccountCircle />
           Account
           {pendingOrdersCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
-              {pendingOrdersCount}
-            </span>
+            <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">{pendingOrdersCount}</span>
           )}
         </NavLink>
       </footer>
