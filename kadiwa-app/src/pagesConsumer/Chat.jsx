@@ -78,23 +78,26 @@ const Chat = () => {
   const handleDelete = async () => {
     try {
       // Remove the chat data from Firebase
-      await remove(child(ref(configFirebaseDB), `chat_collections/${longPressedMessage}`));
+      await remove(
+        child(ref(configFirebaseDB), `chat_collections/${longPressedMessage}`)
+      );
       console.log("Message deleted successfully:", longPressedMessage);
       setLongPressedMessage(null); // Clear longPressedMessage state after deletion
       // Update chatData state to reflect the deletion
-      setChatData(prevChatData => prevChatData.filter(store => store.id !== longPressedMessage));
+      setChatData((prevChatData) =>
+        prevChatData.filter((store) => store.id !== longPressedMessage)
+      );
     } catch (error) {
       console.error("Error deleting message:", error);
     }
   };
-  
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
         <div className="flex items-center gap-5 ">
           <BackButton />
-          <h1 className="text-xl text-green-600  font-bold">Messages</h1>
+          <h1 className="text-xl text-neutral-100  font-bold">Messages</h1>
         </div>
       </div>
       <main className="p-3 md:p-10 space-y-5  mt-14 ">

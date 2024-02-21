@@ -238,10 +238,10 @@ const ProfileConsumer = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 z-50 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-50 shadow-md">
         <div></div>
         <BackButton />
-        <h1 className="text-xl text-green-600  font-bold">Profile</h1>
+        <h1 className="text-xl text-neutral-100  font-bold">Profile</h1>
       </div>
       <main className=" mt-14">
         {/* Profile Information */}

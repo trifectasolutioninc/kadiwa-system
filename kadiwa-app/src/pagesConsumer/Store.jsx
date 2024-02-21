@@ -43,9 +43,9 @@ const StoreConsumer = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
         <BackButton />
-        <h1 className="text-xl text-green-600  font-bold">Store</h1>
+        <h1 className="text-xl text-neutral-100  font-bold">Store</h1>
       </div>
       <main className="p-3 md:p-10 space-y-5 bg-neutral-100">
         {/* Top Navigation with Search and Notification */}

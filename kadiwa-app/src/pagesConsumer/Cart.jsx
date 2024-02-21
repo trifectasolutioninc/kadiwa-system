@@ -242,10 +242,10 @@ const Cart = () => {
 
   return (
     <>
-      <section className="fixed flex items-center justify-between gap-5 bg-neutral-100 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <div className="flex items-center gap-5 ">
           <BackButton />
-          <h1 className="text-xl text-green-600  font-bold">
+          <h1 className="text-xl text-neutral-100  font-bold">
             Cart ({getTotalQuantity(cartData)})
           </h1>
         </div>

@@ -207,27 +207,13 @@ const HomeConsumer = () => {
       )}
 
       <section className="sticky top-0 right-0 left-0 p-1 bg-neutral-100 flex items-center justify-around ">
-        <div className="flex-grow flex items-center">
-          <div className="relative flex items-center bg-gray-300 rounded-md p-2 flex-grow">
-            <Search className="text-gray-700 text-lg mr-2" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full bg-gray-300 text-gray-600 focus:outline-none"
-            />
-          </div>
-        </div>
-        <div className="ml-4">
-          <select
-            name=""
-            id=""
-            className="p-2 border border-gray-600 rounded-md text-black/80"
-            onChange={handleSortChange}
-          >
-            <option value="">Sort by:</option>
-            <option value="lowestToHighest">Lowest to Highest Price</option>
-            <option value="highestToLowest">Highest to Lowest Price</option>
-          </select>
+        <div className="relative flex items-center bg-gray-300 rounded-md p-2 w-full">
+          <Search className="text-gray-700 text-lg" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full bg-gray-300 text-black/80 focus:outline-none"
+          />
         </div>
       </section>
 
