@@ -76,7 +76,6 @@ const ChatPage = () => {
           };
         });
 
-
         const updatedMessages = messagesArray.map((message) => {
           if ((message.sender === "bot" || message.sender === "partner") && message.status !== "read") {
             return { ...message, status: "read" };
@@ -103,9 +102,6 @@ const ChatPage = () => {
       off(chatRef, "value", handleNewMessage);
     };
   }, [storeID, storeName, uid, messages.length]);
-
-
-
 
   useEffect(() => {
     if (messageEndRef.current) {
@@ -137,14 +133,12 @@ const ChatPage = () => {
 
       let consumerName = "Unknown";
 
-
       if (userDetails && userDetails.first_name) {
         consumerName = userDetails.first_name + " " + userDetails.last_name;
       }
 
       let botReply = null;
       let maxMatchingKeywords = 0;
-
 
       for (const bot of Object.values(ChatBOT)) {
         let matchingKeywords = 0;
@@ -167,7 +161,6 @@ const ChatPage = () => {
         time: timestamp,
         status: "unread",
       };
-
 
       const currentChatData = await get(chatRef);
       const existingChat = currentChatData.val();
