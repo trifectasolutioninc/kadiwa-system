@@ -68,11 +68,11 @@ const LinkedAccount = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <NavLink to={"/main/profile"}>
           <IoMdArrowRoundBack fontSize={"25px"} />
         </NavLink>
-        <h1 className="text-xl text-green-600  font-bold">Linked Account</h1>
+        <h1 className="text-xl text-neutral-100  font-bold">Linked Account</h1>
       </div>
       <main className="p-3 md:px-10 space-y-5 mt-14">
         <div className="">

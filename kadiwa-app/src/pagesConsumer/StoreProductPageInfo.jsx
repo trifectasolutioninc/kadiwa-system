@@ -35,7 +35,7 @@ const ProductDetails = ({ productDetails }) => {
   return (
     <>
       <div className="p-3 md:p-10 space-y-5">
-        <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 shadow-md">
+        <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
           <NavLink
             to={`/main/storepage/${productCode.split("-")[0]}-${
               productCode.split("-")[1]
@@ -44,7 +44,9 @@ const ProductDetails = ({ productDetails }) => {
           >
             <IoMdArrowRoundBack fontSize={"25px"} />
           </NavLink>
-          <h1 className="text-xl font-bold  text-green-700">Product Details</h1>
+          <h1 className="text-xl font-bold  text-neutral-100">
+            Product Details
+          </h1>
         </div>
         <main className="mb-28">
           <div className="p-3 bg-white rounded-md shadow-md mt-12">

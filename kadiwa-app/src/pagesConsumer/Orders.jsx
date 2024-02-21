@@ -66,19 +66,19 @@ const Orders = () => {
   return (
     <div className="h-screen">
       <div className=" flex flex-col">
-        <div className="bg-white pb-2 shadow-md top-0 fixed w-full">
+        <div className="bg-green-700 pb-2 shadow-md top-0 fixed w-full">
           <div className="flex items-center gap-5 p-3">
             <NavLink to={"/main/profile"} className="">
               <IoMdArrowRoundBack fontSize={"25px"} />
             </NavLink>
-            <h1 className="text-lg text-green-600 font-bold">
+            <h1 className="text-lg text-neutral-100 font-bold">
               {tab.toUpperCase()}
             </h1>
           </div>
         </div>
         <div className="mb-16 p-2"></div>
         <div className=" bg-white ">
-        {tab === "delivery" && (
+          {tab === "delivery" && (
             <div className="flex justify-around gap-3 overflow-x-hidden mx-6">
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
@@ -180,12 +180,11 @@ const Orders = () => {
               </button>
             </div>
           )}
-
         </div>
         <div className="flex-1">
           <div className="overflow-y-auto space-y-3 mb-20 p-3 md:px-10">
             {/* Display orders */}
-            
+
             {orders &&
               orders.map((order) => (
                 <div

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { imageConfig } from "../Configuration/config-file";
 import configFirebaseDB from "../Configuration/config";
-import { ref,  get } from "firebase/database";
+import { ref, get } from "firebase/database";
 import QRCode from "qrcode";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 
 const Card = () => {
   const [userData, setUserData] = useState(null);
-console.log(userData);
+  console.log(userData);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -56,11 +56,11 @@ console.log(userData);
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <NavLink to={"/main/profile"}>
           <IoMdArrowRoundBack fontSize={"25px"} />
         </NavLink>
-        <h1 className="text-xl font-bold  text-green-700">Card</h1>
+        <h1 className="text-xl font-bold  text-neutral-100">Card</h1>
       </div>
       <main className="p-3 md:px-10 space-y-5 mt-14">
         <div className="space-y-5 p-5 w-fit m-auto">

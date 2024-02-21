@@ -5,12 +5,12 @@ import { NavLink } from "react-router-dom";
 function Wallet() {
   return (
     <>
-      <section className="fixed flex items-center justify-between gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <div className="flex items-center gap-5 ">
           <NavLink to={"/main/profile"}>
             <IoMdArrowRoundBack fontSize={"25px"} />
           </NavLink>
-          <h1 className="text-xl text-green-600  font-bold">Load/Wallet</h1>
+          <h1 className="text-xl text-neutral-100  font-bold">Load/Wallet</h1>
         </div>
       </section>
       <main className="p-3 md:p-10 space-y-5">
