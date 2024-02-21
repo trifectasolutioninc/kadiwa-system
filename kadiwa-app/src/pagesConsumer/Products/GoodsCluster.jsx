@@ -23,6 +23,7 @@ function GoodsCluster() {
                     src={foods.pic}
                     alt={foods.category}
                     className="w-full h-44 md:h-72 rounded-md object-cover"
+                    loading="lazy"
                   />
                 </div>
               )}
