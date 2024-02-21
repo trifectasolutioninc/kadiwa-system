@@ -9,13 +9,22 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress }) => {
   const getLastMessage = () => {
     const messagesArray = Object.values(chatMessages);
     const lastMessage = messagesArray[messagesArray.length - 1];
-
+  
     if (lastMessage) {
-      return `${lastMessage.message} - ${lastMessage.time}`;
+      const boldStyle = {
+        fontWeight: "bold"
+      };
+  
+      const messageStyle = lastMessage.status === "unread" && lastMessage.sender === "partner" ? boldStyle : {};
+  
+      return (
+        <p style={messageStyle}>{lastMessage.message} - {lastMessage.time}</p>
+      );
     }
-
+  
     return "No messages yet";
   };
+  
 
   return (
     <Link
@@ -30,7 +39,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress }) => {
         }}
       >
         <div>
-          <p className="font-semibold">{name}</p>
+          <p className="font-semibold text-green-800">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
         </div>
       </li>
@@ -58,6 +67,7 @@ const Chat = () => {
               name: data.storeName,
               Chat: data.Chat,
               date: data.date,
+            
             })
           );
 

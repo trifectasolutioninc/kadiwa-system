@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, NavLink } from "react-router-dom";
-import { ref, get, onValue, off, set } from "firebase/database";
+import { ref, get, onValue, off, set, update } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ChatBOT } from "../services/AI/chat-bot";
@@ -8,7 +8,7 @@ import { ChatBOT } from "../services/AI/chat-bot";
 
 const ChatPage = () => {
   const maxTextareaHeight = 120;
-  const { storeID, page } = useParams();
+  const { storeID , page } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [storeName, setStoreName] = useState("");
@@ -62,34 +62,51 @@ const ChatPage = () => {
   useEffect(() => {
     const chatId = `${uid}_${storeID}`;
     const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
-
-    const handleNewMessage = (snapshot) => {
+  
+    const handleNewMessage = async (snapshot) => {
       const chatData = snapshot.val();
-
+  
       if (chatData && chatData.Chat) {
         const messagesArray = Object.values(chatData.Chat).map((message) => {
           return {
-            sender: message.sender,
-            text: message.message,
-            time: message.time,
+            ...message,
+            id: message.time // Add unique ID for each message
           };
         });
-
-        setMessages(messagesArray);
-      } else if (messages.length === 0) { // Add this condition to check if messages length is 0
+  
+        // Iterate through messages to update status to "read" for bot and partner messages
+        const updatedMessages = messagesArray.map((message) => {
+          if ((message.sender === "bot" || message.sender === "partner") && message.status !== "read") {
+            return { ...message, status: "read" };
+          }
+          return message;
+        });
+  
+        setMessages(updatedMessages);
+  
+        // Update the status of bot and partner messages in the database
+        const updates = {};
+        updatedMessages.forEach(message => {
+          updates[`Chat/${message.id}/status`] = message.status;
+        });
+        await update(chatRef, updates); // Corrected update call here
+      } else if (messages.length === 0) {
         // If there are no messages, initiate conversation with bot
-        sendChatMessage("Good Day! Welcome to our store!", "bot"); // Specify sender as "bot"
+        sendChatMessage("Good Day! Welcome to our store!", "bot");
       }
     };
-
+  
     onValue(chatRef, handleNewMessage);
-
+  
     return () => {
       // Detach the event listener when component unmounts
       off(chatRef, "value", handleNewMessage);
     };
   }, [storeID, storeName, uid, messages.length]);
-
+  
+  
+  
+  
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -112,22 +129,22 @@ const ChatPage = () => {
     try {
       const chatId = `${uid}_${storeID}`;
       const chatRef = ref(firebaseDB, `chat_collections/${chatId}`);
-
+  
       const timestamp = generateUniqueId(); // Use timestamp-based unique ID
-
+  
       console.log("Store ID:", storeID);
       console.log("Store Name:", storeName);
-
+  
       let consumerName = "Unknown"; // Default consumer name
-
+  
       // Check if userDetails is not null and contains first_name
       if (userDetails && userDetails.first_name) {
         consumerName = userDetails.first_name + " " + userDetails.last_name;
       }
-
+  
       let botReply = null;
       let maxMatchingKeywords = 0;
-
+  
       // Iterate through each chat bot object
       for (const bot of Object.values(ChatBOT)) {
         let matchingKeywords = 0;
@@ -142,18 +159,19 @@ const ChatPage = () => {
           botReply = bot;
         }
       }
-
+  
       const newMessage = {
         img: "",
         message,
         sender: sender || "consumer", // Default sender is consumer
         time: timestamp,
+        status: "unread",
       };
-
+  
       // Get the current chat data
       const currentChatData = await get(chatRef);
       const existingChat = currentChatData.val();
-
+  
       const chatData = {
         storeName: storeName,
         storeOwner: ownerID,
@@ -164,7 +182,7 @@ const ChatPage = () => {
           [timestamp]: newMessage, // Add the new message
         },
       };
-
+  
       if (botReply) {
         // Add a delay of 3 seconds before sending the bot reply
         setTimeout(() => {
@@ -173,22 +191,23 @@ const ChatPage = () => {
             message: botReply.message,
             sender: "bot", // Set sender as bot
             time: generateUniqueId(),
+            status: "unread",
           };
           chatData.Chat[generateUniqueId()] = botMessage;
           // Set the updated data under the unique chatId
           set(chatRef, chatData);
         }, 1000);
       }
-
+  
       // Set the updated data under the unique chatId immediately for user message
       set(chatRef, chatData);
-
+  
       console.log("Message sent successfully!");
     } catch (error) {
       console.error("Error sending chat message:", error);
     }
   };
-
+  
   const handleSendMessage = () => {
     if (newMessage.trim() !== "") {
       setMessages([...messages, { sender: "user", text: newMessage }]);
@@ -224,28 +243,28 @@ const ChatPage = () => {
   return (
     <div className="h-screen bg-gray-200 flex flex-col">
       <div className="flex gap-5 items-center p-4 bg-white shadow-md">
-        {getpage === "store" && (
+      { getpage === "store" && (
 
-          <NavLink to={`/main/storepage/${storeID}`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
+        <NavLink to={`/main/storepage/${storeID}`} className="">
+          <IoMdArrowRoundBack fontSize={"25px"} />
+        </NavLink>
 
-        )}
-        {getpage === "chat" && (
+      )}
+      { getpage === "chat" && (
 
-          <NavLink to={`/main/chat`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
-
-        )}
-        {getpage === "store-home" && (
-
-          <NavLink to={`/main/store`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
+        <NavLink to={`/main/chat`} className="">
+          <IoMdArrowRoundBack fontSize={"25px"} />
+        </NavLink>
 
         )}
+        { getpage === "store" && (
 
+<NavLink to={`/main/store`} className="">
+  <IoMdArrowRoundBack fontSize={"25px"} />
+</NavLink>
+
+)}
+        
         <h1 className="text-gray-700 font-bold text-lg">{storeName}</h1>
       </div>
 
@@ -256,20 +275,23 @@ const ChatPage = () => {
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`my-2 ${message.sender === "consumer" ? "text-right" : "text-left"
-              }`}
+            className={`my-2 ${
+              message.sender === "consumer" ? "text-right" : "text-left"
+            }`}
           >
             <div
-              className={`inline-block p-2 rounded-lg ${message.sender === "consumer"
+              className={`inline-block p-2 rounded-lg ${
+                message.sender === "consumer"
                   ? "bg-green-500 text-white"
                   : "bg-white"
-                }`}
+              }`}
             >
-              <p>{message.text}</p>
+              <p>{message.message}</p>
             </div>
             <p
-              className={`text-xs text-gray-500 ${message.sender === "consumer" ? "text-right " : "text-left"
-                }`}
+              className={`text-xs text-gray-500 ${
+                message.sender === "consumer" ? "text-right " : "text-left"
+              }`}
             >
               {formatDate(message.time)}
             </p>
@@ -279,7 +301,7 @@ const ChatPage = () => {
         <div ref={messageEndRef}></div>
       </div>
       <div className="h-20" ></div>
-
+      
       <div className="p-4 bg-white shadow-md fixed bottom-0  w-full z-50">
         <div className="flex items-center">
           <textarea

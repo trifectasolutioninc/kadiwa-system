@@ -12,13 +12,21 @@ import { getDatabase, ref, get, onValue, off } from "firebase/database";
 const NavBttnAppHome = () => {
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
   const uid = sessionStorage.getItem("uid"); // Assuming you have the user's ID stored in sessionStorage
 
   useEffect(() => {
     const database = getDatabase();
+<<<<<<< Updated upstream
     const ordersRef = ref(database, "orders_list");
     const cartsRef = ref(database, "cart_collection");
 
+=======
+    const ordersRef = ref(database, 'orders_list');
+    const cartsRef = ref(database, 'cart_collection');
+    const chatRef = ref(database, `chat_collections`);
+  
+>>>>>>> Stashed changes
     const fetchPendingOrdersCount = async () => {
       try {
         // Fetch initial pending orders count
@@ -49,12 +57,43 @@ const NavBttnAppHome = () => {
       }
     };
 
+<<<<<<< Updated upstream
     fetchPendingOrdersCount();
 
+=======
+    const fetchUnreadMessagesCount = async () => {
+      try {
+        let unreadCount = 0;
+        const chatSnapshot = await get(chatRef);
+        chatSnapshot.forEach((chat) => {
+          const chatData = chat.val();
+          // Check if the consumer is equal to uid
+          if (chatData.consumer === uid) {
+            // Iterate through messages and count unread messages from bot and partner
+            Object.values(chatData.Chat).forEach((message) => {
+              if ((message.sender === 'bot' || message.sender === 'partner') && message.status === 'unread') {
+                unreadCount++;
+              }
+            });
+          }
+        });
+        setUnreadMessagesCount(unreadCount);
+      } catch (error) {
+        console.error('Error fetching unread messages count:', error);
+      }
+    };
+    
+    
+  
+    fetchPendingOrdersCount();
+    fetchUnreadMessagesCount();
+  
+>>>>>>> Stashed changes
     // Set up real-time listeners
-    const ordersListener = onValue(ordersRef, (snapshot) => {
+    const ordersListener = onValue(ordersRef, () => {
       fetchPendingOrdersCount();
     });
+<<<<<<< Updated upstream
 
     const cartsListener = onValue(cartsRef, (snapshot) => {
       fetchPendingOrdersCount();
@@ -64,9 +103,29 @@ const NavBttnAppHome = () => {
     return () => {
       off(ordersRef, "value", ordersListener);
       off(cartsRef, "value", cartsListener);
+=======
+  
+    const cartsListener = onValue(cartsRef, () => {
+      fetchPendingOrdersCount();
+    });
+
+    const chatListener = onValue(chatRef, () => {
+      fetchUnreadMessagesCount();
+    });
+  
+    // Clean up listeners
+    return () => {
+      off(ordersRef, 'value', ordersListener);
+      off(cartsRef, 'value', cartsListener);
+      off(chatRef, 'value', chatListener);
+>>>>>>> Stashed changes
     };
   }, [uid]);
+<<<<<<< Updated upstream
 
+=======
+  
+>>>>>>> Stashed changes
   return (
     <React.Fragment>
       <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-0 w-full z-50 rounded-t-md">
@@ -84,12 +143,19 @@ const NavBttnAppHome = () => {
           <Store />
           Stores
         </NavLink>
+<<<<<<< Updated upstream
         <NavLink
           to="chat"
           className="text-white text-xs flex flex-col items-center"
         >
+=======
+        <NavLink to="chat" className="text-white text-xs flex flex-col items-center relative">
+>>>>>>> Stashed changes
           <Chat />
           Chat
+          {unreadMessagesCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">{unreadMessagesCount}</span>
+          )}
         </NavLink>
         <NavLink
           to="cart"
