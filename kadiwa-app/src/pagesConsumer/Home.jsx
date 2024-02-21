@@ -180,7 +180,7 @@ const HomeConsumer = () => {
   };
 
   return (
-    <main className="p-3 md:px-10 space-y-5 mb-20">
+    <main className="p-3 md:px-10 space-y-5 mb-20 bg-neutral-100">
       <section id="topView" className="space-y-3">
         <h1 className="text-[2em] text-green-700 font-bold">
           Hello Kadiwa User!
@@ -206,7 +206,7 @@ const HomeConsumer = () => {
         </div>
       )}
 
-      <section className="sticky top-0 right-0 left-0 p-1 bg-white flex items-center justify-around ">
+      <section className="sticky top-0 right-0 left-0 p-1 bg-neutral-100 flex items-center justify-around ">
         <div className="flex-grow flex items-center">
           <div className="relative flex items-center bg-gray-300 rounded-md p-2 flex-grow">
             <Search className="text-gray-700 text-lg mr-2" />
