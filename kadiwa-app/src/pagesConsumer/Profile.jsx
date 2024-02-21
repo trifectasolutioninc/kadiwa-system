@@ -21,6 +21,8 @@ import { v4 as uuidv4 } from "uuid";
 import { imageConfig } from "../Configuration/config-file";
 import DeliveryPage from "./Delivery";
 import { FaPhoneAlt } from "react-icons/fa";
+import { MdDeliveryDining } from "react-icons/md";
+
 const deviceDetect = require("device-detect")();
 
 const ProfileConsumer = () => {
@@ -398,7 +400,7 @@ const ProfileConsumer = () => {
               to={"/main/orders/delivery/pending"}
               className="relative px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
-              <LocalShipping className="text-[1.2em] text-green-500" />
+              <MdDeliveryDining fontSize={"50px"} className=" text-green-500" />
               Delivery
               {pendingDeliveryCount > 0 && (
                 <Badge
