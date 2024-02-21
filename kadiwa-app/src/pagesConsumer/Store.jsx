@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { IoChatbubbleEllipses } from "react-icons/io5";
 import {
   LocationCityRounded,
   LocationOn,
@@ -70,7 +71,7 @@ const StoreConsumer = () => {
                   <Link
                     to={`/main/storepage/${store.id}`}
                     key={store.id}
-                    className="bg-slate-50 p-4 rounded-lg shadow-md items-center grid grid-cols-10 border"
+                    className="bg-slate-50 p-4 rounded-lg shadow-md items-center grid grid-cols-10 border hover:bg-green-50 "
                   >
                     {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                     <section className="col-span-9 text-left">
@@ -99,10 +100,10 @@ const StoreConsumer = () => {
                     </section>
                     <div className="col-span-1 flex justify-end ">
                       <Link
-                        to={`/main/storepage/${store.id}`}
+                        to={`/route/chatpage/${store.id}/store-home`}
                         className="text-center rounded-md bg-green-700 text-white px-4 py-2"
                       >
-                        Visit
+                        <IoChatbubbleEllipses />
                       </Link>
                     </div>
                   </Link>

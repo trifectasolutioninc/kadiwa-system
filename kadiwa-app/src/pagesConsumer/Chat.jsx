@@ -1,43 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { ref, child, get } from "firebase/database"; // Import Firebase database methods
+import { ref, child, get, remove } from "firebase/database";
 import configFirebaseDB from "../Configuration/config-firebase2";
 import { Link } from "react-router-dom";
 
 import BackButton from "./BackToHome";
 
-const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
-  const formatDate = (timestamp) => {
-    console.log("Raw Timestamp:", timestamp);
-    if (!timestamp) {
-      return ""; // Handle the case where timestamp is undefined or null
-    }
-
-    const [year, month, day, hour, minute, second] = timestamp.split("-");
-
-    const date = new Date(year, month - 1, day, hour, minute, second);
-
-    const options = {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    };
-
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-      date
-    );
-    return formattedDate.replace(/(\d{1,2}:\d{2}):(\d{2}) (AM|PM)/, "$1 $3");
-  };
-
+const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress }) => {
   const getLastMessage = () => {
     const messagesArray = Object.values(chatMessages);
     const lastMessage = messagesArray[messagesArray.length - 1];
 
     if (lastMessage) {
-      const formattedDate = formatDate(lastMessage.time);
-      return `${lastMessage.message} - ${formattedDate}`;
+      return `${lastMessage.message} - ${lastMessage.time}`;
     }
 
     return "No messages yet";
@@ -48,7 +22,13 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
       to={`/route/chatpage/${id.split("_")[1]}/chat`}
       className="no-underline"
     >
-      <li className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border">
+      <li
+        className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
+        onContextMenu={(e) => {
+          e.preventDefault();
+          onLongPress(id);
+        }}
+      >
         <div>
           <p className="font-semibold">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -60,6 +40,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date }) => {
 
 const Chat = () => {
   const [chatData, setChatData] = useState([]);
+  const [longPressedMessage, setLongPressedMessage] = useState(null);
   const uid = sessionStorage.getItem("uid");
 
   useEffect(() => {
@@ -89,6 +70,24 @@ const Chat = () => {
 
     fetchChatData();
   }, []);
+
+  const handleLongPress = (messageId) => {
+    setLongPressedMessage(messageId);
+  };
+
+  const handleDelete = async () => {
+    try {
+      // Remove the chat data from Firebase
+      await remove(child(ref(configFirebaseDB), `chat_collections/${longPressedMessage}`));
+      console.log("Message deleted successfully:", longPressedMessage);
+      setLongPressedMessage(null); // Clear longPressedMessage state after deletion
+      // Update chatData state to reflect the deletion
+      setChatData(prevChatData => prevChatData.filter(store => store.id !== longPressedMessage));
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+  
 
   return (
     <>
@@ -122,11 +121,35 @@ const Chat = () => {
                   logoAlt={`Store ${store.id} Logo`}
                   chatMessages={store.Chat}
                   date={store.date}
+                  onLongPress={handleLongPress}
                 />
               ))}
           </ul>
         </div>
       </main>
+
+      {/* Modal for delete confirmation */}
+      {longPressedMessage && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex  justify-center items-center">
+          <div className="bg-white p-4 rounded-md shadow-md">
+            <p>Are you sure you want to delete this message?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-md"
+                onClick={() => setLongPressedMessage(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
