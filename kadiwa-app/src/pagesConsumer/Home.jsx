@@ -55,44 +55,44 @@ const HomeConsumer = () => {
     // return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [selectedCommodity, sortBy, location.pathname, scrollPositions]);
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     // Show/hide Fab based on scroll position
-  //     setIsFabVisible(window.scrollY > 100);
-  //     // Adjust the threshold as needed
-  //   };
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show/hide Fab based on scroll position
+      setIsFabVisible(window.scrollY > 100);
+      // Adjust the threshold as needed
+    };
 
-  //   window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-  // const handleBackToTopClick = () => {
-  //   const scrollPosition = 0; // Scroll to the top
+  const handleBackToTopClick = () => {
+    const scrollPosition = 0; // Scroll to the top
 
-  //   window.scrollTo({
-  //     top: scrollPosition,
-  //     behavior: "smooth",
-  //   });
+    window.scrollTo({
+      top: scrollPosition,
+      behavior: "smooth",
+    });
 
-  //   // Save the new scroll position after a slight delay
-  //   setTimeout(() => {
-  //     sessionStorage.setItem(
-  //       "home_position",
-  //       JSON.stringify({ scrollPosition })
-  //     );
-  //     setScrollPositions((prevScrollPositions) => ({
-  //       ...prevScrollPositions,
-  //       [location.pathname]: { scrollPosition },
-  //     }));
+    // Save the new scroll position after a slight delay
+    setTimeout(() => {
+      sessionStorage.setItem(
+        "home_position",
+        JSON.stringify({ scrollPosition })
+      );
+      setScrollPositions((prevScrollPositions) => ({
+        ...prevScrollPositions,
+        [location.pathname]: { scrollPosition },
+      }));
 
-  //     setIsAtTop(true);
-  //   }, 800); // Adjust the delay as needed
+      setIsAtTop(true);
+    }, 800); // Adjust the delay as needed
 
-  //   setIsFabVisible(false);
-  // };
+    setIsFabVisible(false);
+  };
 
   // const handleProductLinkClick = (productCode) => {
   //   // Store scroll position and product code when clicking a product link
@@ -277,14 +277,14 @@ const HomeConsumer = () => {
       </section> */}
       <h1 className="text-center text-black/80">-End of Page-</h1>
 
-      {/* <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
+      <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
         <div
           className="rounded-full bg-green-700 px-2 py-2 text-white items-center justify-center flex"
           onClick={handleBackToTopClick}
         >
           <KeyboardArrowUpIcon fontSize="10px" />
         </div>
-      </div> */}
+      </div>
     </main>
   );
 };
