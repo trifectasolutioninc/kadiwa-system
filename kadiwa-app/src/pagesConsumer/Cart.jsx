@@ -260,7 +260,7 @@ const Cart = () => {
         {cartData !== null ? (
           <div>
             <div className="space-y-5 mt-14">
-              <section className="space-y-5  max-h-screen overflow-y-auto">
+              <section className="space-y-5  max-h-screen overflow-y-auto mb-40">
                 {Object.entries(cartData).map(([storeKey, storeInfo]) => (
                   <div
                     key={storeKey}
@@ -322,9 +322,19 @@ const Cart = () => {
                 ))}
               </section>
             </div>
-            <h1 className="text-center mt-10 mb-36 text-black/80">
-              -End of Page-
-            </h1>
+            <div className="fixed w-full bg-white bottom-20 right-2 left-2">
+              <div className=" bg-green-600 p-2 rounded-md flex justify-between">
+                <p className="font-bold text-white">
+                  Total: {getTotalPrice(cartData, selectedItems)}
+                </p>
+                <button
+                  className="bg-white px-4 rounded-md text-green-700"
+                  onClick={handleCheckout}
+                >
+                  <p>CHECKOUT</p>
+                </button>
+              </div>
+            </div>
           </div>
         ) : (
           <div>
@@ -340,6 +350,9 @@ const Cart = () => {
                   Delete
                 </button>
               </section>
+              <section>
+                <h1>Empty cart alert! Time to shop for farm joy.</h1>
+              </section>
               <div>
                 <div className="m-4 bg-green-600 p-2 rounded-md ">
                   <div className="m-4 bg-green-600 p-2 rounded-md flex justify-between">
@@ -353,7 +366,7 @@ const Cart = () => {
             </div>
           </div>
         )}
-        <div className="fixed bg-white bottom-20 right-2 left-2">
+        {/* <div className="fixed bg-white bottom-20 right-2 left-2">
           <div className=" bg-green-600 p-2 rounded-md flex justify-between">
             <p className="font-bold text-white">
               Total: {getTotalPrice(cartData, selectedItems)}
@@ -365,7 +378,7 @@ const Cart = () => {
               <p>CHECKOUT</p>
             </button>
           </div>
-        </div>
+        </div> */}
       </main>
     </>
   );

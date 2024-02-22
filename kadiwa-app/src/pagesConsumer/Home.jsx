@@ -275,7 +275,9 @@ const HomeConsumer = () => {
           </div>
         ))}
       </section> */}
-      <h1 className="text-center text-black/80">-End of Page-</h1>
+      <h1 className="text-center text-black/80">
+        Appreciate your interest! This marks the end of the page.
+      </h1>
 
       <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
         <div
