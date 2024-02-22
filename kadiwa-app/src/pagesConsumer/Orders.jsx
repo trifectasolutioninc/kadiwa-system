@@ -77,8 +77,7 @@ const Orders = () => {
             </h1>
           </div>
         </div>
-        <div className="mb-16 p-2"></div>
-        <div className=" bg-neutral-100 ">
+        <div className="mt-14 bg-neutral-100 ">
           {tab === "delivery" && (
             <div className="flex justify-between gap-3 overflow-x-hidden p-2">
               <button
