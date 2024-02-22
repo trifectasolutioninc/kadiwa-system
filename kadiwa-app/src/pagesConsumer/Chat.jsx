@@ -7,18 +7,31 @@ import BackButton from "./BackToHome";
 
 const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelete }) => {
   const [startX, setStartX] = useState(null);
+  const [offsetX, setOffsetX] = useState(0);
 
   const handleTouchStart = (e) => {
     setStartX(e.touches[0].clientX);
   };
 
-  const handleTouchEnd = (e) => {
-    const distX = e.changedTouches[0].clientX - startX;
-    if (distX < -50) {
-      onDelete();
+  const handleTouchMove = (e) => {
+    if (startX !== null) {
+      const currentX = e.touches[0].clientX;
+      const diffX = currentX - startX;
+      setOffsetX(diffX);
+      console.log(offsetX);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (startX !== null && offsetX < -50) {
+      
+      onDelete(id);
     }
     setStartX(null);
+    setOffsetX(0);
   };
+
+
 
   const getLastMessage = () => {
     const messagesArray = Object.values(chatMessages);
@@ -45,7 +58,9 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelet
     <Link to={`/route/chatpage/${id.split("_")[1]}/chat`} className="no-underline">
       <li className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
           onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}>
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{ transform: `translateX(${offsetX}px)`, transition: "transform 0.3s ease" }}>
         <div>
           <p className="font-semibold text-green-800">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -100,6 +115,7 @@ const Chat = () => {
   const handleDelete = async () => {
     try {
       // Remove the chat data from Firebase
+   
       await remove(
         child(ref(configFirebaseDB), `chat_collections/${longPressedMessage}`)
       );
@@ -116,7 +132,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md overflow-x-hidden">
         <div className="flex items-center gap-5 ">
           <BackButton />
           <h1 className="text-xl text-neutral-100  font-bold">Messages</h1>
@@ -148,7 +164,7 @@ const Chat = () => {
   chatMessages={store.Chat}
   date={store.date}
   onLongPress={handleLongPress}
-  onDelete={() => handleDelete(store.id)} // Pass onDelete handler
+  onDelete={() => handleLongPress(store.id)} // Pass onDelete handler
 />
 
               ))}
