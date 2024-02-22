@@ -241,6 +241,16 @@ const Cart = () => {
     });
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openDeleteModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
@@ -250,12 +260,14 @@ const Cart = () => {
             Cart ({getTotalQuantity(cartData)})
           </h1>
         </div>
-        <button
-          className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1"
-          onClick={handleDelete}
-        >
-          Delete
-        </button>
+        {Object.keys(selectedItems).length > 0 && (
+          <button
+            className="text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1"
+            onClick={openDeleteModal}
+          >
+            Delete
+          </button>
+        )}
       </section>
       <main className="p-3 md:p-10 space-y-5">
         {cartData !== null && Object.keys(cartData).length > 0 ? (
@@ -339,7 +351,7 @@ const Cart = () => {
           </div>
         ) : (
           <div className="flex items-center justify-center h-screen">
-            <section className="fixed flex flex-col items-center text-center p-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
+            <section className="fixed flex flex-col items-center text-center p-5 mx-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
               <IoCartOutline fontSize={"50px"} className="text-green-600" />
               <h1 className="text-black/80 font-semibold">
                 Empty cart alert! Time to shop for farm joy.
@@ -367,6 +379,30 @@ const Cart = () => {
           </div>
         </div> */}
       </main>
+      {isOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex  justify-center items-center"
+          onClick={closeDeleteModal}
+        >
+          <div className="bg-white  w-3/4 p-4 rounded-md shadow-md">
+            <p>Are you sure you want to remove this product?</p>
+            <div className="flex justify-end mt-4 gap-3">
+              <button
+                className="px-3 py-2  rounded-md text-black/80"
+                onClick={closeDeleteModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
