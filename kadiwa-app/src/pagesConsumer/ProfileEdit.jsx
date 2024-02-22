@@ -35,6 +35,10 @@ const ProfileEdit = () => {
         </div>
         <hr />
         <div className=' py-2 '>
+          <NavLink to={"/route/myaddresses"} className=''>My Addresses</NavLink>
+        </div>
+        <hr />
+        <div className=' py-2 '>
           <button className=' '>Account and Security</button>
         </div>
         

@@ -11,6 +11,7 @@ import InboxPage from '../pagesPartner/InboxPage';
 import Payment from '../pagesPartner/Payment';
 import Checkout from '../pagesConsumer/Checkout';
 import PersonalInfoPage from '../pagesConsumer/Profile/Account_Management/PersonalInfoPage';
+import MyAddresses from '../pagesConsumer/Profile/Account_Management/MyAddresses';
 
 
 
@@ -31,7 +32,7 @@ const RouteLink  = () => {
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
         <Route path="chatpage/:storeID/:page"  element={<ChatPage />} />
-        <Route path="profileinfo"  element={<ProfileInfo />} />
+        <Route path="myaddresses"  element={<MyAddresses/>} />
         <Route path="profileedit"  element={<ProfileEdit />} />
         <Route path="delivery"  element={<DeliveryPage />} />
         <Route path="pickup"  element={<PickupPage />} />

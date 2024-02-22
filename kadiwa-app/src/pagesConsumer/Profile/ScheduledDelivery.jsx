@@ -31,7 +31,7 @@ const ScheduledDelivery = () => {
                         onChange={onChange}
                         value={date}
                         className="w-full"
-                        calendarType="US"
+                        calendarType="gregory"
                     />
                 </div>
             </div>
