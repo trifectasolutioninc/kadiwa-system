@@ -287,18 +287,18 @@ const Chat = () => {
         <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex  justify-center items-center">
           <div className="bg-white  w-3/4 p-4 rounded-md shadow-md">
             <p>Are you sure you want to delete this message?</p>
-            <div className="flex justify-end mt-4">
+            <div className="flex justify-end mt-4 gap-3">
+              <button
+                className="px-3 py-2  rounded-md"
+                onClick={() => setLongPressedMessage(null)}
+              >
+                Cancel
+              </button>
               <button
                 className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
                 onClick={handleDelete}
               >
                 Delete
-              </button>
-              <button
-                className="px-4 py-2 bg-gray-300 rounded-md"
-                onClick={() => setLongPressedMessage(null)}
-              >
-                Cancel
               </button>
             </div>
           </div>

@@ -75,7 +75,9 @@ const HomeConsumer = () => {
       navigate("/main/"); // Navigate to home page if search length is 0
     } else {
       if (searchQuery.trim().length > 0) {
-        navigate(`/main/search?query=${encodeURIComponent(searchQuery.trim())}`);
+        navigate(
+          `/main/search?query=${encodeURIComponent(searchQuery.trim())}`
+        );
       } // Navigate to search page if search length is more than 0
     }
   };
@@ -180,12 +182,14 @@ const HomeConsumer = () => {
           <Search onClick={handleSearch} className="text-gray-700 text-lg" />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search something..."
             className="w-full bg-gray-300 text-black/80 focus:outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button onClick={handleSearch}>Search</button>
+          <button onClick={handleSearch} className="text-black/80">
+            Search
+          </button>
         </div>
       </section>
 

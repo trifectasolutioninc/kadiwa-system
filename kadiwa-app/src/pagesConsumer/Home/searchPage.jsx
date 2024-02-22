@@ -31,7 +31,9 @@ const SearchPage = () => {
         const results = Object.values(productsData).filter(
           (product) =>
             product.product_name.toLowerCase().includes(query.toLowerCase()) ||
-            product.commodity_type.toLowerCase().includes(query.toLowerCase()) ||
+            product.commodity_type
+              .toLowerCase()
+              .includes(query.toLowerCase()) ||
             product.keywords.toLowerCase().includes(query.toLowerCase())
         );
         setSearchResults(results);
@@ -48,49 +50,52 @@ const SearchPage = () => {
 
   return (
     <>
-   
-    <section className="sticky top-0 right-0 left-0 p-1 bg-neutral-100 ">
-      <div className="relative flex items-center bg-gray-300 rounded-md p-2 w-full">
-      <NavLink to={"/main"} className="">
-        <IoChevronBack fontSize={"25px"} />
-      </NavLink>
-       
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full bg-gray-300 text-black/80 focus:outline-none"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      {/* Display search results below */}
-      <ul>
-        {searchResults.map((product) => (
-            <Link to={`/main/productinfo/${product.product_code}/home`}>
+      <main className="px-3 md:px-10">
+        <section className=" right-0 left-0 bg-neutral-100 z-10 ">
+          <div className="bg-neutral-100 sticky top-0 pt-4">
+            <div className=" flex items-center bg-gray-300 rounded-md p-2 w-full">
+              <NavLink to={"/main"} className="">
+                <IoChevronBack fontSize={"25px"} />
+              </NavLink>
 
-<div>
-                       <div key={product.product_code} className=" bg-white px-4 flex justify-between py-1">
-            <div>
-            <p className=" font-semibold text-gray-700">{product.product_name}</p>
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full bg-gray-300 text-black/80 focus:outline-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button onClick={handleSearch}>Search</button>
             </div>
-            <div>
-            <p className=" px-2 bg-green-200 text-gray-600 rounded-lg">{product.category}</p>
-            </div>
-          
-            
-       
-        
           </div>
-          <hr />
 
-            </div>
-            
-            </Link>
-           
-       ))}
-      </ul>
-    </section>
+          {/* Display search results below */}
+          <ul className="mt-5 mb-28">
+            {searchResults.map((product) => (
+              <Link to={`/main/productinfo/${product.product_code}/home`}>
+                <div>
+                  <div
+                    key={product.product_code}
+                    className=" bg-white p-3 flex justify-between  rounded-md my-2"
+                  >
+                    <div>
+                      <p className=" font-semibold text-gray-700">
+                        {product.product_name}
+                      </p>
+                    </div>
+                    <div>
+                      <p className=" px-2 bg-green-200 text-gray-600 rounded-lg">
+                        {product.category}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+            <h1 className="text-center text-black/80">End of Results</h1>
+          </ul>
+        </section>
+      </main>
     </>
   );
 };
