@@ -279,7 +279,7 @@ const ProfileConsumer = () => {
                 
                 </div>
                 <div>
-                <p> {userData.first_name + " " + userData.last_name}</p>
+                <p> {userData.fullname}</p>
                 <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
                   <FaPhoneAlt fontSize={"0.8em"} />
                   <p> {userData.contact}</p>
