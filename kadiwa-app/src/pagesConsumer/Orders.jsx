@@ -67,7 +67,7 @@ const Orders = () => {
   return (
     <div className="h-screen">
       <div className=" flex flex-col">
-        <div className="bg-green-700 pb-2 shadow-md top-0 fixed w-full">
+        <div className="bg-green-700 shadow-md top-0 fixed w-full">
           <div className="flex items-center gap-5 p-3">
             <NavLink to={"/main/profile"} className="">
               <IoMdArrowRoundBack fontSize={"25px"} />
@@ -80,18 +80,18 @@ const Orders = () => {
         <div className="mb-16 p-2"></div>
         <div className=" bg-neutral-100 ">
           {tab === "delivery" && (
-            <div className="flex justify-between gap-3 overflow-x-hidden mx-6">
+            <div className="flex justify-between gap-3 overflow-x-hidden p-2">
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "pending" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Pending")}
               >
-                <MdDeliveryDining fontSize={"25px"} className=" mx-auto" />
+                <MdDeliveryDining fontSize={"28px"} className=" mx-auto" />
                 To Ship
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "to receive" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("To Receive")}
@@ -100,7 +100,7 @@ const Orders = () => {
                 To Receive
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "completed" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Completed")}
@@ -109,7 +109,7 @@ const Orders = () => {
                 Completed
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "cancelled" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Cancelled")}
@@ -120,63 +120,63 @@ const Orders = () => {
             </div>
           )}
           {tab === "pickup" && (
-            <div className="flex justify-around gap-3 overflow-x-auto mx-6">
+            <div className="flex justify-between gap-3 overflow-x-hidden  p-2">
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "pending" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Pending")}
               >
-                <FaBoxOpen className=" mx-auto" />
-                <span>To Pack</span>
+                <FaBoxOpen fontSize={"25px"} className=" mx-auto my-0.5" />
+                To Pack
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "to distribute" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("To Distribute")}
               >
-                <FaBox className=" mx-auto" />
+                <FaBox fontSize={"20px"} className=" mx-auto" />
                 To Distribute
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "completed" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Completed")}
               >
-                <FaCheckCircle className=" mx-auto" />
+                <FaCheckCircle fontSize={"20px"} className=" mx-auto" />
                 Completed
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "cancelled" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Cancelled")}
               >
-                <FiMinusCircle className=" mx-auto" />
+                <FiMinusCircle fontSize={"20px"} className=" mx-auto" />
                 Cancelled
               </button>
             </div>
           )}
           {tab === "history" && (
-            <div className="flex justify-around gap-3 overflow-x-auto mx-6">
+            <div className="flex justify-between gap-3 overflow-x-hidden  p-2">
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "completed" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Completed")}
               >
-                <FaCheckCircle className=" mx-auto" />
+                <FaCheckCircle fontSize={"20px"} className=" mx-auto my-0.5" />
                 Completed
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "cancelled" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Cancelled")}
               >
-                <FiMinusCircle className=" mx-auto" />
+                <FiMinusCircle fontSize={"20px"} className=" mx-auto" />
                 Cancelled
               </button>
             </div>
