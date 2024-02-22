@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ref, child, get, remove } from "firebase/database";
 import configFirebaseDB from "../Configuration/config-firebase2";
 import FirebaseDB from "../Configuration/config";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   LocationCityRounded,
   LocationOn,
@@ -11,7 +11,15 @@ import {
 
 import BackButton from "./BackToHome";
 
-const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelete }) => {
+const StoreCard = ({
+  id,
+  name,
+  logoAlt,
+  chatMessages,
+  date,
+  onLongPress,
+  onDelete,
+}) => {
   const [startX, setStartX] = useState(null);
   const [offsetX, setOffsetX] = useState(0);
 
@@ -30,14 +38,11 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelet
 
   const handleTouchEnd = () => {
     if (startX !== null && offsetX < -50) {
-
       onDelete(id);
     }
     setStartX(null);
     setOffsetX(0);
   };
-
-
 
   const getLastMessage = () => {
     const messagesArray = Object.values(chatMessages);
@@ -45,14 +50,19 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelet
 
     if (lastMessage) {
       const boldStyle = {
-        fontWeight: "bold"
+        fontWeight: "bold",
       };
 
-      const messageStyle = lastMessage.status === "unread" && lastMessage.sender === "partner" ? boldStyle : {};
+      const messageStyle =
+        lastMessage.status === "unread" && lastMessage.sender === "partner"
+          ? boldStyle
+          : {};
 
       return (
         <div>
-          <p style={messageStyle}>{lastMessage.message} - {lastMessage.time}</p>
+          <p style={messageStyle}>
+            {lastMessage.message} - {lastMessage.time}
+          </p>
         </div>
       );
     }
@@ -61,12 +71,20 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelet
   };
 
   return (
-    <Link to={`/route/chatpage/${id.split("_")[1]}/chat`} className="no-underline">
-      <li className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
+    <Link
+      to={`/route/chatpage/${id.split("_")[1]}/chat`}
+      className="no-underline"
+    >
+      <li
+        className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
-        style={{ transform: `translateX(${offsetX}px)`, transition: "transform 0.3s ease" }}>
+        style={{
+          transform: `translateX(${offsetX}px)`,
+          transition: "transform 0.3s ease",
+        }}
+      >
         <div>
           <p className="font-semibold text-green-800">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -181,15 +199,18 @@ const Chat = () => {
               className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
             />
           </div>
-        </div >
-        <div className=" h-1/2 ">
-          <p className="text-[1em] mx-2">Chats</p>
+        </div>
+        <div className=" h-1/2 space-y-2">
+          <p className="text-[1em] mx-2 text-black/80 font-medium">Chats</p>
           <div className="container mx-auto mb-16">
             <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-              {chatData.filter((store) => uid === store.id.split("_")[0]).length === 0 ? (
-                <div className=" text-center text-gray-400">
-                  <p>Empty Chats</p>
-                </div>
+              {chatData.filter((store) => uid === store.id.split("_")[0])
+                .length === 0 ? (
+                <section className="flex flex-col items-center text-center p-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
+                  <h1 className="text-black/80 font-semibold">
+                    Chat box empty! Ask us anything you fancy.
+                  </h1>
+                </section>
               ) : (
                 chatData
                   .filter((store) => uid === store.id.split("_")[0])
@@ -207,14 +228,13 @@ const Chat = () => {
                     />
                   ))
               )}
-
-
             </ul>
           </div>
-
         </div>
-        <div className=" h-1/2">
-          <p className="text-[1em] mx-2">Suggestions</p>
+        <div className=" h-1/2 space-y-2">
+          <p className="text-[1em] mx-2 text-black/80 font-medium">
+            Suggested Stores Near You
+          </p>
           <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {storeList.map(
               (store) =>
@@ -232,34 +252,33 @@ const Chat = () => {
                       {storeAddressData.find(
                         (address) => address.id === store.id
                       ) && (
-                          <p className=" text-gray-500">
-                            <LocationOn fontSize="25px" />
-                            {
-                              storeAddressData.find(
-                                (address) => address.id === store.id
-                              ).city
-                            }
-                            ,{" "}
-                            {
-                              storeAddressData.find(
-                                (address) => address.id === store.id
-                              ).province
-                            }
-                          </p>
-                        )}
+                        <p className=" text-gray-500">
+                          <LocationOn fontSize="25px" />
+                          {
+                            storeAddressData.find(
+                              (address) => address.id === store.id
+                            ).city
+                          }
+                          ,{" "}
+                          {
+                            storeAddressData.find(
+                              (address) => address.id === store.id
+                            ).province
+                          }
+                        </p>
+                      )}
 
                       <p className=" text-gray-500">Partner</p>
                     </section>
-                    <div className="col-span-1 flex justify-end ">
-
-                    </div>
+                    <div className="col-span-1 flex justify-end "></div>
                   </Link>
                 )
             )}
           </section>
         </div>
-
-
+        <h1 className="text-center text-black/80">
+          Appreciate your interest! This marks the end of the page.
+        </h1>
         <div className=" h-16"></div>
       </main>
 

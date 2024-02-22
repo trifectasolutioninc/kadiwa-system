@@ -6,6 +6,7 @@ import { ref, get, remove, update } from "firebase/database";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import BackButton from "./BackToHome";
+import { IoCartOutline } from "react-icons/io5";
 
 const Cart = () => {
   const uid = sessionStorage.getItem("uid");
@@ -257,10 +258,10 @@ const Cart = () => {
         </button>
       </section>
       <main className="p-3 md:p-10 space-y-5">
-        {cartData !== null ? (
+        {cartData !== null && Object.keys(cartData).length > 0 ? (
           <div>
             <div className="space-y-5 mt-14">
-              <section className="space-y-5  max-h-screen overflow-y-auto mb-40">
+              <section className="space-y-5 mb-40">
                 {Object.entries(cartData).map(([storeKey, storeInfo]) => (
                   <div
                     key={storeKey}
@@ -322,7 +323,7 @@ const Cart = () => {
                 ))}
               </section>
             </div>
-            <div className="fixed w-full bg-white bottom-20 right-2 left-2">
+            <div className="fixed bg-neutral-100 bottom-16 right-2 left-2 px-1 pb-4 border-0">
               <div className=" bg-green-600 p-2 rounded-md flex justify-between">
                 <p className="font-bold text-white">
                   Total: {getTotalPrice(cartData, selectedItems)}
@@ -337,33 +338,19 @@ const Cart = () => {
             </div>
           </div>
         ) : (
-          <div>
-            <div>
-              <section className="flex items-center justify-between">
-                <div className="flex items-center gap-5 ">
-                  <BackButton />
-                  <h1 className="text-xl text-green-600  font-bold">
-                    Cart (0)
-                  </h1>
-                </div>
-                <button className=" text-white bg-red-500 hover:bg-red-600 rounded-md px-3 py-1">
-                  Delete
-                </button>
-              </section>
-              <section>
-                <h1>Empty cart alert! Time to shop for farm joy.</h1>
-              </section>
-              <div>
-                <div className="m-4 bg-green-600 p-2 rounded-md ">
-                  <div className="m-4 bg-green-600 p-2 rounded-md flex justify-between">
-                    <p className="font-bold text-white">Total: 0</p>
-                    <button className="bg-white px-4 rounded-md text-green-700">
-                      <p>CHECKOUT</p>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex items-center justify-center h-screen">
+            <section className="fixed flex flex-col items-center text-center p-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
+              <IoCartOutline fontSize={"50px"} className="text-green-600" />
+              <h1 className="text-black/80 font-semibold">
+                Empty cart alert! Time to shop for farm joy.
+              </h1>
+              <NavLink
+                to={"/main"}
+                className="border border-green-500 p-2 rounded-md bg-green-50 text-green-900"
+              >
+                See Categories
+              </NavLink>
+            </section>
           </div>
         )}
         {/* <div className="fixed bg-white bottom-20 right-2 left-2">
