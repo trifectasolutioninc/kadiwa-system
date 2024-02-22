@@ -357,7 +357,7 @@ const Cart = () => {
                 Empty cart alert! Time to shop for farm joy.
               </h1>
               <NavLink
-                to={"/main"}
+                to={"/main#categoryFood"}
                 className="border border-green-500 p-2 rounded-md bg-green-50 text-green-900"
               >
                 See Categories

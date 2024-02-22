@@ -193,7 +193,7 @@ const HomeConsumer = () => {
         </div>
       </section>
 
-      <section>
+      <section id="categoryFood">
         <GoodsCluster />
       </section>
 
