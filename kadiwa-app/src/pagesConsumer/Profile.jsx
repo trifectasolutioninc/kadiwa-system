@@ -24,6 +24,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { MdDeliveryDining } from "react-icons/md";
 import { MdHistory } from "react-icons/md";
 import { RiTimer2Fill } from "react-icons/ri";
+import { IoPersonCircle } from "react-icons/io5";
 
 const deviceDetect = require("device-detect")();
 
@@ -272,12 +273,21 @@ const ProfileConsumer = () => {
               </div>
             </div>
             <div className="absolute inset-0  justify-end flex-col p-4 flex">
-              <div className=" text-[1.5em] text-white">
+              <div className=" flex text-[1.5em] text-white">
+                <div className=" flex items-center ">
+                <IoPersonCircle className=" text-[2.5em]" />
+                
+                </div>
+                <div>
                 <p> {userData.first_name + " " + userData.last_name}</p>
-                <div className=" text-gray-100 text-[0.8em] flex items-center gap-2">
+                <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
                   <FaPhoneAlt fontSize={"0.8em"} />
                   <p> {userData.contact}</p>
                 </div>
+
+                </div>
+                
+                
               </div>
             </div>
           </section>
@@ -300,15 +310,22 @@ const ProfileConsumer = () => {
               </div>
             </div>
             <div className="absolute inset-0  justify-end flex-col p-4 flex">
-              <div className=" text-[1.5em] text-white">
-                <p className=" bg-gray-300 px-5 py-3 mb-2 w-2/3 rounded-md">
-                  {" "}
-                </p>
-                <div className=" text-gray-100 text-[0.8em] flex items-center gap-2">
-                  <FaPhoneAlt fontSize={"0.8em"} />
+              <div className=" flex text-[1.5em] text-white">
+              <div className=" flex items-center ">
+                <IoPersonCircle className=" text-[2.5em]" />
+                
+                </div>
+                <div className=" w-full">
+                <p className=" bg-gray-300 px-5 py-3 mb-2 w-2/3 rounded-md"></p>
+                <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
+                <FaPhoneAlt fontSize={"0.8em"} />
                   <p className=" bg-gray-300 px-5 py-3 w-1/2 rounded-md"> </p>
                 </div>
-              </div>
+
+                </div>
+                
+             
+                </div>
             </div>
           </section>
         )}
@@ -435,7 +452,7 @@ const ProfileConsumer = () => {
               Transaction History
             </Link>
             <Link
-              to={"/main/orders/history/completed"}
+              to={"/main/scheduled"}
               className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
               <RiTimer2Fill fontSize={"25px"} className=" text-green-500" />

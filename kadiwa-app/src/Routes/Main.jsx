@@ -19,6 +19,7 @@ import OrdersData from "../pagesConsumer/Orders/OrdersData";
 import Wallet from "../pagesConsumer/Wallet";
 import ProductsPage from "../pagesConsumer/Products/ProductsPage";
 import SearchPage from "../pagesConsumer/Home/searchPage";
+import ScheduledDelivery from "../pagesConsumer/Profile/ScheduledDelivery";
 
 
 const ConsumerMain = () => {
@@ -60,6 +61,7 @@ const ConsumerMain = () => {
         />
         <Route path="Wallet" element={<Wallet />} />
         <Route path="products-page/:category" element={<ProductsPage />} />
+        <Route path="scheduled" element={<ScheduledDelivery />} />
       </Routes>
       <NavBttnAppHome />
     </div>
