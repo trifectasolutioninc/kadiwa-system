@@ -65,88 +65,82 @@ const PersonalInfoPage = () => {
   }
 
   return (
-    <div className="h-screen">
-      <div className="max-w-2xl mx-auto">
-        <div className="">
-          <div className="p-4 flex items-center gap-5 bg-green-700 border-b">
-            <NavLink to={"/route/profileedit"}>
-              <IoMdArrowRoundBack fontSize={"25px"} />
-            </NavLink>
-            <h1 className="text-lg text-neutral-100 font-bold">Edit Profile</h1>
-            <div></div> {/* Placeholder for alignment */}
-          </div>
-          <div className="p-6">
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Full Name
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-black/80 leading-tight focus:outline-none focus:shadow-outline"
-                type="text"
-                name="fullname"
-                value={userInformation.fullname}
-                onChange={handleInputChange}
-                maxLength={35}
+    <>
+      <div className="p-3 flex items-center gap-5 bg-green-700 border-b">
+        <NavLink to={"/route/profileedit"}>
+          <IoMdArrowRoundBack fontSize={"25px"} />
+        </NavLink>
+        <h1 className="text-lg text-neutral-100 font-bold">Edit Profile</h1>
+        <div></div> {/* Placeholder for alignment */}
+      </div>
+      <div className="p-6">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Full Name
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-black/80 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            name="fullname"
+            value={userInformation.fullname}
+            onChange={handleInputChange}
+            maxLength={35}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Birthday
+          </label>
+          <div className="relative border rounded w-full bg-white shadow">
+            <div className="absolute top-0 right-0 m-3  text-gray-600 w-fit cursor-pointer">
+              <FaCalendar
+                onClick={() => document.getElementById("datepicker").click()}
               />
             </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Birthday
-              </label>
-              <div className="relative border rounded w-full bg-white shadow">
-                <div className="absolute top-0 right-0 m-3  text-gray-600 w-fit cursor-pointer">
-                  <FaCalendar
-                    onClick={() =>
-                      document.getElementById("datepicker").click()
-                    }
-                  />
-                </div>
-                <DatePicker
-                  id="datepicker"
-                  className="appearance-none w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  selected={selectedDate}
-                  onChange={(date) => {
-                    setSelectedDate(date);
-                    setUserInformation((prevState) => ({
-                      ...prevState,
-                      bday: date.toISOString().split("T")[0],
-                    }));
-                  }}
-                />
-              </div>
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Gender
-              </label>
-              <select
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="gender"
-                value={selectedGender}
-                onChange={(e) => {
-                  setSelectedGender(e.target.value);
-                  setUserInformation((prevState) => ({
-                    ...prevState,
-                    gender: e.target.value,
-                  }));
-                }}
-              >
-                <option value="N/A">N/A</option> {/* Default value */}
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={handleSaveChanges}
-            >
-              Save Changes
-            </button>
+            <DatePicker
+              id="datepicker"
+              className="appearance-none w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              selected={selectedDate}
+              onChange={(date) => {
+                setSelectedDate(date);
+                setUserInformation((prevState) => ({
+                  ...prevState,
+                  bday: date.toISOString().split("T")[0],
+                }));
+              }}
+            />
           </div>
         </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Gender
+          </label>
+          <select
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="gender"
+            value={selectedGender}
+            onChange={(e) => {
+              setSelectedGender(e.target.value);
+              setUserInformation((prevState) => ({
+                ...prevState,
+                gender: e.target.value,
+              }));
+            }}
+          >
+            <option value="N/A">N/A</option> {/* Default value */}
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          onClick={handleSaveChanges}
+        >
+          Save Changes
+        </button>
       </div>
-    </div>
+    </>
   );
 };
 
