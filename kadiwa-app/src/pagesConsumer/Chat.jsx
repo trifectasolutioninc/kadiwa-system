@@ -247,7 +247,9 @@ const Chat = () => {
                   >
                     {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                     <section className="col-span-9 text-left">
-                      <p className="text-lg font-semibold">{store.name}</p>
+                      <p className="text-lg font-semibold text-black/80">
+                        {store.name}
+                      </p>
                       <p className=" text-gray-500">{store.type}</p>
                       {storeAddressData.find(
                         (address) => address.id === store.id
