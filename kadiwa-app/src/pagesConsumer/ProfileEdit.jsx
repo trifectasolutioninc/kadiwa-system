@@ -37,6 +37,14 @@ const ProfileEdit = () => {
           </NavLink>
           <hr />
           <NavLink
+            to={"/route/myaddresses"}
+            className=" w-full p-2 flex items-center justify-between text-black/80"
+          >
+            My Address
+            <IoIosArrowForward />
+          </NavLink>
+          <hr />
+          <NavLink
             to={""}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
