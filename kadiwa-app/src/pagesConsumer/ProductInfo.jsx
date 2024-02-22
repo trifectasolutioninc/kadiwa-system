@@ -31,9 +31,14 @@ const ProductDetails = ({ productDetails }) => {
     <>
       <div className="p-3 md:p-10 space-y-5">
         <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
-          <NavLink to={`/main/products-page/${category}`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
+      { category === "home" ? (<NavLink to={`/main`} className="">
+        <IoMdArrowRoundBack fontSize={"25px"} />
+      </NavLink>) : (
+        <NavLink to={`/main/products-page/${category}`} className="">
+        <IoMdArrowRoundBack fontSize={"25px"} />
+      </NavLink>
+
+      )}
           <h1 className="text-xl font-bold  text-neutral-100">
             Product Details
           </h1>

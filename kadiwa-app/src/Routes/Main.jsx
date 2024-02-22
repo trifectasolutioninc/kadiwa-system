@@ -18,6 +18,8 @@ import Orders from "../pagesConsumer/Orders";
 import OrdersData from "../pagesConsumer/Orders/OrdersData";
 import Wallet from "../pagesConsumer/Wallet";
 import ProductsPage from "../pagesConsumer/Products/ProductsPage";
+import SearchPage from "../pagesConsumer/Home/searchPage";
+
 
 const ConsumerMain = () => {
   useEffect(() => {
@@ -38,6 +40,7 @@ const ConsumerMain = () => {
         <Route path="chat" element={<Chat />} />
         <Route path="cart" element={<Cart />} />
         <Route path="profile" element={<ProfileConsumer />} />
+        <Route path="search" element={<SearchPage />} />
         <Route
           path="productinfo/:productCode/:category"
           element={<ProductDetails />}

@@ -3,7 +3,7 @@ import { LocationOn, Search } from "@mui/icons-material";
 import { imageConfig, commodityTypes } from "../Configuration/config-file";
 import configFirebaseDB from "../Configuration/config";
 import { ref, get } from "firebase/database";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Changed to useNavigate
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import GoodsCluster from "./Products/GoodsCluster";
 
@@ -17,6 +17,8 @@ const HomeConsumer = () => {
   const [isAtTop, setIsAtTop] = useState(true);
   const location = useLocation();
   const home_position = sessionStorage.getItem("home_position");
+  const navigate = useNavigate(); // Using useNavigate hook instead of useHistory
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [scrollPositions, setScrollPositions] = useState({});
   console.log(isFabVisible);
@@ -27,32 +29,6 @@ const HomeConsumer = () => {
     displayProducts(selectedCommodity);
     // Fetch and display user location
     fetchUserLocation();
-
-    // Delayed smooth scroll to the stored position
-    // const storedPosition = JSON.parse(home_position);
-    // const scrollPosition =
-    //   storedPosition?.scrollPosition ||
-    //   scrollPositions[location.pathname]?.scrollPosition;
-
-    // const scrollToStoredPosition = () => {
-    //   if (scrollPosition !== undefined) {
-    //     window.scrollTo({
-    //       top: scrollPosition,
-    //     });
-    //     // If the stored scroll position is not at the top, set isAtTop to false
-    //     setIsAtTop(scrollPosition === 0);
-    //   } else {
-    //     window.scrollTo({
-    //       top: 0,
-    //     });
-    //   }
-    // };
-
-    // const delay = 800;
-
-    // const timeoutId = setTimeout(scrollToStoredPosition, delay);
-
-    // return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, [selectedCommodity, sortBy, location.pathname, scrollPositions]);
 
   useEffect(() => {
@@ -94,22 +70,15 @@ const HomeConsumer = () => {
     setIsFabVisible(false);
   };
 
-  // const handleProductLinkClick = (productCode) => {
-  //   // Store scroll position and product code when clicking a product link
-  //   const scrollPosition = window.scrollY;
-  //   sessionStorage.setItem(
-  //     "home_position",
-  //     JSON.stringify({ scrollPosition, productCode })
-  //   );
-  //   setScrollPositions((prevScrollPositions) => ({
-  //     ...prevScrollPositions,
-  //     [location.pathname]: { scrollPosition, productCode },
-  //   }));
-  // };
-
-  // const handleCommodityClick = (commodityType) => {
-  //   setSelectedCommodity(commodityType);
-  // };
+  const handleSearch = () => {
+    if (searchQuery.length === 0) {
+      navigate("/main/"); // Navigate to home page if search length is 0
+    } else {
+      if (searchQuery.trim().length > 0) {
+        navigate(`/main/search?query=${encodeURIComponent(searchQuery.trim())}`);
+      } // Navigate to search page if search length is more than 0
+    }
+  };
 
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
@@ -208,12 +177,15 @@ const HomeConsumer = () => {
 
       <section className="sticky top-0 right-0 left-0 p-1 bg-neutral-100 flex items-center justify-around ">
         <div className="relative flex items-center bg-gray-300 rounded-md p-2 w-full">
-          <Search className="text-gray-700 text-lg" />
+          <Search onClick={handleSearch} className="text-gray-700 text-lg" />
           <input
             type="text"
             placeholder="Search..."
             className="w-full bg-gray-300 text-black/80 focus:outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <button onClick={handleSearch}>Search</button>
         </div>
       </section>
 
@@ -221,60 +193,6 @@ const HomeConsumer = () => {
         <GoodsCluster />
       </section>
 
-      {/* <section className="overflow-x-auto flex gap-3">
-        {commodityTypes.map((commodityType, index) => (
-          <button
-            key={index}
-            className={`w-full border-green-700 border ${
-              selectedCommodity === commodityType
-                ? "bg-green-700 text-white"
-                : "text-green-700 bg-white"
-            }  rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
-            data-commodity-type={commodityType}
-            onClick={() => handleCommodityClick(commodityType)}
-          >
-            {commodityType}
-          </button>
-        ))}
-      </section> */}
-
-      {/* <section
-        id="productlist"
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-      >
-        {products.map((product, index) => (
-          <div
-            key={index}
-            className="container p-2 bg-white rounded-lg shadow-md"
-          >
-            <Link
-              to={`/main/productinfo/${product.product_code}`}
-              onClick={() => handleProductLinkClick(product.product_code)}
-              className="flex flex-col space-y-5"
-            >
-              <div className="h-52 overflow-hidden">
-                <img
-                  id={`product${product.product_code}`}
-                  alt={product.product_name}
-                  className="w-full h-full object-cover"
-                  src={imageConfig[product.keywords.toLowerCase()]}
-                />
-              </div>
-              <div className="flex flex-col space-y-2">
-                <h2 className="text-black/80 text-lg font-bold truncate">
-                  {product.product_name}
-                </h2>
-                <p className="font-semibold text-gray-500 truncate">
-                  {product.commodity_type}
-                </p>
-                <p className="font-bold text-green-600">
-                  Php {product.price.toFixed(2)}
-                </p>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </section> */}
       <h1 className="text-center text-black/80">
         Appreciate your interest! This marks the end of the page.
       </h1>
