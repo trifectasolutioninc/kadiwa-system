@@ -5,45 +5,47 @@ import { Link } from "react-router-dom";
 
 import BackButton from "./BackToHome";
 
-const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress }) => {
+const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelete }) => {
+  const [startX, setStartX] = useState(null);
+
+  const handleTouchStart = (e) => {
+    setStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e) => {
+    const distX = e.changedTouches[0].clientX - startX;
+    if (distX < -50) {
+      onDelete();
+    }
+    setStartX(null);
+  };
+
   const getLastMessage = () => {
     const messagesArray = Object.values(chatMessages);
     const lastMessage = messagesArray[messagesArray.length - 1];
-  
+
     if (lastMessage) {
       const boldStyle = {
         fontWeight: "bold"
       };
-  
+
       const messageStyle = lastMessage.status === "unread" && lastMessage.sender === "partner" ? boldStyle : {};
-  
+
       return (
         <div>
-            
-
-            <p style={messageStyle}>{lastMessage.message} - {lastMessage.time}</p>
-
+          <p style={messageStyle}>{lastMessage.message} - {lastMessage.time}</p>
         </div>
-        
       );
     }
-  
+
     return "No messages yet";
   };
-  
 
   return (
-    <Link
-      to={`/route/chatpage/${id.split("_")[1]}/chat`}
-      className="no-underline"
-    >
-      <li
-        className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
-        onContextMenu={(e) => {
-          e.preventDefault();
-          onLongPress(id);
-        }}
-      >
+    <Link to={`/route/chatpage/${id.split("_")[1]}/chat`} className="no-underline">
+      <li className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}>
         <div>
           <p className="font-semibold text-green-800">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -137,15 +139,18 @@ const Chat = () => {
             {chatData
               .filter((store) => uid === store.id.split("_")[0])
               .map((store) => (
-                <StoreCard
-                  key={store.id}
-                  id={store.id}
-                  name={store.name}
-                  logoAlt={`Store ${store.id} Logo`}
-                  chatMessages={store.Chat}
-                  date={store.date}
-                  onLongPress={handleLongPress}
-                />
+                // Inside Chat component
+<StoreCard
+  key={store.id}
+  id={store.id}
+  name={store.name}
+  logoAlt={`Store ${store.id} Logo`}
+  chatMessages={store.Chat}
+  date={store.date}
+  onLongPress={handleLongPress}
+  onDelete={() => handleDelete(store.id)} // Pass onDelete handler
+/>
+
               ))}
           </ul>
         </div>
