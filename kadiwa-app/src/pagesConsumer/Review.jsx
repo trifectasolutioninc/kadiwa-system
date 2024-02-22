@@ -6,7 +6,7 @@ const Reviews = ({ productCode }) => {
   const [reviews, setReviews] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(true);
-  const kdwowner = productCode.split("-")[0] + "-" + productCode.split("-")[1];
+  const uid = productCode.split("-")[0] + "-" + productCode.split("-")[1];
   const productno = productCode.split("-")[2];
   useEffect(() => {
     const fetchData = async () => {
@@ -15,10 +15,11 @@ const Reviews = ({ productCode }) => {
       const reviewsSnapshot = await get(reviewsRef);
       const reviewsData = reviewsSnapshot.val();
       setReviews(reviewsData);
+      console.log(uid);
 
       // Fetch user info based on contact
       const usersRef = ref(configFirebaseDB, "store_information");
-      const usersSnapshot = await get(child(usersRef, kdwowner));
+      const usersSnapshot = await get(child(usersRef, uid));
       const userData = usersSnapshot.val();
       setUserInfo(userData);
 

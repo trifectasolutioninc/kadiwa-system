@@ -35,7 +35,7 @@ const ProfileEdit = () => {
         </div>
         <hr />
         <div className=' py-2 '>
-          <NavLink to={"/route/myaddresses"} className=''>My Addresses</NavLink>
+          <NavLink to={"/route/myaddresses"} className=''>My Address</NavLink>
         </div>
         <hr />
         <div className=' py-2 '>

@@ -195,7 +195,7 @@ const StoreList = ({ productCode }) => {
       {
         productId: product.id.split("-")[2],
         productInfo: { ...product, qty: selectedQuantity },
-        storeKey: uid + "_" + selectedStore.id,
+        storeKey: selectedStore.id,
       },
     ];
 
