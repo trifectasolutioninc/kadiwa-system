@@ -15,6 +15,7 @@ import {
   equalTo,
   get,
 } from "firebase/database";
+import { MdDeliveryDining } from "react-icons/md";
 
 const Orders = () => {
   const { tab, getstatus } = useParams();
@@ -77,16 +78,16 @@ const Orders = () => {
           </div>
         </div>
         <div className="mb-16 p-2"></div>
-        <div className=" bg-white ">
+        <div className=" bg-neutral-100 ">
           {tab === "delivery" && (
-            <div className="flex justify-around gap-3 overflow-x-hidden mx-6">
+            <div className="flex justify-between gap-3 overflow-x-hidden mx-6">
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 px-2 py-1 rounded-md ${
                   status.toLowerCase() === "pending" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Pending")}
               >
-                <MdLocalShipping className=" mx-auto" />
+                <MdDeliveryDining fontSize={"25px"} className=" mx-auto" />
                 To Ship
               </button>
               <button
@@ -95,7 +96,7 @@ const Orders = () => {
                 }`}
                 onClick={() => setStatus("To Receive")}
               >
-                <FaJoget className=" mx-auto" />
+                <FaJoget fontSize={"20px"} className=" mx-auto" />
                 To Receive
               </button>
               <button
@@ -104,7 +105,7 @@ const Orders = () => {
                 }`}
                 onClick={() => setStatus("Completed")}
               >
-                <FaCheckCircle className=" mx-auto" />
+                <FaCheckCircle fontSize={"20px"} className=" mx-auto" />
                 Completed
               </button>
               <button
@@ -113,7 +114,7 @@ const Orders = () => {
                 }`}
                 onClick={() => setStatus("Cancelled")}
               >
-                <FiMinusCircle className=" mx-auto" />
+                <FiMinusCircle fontSize={"20px"} className=" mx-auto" />
                 Cancelled
               </button>
             </div>
