@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ref, child, get, remove } from "firebase/database";
 import configFirebaseDB from "../Configuration/config-firebase2";
+import FirebaseDB from "../Configuration/config";
 import { Link } from "react-router-dom";
+import {
+  LocationCityRounded,
+  LocationOn,
+  Notifications,
+} from "@mui/icons-material";
 
 import BackButton from "./BackToHome";
 
@@ -24,7 +30,7 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelet
 
   const handleTouchEnd = () => {
     if (startX !== null && offsetX < -50) {
-      
+
       onDelete(id);
     }
     setStartX(null);
@@ -57,10 +63,10 @@ const StoreCard = ({ id, name, logoAlt, chatMessages, date, onLongPress, onDelet
   return (
     <Link to={`/route/chatpage/${id.split("_")[1]}/chat`} className="no-underline">
       <li className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          style={{ transform: `translateX(${offsetX}px)`, transition: "transform 0.3s ease" }}>
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{ transform: `translateX(${offsetX}px)`, transition: "transform 0.3s ease" }}>
         <div>
           <p className="font-semibold text-green-800">{name}</p>
           <p className="text-xs text-gray-500">{getLastMessage()}</p>
@@ -74,6 +80,8 @@ const Chat = () => {
   const [chatData, setChatData] = useState([]);
   const [longPressedMessage, setLongPressedMessage] = useState(null);
   const uid = sessionStorage.getItem("uid");
+  const [storeList, setStoreList] = useState([]);
+  const [storeAddressData, setStoreAddress] = useState([]);
 
   useEffect(() => {
     const fetchChatData = async () => {
@@ -82,9 +90,9 @@ const Chat = () => {
           child(ref(configFirebaseDB), "chat_collections")
         );
         const chatCollections = snapshot.val();
-    
+
         console.log("chatCollections:", chatCollections); // Log chatCollections to check if data is fetched correctly
-    
+
         if (chatCollections) {
           const chatDataArray = Object.entries(chatCollections).map(
             ([id, data]) => {
@@ -97,15 +105,41 @@ const Chat = () => {
               };
             }
           );
-    
+
           setChatData(chatDataArray);
         }
       } catch (error) {
         console.error("Error fetching chat data:", error);
       }
     };
-    
+
     fetchChatData();
+  }, []);
+
+  useEffect(() => {
+    const fetchStores = async () => {
+      const database = FirebaseDB();
+      const storeRef = ref(database, "store_information");
+      const storeAddressRef = ref(database, "store_address_information");
+
+      try {
+        const storeSnapshot = await get(storeRef);
+        const storeAddressSnapshot = await get(storeAddressRef);
+
+        if (storeSnapshot.exists() && storeAddressSnapshot.exists()) {
+          const stores = Object.values(storeSnapshot.val());
+          const storeAddress = Object.values(storeAddressSnapshot.val());
+          setStoreList(stores);
+          setStoreAddress(storeAddress);
+        } else {
+          console.error("No stores found");
+        }
+      } catch (error) {
+        console.error("Error fetching store data:", error);
+      }
+    };
+
+    fetchStores();
   }, []);
 
   const handleLongPress = (messageId) => {
@@ -115,7 +149,7 @@ const Chat = () => {
   const handleDelete = async () => {
     try {
       // Remove the chat data from Firebase
-   
+
       await remove(
         child(ref(configFirebaseDB), `chat_collections/${longPressedMessage}`)
       );
@@ -132,7 +166,7 @@ const Chat = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md overflow-x-hidden">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md overflow-x-hidden z-50">
         <div className="flex items-center gap-5 ">
           <BackButton />
           <h1 className="text-xl text-neutral-100  font-bold">Messages</h1>
@@ -147,8 +181,9 @@ const Chat = () => {
               className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
             />
           </div>
-        </div>
-
+        </div >
+        <div className=" h-1/2 ">
+        <p className="text-[1em] mx-2">Chats</p>
         <div className="container mx-auto mb-16">
           <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
             {/* Filter chatData based on uid and map through filtered data */}
@@ -156,20 +191,70 @@ const Chat = () => {
               .filter((store) => uid === store.id.split("_")[0])
               .map((store) => (
                 // Inside Chat component
-<StoreCard
-  key={store.id}
-  id={store.id}
-  name={store.name}
-  logoAlt={`Store ${store.id} Logo`}
-  chatMessages={store.Chat}
-  date={store.date}
-  onLongPress={handleLongPress}
-  onDelete={() => handleLongPress(store.id)} // Pass onDelete handler
-/>
+                <StoreCard
+                  key={store.id}
+                  id={store.id}
+                  name={store.name}
+                  logoAlt={`Store ${store.id} Logo`}
+                  chatMessages={store.Chat}
+                  date={store.date}
+                  onLongPress={handleLongPress}
+                  onDelete={() => handleLongPress(store.id)} // Pass onDelete handler
+                />
 
               ))}
           </ul>
         </div>
+
+        </div>
+        <div className=" h-1/2"> 
+                <p className="text-[1em] mx-2">Suggestions</p>
+                <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {storeList.map(
+              (store) =>
+                // Conditionally render the container only for stores with 'usertype' as 'Partner'
+                store.status === "open" && (
+                  <Link
+                    to={`/route/chatpage/${store.id}/chat`}
+                    key={store.id}
+                    className="bg-slate-50 p-4 rounded-lg shadow-md items-center grid grid-cols-10 border hover:bg-green-50 "
+                  >
+                    {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
+                    <section className="col-span-9 text-left">
+                      <p className="text-lg font-semibold">{store.name}</p>
+                      <p className=" text-gray-500">{store.type}</p>
+                      {storeAddressData.find(
+                        (address) => address.id === store.id
+                      ) && (
+                        <p className=" text-gray-500">
+                          <LocationOn fontSize="25px" />
+                          {
+                            storeAddressData.find(
+                              (address) => address.id === store.id
+                            ).city
+                          }
+                          ,{" "}
+                          {
+                            storeAddressData.find(
+                              (address) => address.id === store.id
+                            ).province
+                          }
+                        </p>
+                      )}
+
+                      <p className=" text-gray-500">Partner</p>
+                    </section>
+                    <div className="col-span-1 flex justify-end ">
+                     
+                    </div>
+                  </Link>
+                )
+            )}
+          </section>
+        </div>
+
+        
+        <div className=" h-16"></div>
       </main>
 
       {/* Modal for delete confirmation */}
