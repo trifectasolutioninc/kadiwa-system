@@ -183,33 +183,39 @@ const Chat = () => {
           </div>
         </div >
         <div className=" h-1/2 ">
-        <p className="text-[1em] mx-2">Chats</p>
-        <div className="container mx-auto mb-16">
-          <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
-            {/* Filter chatData based on uid and map through filtered data */}
-            {chatData
-              .filter((store) => uid === store.id.split("_")[0])
-              .map((store) => (
-                // Inside Chat component
-                <StoreCard
-                  key={store.id}
-                  id={store.id}
-                  name={store.name}
-                  logoAlt={`Store ${store.id} Logo`}
-                  chatMessages={store.Chat}
-                  date={store.date}
-                  onLongPress={handleLongPress}
-                  onDelete={() => handleLongPress(store.id)} // Pass onDelete handler
-                />
+          <p className="text-[1em] mx-2">Chats</p>
+          <div className="container mx-auto mb-16">
+            <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+              {chatData.filter((store) => uid === store.id.split("_")[0]).length === 0 ? (
+                <div className=" text-center text-gray-400">
+                  <p>Empty Chats</p>
+                </div>
+              ) : (
+                chatData
+                  .filter((store) => uid === store.id.split("_")[0])
+                  .map((store) => (
+                    // Inside Chat component
+                    <StoreCard
+                      key={store.id}
+                      id={store.id}
+                      name={store.name}
+                      logoAlt={`Store ${store.id} Logo`}
+                      chatMessages={store.Chat}
+                      date={store.date}
+                      onLongPress={handleLongPress}
+                      onDelete={() => handleLongPress(store.id)} // Pass onDelete handler
+                    />
+                  ))
+              )}
 
-              ))}
-          </ul>
-        </div>
+
+            </ul>
+          </div>
 
         </div>
-        <div className=" h-1/2"> 
-                <p className="text-[1em] mx-2">Suggestions</p>
-                <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className=" h-1/2">
+          <p className="text-[1em] mx-2">Suggestions</p>
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {storeList.map(
               (store) =>
                 // Conditionally render the container only for stores with 'usertype' as 'Partner'
@@ -226,26 +232,26 @@ const Chat = () => {
                       {storeAddressData.find(
                         (address) => address.id === store.id
                       ) && (
-                        <p className=" text-gray-500">
-                          <LocationOn fontSize="25px" />
-                          {
-                            storeAddressData.find(
-                              (address) => address.id === store.id
-                            ).city
-                          }
-                          ,{" "}
-                          {
-                            storeAddressData.find(
-                              (address) => address.id === store.id
-                            ).province
-                          }
-                        </p>
-                      )}
+                          <p className=" text-gray-500">
+                            <LocationOn fontSize="25px" />
+                            {
+                              storeAddressData.find(
+                                (address) => address.id === store.id
+                              ).city
+                            }
+                            ,{" "}
+                            {
+                              storeAddressData.find(
+                                (address) => address.id === store.id
+                              ).province
+                            }
+                          </p>
+                        )}
 
                       <p className=" text-gray-500">Partner</p>
                     </section>
                     <div className="col-span-1 flex justify-end ">
-                     
+
                     </div>
                   </Link>
                 )
@@ -253,14 +259,14 @@ const Chat = () => {
           </section>
         </div>
 
-        
+
         <div className=" h-16"></div>
       </main>
 
       {/* Modal for delete confirmation */}
       {longPressedMessage && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex  justify-center items-center">
-          <div className="bg-white p-4 rounded-md shadow-md">
+          <div className="bg-white  w-3/4 p-4 rounded-md shadow-md">
             <p>Are you sure you want to delete this message?</p>
             <div className="flex justify-end mt-4">
               <button
