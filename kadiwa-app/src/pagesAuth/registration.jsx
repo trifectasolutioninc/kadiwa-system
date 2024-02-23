@@ -228,30 +228,30 @@ const Registration = () => {
       const userAddress = {
         id: userID,
         default: {
-          region: "",
-          province: "",
-          city: "",
+          region: "N/A",
+          province: "N/A",
+          city: "N/A",
           barangay: "No Address",
           landmark: "",
-          person: "",
-          maplink: "",
+          person: "N/A",
+          maplink: "N/A",
           contact: consumerFormData.contact,
-          address_name: "No Address",
+          address_name: "N/A",
           latitude: "0",
           longitude: "0"
         },
         additional: {
           0: {
             id: 0,
-            region: "",
-            province: "",
-            city: "",
+            region: "N/A",
+            province: "N/A",
+            city: "N/A",
             barangay: "No Address",
             landmark: "",
-            person: "",
+            person: "N/A",
             maplink: "",
             contact: "No Contact Person",
-            address_name: "No Address",
+            address_name: "N/A",
             latitude: "0",
             longitude: "0"
           }
