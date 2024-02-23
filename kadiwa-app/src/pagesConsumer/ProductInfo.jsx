@@ -149,7 +149,7 @@ const ProductInfo = ({ product_inventory, kadiwa_users_account }) => {
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />
-          <StoreList productCode={productCode} />
+          <StoreList productCode={productCode}  category= {category}/>
         </>
       )}
     </div>
