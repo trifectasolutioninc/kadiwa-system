@@ -257,9 +257,9 @@ const ProfileConsumer = () => {
             <img
               src={imageConfig.profileaccountBG}
               alt="Background Image"
-              className="w-full h-full object-cover"
+              className="w-full h-full md:h-52 object-cover"
             />
-            <div className="absolute inset-0  justify-start flex-col p-4 flex">
+            <div className="absolute inset-0  justify-start flex-col p-4 flex space-y-2">
               <div className=" flex justify-between">
                 <div></div>
                 <div className=" z-30">
@@ -273,21 +273,17 @@ const ProfileConsumer = () => {
               </div>
             </div>
             <div className="absolute inset-0  justify-end flex-col p-4 flex">
-              <div className=" flex text-[1.5em] text-white">
+              <div className=" flex flex-col text-[1.5em] text-white">
                 <div className=" flex items-center ">
-                <IoPersonCircle className=" text-[2.5em]" />
-                
+                  <IoPersonCircle className=" text-[2.5em]" />
                 </div>
                 <div>
-                <p> {userData.fullname}</p>
-                <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
-                  <FaPhoneAlt fontSize={"0.8em"} />
-                  <p> {userData.contact}</p>
+                  <p> {userData.fullname}</p>
+                  <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
+                    <FaPhoneAlt fontSize={"0.8em"} />
+                    <p> {userData.contact}</p>
+                  </div>
                 </div>
-
-                </div>
-                
-                
               </div>
             </div>
           </section>
@@ -297,7 +293,7 @@ const ProfileConsumer = () => {
             <img
               src={imageConfig.profileaccountBG}
               alt="Background Image"
-              className="w-full h-full object-cover"
+              className="w-full h-full md:h-52 object-cover"
             />
             <div className="absolute inset-0  justify-start flex-col p-4 flex">
               <div className=" flex justify-between">
@@ -310,22 +306,18 @@ const ProfileConsumer = () => {
               </div>
             </div>
             <div className="absolute inset-0  justify-end flex-col p-4 flex">
-              <div className=" flex text-[1.5em] text-white">
-              <div className=" flex items-center ">
-                <IoPersonCircle className=" text-[2.5em]" />
-                
+              <div className=" flex  flex-col  text-[1.5em] text-white">
+                <div className=" flexitems-center ">
+                  <IoPersonCircle className=" text-[2.5em]" />
                 </div>
                 <div className=" w-full">
-                <p className=" bg-gray-300 px-5 py-3 mb-2 w-2/3 rounded-md"></p>
-                <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
-                <FaPhoneAlt fontSize={"0.8em"} />
-                  <p className=" bg-gray-300 px-5 py-3 w-1/2 rounded-md"> </p>
+                  <p className=" bg-gray-300 px-5 py-3 mb-2 w-2/3 rounded-md"></p>
+                  <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
+                    <FaPhoneAlt fontSize={"0.8em"} />
+                    <p className=" bg-gray-300 px-5 py-3 w-1/2 rounded-md"> </p>
+                  </div>
                 </div>
-
-                </div>
-                
-             
-                </div>
+              </div>
             </div>
           </section>
         )}
