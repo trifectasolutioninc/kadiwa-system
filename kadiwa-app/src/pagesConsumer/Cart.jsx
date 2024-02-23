@@ -7,12 +7,15 @@ import { Link, useNavigate, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import BackButton from "./BackToHome";
 import { IoCartOutline } from "react-icons/io5";
+import Toast from "../Components/Notifications/Toast";
 
 const Cart = () => {
   const uid = sessionStorage.getItem("uid");
   const [cartData, setCartData] = useState(null);
   const [isStoreChecked, setIsStoreChecked] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchCartData = async () => {
@@ -222,6 +225,15 @@ const Cart = () => {
 
     console.log("Selected Items Array:", selectedItemsArray); // Check if data is being prepared correctly
 
+    if (selectedItemsArray.length === 0) {
+      // If no items are selected, alert the user or handle it in a way suitable for your application
+      setToastMessage("Please select items before proceeding to checkout.");
+        setShowToast(true);
+    
+      return; // Don't proceed further
+    }
+  
+
     // Extract store names
     const storeNames = {};
     for (const item of selectedItemsArray) {
@@ -402,6 +414,9 @@ const Cart = () => {
             </div>
           </div>
         </div>
+      )}
+       {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
     </>
   );
