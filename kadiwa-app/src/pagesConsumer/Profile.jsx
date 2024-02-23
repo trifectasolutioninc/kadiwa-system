@@ -257,7 +257,7 @@ const ProfileConsumer = () => {
             <img
               src={imageConfig.profileaccountBG}
               alt="Background Image"
-              className="w-full h-full md:h-52 object-cover"
+              className="w-full h-60 md:h-52 object-cover"
             />
             <div className="absolute inset-0  justify-start flex-col p-4 flex space-y-2">
               <div className=" flex justify-between">

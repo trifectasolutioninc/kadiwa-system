@@ -184,7 +184,6 @@ const StoreList = ({ productCode, category }) => {
     setSelectedQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
 
-
   // Function to handle variety selection
   const handleVarietyChange = (event) => {
     setSelectedVariety(event.target.value);
@@ -243,7 +242,10 @@ const StoreList = ({ productCode, category }) => {
                     </p>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <LocationOnIcon fontSize="10px" className="" />
+                    <LocationOnIcon
+                      fontSize="10px"
+                      className="text-green-600"
+                    />
                     <p className="text-gray-700  font-semibold">
                       {addressData &&
                         `${addressData.city}, ${addressData.province}`}
@@ -293,20 +295,22 @@ const StoreList = ({ productCode, category }) => {
                 `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
             </p>
             {filteredProducts.length > 0 && (
-              <div className="space-y-1 my-4 text-black/80">
+              <div className="space-y-2 my-4 text-black/80">
                 <p className="">
                   Product:{" "}
-                  <span className="font-medium">
+                  <span className="font-bold">
                     {filteredProducts[0].product_name}
                   </span>
                 </p>
                 <p>
                   Price:
-                  <span className="font-medium">
+                  <span className="font-semibold text-green-700">
                     {" "}
                     ₱ {filteredProducts[0].price}
                   </span>
-                  <span>/ {filteredProducts[0].unit_measurement}</span>
+                  <span className="font-semibold text-green-700">
+                    / {filteredProducts[0].unit_measurement}
+                  </span>
                 </p>
                 <div>
                   <label>Variety: </label>
@@ -314,15 +318,17 @@ const StoreList = ({ productCode, category }) => {
                     name="variety"
                     value={selectedVariety}
                     onChange={handleVarietyChange}
-                    className="p-1 border font-medium rounded-md"
+                    className="p-1 border font-semibold rounded-md"
                   >
                     <option value="">Select Variety</option>
                     {filteredProducts.length > 0 &&
-                      Object.values(filteredProducts[0].variety).map((variety) => (
-                        <option key={variety.id} value={variety.id}>
-                          {variety.name}
-                        </option>
-                      ))}
+                      Object.values(filteredProducts[0].variety).map(
+                        (variety) => (
+                          <option key={variety.id} value={variety.id}>
+                            {variety.name}
+                          </option>
+                        )
+                      )}
                   </select>
                 </div>
               </div>
@@ -351,7 +357,7 @@ const StoreList = ({ productCode, category }) => {
             <div className="flex items-center justify-between mt-4">
               <button
                 onClick={closeModal}
-                className="bg-gray-300 text-gray-800 px-4 py-2  rounded-md"
+                className="text-black/80 px-4 py-2  rounded-md"
               >
                 Cancel
               </button>
@@ -377,20 +383,22 @@ const StoreList = ({ productCode, category }) => {
                 `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
             </p>
             {filteredProducts.length > 0 && (
-              <div className="space-y-1 my-4 text-black/80">
+              <div className="space-y-2 my-4 text-black/80">
                 <p className="">
                   Product:{" "}
-                  <span className="font-medium">
+                  <span className="font-bold">
                     {filteredProducts[0].product_name}
                   </span>
                 </p>
                 <p>
                   Price:
-                  <span className="font-medium">
+                  <span className="font-semibold text-green-700">
                     {" "}
                     ₱ {filteredProducts[0].price}
                   </span>
-                  <span>/ {filteredProducts[0].unit_measurement}</span>
+                  <span className="font-semibold text-green-700">
+                    / {filteredProducts[0].unit_measurement}
+                  </span>
                 </p>
                 <div>
                   <label>Variety: </label>
@@ -398,15 +406,17 @@ const StoreList = ({ productCode, category }) => {
                     name="variety"
                     value={selectedVariety}
                     onChange={handleVarietyChange}
-                    className="p-1 border font-medium rounded-md"
+                    className="p-1 border font-semibold rounded-md"
                   >
                     <option value="">Select Variety</option>
                     {filteredProducts.length > 0 &&
-                      Object.values(filteredProducts[0].variety).map((variety) => (
-                        <option key={variety.id} value={variety.id}>
-                          {variety.name}
-                        </option>
-                      ))}
+                      Object.values(filteredProducts[0].variety).map(
+                        (variety) => (
+                          <option key={variety.id} value={variety.id}>
+                            {variety.name}
+                          </option>
+                        )
+                      )}
                   </select>
                 </div>
               </div>
@@ -434,7 +444,7 @@ const StoreList = ({ productCode, category }) => {
             <div className="flex items-center justify-between mt-4">
               <button
                 onClick={closeCheckoutModal}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
+                className=" text-black-80 px-4 py-2 rounded-md"
               >
                 Cancel
               </button>

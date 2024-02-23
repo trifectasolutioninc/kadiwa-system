@@ -74,14 +74,23 @@ const StoreConsumer = () => {
                     className="bg-slate-50 p-4 rounded-lg shadow-md items-center grid grid-cols-10 border hover:bg-green-50 "
                   >
                     {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
-                    <section className="col-span-9 text-left">
-                      <p className="text-lg font-semibold">{store.name}</p>
-                      <p className=" text-gray-500">{store.type}</p>
+                    <section className="col-span-9 text-left space-y-2">
+                      <p className="text-lg font-semibold text-black/80">
+                        {store.name}
+                      </p>
+                      <p>
+                        <span className="border p-1 bg-green-200 rounded-md text-black/80">
+                          {store.type}
+                        </span>
+                      </p>
                       {storeAddressData.find(
                         (address) => address.id === store.id
                       ) && (
                         <p className=" text-gray-500">
-                          <LocationOn fontSize="25px" />
+                          <LocationOn
+                            fontSize="25px"
+                            className="text-green-600"
+                          />
                           {
                             storeAddressData.find(
                               (address) => address.id === store.id
@@ -95,8 +104,6 @@ const StoreConsumer = () => {
                           }
                         </p>
                       )}
-
-                      <p className=" text-gray-500">Partner</p>
                     </section>
                     <div className="col-span-1 flex justify-end ">
                       <Link
