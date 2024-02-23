@@ -185,6 +185,7 @@ const Registration = () => {
         email: "N/A",
         gender: "N/A",
         first_name: "No name",
+        fullname: "No name",
         last_name: "",
         middle_name: "",
         suffix: "",
