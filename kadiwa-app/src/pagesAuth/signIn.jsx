@@ -169,6 +169,7 @@ const SignInPages = () => {
   };
   
   return (
+    
     <div className=' bg-white flex items-center justify-center h-screen'>
       <div className=''>
       <div className='flex justify-center mx-auto w-auto space-x-2'>
