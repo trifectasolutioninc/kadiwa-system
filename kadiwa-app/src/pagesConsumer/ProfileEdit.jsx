@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { IoIosSettings } from "react-icons/io";
 import { MdContactSupport } from "react-icons/md";
 import { MdPermIdentity } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
 import Toast from "./../Components/Notifications/Toast";
+import firebaseDB from "../Configuration/config";
+import { ref, child, get, getDatabase, update } from "firebase/database";
+import { v4 as uuidv4 } from "uuid";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const ProfileEdit = () => {
   const [showToast, setShowToast] = useState(false);
@@ -16,6 +20,72 @@ const ProfileEdit = () => {
   const handleToast = async () => {
     setToastMessage("Coming Soon... ");
     setShowToast(true);
+  };
+  const deviceDetect = require("device-detect")();
+  const [deviceID, setDeviceID] = useState(null);
+  const [deviceType, setDeviceType] = useState(null);
+  const [deviceBrand, setDeviceBrand] = useState(null);
+  const [deviceBrowser, setDeviceBrowser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Function to fetch or generate device ID
+    const fetchDeviceID = () => {
+      // Simulating fetching device ID (e.g., from localStorage)
+      let id = localStorage.getItem("deviceID");
+      console.log(id);
+      if (!id) {
+        id = uuidv4();
+        localStorage.setItem("deviceID", id);
+        console.log(id);
+      }
+
+      setDeviceID(id);
+    };
+
+    // Function to determine device type, brand, and browser
+    const determineDeviceInfo = () => {
+      setDeviceType(deviceDetect.device || "Unknown");
+      setDeviceBrand(deviceDetect.device || "Unknown");
+      setDeviceBrowser(deviceDetect.browser || "Unknown");
+    };
+
+    fetchDeviceID();
+    determineDeviceInfo();
+
+    // Cleanup function if needed
+    return () => {
+      // Any cleanup code
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const database = firebaseDB();
+      const uid = sessionStorage.getItem("uid");
+      const authRef = ref(database, `authentication/${uid}/device/${deviceID}`);
+
+      // Update device log to offline
+      await update(authRef, {
+        log: "offline",
+      });
+
+      sessionStorage.setItem("uid", "");
+
+      navigate("/signin");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openLogoutModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeLogoutModal = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -120,7 +190,45 @@ const ProfileEdit = () => {
             <IoIosArrowForward />
           </NavLink>
         </div>
+        <div className="flex items-center justify-end gap-3 w-full p-2">
+          <button
+            onClick={openLogoutModal}
+            className="flex items-center justify-center mx-auto text-black/80 bg-white border w-full rounded-md shadow-sm p-2"
+          >
+            Logout
+            <ExitToAppIcon />
+          </button>
+        </div>
       </section>
+      {isOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex  justify-center items-center"
+          onClick={closeLogoutModal}
+        >
+          <div className="bg-white  w-3/4 p-4 rounded-md shadow-md space-y-3">
+            <h1 className="font-bold">Confirm Logout</h1>
+            <hr />
+            <p>Are you sure you want to logout?</p>
+            <div className="flex justify-end gap-3">
+              <button
+                className="px-3 py-2  rounded-md text-black/80"
+                onClick={closeLogoutModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+      )}
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}

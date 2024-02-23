@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+
 import {
   Info,
   History,
@@ -36,10 +36,7 @@ const ProfileConsumer = () => {
 
   const [pendingDeliveryCount, setPendingDeliveryCount] = useState(0);
   const [pendingPickupCount, setPendingPickupCount] = useState(0);
-  const [deviceID, setDeviceID] = useState(null);
-  const [deviceType, setDeviceType] = useState(null);
-  const [deviceBrand, setDeviceBrand] = useState(null);
-  const [deviceBrowser, setDeviceBrowser] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -190,56 +187,6 @@ const ProfileConsumer = () => {
       clearInterval(fetchDataInterval);
     };
   }, [userwalletData]);
-
-  useEffect(() => {
-    // Function to fetch or generate device ID
-    const fetchDeviceID = () => {
-      // Simulating fetching device ID (e.g., from localStorage)
-      let id = localStorage.getItem("deviceID");
-      console.log(id);
-      if (!id) {
-        id = uuidv4();
-        localStorage.setItem("deviceID", id);
-        console.log(id);
-      }
-
-      setDeviceID(id);
-    };
-
-    // Function to determine device type, brand, and browser
-    const determineDeviceInfo = () => {
-      setDeviceType(deviceDetect.device || "Unknown");
-      setDeviceBrand(deviceDetect.device || "Unknown");
-      setDeviceBrowser(deviceDetect.browser || "Unknown");
-    };
-
-    fetchDeviceID();
-    determineDeviceInfo();
-
-    // Cleanup function if needed
-    return () => {
-      // Any cleanup code
-    };
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      const database = firebaseDB();
-      const uid = sessionStorage.getItem("uid");
-      const authRef = ref(database, `authentication/${uid}/device/${deviceID}`);
-
-      // Update device log to offline
-      await update(authRef, {
-        log: "offline",
-      });
-
-      sessionStorage.setItem("uid", "");
-
-      navigate("/signin");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
 
   return (
     <>
@@ -451,16 +398,6 @@ const ProfileConsumer = () => {
               Scheduled Delivery
             </Link>
           </section>
-
-          <div className="flex items-center justify-end gap-3 w-full  bg-slate-50 p-2">
-            <button
-              onClick={handleLogout}
-              className="flex items-center justify-center mx-auto text-white bg-red-500 w-full rounded-md p-2"
-            >
-              Logout
-              <ExitToAppIcon />
-            </button>
-          </div>
         </section>
         <section className=" mx-6 p-2 border rounded-md ">
           <div className="flex items-center justify-between text-gray-500">
