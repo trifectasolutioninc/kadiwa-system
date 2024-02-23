@@ -192,14 +192,36 @@ const Orders = () => {
               orders.map((order) => (
                 <div
                   key={order.receiptId}
-                  className="p-4 border-b cursor-pointer border rounded-md shadow-md"
+                  className="p-4 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80"
                   onClick={() => handleOrderItemClick(order.receiptId)}
                 >
-                  <h2 className="text-[0.7em] font-semibold">
-                    Order ID: {order.receiptId}
-                  </h2>
-                  <p>Status: {order.status}</p>
-                  <p>Date: {order.date}</p>
+                  <h1>
+                    Order ID:{" "}
+                    <span className=" font-semibold">{order.receiptId}</span>
+                  </h1>
+                  <p>
+                    Status:{" "}
+                    <span
+                      className={`px-3 py-1 rounded-full font-medium ${
+                        order.status === "Pending"
+                          ? "bg-yellow-200 text-yellow-900" // Example color for "Pending" status
+                          : order.status === "Processing"
+                          ? "bg-sky-200 text-sky-900" // Example color for "Processing" status
+                          : order.status === "Shipped"
+                          ? "bg-blue-200 text-blue-900" // Example color for "Shipped" status
+                          : order.status === "Delivered"
+                          ? "bg-green-200 text-green-900" // Example color for "Delivered" status
+                          : order.status === "Cancelled"
+                          ? "bg-red-200 text-red-900" // Example color for "Cancelled" status
+                          : "bg-gray-500 text-white" // Default color for unknown status
+                      }`}
+                    >
+                      {order.status}
+                    </span>{" "}
+                  </p>
+                  <p>
+                    Date: <span className="text-gray-500">{order.date}</span>{" "}
+                  </p>
                 </div>
               ))}
             <div className="mb-20 p-2 h-auto"></div>
