@@ -76,6 +76,9 @@ import Vegetables from "../Components/Assets/Category/vegetables2.webp";
 import Spices from "../Components/Assets/Category/spices2.webp";
 import Egg from "../Components/Assets/Category/egg3.webp";
 
+
+import bgV1 from "../Components/Assets/background/bg-v1.svg";
+
 const paymentImg = {
   KadiwaCard: KadiwaLogo,
   KadiwaQR: KadiwaLogo,
@@ -169,6 +172,8 @@ const imageConfig = {
 
   StoreBG: StoreBG,
   profileaccountBG: profileaccountBG,
+
+  bgV1 : bgV1,
 
   //Profile
   avataricon: "../profile/avatar-icon.png",

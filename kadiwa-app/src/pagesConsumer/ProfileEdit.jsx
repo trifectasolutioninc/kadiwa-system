@@ -7,8 +7,21 @@ import { IoIosSettings } from "react-icons/io";
 import { MdContactSupport } from "react-icons/md";
 import { MdPermIdentity } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
+import Toast from './../Components/Notifications/Toast';
+
 
 const ProfileEdit = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+
+const handleToast  = async () =>  {
+
+  setToastMessage('Coming Soon... ');
+  setShowToast(true);
+}
+
+
   return (
     <>
       {/* Header */}
@@ -38,6 +51,7 @@ const ProfileEdit = () => {
           <hr />
           <NavLink
             to={"/route/myaddresses"}
+            
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             My Address
@@ -46,6 +60,7 @@ const ProfileEdit = () => {
           <hr />
           <NavLink
             to={""}
+            onClick={handleToast}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             Account and Security
@@ -59,9 +74,11 @@ const ProfileEdit = () => {
         <div className=" w-full p-4 bg-white space-y-2 ">
           <NavLink
             to={""}
+            onClick={handleToast}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             Language
+
             <IoIosArrowForward />
           </NavLink>
         </div>
@@ -72,6 +89,7 @@ const ProfileEdit = () => {
         <div className=" w-full p-4 bg-white space-y-2 ">
           <NavLink
             to={""}
+            onClick={handleToast}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             Help Center
@@ -80,6 +98,7 @@ const ProfileEdit = () => {
           <hr />
           <NavLink
             to={""}
+            onClick={handleToast}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             Kadiwa Policies
@@ -88,6 +107,7 @@ const ProfileEdit = () => {
           <hr />
           <NavLink
             to={""}
+            onClick={handleToast}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             About
@@ -96,6 +116,7 @@ const ProfileEdit = () => {
           <hr />
           <NavLink
             to={""}
+            onClick={handleToast}
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             Request Account Deletion
@@ -103,6 +124,9 @@ const ProfileEdit = () => {
           </NavLink>
         </div>
       </section>
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+      )}
     </>
   );
 };
