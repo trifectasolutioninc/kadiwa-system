@@ -306,7 +306,7 @@ const StoreList = ({ productCode, category }) => {
                     {" "}
                     ₱ {filteredProducts[0].price}
                   </span>
-                  / unit
+                  <span>/ {filteredProducts[0].unit_measurement}</span>
                 </p>
                 <div>
                   <label>Variety: </label>
@@ -390,7 +390,7 @@ const StoreList = ({ productCode, category }) => {
                     {" "}
                     ₱ {filteredProducts[0].price}
                   </span>
-                  / unit
+                  <span>/ {filteredProducts[0].unit_measurement}</span>
                 </p>
                 <div>
                   <label>Variety: </label>
