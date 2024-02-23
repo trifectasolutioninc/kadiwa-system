@@ -9,7 +9,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Toast from "../Components/Notifications/Toast";
 
-const StoreList = ({ productCode }) => {
+const StoreList = ({ productCode, category }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [noStoresFound, setNoStoresFound] = useState(false);
@@ -195,14 +195,14 @@ const StoreList = ({ productCode }) => {
       {
         productId: product.id.split("-")[2],
         productInfo: { ...product, qty: selectedQuantity },
-        storeKey: selectedStore.id,
+        storeKey:`${uid}_${selectedStore.id}`,
       },
     ];
 
     const storeNames = {
       [selectedStore.id]: selectedStore.name,
     };
-    const path = `/main/productinfo/${product.id.split("-")[2]}`;
+    const path = `/main/productinfo/${product.id.split("-")[2]}/${category}`;
     navigate("/route/checkout", { state: { selectedItems, storeNames, path } });
   };
 

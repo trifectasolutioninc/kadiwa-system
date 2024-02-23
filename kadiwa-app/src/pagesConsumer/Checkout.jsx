@@ -249,6 +249,10 @@ const Checkout = () => {
         );
         return;
       }
+
+      console.log("STORE KEY", storeKey);
+
+    
   
       // Get store receipt generator data for the current storeKey
       const storeReceiptGeneratorData =

@@ -153,7 +153,7 @@ const StoreInfo = () => {
       {
         productId: product.product_code,
         productInfo: { ...product, qty: qty }, // Assuming you're using qty state for selected quantity
-        storeKey: sid,
+        storeKey: `${uid}_${sid}`,
       },
     ];
   
