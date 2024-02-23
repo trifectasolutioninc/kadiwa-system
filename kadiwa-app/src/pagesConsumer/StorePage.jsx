@@ -96,7 +96,7 @@ const StorePage = () => {
     <>
       <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
         <NavLink to={"/main/store"} className="">
-          <IoMdArrowRoundBack fontSize={"25px"} />
+          <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
       </div>
       <main className="p-3 md:p-10 space-y-5 mt-14">

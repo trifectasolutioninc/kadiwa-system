@@ -120,117 +120,105 @@ const MyAddresses = () => {
   };
 
   return (
-    <div className=" bg-gray-100 h-screen">
-      <div className="px-4">
-        <div className="flex pt-4 mb-1 items-center  space-x-1">
-          <div></div>
-          <div className="flex">
-            <NavLink to={"/route/profileedit/"} className="">
-              <IoMdArrowRoundBack />
-            </NavLink>
-          </div>
+    <div className="p-3 md:px-10 mb-28">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0">
+        <NavLink to={"/route/profileedit/"}>
+          <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
+        </NavLink>
+        <h1 className="text-xl font-bold  text-neutral-100">My Address</h1>
+      </div>
 
-          <h1 className="text-lg text-green-600 font-bold">My Adress</h1>
-        </div>
-       
+      <div className="mt-14 space-y-5">
+        <h1 className="font-bold text-black/80">Delivery Information</h1>
 
- 
-        <div>
-          <hr />
-          <h1 className="font-bold text-gray-800 mb-2">Delivery Information</h1>
+        {/* Display default address */}
+        {userAddresses.default && (
+          <div className="bg-white rounded-md shadow-lg mb-4">
+            <div className="p-2 flex justify-between items-center">
+              <p variant="body2" className="text-black/80">
+                Default Address
+              </p>
+              <div>
+                <button
+                  onClick={() => handleEditAddressToggle("default")}
+                  className=" p-2 font-bold text-green-700 cursor-pointer"
+                >
+                  Edit
+                </button>
+              </div>
+            </div>
+            <hr className=" mx-1" />
 
-          {/* Display default address */}
-          {userAddresses.default && (
-            <div className="bg-white rounded-md shadow-lg mb-4">
-              <div className="px-1 flex justify-between ">
-                <p variant="body2" className="text-sm text-gray-600">
-                  Default Address
+            <div className="p-4 bg-white rounded-b-md shadow-md">
+              <div className="flex justify-between w-full">
+                <p variant="body1" className="text-gray-700 flex-grow">
+                  {userAddresses.default.person}
                 </p>
-                <div>
+                <p variant="body1" className="text-gray-700">
+                  {userAddresses.default.contact}
+                </p>
+              </div>
+              <p variant="body1" className="text-gray-800 flex font-semibold">
+                <LocationOnIcon className="text-green-600" />
+                {userAddresses.default.barangay}, {userAddresses.default.city}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Display additional addresses */}
+        <div className="p-2 flex justify-between items-center bg-white rounded-t-md ">
+          <p variant="body2" className=" text-black/80">
+            Additional Address
+          </p>
+          <div>
+            <button
+              onClick={() => setIsAddAddressModalOpen(true)} // Open modal when Add button is clicked
+              className="p-2 font-bold text-green-700"
+            >
+              Add
+            </button>
+            <AddAddressModal
+              showModal={isAddAddressModalOpen}
+              closeModal={closeModal}
+              handleAddAddress={handleAddAddress}
+            />
+          </div>
+        </div>
+        {userAddresses.additional &&
+          userAddresses.additional.map((address, index) => (
+            <div key={index} className="bg-white shadow-lg">
+              <hr className=" mx-1" />
+
+              <div className="p-4">
+                <div className=" text-right">
                   <button
-                    onClick={() => handleEditAddressToggle("default")}
-                    className="text-sm px-2 font-bold text-green-700 cursor-pointer"
+                    onClick={() =>
+                      handleEditAddressToggle(`additional/${index}`)
+                    }
+                    className=" text-sm text-right font-bold text-green-700 cursor-pointer"
                   >
                     Edit
                   </button>
                 </div>
-              </div>
-              <hr className=" mx-1" />
 
-              <div className="p-4 bg-white rounded-b-md shadow-md">
                 <div className="flex justify-between w-full">
                   <p variant="body1" className="text-gray-700 flex-grow">
-                    {userAddresses.default.person}
+                    {address.person}
                   </p>
                   <p variant="body1" className="text-gray-700">
-                    {userAddresses.default.contact}
+                    {address.contact}
                   </p>
                 </div>
                 <p variant="body1" className="text-gray-800 flex font-semibold">
                   <LocationOnIcon className="text-gray-500" />
-                  {userAddresses.default.barangay}, {userAddresses.default.city}
+                  {address.barangay}, {address.city}
                 </p>
               </div>
             </div>
-          )}
-
-          {/* Display additional addresses */}
-          <div className="px-1 flex justify-between bg-white rounded-t-md ">
-            <p variant="body2" className="text-sm text-gray-600">
-              Additional Address
-            </p>
-            <div>
-              <button
-                onClick={() => setIsAddAddressModalOpen(true)} // Open modal when Add button is clicked
-                className="text-sm px-2 font-bold text-green-700"
-              >
-                Add
-              </button>
-              <AddAddressModal
-                showModal={isAddAddressModalOpen}
-                closeModal={closeModal}
-                handleAddAddress={handleAddAddress}
-              />
-            </div>
-          </div>
-          {userAddresses.additional &&
-            userAddresses.additional.map((address, index) => (
-              <div key={index} className="bg-white shadow-lg">
-                <hr className=" mx-1" />
-
-                <div className="p-4">
-                  <div className=" text-right">
-                    <button
-                      onClick={() =>
-                        handleEditAddressToggle(`additional/${index}`)
-                      }
-                      className=" text-sm text-right font-bold text-green-700 cursor-pointer"
-                    >
-                      Edit
-                    </button>
-                  </div>
-
-                  <div className="flex justify-between w-full">
-                    <p variant="body1" className="text-gray-700 flex-grow">
-                      {address.person}
-                    </p>
-                    <p variant="body1" className="text-gray-700">
-                      {address.contact}
-                    </p>
-                  </div>
-                  <p
-                    variant="body1"
-                    className="text-gray-800 flex font-semibold"
-                  >
-                    <LocationOnIcon className="text-gray-500" />
-                    {address.barangay}, {address.city}
-                  </p>
-                </div>
-              </div>
-            ))}
-        </div>
-        <div className="h-16 p-2"></div>
+          ))}
       </div>
+      <div className="h-16 p-2"></div>
 
       {isEditAddressOpen && (
         <EditAddress addressType={editAddressType} closeModal={closeModal} />

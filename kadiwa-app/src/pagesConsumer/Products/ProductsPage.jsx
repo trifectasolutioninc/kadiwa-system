@@ -167,7 +167,10 @@ const ProductsPage = () => {
           <div className=" flex justify-between">
             <div className="flex items-center gap-5">
               <NavLink to={`/main/`}>
-                <IoMdArrowRoundBack fontSize={"25px"} />
+                <IoMdArrowRoundBack
+                  fontSize={"25px"}
+                  className="text-neutral-100"
+                />
               </NavLink>
 
               <h1 className="text-xl text-neutral-100 font-bold">Products</h1>

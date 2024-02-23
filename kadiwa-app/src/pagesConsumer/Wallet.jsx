@@ -31,8 +31,6 @@ function Wallet() {
     };
 
     const updateHTMLWithUserData = (userData) => {
-      
-
       const qrCodeCanvas = document.getElementById("qrCodeCanvas");
 
       QRCode.toCanvas(
@@ -53,7 +51,10 @@ function Wallet() {
       <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
         <div className="flex items-center gap-5 ">
           <NavLink to={"/main/profile"}>
-            <IoMdArrowRoundBack fontSize={"25px"} />
+            <IoMdArrowRoundBack
+              fontSize={"25px"}
+              className="text-neutral-100"
+            />
           </NavLink>
           <h1 className="text-xl text-neutral-100  font-bold">Load/Wallet</h1>
         </div>
@@ -71,7 +72,6 @@ function Wallet() {
               <h1 className="text-md font-semibold">Scan Me</h1>
             </div>
           </section>
-         
         </div>
 
         <p className=" text-black/80 text-center">Or</p>

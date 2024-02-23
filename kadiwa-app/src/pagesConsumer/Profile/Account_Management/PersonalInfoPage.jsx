@@ -68,7 +68,7 @@ const PersonalInfoPage = () => {
     <>
       <div className="p-3 flex items-center gap-5 bg-green-700 border-b">
         <NavLink to={"/route/profileedit"}>
-          <IoMdArrowRoundBack fontSize={"25px"} />
+          <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
         <h1 className="text-lg text-neutral-100 font-bold">Edit Profile</h1>
         <div></div> {/* Placeholder for alignment */}

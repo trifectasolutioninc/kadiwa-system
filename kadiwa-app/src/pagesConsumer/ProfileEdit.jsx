@@ -7,20 +7,16 @@ import { IoIosSettings } from "react-icons/io";
 import { MdContactSupport } from "react-icons/md";
 import { MdPermIdentity } from "react-icons/md";
 import { IoIosArrowForward } from "react-icons/io";
-import Toast from './../Components/Notifications/Toast';
-
+import Toast from "./../Components/Notifications/Toast";
 
 const ProfileEdit = () => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-
-const handleToast  = async () =>  {
-
-  setToastMessage('Coming Soon... ');
-  setShowToast(true);
-}
-
+  const handleToast = async () => {
+    setToastMessage("Coming Soon... ");
+    setShowToast(true);
+  };
 
   return (
     <>
@@ -28,7 +24,10 @@ const handleToast  = async () =>  {
       <div className="bg-green-700 shadow-md top-0 fixed w-full">
         <div className="flex items-center gap-5 p-3">
           <NavLink to={"/main/profile"} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
+            <IoMdArrowRoundBack
+              fontSize={"25px"}
+              className="text-neutral-100"
+            />
           </NavLink>
           <h1 className="text-lg text-neutral-100 font-bold">
             Account Management
@@ -51,7 +50,6 @@ const handleToast  = async () =>  {
           <hr />
           <NavLink
             to={"/route/myaddresses"}
-            
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             My Address
@@ -78,7 +76,6 @@ const handleToast  = async () =>  {
             className=" w-full p-2 flex items-center justify-between text-black/80"
           >
             Language
-
             <IoIosArrowForward />
           </NavLink>
         </div>

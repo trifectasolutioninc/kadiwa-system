@@ -70,7 +70,10 @@ const Orders = () => {
         <div className="bg-green-700 shadow-md top-0 fixed w-full">
           <div className="flex items-center gap-5 p-3">
             <NavLink to={"/main/profile"} className="">
-              <IoMdArrowRoundBack fontSize={"25px"} />
+              <IoMdArrowRoundBack
+                fontSize={"25px"}
+                className="text-neutral-100"
+              />
             </NavLink>
             <h1 className="text-lg text-neutral-100 font-bold">
               {tab.toUpperCase()}

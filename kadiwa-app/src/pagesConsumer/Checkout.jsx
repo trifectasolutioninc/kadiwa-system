@@ -79,11 +79,14 @@ const Checkout = () => {
   const [defaultAddress, setDefaultAddress] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [contactPerson, setContactPerson] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [isIncompleteAddressModalOpen, setIsIncompleteAddressModalOpen] = useState(false);
-  const [incompleteAddressModalContent, setIncompleteAddressModalContent] = useState({});
-  const [isSelectAddressModalOpen, setIsSelectAddressModalOpen] = useState(false);
+  const [contactPerson, setContactPerson] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isIncompleteAddressModalOpen, setIsIncompleteAddressModalOpen] =
+    useState(false);
+  const [incompleteAddressModalContent, setIncompleteAddressModalContent] =
+    useState({});
+  const [isSelectAddressModalOpen, setIsSelectAddressModalOpen] =
+    useState(false);
   // Group items by store key
   const groupedItems = selectedItems.reduce((acc, item) => {
     if (!acc[item.storeKey]) {
@@ -102,28 +105,28 @@ const Checkout = () => {
     return initialOptions;
   });
 
-
-
-
   useEffect(() => {
     const fetchDefaultAddress = async () => {
       try {
-        const uid = sessionStorage.getItem('uid');
-        const addressesRef = ref(firebaseDB, 'users_address');
+        const uid = sessionStorage.getItem("uid");
+        const addressesRef = ref(firebaseDB, "users_address");
 
         // Fetch default address
-        const snapshot = await get(child(addressesRef, uid, 'default'));
+        const snapshot = await get(child(addressesRef, uid, "default"));
         const defaultAddressFromFirebase = snapshot.val();
         const selectedAdd = defaultAddressFromFirebase.default;
-        console.log('Default Address from Firebase:', defaultAddressFromFirebase);
-        console.log('Selected Address from Firebase:', selectedAdd); // Add this log
+        console.log(
+          "Default Address from Firebase:",
+          defaultAddressFromFirebase
+        );
+        console.log("Selected Address from Firebase:", selectedAdd); // Add this log
 
         if (defaultAddressFromFirebase) {
           setDefaultAddress(defaultAddressFromFirebase);
           setSelectedAddress(selectedAdd); // Set default address initially
         }
       } catch (error) {
-        console.error('Error fetching default address:', error);
+        console.error("Error fetching default address:", error);
       }
     };
 
@@ -138,9 +141,7 @@ const Checkout = () => {
     console.log("Selected Address:", address);
     console.log("Contact Person:", contactPerson);
     console.log("Phone Number:", phoneNumber);
-
   };
-
 
   useEffect(() => {
     const fetchStoreReceiptGenerator = async () => {
@@ -166,8 +167,6 @@ const Checkout = () => {
     fetchStoreReceiptGenerator();
   }, []);
 
-
-
   // Calculate total price for items in a store
   const calculateTotalPrice = (items) => {
     const totalPrice = items.reduce((acc, item) => {
@@ -192,7 +191,6 @@ const Checkout = () => {
       [storeKey]: option,
     }));
   };
-
 
   // Calculate merchandise subtotal
   const merchandiseSubtotal = Object.values(groupedItems).reduce(
@@ -242,17 +240,25 @@ const Checkout = () => {
     setIsModalOpen(true);
   };
 
-
   const placeOrder = async () => {
     if (!storeReceiptGenerator) {
       console.error("storeReceiptGenerator is not fetched yet.");
       return;
     }
 
-    if (!selectedAddress || (selectedAddress.display_name === "N/A" || selectedAddress.display_name === "No Address") || (selectedAddress.barangay === "N/A" || selectedAddress.barangay === "No Address")) {
+    if (
+      !selectedAddress ||
+      selectedAddress.display_name === "N/A" ||
+      selectedAddress.display_name === "No Address" ||
+      selectedAddress.barangay === "N/A" ||
+      selectedAddress.barangay === "No Address"
+    ) {
       // If delivery address is incomplete, show modal
       setIsIncompleteAddressModalOpen(true);
-      setIncompleteAddressModalContent({ title: "Incomplete Address", message: "Please provide complete address." });
+      setIncompleteAddressModalContent({
+        title: "Incomplete Address",
+        message: "Please provide complete address.",
+      });
       return;
     }
 
@@ -273,8 +279,6 @@ const Checkout = () => {
 
       console.log("STORE KEY", storeKey);
 
-
-
       // Get store receipt generator data for the current storeKey
       const storeReceiptGeneratorData =
         storeReceiptGenerator[storeKey.split("_")[1]];
@@ -283,7 +287,8 @@ const Checkout = () => {
         typeof storeReceiptGeneratorData !== "object"
       ) {
         console.error(
-          `Invalid storeReceiptGenerator data for storeKey: ${storeKey.split("_")[1]
+          `Invalid storeReceiptGenerator data for storeKey: ${
+            storeKey.split("_")[1]
           }`
         );
         return;
@@ -338,7 +343,10 @@ const Checkout = () => {
       };
 
       // Check if any item in the CartList has only one item
-      const cartListRef = ref(firebaseDB, `cart_collection/${storeKey}/CartList`);
+      const cartListRef = ref(
+        firebaseDB,
+        `cart_collection/${storeKey}/CartList`
+      );
       const onecartListRef = ref(firebaseDB, `cart_collection/${storeKey}`);
       const cartListSnapshot = await get(cartListRef);
       if (
@@ -433,13 +441,15 @@ const Checkout = () => {
       )
         .then(() => {
           console.log(
-            `Store receipt generator data updated for store ${storeKey.split("_")[1]
+            `Store receipt generator data updated for store ${
+              storeKey.split("_")[1]
             }`
           );
         })
         .catch((error) => {
           console.error(
-            `Error updating store receipt generator data for store ${storeKey.split("_")[1]
+            `Error updating store receipt generator data for store ${
+              storeKey.split("_")[1]
             }:`,
             error
           );
@@ -447,17 +457,17 @@ const Checkout = () => {
     });
   };
 
-
-
-
   return (
     <>
       <div className="p-5 md:px-10 mb-28">
-        <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0">
+        <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0">
           <NavLink to={path}>
-            <IoMdArrowRoundBack fontSize={"25px"} />
+            <IoMdArrowRoundBack
+              fontSize={"25px"}
+              className="text-neutral-100"
+            />
           </NavLink>
-          <h1 className="text-xl font-bold  text-green-700">Checkout</h1>
+          <h1 className="text-xl font-bold  text-neutral-100">Checkout</h1>
         </div>
         <div className="space-y-5 mt-12">
           <div className="p-3 bg-white space-y-2 rounded-md shadow-md text-black/80">
@@ -465,16 +475,32 @@ const Checkout = () => {
               <p className="text-lg flex items-center font-bold">
                 <FaLocationDot fontSize={"12px"} /> Delivery Address
               </p>
-              <button className="text-blue-400" onClick={() => setIsModalOpen(true)}>Change Address</button>
-
+              <button
+                className="text-blue-400"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Change Address
+              </button>
             </div>
             <hr />
             {selectedAddress ? (
               <>
-                <p>{selectedAddress?.person || contactPerson} | {selectedAddress?.contact || phoneNumber}</p>
-                <p>{selectedAddress?.landmark || selectedAddress.display_name}</p>
-                <p>{selectedAddress?.barangay ? `${selectedAddress.barangay}, ` : ''}{selectedAddress?.city ? `${selectedAddress.city}, ` : ''} {selectedAddress?.zipcode ? `${selectedAddress.zipcode}, ` : ''}</p>
-
+                <p>
+                  {selectedAddress?.person || contactPerson} |{" "}
+                  {selectedAddress?.contact || phoneNumber}
+                </p>
+                <p>
+                  {selectedAddress?.landmark || selectedAddress.display_name}
+                </p>
+                <p>
+                  {selectedAddress?.barangay
+                    ? `${selectedAddress.barangay}, `
+                    : ""}
+                  {selectedAddress?.city ? `${selectedAddress.city}, ` : ""}{" "}
+                  {selectedAddress?.zipcode
+                    ? `${selectedAddress.zipcode}, `
+                    : ""}
+                </p>
               </>
             ) : (
               <p>No address selected</p>
@@ -625,8 +651,6 @@ const Checkout = () => {
         content={incompleteAddressModalContent}
         openSelectedAddressModal={handleOpenSelectedAddressModal}
       />
-
-
     </>
   );
 };

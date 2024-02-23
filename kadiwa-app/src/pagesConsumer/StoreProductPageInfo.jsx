@@ -42,7 +42,10 @@ const ProductDetails = ({ productDetails }) => {
             }`}
             className=""
           >
-            <IoMdArrowRoundBack fontSize={"25px"} />
+            <IoMdArrowRoundBack
+              fontSize={"25px"}
+              className="text-neutral-100"
+            />
           </NavLink>
           <h1 className="text-xl font-bold  text-neutral-100">
             Product Details
