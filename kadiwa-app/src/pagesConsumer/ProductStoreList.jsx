@@ -22,6 +22,7 @@ const StoreList = ({ productCode, category }) => {
   const [storeAddress, setstoreAddress] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [selectedVariety, setSelectedVariety] = useState(null);
   const navigate = useNavigate();
 
   const uid = sessionStorage.getItem("uid");
@@ -183,6 +184,12 @@ const StoreList = ({ productCode, category }) => {
     setSelectedQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
 
+
+  // Function to handle variety selection
+  const handleVarietyChange = (event) => {
+    setSelectedVariety(event.target.value);
+  };
+
   // Function to handle checkout
   const handleCheckout = (product) => {
     if (!product || !selectedStore) {
@@ -195,7 +202,7 @@ const StoreList = ({ productCode, category }) => {
       {
         productId: product.id.split("-")[2],
         productInfo: { ...product, qty: selectedQuantity },
-        storeKey:`${uid}_${selectedStore.id}`,
+        storeKey: `${uid}_${selectedStore.id}`,
       },
     ];
 
@@ -304,14 +311,18 @@ const StoreList = ({ productCode, category }) => {
                 <div>
                   <label>Variety: </label>
                   <select
-                    name=""
-                    id=""
+                    name="variety"
+                    value={selectedVariety}
+                    onChange={handleVarietyChange}
                     className="p-1 border font-medium rounded-md"
                   >
                     <option value="">Select Variety</option>
-                    <option value="">1 unit</option>
-                    <option value="">3 unit</option>
-                    <option value="">5 unit</option>
+                    {filteredProducts.length > 0 &&
+                      Object.values(filteredProducts[0].variety).map((variety) => (
+                        <option key={variety.id} value={variety.id}>
+                          {variety.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
@@ -384,14 +395,18 @@ const StoreList = ({ productCode, category }) => {
                 <div>
                   <label>Variety: </label>
                   <select
-                    name=""
-                    id=""
+                    name="variety"
+                    value={selectedVariety}
+                    onChange={handleVarietyChange}
                     className="p-1 border font-medium rounded-md"
                   >
                     <option value="">Select Variety</option>
-                    <option value="">1 unit</option>
-                    <option value="">3 unit</option>
-                    <option value="">5 unit</option>
+                    {filteredProducts.length > 0 &&
+                      Object.values(filteredProducts[0].variety).map((variety) => (
+                        <option key={variety.id} value={variety.id}>
+                          {variety.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>

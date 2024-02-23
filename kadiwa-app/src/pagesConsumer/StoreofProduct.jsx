@@ -200,7 +200,7 @@ const StoreInfo = () => {
                 {storeAddress.city}, {storeAddress.province}
               </p>
               <p className="mt-4">{selectedProduct.product_name}</p>
-              <p className="">Price: ${selectedProduct.price}</p>
+              <p className="">Price: ₱{selectedProduct.price}</p>
               <select name="" id="">
                 <option value="">Select Variety</option>
                 <option value="">1 unit</option>
