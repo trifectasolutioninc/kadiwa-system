@@ -5,7 +5,6 @@ import firebaseDB from "../Configuration/config-firebase2";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ChatBOT } from "../services/AI/chat-bot";
 
-
 const ChatPage = () => {
   const maxTextareaHeight = 120;
   const { storeID, page } = useParams();
@@ -28,9 +27,9 @@ const ChatPage = () => {
 
         if (userData && userData.name) {
           setStoreName(userData.name);
-          sessionStorage.setItem('STRN', userData.name);
+          sessionStorage.setItem("STRN", userData.name);
           setOwnerID(userData.id);
-          sessionStorage.setItem('STRID', userData.id);
+          sessionStorage.setItem("STRID", userData.id);
         }
       } catch (error) {
         console.error("Error fetching store data:", error);
@@ -72,12 +71,15 @@ const ChatPage = () => {
         const messagesArray = Object.values(chatData.Chat).map((message) => {
           return {
             ...message,
-            id: message.time
+            id: message.time,
           };
         });
 
         const updatedMessages = messagesArray.map((message) => {
-          if ((message.sender === "bot" || message.sender === "partner") && message.status !== "read") {
+          if (
+            (message.sender === "bot" || message.sender === "partner") &&
+            message.status !== "read"
+          ) {
             return { ...message, status: "read" };
           }
           return message;
@@ -86,12 +88,11 @@ const ChatPage = () => {
         setMessages(updatedMessages);
 
         const updates = {};
-        updatedMessages.forEach(message => {
+        updatedMessages.forEach((message) => {
           updates[`Chat/${message.id}/status`] = message.status;
         });
         await update(chatRef, updates);
       } else if (messages.length === 0) {
-
         sendChatMessage("Good Day! Welcome to our store!", "bot");
       }
     };
@@ -164,8 +165,8 @@ const ChatPage = () => {
 
       const currentChatData = await get(chatRef);
       const existingChat = currentChatData.val();
-      const STRN = sessionStorage.getItem('STRN');
-      const STRID = sessionStorage.getItem('STRID');
+      const STRN = sessionStorage.getItem("STRN");
+      const STRID = sessionStorage.getItem("STRID");
       if (storeName == "" || ownerID == "") {
         storeName = STRN;
         ownerID = STRID;
@@ -182,9 +183,8 @@ const ChatPage = () => {
       };
 
       if (botReply) {
-
         setTimeout(() => {
-          const timestamp2 = generateUniqueId()
+          const timestamp2 = generateUniqueId();
           const botMessage = {
             img: "",
             message: botReply.message,
@@ -249,54 +249,62 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-200 flex flex-col">
-      <div className="flex gap-5 items-center p-4 bg-white shadow-md">
-        {getpage === "store" && (
+    <div className="h-screen flex flex-col">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md overflow-x-hidden z-50">
+        <div className="flex gap-5 items-center ">
+          {getpage === "store" && (
+            <NavLink to={`/main/storepage/${storeID}`} className="">
+              <IoMdArrowRoundBack
+                fontSize={"25px"}
+                className="text-neutral-100"
+              />
+            </NavLink>
+          )}
+          {getpage === "chat" && (
+            <NavLink to={`/main/chat`} className="">
+              <IoMdArrowRoundBack
+                fontSize={"25px"}
+                className="text-neutral-100"
+              />
+            </NavLink>
+          )}
+          {getpage === "store-home" && (
+            <NavLink to={`/main/store`} className="">
+              <IoMdArrowRoundBack
+                fontSize={"25px"}
+                className="text-neutral-100"
+              />
+            </NavLink>
+          )}
 
-          <NavLink to={`/main/storepage/${storeID}`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
-
-        )}
-        {getpage === "chat" && (
-
-          <NavLink to={`/main/chat`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
-
-        )}
-        {getpage === "store-home" && (
-
-          <NavLink to={`/main/store`} className="">
-            <IoMdArrowRoundBack fontSize={"25px"} />
-          </NavLink>
-
-        )}
-
-        <h1 className="text-gray-700 font-bold text-lg">{storeName}</h1>
+          <h1 className="text-neutral-100 font-bold text-lg">{storeName}</h1>
+        </div>
       </div>
 
       <div
-        className="flex-1 overflow-y-auto p-4"
+        className="inline-block flex-1 p-4 mt-14"
         style={{ whiteSpace: "pre-line" }}
       >
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`my-2 ${message.sender === "consumer" ? "text-right" : "text-left"
-              }`}
+            className={`my-2 ${
+              message.sender === "consumer" ? "text-right" : "text-left"
+            }`}
           >
             <div
-              className={`inline-block p-2 rounded-lg ${message.sender === "consumer"
+              className={`inline-block max-w-72 break-words p-2 rounded-lg ${
+                message.sender === "consumer"
                   ? "bg-green-500 text-white"
                   : "bg-white"
-                }`}
+              }`}
             >
               <p>{message.message}</p>
             </div>
             <p
-              className={`text-xs text-gray-500 ${message.sender === "consumer" ? "text-right " : "text-left"
-                }`}
+              className={`text-xs text-gray-500 ${
+                message.sender === "consumer" ? "text-right " : "text-left"
+              }`}
             >
               {formatDate(message.time)}
             </p>
@@ -305,7 +313,7 @@ const ChatPage = () => {
 
         <div ref={messageEndRef}></div>
       </div>
-      <div className="h-20" ></div>
+      <div className="h-20"></div>
 
       <div className="p-4 bg-white shadow-md fixed bottom-0  w-full z-50">
         <div className="flex items-center">

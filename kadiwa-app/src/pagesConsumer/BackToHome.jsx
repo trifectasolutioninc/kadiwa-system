@@ -6,7 +6,7 @@ function BackButton() {
   return (
     <>
       <NavLink to={"/main"} className="">
-        <IoMdArrowRoundBack fontSize={"25px"} />
+        <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
       </NavLink>
     </>
   );

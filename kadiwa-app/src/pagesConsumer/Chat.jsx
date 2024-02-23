@@ -10,6 +10,7 @@ import {
 } from "@mui/icons-material";
 
 import BackButton from "./BackToHome";
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
 const StoreCard = ({
   id,
@@ -59,9 +60,15 @@ const StoreCard = ({
           : {};
 
       return (
-        <div>
-          <p style={messageStyle}>
-            {lastMessage.message} - {lastMessage.time}
+        <div className="space-y-1">
+          <p
+            style={messageStyle}
+            className=" max-w-56 md:max-w-[600px] truncate"
+          >
+            {lastMessage.message}
+          </p>
+          <p style={messageStyle} className="text-gray-500">
+            {lastMessage.time}
           </p>
         </div>
       );
@@ -76,7 +83,7 @@ const StoreCard = ({
       className="no-underline"
     >
       <li
-        className="relative bg-slate-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
+        className="relative bg-amber-50 p-4 rounded-lg shadow-md flex items-center border hover:bg-green-50"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -85,10 +92,21 @@ const StoreCard = ({
           transition: "transform 0.3s ease",
         }}
       >
-        <div>
-          <p className="font-semibold text-green-800">{name}</p>
-          <p className="text-xs text-gray-500">{getLastMessage()}</p>
-        </div>
+        <section className="flex items-center gap-5">
+          <div className="bg-white border p-2 rounded-full">
+            <IoChatbubbleEllipsesSharp
+              fontSize={"35px"}
+              className="text-green-700"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <p className="font-bold text-lg  text-green-800 tracking-wide">
+              {name}
+            </p>
+            <p className="text-sm text-black/80">{getLastMessage()}</p>
+          </div>
+        </section>
       </li>
     </Link>
   );
@@ -203,7 +221,7 @@ const Chat = () => {
         <div className=" h-1/2 space-y-2">
           <p className="text-[1em] mx-2 text-black/80 font-medium">Chats</p>
           <div className="container mx-auto mb-16">
-            <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+            <ul className="grid grid-cols-1 gap-4">
               {chatData.filter((store) => uid === store.id.split("_")[0])
                 .length === 0 ? (
                 <section className="flex flex-col items-center text-center p-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
@@ -246,16 +264,24 @@ const Chat = () => {
                     className="bg-slate-50 p-4 rounded-lg shadow-md items-center grid grid-cols-10 border hover:bg-green-50 "
                   >
                     {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
-                    <section className="col-span-9 text-left">
-                      <p className="text-lg font-semibold text-black/80">
+                    <section className="col-span-9 text-left space-y-2">
+                      <p className="text-lg font-bold text-black/80 tracking-wide">
                         {store.name}
                       </p>
-                      <p className=" text-gray-500">{store.type}</p>
+                      <p>
+                        <span className="border p-1 bg-green-200 rounded-md text-black/80">
+                          {store.type}
+                        </span>
+                      </p>
+
                       {storeAddressData.find(
                         (address) => address.id === store.id
                       ) && (
                         <p className=" text-gray-500">
-                          <LocationOn fontSize="25px" />
+                          <LocationOn
+                            fontSize="25px"
+                            className="text-green-600"
+                          />
                           {
                             storeAddressData.find(
                               (address) => address.id === store.id
@@ -269,8 +295,6 @@ const Chat = () => {
                           }
                         </p>
                       )}
-
-                      <p className=" text-gray-500">Partner</p>
                     </section>
                     <div className="col-span-1 flex justify-end "></div>
                   </Link>

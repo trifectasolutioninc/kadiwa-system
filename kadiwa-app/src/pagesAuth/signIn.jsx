@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { getDatabase, ref, get, set } from 'firebase/database';
-import InputMask from 'react-input-mask';
-import { imageConfig } from '../Configuration/config-file';
-import { v4 as uuidv4 } from 'uuid';
-import Toast from '../Components/Notifications/Toast';
-const deviceDetect = require('device-detect')();
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { getDatabase, ref, get, set } from "firebase/database";
+import InputMask from "react-input-mask";
+import { imageConfig } from "../Configuration/config-file";
+import { v4 as uuidv4 } from "uuid";
+import Toast from "../Components/Notifications/Toast";
+
+const deviceDetect = require("device-detect")();
 
 const SignInPages = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [version, setVersion] = useState("");
   const [showToast, setShowToast] = useState(false);
   const navigate = useNavigate();
@@ -22,44 +23,44 @@ const SignInPages = () => {
   const [deviceBrowser, setDeviceBrowser] = useState(null);
 
   useEffect(() => {
-      const fetchVersion = async () => {
-          try { 
-              const database = getDatabase();
-              const versionRef = ref(database, '0_config_control/version');
-              const snapshot = await get(versionRef);
-              if (snapshot.exists()) {
-                  setVersion(snapshot.val());
-              } else {
-                  console.log("No version found");
-              }
-          } catch (error) {
-              console.error("Error getting version:", error);
-          }
-      };
+    const fetchVersion = async () => {
+      try {
+        const database = getDatabase();
+        const versionRef = ref(database, "0_config_control/version");
+        const snapshot = await get(versionRef);
+        if (snapshot.exists()) {
+          setVersion(snapshot.val());
+        } else {
+          console.log("No version found");
+        }
+      } catch (error) {
+        console.error("Error getting version:", error);
+      }
+    };
 
-      fetchVersion();
+    fetchVersion();
   }, []);
 
   useEffect(() => {
     // Function to fetch or generate device ID
     const fetchDeviceID = () => {
       // Simulating fetching device ID (e.g., from localStorage)
-      let id = localStorage.getItem('deviceID');
+      let id = localStorage.getItem("deviceID");
       console.log(id);
       if (!id) {
         id = uuidv4();
-        localStorage.setItem('deviceID', id);
+        localStorage.setItem("deviceID", id);
         console.log(id);
       }
-      
+
       setDeviceID(id);
     };
 
     // Function to determine device type, brand, and browser
     const determineDeviceInfo = () => {
-      setDeviceType(deviceDetect.device || 'Unknown');
-      setDeviceBrand(deviceDetect.device || 'Unknown');
-      setDeviceBrowser(deviceDetect.browser || 'Unknown');
+      setDeviceType(deviceDetect.device || "Unknown");
+      setDeviceBrand(deviceDetect.device || "Unknown");
+      setDeviceBrowser(deviceDetect.browser || "Unknown");
     };
 
     fetchDeviceID();
@@ -73,34 +74,35 @@ const SignInPages = () => {
 
   const handleSignIn = async (event) => {
     event.preventDefault();
-  
+
     try {
       const database = getDatabase(); // get database directly
-      const usersRef = ref(database, 'authentication');
+      const usersRef = ref(database, "authentication");
       const snapshot = await get(usersRef);
-  
+
       if (snapshot.exists()) {
         let success = false;
         snapshot.forEach((childSnapshot) => {
           const userData = childSnapshot.val();
-  
+
           const inputUsername = phoneNumberRef.current.value;
           const inputPassword = passwordRef.current.value;
-          const inputUsername2 = inputUsername.replace(/\s/g, '');
-  
+          const inputUsername2 = inputUsername.replace(/\s/g, "");
+
           if (
             (userData.username === inputUsername ||
-              userData.contact === inputUsername || userData.contact === inputUsername2.replace(/x/g, "+63") ||
+              userData.contact === inputUsername ||
+              userData.contact === inputUsername2.replace(/x/g, "+63") ||
               userData.email === inputUsername) &&
             userData.password === inputPassword
           ) {
             // Update session storage
-            sessionStorage.setItem('log', 'online');
-            sessionStorage.setItem('uid', userData.id);
-            sessionStorage.setItem('sid', userData.store_id);
-            console.log('Successfully logged in', userData);
+            sessionStorage.setItem("log", "online");
+            sessionStorage.setItem("uid", userData.id);
+            sessionStorage.setItem("sid", userData.store_id);
+            console.log("Successfully logged in", userData);
             success = true;
-  
+
             // Check if the user has devices
             if (userData.device) {
               let deviceExists = false;
@@ -108,78 +110,104 @@ const SignInPages = () => {
               Object.values(userData.device).forEach((device) => {
                 if (device.id === deviceID) {
                   // Update the status of the device to "online"
-                  const deviceRef = ref(database, `authentication/${userData.id}/device/${device.id}/log`);
-                  set(deviceRef, 'online').then(() => {
-                    console.log('Device status updated to online');
-                  }).catch((error) => {
-                    console.error('Error updating device status:', error);
-                  });
+                  const deviceRef = ref(
+                    database,
+                    `authentication/${userData.id}/device/${device.id}/log`
+                  );
+                  set(deviceRef, "online")
+                    .then(() => {
+                      console.log("Device status updated to online");
+                    })
+                    .catch((error) => {
+                      console.error("Error updating device status:", error);
+                    });
                   deviceExists = true;
                 }
               });
               if (!deviceExists) {
                 // If the deviceID is not found in the user's devices, add the new device
-                const newDeviceRef = ref(database, `authentication/${userData.id}/device/${deviceID}`);
+                const newDeviceRef = ref(
+                  database,
+                  `authentication/${userData.id}/device/${deviceID}`
+                );
                 set(newDeviceRef, {
                   id: deviceID,
                   type: deviceType,
                   brand: deviceBrand,
                   browser: deviceBrowser,
-                  log: 'online'
-                }).then(() => {
-                  console.log('New device added');
-                }).catch((error) => {
-                  console.error('Error adding new device:', error);
-                });
+                  log: "online",
+                })
+                  .then(() => {
+                    console.log("New device added");
+                  })
+                  .catch((error) => {
+                    console.error("Error adding new device:", error);
+                  });
               }
             } else {
               // If the user has no devices, add the new device
-              const newDeviceRef = ref(database, `authentication/${userData.id}/device/${deviceID}`);
+              const newDeviceRef = ref(
+                database,
+                `authentication/${userData.id}/device/${deviceID}`
+              );
               set(newDeviceRef, {
                 id: deviceID,
                 type: deviceType,
                 brand: deviceBrand,
                 browser: deviceBrowser,
-                log: 'online'
-              }).then(() => {
-                console.log('New device added');
-              }).catch((error) => {
-                console.error('Error adding new device:', error);
-              });
+                log: "online",
+              })
+                .then(() => {
+                  console.log("New device added");
+                })
+                .catch((error) => {
+                  console.error("Error adding new device:", error);
+                });
             }
           }
         });
-  
+
         if (success) {
-          setToastMessage('Login successful!');
+          setToastMessage("Login successful!");
           setShowToast(true);
-          setTimeout(function() {
-            navigate('/main');
-          }, 900); 
+          setTimeout(function () {
+            navigate("/main");
+          }, 900);
         } else {
           setShowToast(true);
-          setToastMessage('Incorrect username or password.');
+          setToastMessage("Incorrect username or password.");
         }
       } else {
-        console.error('No users found');
+        console.error("No users found");
       }
     } catch (error) {
-      console.error('Error logging in:', error.message);
+      console.error("Error logging in:", error.message);
     }
   };
-  
+
+  const styles = {
+    backgroundImage: "url(/bg.webp)",
+  };
+
   return (
-    <div className=' bg-white flex items-center justify-center h-screen'>
-      <div className=''>
-      <div className='flex justify-center mx-auto w-auto space-x-2'>
-                  <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
-                  <img className=" h-[5em] " src={imageConfig.AppLogo} alt="Farm Logo" />
-                  <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
-                  </div>
+    <div
+      className="bg-gray-700 bg-cover bg-blend-overlay flex items-center justify-center h-screen"
+      style={styles}
+    >
+      <div className="">
+        <div className="flex justify-center mx-auto w-auto space-x-2">
+          <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
+          <img
+            className=" h-[5em] "
+            src={imageConfig.AppLogo}
+            alt="Farm Logo"
+          />
+          <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
+        </div>
         <div className="mt-5 p-8 rounded">
           <form id="loginForm" className="space-y-1" onSubmit={handleSignIn}>
             <div className="text-left">
-              <label htmlFor="contact" className="text-sm text-gray-500">
+              <label htmlFor="contact" className="text-sm text-gray-200">
                 Phone Number
               </label>
               <InputMask
@@ -197,7 +225,7 @@ const SignInPages = () => {
             </div>
 
             <div className="text-left">
-              <label htmlFor="password" className="text-sm text-gray-500">
+              <label htmlFor="password" className="text-sm text-gray-200">
                 Password
               </label>
               <input
@@ -213,7 +241,6 @@ const SignInPages = () => {
             </div>
 
             <div className="items-center justify-center text-center">
-              
               <button
                 type="submit"
                 className="w-full py-2 mt-4 bg-green-600 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring focus:border-green-300"
@@ -222,23 +249,22 @@ const SignInPages = () => {
               </button>
             </div>
           </form>
- 
+
           <div className="mt-4 text-gray-700 text-center">
-                <NavLink to="#" className="text-sm text-green-600">
-                  Forgot Password?
-                </NavLink>
-            <p className="text-gray-500">
-              Don't have an account?{' '}
+            <NavLink to="#" className="text-sm text-green-600">
+              Forgot Password?
+            </NavLink>
+            <p className="text-gray-200">
+              Don't have an account?{" "}
               <NavLink to="/" className="text-green-600 font-semibold">
                 Register
               </NavLink>
             </p>
           </div>
         </div>
-        <div className='flex items-end text-center py-4 text-xs text-gray-600  bg-white'>
-        <p className='mx-auto mt-auto '>{version}</p>
-      </div>
-
+        <div className="flex items-end text-center py-4 text-sm text-gray-200">
+          <p className="mx-auto mt-auto ">{version}</p>
+        </div>
       </div>
 
       {showToast && (

@@ -1,28 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { imageConfig } from '../Configuration/config-file';
-import InputMask from 'react-input-mask';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { getDatabase, ref, get, set } from 'firebase/database';
-import { FaEye, FaEyeSlash } from "react-icons/fa"; 
-import firebaseDB from '../Configuration/config';
+import React, { useState, useEffect } from "react";
+import { imageConfig } from "../Configuration/config-file";
+import InputMask from "react-input-mask";
+import { NavLink, useNavigate } from "react-router-dom";
+import { getDatabase, ref, get, set } from "firebase/database";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import firebaseDB from "../Configuration/config";
 
-
-import { v4 as uuidv4 } from 'uuid';
-import Toast from '../Components/Notifications/Toast';
-const deviceDetect = require('device-detect')();
+import { v4 as uuidv4 } from "uuid";
+import Toast from "../Components/Notifications/Toast";
+const deviceDetect = require("device-detect")();
 
 function isBlank(value) {
-  return value.trim() === '';
+  return value.trim() === "";
 }
 
 function generateUniqueID() {
   var currentDate = new Date();
   var year = currentDate.getFullYear();
-  var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-  var day = ('0' + currentDate.getDate()).slice(-2);
-  var hours = ('0' + currentDate.getHours()).slice(-2);
-  var minutes = ('0' + currentDate.getMinutes()).slice(-2);
-  var random4DigitNumber = ('000' + Math.floor(1000 + Math.random() * 9000)).slice(-4);
+  var month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+  var day = ("0" + currentDate.getDate()).slice(-2);
+  var hours = ("0" + currentDate.getHours()).slice(-2);
+  var minutes = ("0" + currentDate.getMinutes()).slice(-2);
+  var random4DigitNumber = (
+    "000" + Math.floor(1000 + Math.random() * 9000)
+  ).slice(-4);
 
   return `${year}-${month}${day}-${hours}${minutes}-${random4DigitNumber}`;
 }
@@ -44,9 +45,9 @@ function resetConsumerForm() {
 const Registration = () => {
   const [version, setVersion] = useState("");
   const [consumerFormData, setConsumerFormData] = useState({
-    contact: '',
-    password: '',
-    confirmPassword: '',
+    contact: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showModal, setShowModal] = useState(false);
   const [deviceID, setDeviceID] = useState(null);
@@ -63,7 +64,7 @@ const Registration = () => {
     const fetchVersion = async () => {
       try {
         const database = getDatabase();
-        const versionRef = ref(database, '0_config_control/version');
+        const versionRef = ref(database, "0_config_control/version");
         const snapshot = await get(versionRef);
         if (snapshot.exists()) {
           setVersion(snapshot.val());
@@ -78,15 +79,14 @@ const Registration = () => {
     fetchVersion();
   }, []);
 
-
   useEffect(() => {
     // Function to fetch or generate device ID
     const fetchDeviceID = () => {
       // Simulating fetching device ID (e.g., from localStorage)
-      let id = localStorage.getItem('deviceID');
+      let id = localStorage.getItem("deviceID");
       if (!id) {
         id = uuidv4();
-        localStorage.setItem('deviceID', id);
+        localStorage.setItem("deviceID", id);
       }
 
       setDeviceID(id);
@@ -94,15 +94,15 @@ const Registration = () => {
 
     // Function to determine device type, brand, and browser
     const determineDeviceInfo = () => {
-      setDeviceType(deviceDetect.device || 'Unknown');
-      setDeviceBrand(deviceDetect.device || 'Unknown');
-      setDeviceBrowser(deviceDetect.browser || 'Unknown');
+      setDeviceType(deviceDetect.device || "Unknown");
+      setDeviceBrand(deviceDetect.device || "Unknown");
+      setDeviceBrowser(deviceDetect.browser || "Unknown");
     };
 
     const autoLoginIfOnline = async () => {
       if (deviceID) {
         const db = firebaseDB();
-        const authRef = ref(db, 'authentication');
+        const authRef = ref(db, "authentication");
         const snapshot = await get(authRef);
 
         if (snapshot.exists()) {
@@ -113,17 +113,16 @@ const Registration = () => {
               // Iterate over devices
               for (const deviceKey in devices) {
                 const deviceData = devices[deviceKey];
-                if (deviceData.id === deviceID && deviceData.log === 'online') {
+                if (deviceData.id === deviceID && deviceData.log === "online") {
                   // If the device is marked as online, automatically log in
-                  sessionStorage.setItem('log', 'online');
-                  sessionStorage.setItem('uid', userData.id);
-                  sessionStorage.setItem('sid', userData.store_id);
-                  console.log('Automatically logged in');
+                  sessionStorage.setItem("log", "online");
+                  sessionStorage.setItem("uid", userData.id);
+                  sessionStorage.setItem("sid", userData.store_id);
+                  console.log("Automatically logged in");
                   // You can navigate to the desired page after login
-                  navigate('/main/');
+                  navigate("/main/");
                   return; // Exit loop if found online device
                 }
-
               }
             }
           });
@@ -141,11 +140,14 @@ const Registration = () => {
     };
   }, [deviceID]); // Add deviceID as dependency to re-run the effect when it changes
 
-
   const handleConsumerSubmit = async (e) => {
     e.preventDefault();
 
-    if (isBlank(consumerFormData.contact) || isBlank(consumerFormData.password) || isBlank(consumerFormData.confirmPassword)) {
+    if (
+      isBlank(consumerFormData.contact) ||
+      isBlank(consumerFormData.password) ||
+      isBlank(consumerFormData.confirmPassword)
+    ) {
       alert("Please fill in all required fields.");
       return;
     }
@@ -154,7 +156,7 @@ const Registration = () => {
       alert("Passwords do not match.");
       return;
     }
-    const userRefCheck = ref(db, 'users_information');
+    const userRefCheck = ref(db, "users_information");
 
     try {
       const snapshot = await get(userRefCheck);
@@ -169,14 +171,16 @@ const Registration = () => {
         });
 
         if (contactExists) {
-          setToastMessage("The phone number is already exist , please use other phone number.")
+          setToastMessage(
+            "The phone number is already exist , please use other phone number."
+          );
           setShowToast(true); // Show toast for existing contact
           return; // Exit function if contact exists
         }
       }
 
       const userID = generateUniqueID();
-      const userRef = ref(db, 'users_information/' + userID);
+      const userRef = ref(db, "users_information/" + userID);
       const user = {
         id: userID,
         points: 0,
@@ -189,10 +193,10 @@ const Registration = () => {
         last_name: "",
         middle_name: "",
         suffix: "",
-        contact: consumerFormData.contact
+        contact: consumerFormData.contact,
       };
 
-      const authRef = ref(db, 'authentication/' + userID);
+      const authRef = ref(db, "authentication/" + userID);
       const authData = {
         id: userID,
         email: "N/A",
@@ -202,29 +206,27 @@ const Registration = () => {
         password: consumerFormData.password,
         device: {
           [deviceID]: {
-            id: (deviceID || " "),
-            type: (deviceType || " "),
-            brand: (deviceBrand || " "),
-            browser: (deviceBrowser || " "),
-            log: 'online'
-          }
-
+            id: deviceID || " ",
+            type: deviceType || " ",
+            brand: deviceBrand || " ",
+            browser: deviceBrowser || " ",
+            log: "online",
+          },
         },
-
       };
 
-      sessionStorage.setItem('uid', userID);
-      sessionStorage.setItem('sid', 'None');
-      console.log('Successfully logged in', userID);
+      sessionStorage.setItem("uid", userID);
+      sessionStorage.setItem("sid", "None");
+      console.log("Successfully logged in", userID);
 
-      const walletRef = ref(db, 'user_wallet/' + userID);
+      const walletRef = ref(db, "user_wallet/" + userID);
       const walletData = {
         id: userID,
         balance: 0,
         points: 0,
       };
 
-      const userAddressRef = ref(db, 'users_address/' + userID);
+      const userAddressRef = ref(db, "users_address/" + userID);
       const userAddress = {
         id: userID,
         default: {
@@ -238,7 +240,7 @@ const Registration = () => {
           contact: consumerFormData.contact,
           address_name: "N/A",
           latitude: "0",
-          longitude: "0"
+          longitude: "0",
         },
         additional: {
           0: {
@@ -253,26 +255,24 @@ const Registration = () => {
             contact: "No Contact Person",
             address_name: "N/A",
             latitude: "0",
-            longitude: "0"
-          }
-
-        }
+            longitude: "0",
+          },
+        },
       };
 
-      const storeRef = ref(db, 'store_information/' + 'None');
+      const storeRef = ref(db, "store_information/" + "None");
       const storeData = {
         id: "None",
-        name: "N/A"
+        name: "N/A",
       };
 
       try {
-
         await Promise.all([
           set(userRef, user),
           set(storeRef, storeData),
           set(userAddressRef, userAddress),
           set(authRef, authData),
-          set(walletRef, walletData)
+          set(walletRef, walletData),
         ]);
 
         resetConsumerForm();
@@ -280,17 +280,14 @@ const Registration = () => {
       } catch (error) {
         console.error("Error saving data to database:", error);
       }
-
-
     } catch (error) {
       console.error("Error checking contact:", error);
     }
-
   };
 
   const closeModal = () => {
     setShowModal(false);
-    navigate('/main/');
+    navigate("/main/");
   };
 
   const togglePasswordVisibility = () => {
@@ -301,21 +298,32 @@ const Registration = () => {
     <div className="flex flex-col items-center h-screen bg-white sm:px-6 lg:px-8">
       <div className="max-w-md w-full my-auto bg-white p-8">
         <div>
-          <div className='flex justify-center mx-auto w-auto space-x-2'>
-            <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
-            <img className=" h-[5em] " src={imageConfig.AppLogo} alt="Farm Logo" />
+          <div className="flex justify-center mx-auto w-auto space-x-2">
+            <img
+              className=" h-[5em] "
+              src={imageConfig.DALogo}
+              alt="Farm Logo"
+            />
+            <img
+              className=" h-[5em] "
+              src={imageConfig.AppLogo}
+              alt="Farm Logo"
+            />
             <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
-
           </div>
 
-          <h2 className="mt-4 text-center text-xl font-extrabold text-gray-500">Create an Account</h2>
+          <h2 className="mt-4 text-center text-xl font-extrabold text-gray-500">
+            Create an Account
+          </h2>
         </div>
         <form className="mt-4 space-y-4" onSubmit={handleConsumerSubmit}>
           {/* Form inputs */}
           <div className="shadow-sm space-y-2">
             {/* Phone Number Input */}
             <div>
-              <label htmlFor="phoneNumber" className="sr-only">Phone Number</label>
+              <label htmlFor="phoneNumber" className="sr-only">
+                Phone Number
+              </label>
               <InputMask
                 id="phoneNumber"
                 name="phoneNumber"
@@ -325,36 +333,52 @@ const Registration = () => {
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                 placeholder="+63 9XX XXX XXXX"
                 value={consumerFormData.contact}
-                onChange={(e) => setConsumerFormData({ ...consumerFormData, contact: e.target.value })}
+                onChange={(e) =>
+                  setConsumerFormData({
+                    ...consumerFormData,
+                    contact: e.target.value,
+                  })
+                }
               />
             </div>
-           {/* Password Input */}
-           {/* Password Input */}
-          <div>
-            <label htmlFor="password" className="sr-only">Password</label>
-            <div className="relative">
-              <input
-                id="password"
-                name="password"
-                type={passwordVisible ? "text" : "password"} // Show/hide password based on visibility state
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none rounded-b-md focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={consumerFormData.password}
-                onChange={(e) => setConsumerFormData({ ...consumerFormData, password: e.target.value })}
-              />
-              {/* Password visibility toggle icon */}
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer"
-                  onClick={() => setPasswordVisible(!passwordVisible)}>
-                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+            {/* Password Input */}
+            {/* Password Input */}
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={passwordVisible ? "text" : "password"} // Show/hide password based on visibility state
+                  autoComplete="current-password"
+                  required
+                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none rounded-b-md focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                  placeholder="Password"
+                  value={consumerFormData.password}
+                  onChange={(e) =>
+                    setConsumerFormData({
+                      ...consumerFormData,
+                      password: e.target.value,
+                    })
+                  }
+                />
+                {/* Password visibility toggle icon */}
+                <div
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                >
+                  {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                </div>
               </div>
             </div>
-          </div>
 
             {/* Confirm Password Input */}
             <div>
-              <label htmlFor="confirmPassword" className="sr-only">Confirm Password</label>
+              <label htmlFor="confirmPassword" className="sr-only">
+                Confirm Password
+              </label>
               <input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -364,7 +388,12 @@ const Registration = () => {
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm Password"
                 value={consumerFormData.confirmPassword}
-                onChange={(e) => setConsumerFormData({ ...consumerFormData, confirmPassword: e.target.value })}
+                onChange={(e) =>
+                  setConsumerFormData({
+                    ...consumerFormData,
+                    confirmPassword: e.target.value,
+                  })
+                }
               />
             </div>
           </div>
@@ -383,28 +412,56 @@ const Registration = () => {
         {showModal && (
           <div className="fixed z-50 inset-0 overflow-y-auto">
             <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-              <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div
+                className="fixed inset-0 transition-opacity"
+                aria-hidden="true"
+              >
                 <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
               </div>
-              <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+              <span
+                className="hidden sm:inline-block sm:align-middle sm:h-screen"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
               <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <svg className="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="h-6 w-6 text-green-600"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <h3 className="text-lg leading-6 font-medium text-gray-900">Registration Successful!</h3>
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        Registration Successful!
+                      </h3>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">You have successfully created your account.</p>
+                        <p className="text-sm text-gray-500">
+                          You have successfully created your account.
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                  <button onClick={closeModal} type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                  <button
+                    onClick={closeModal}
+                    type="button"
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
                     Continue
                   </button>
                 </div>
@@ -413,9 +470,7 @@ const Registration = () => {
           </div>
         )}
         <div className="text-center">
-          <p className="mt-2 text-xs text-gray-600">
-            Or
-          </p>
+          <p className="mt-2 text-xs text-gray-600">Or</p>
           <div className="mt-2">
             <button
               type="button"
@@ -435,32 +490,39 @@ const Registration = () => {
         </div>
         <div className="text-center mt-2">
           <p className="text-xs text-gray-600">
-            By signing up, you agree to our{' '}
-            <a href="#" className="font-medium text-green-500 hover:text-green-600">
+            By signing up, you agree to our{" "}
+            <a
+              href="#"
+              className="font-medium text-green-500 hover:text-green-600"
+            >
               Terms and Conditions
-            </a>{' '}
-            and{' '}
-            <a href="#" className="font-medium text-green-500 hover:text-green-600">
+            </a>{" "}
+            and{" "}
+            <a
+              href="#"
+              className="font-medium text-green-500 hover:text-green-600"
+            >
               Privacy Policy
             </a>
           </p>
           <p className="mt-3 text-sm text-gray-600">
-            Already have an account?{' '}
-            <NavLink to={"/signin"} className="font-medium text-green-500 hover:text-green-600">
+            Already have an account?{" "}
+            <NavLink
+              to={"/signin"}
+              className="font-medium text-green-500 hover:text-green-600"
+            >
               Sign in
             </NavLink>
           </p>
         </div>
       </div>
       {/* Version */}
-      <div className='flex items-end text-center py-4 text-xs text-gray-600 mt-auto bg-white'>
+      <div className="flex items-end text-center py-4 text-sm text-gray-600 mt-auto bg-white">
         <p>{version}</p>
       </div>
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
-     
-
     </div>
   );
 };
