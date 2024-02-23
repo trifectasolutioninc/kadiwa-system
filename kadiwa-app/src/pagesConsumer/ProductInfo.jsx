@@ -109,6 +109,7 @@ const ProductDetails = ({ productDetails }) => {
 </div>;
 
 const ProductInfo = ({ product_inventory, kadiwa_users_account }) => {
+  const { category } = useParams();
   const { productCode, productName } = useParams();
   const [productDetails, setProductDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -149,7 +150,7 @@ const ProductInfo = ({ product_inventory, kadiwa_users_account }) => {
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />
-          <StoreList productCode={productCode}  category= {category}/>
+          <StoreList productCode={productCode}  category={category}/>
         </>
       )}
     </div>
