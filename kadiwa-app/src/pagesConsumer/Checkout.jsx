@@ -3,9 +3,10 @@ import { useLocation, useNavigate, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaStore } from "react-icons/fa";
-import { ref, child, get, update , set, remove } from "firebase/database";
+import { ref, child, get, update, set, remove } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import SelectedAddressModal from "./Profile/SelectedAddress";
+import IncompleteAddressModal from "../Components/Notifications/AddressModal";
 
 // Define Modal component
 const Modal = ({ isOpen, onClose, isSuccess, onConfirm }) => {
@@ -80,7 +81,10 @@ const Checkout = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [contactPerson, setContactPerson] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-    // Group items by store key
+  const [isIncompleteAddressModalOpen, setIsIncompleteAddressModalOpen] = useState(false);
+  const [incompleteAddressModalContent, setIncompleteAddressModalContent] = useState({});
+  const [isSelectAddressModalOpen, setIsSelectAddressModalOpen] = useState(false);
+  // Group items by store key
   const groupedItems = selectedItems.reduce((acc, item) => {
     if (!acc[item.storeKey]) {
       acc[item.storeKey] = [];
@@ -89,15 +93,15 @@ const Checkout = () => {
     return acc;
   }, {});
 
-    // Initialize shipping option state for each store
-    const [shippingOptions, setShippingOptions] = useState(() => {
-      const initialOptions = {};
-      Object.keys(groupedItems).forEach((storeKey) => {
-        initialOptions[storeKey] = "Delivery";
-      });
-      return initialOptions;
+  // Initialize shipping option state for each store
+  const [shippingOptions, setShippingOptions] = useState(() => {
+    const initialOptions = {};
+    Object.keys(groupedItems).forEach((storeKey) => {
+      initialOptions[storeKey] = "Delivery";
     });
-  
+    return initialOptions;
+  });
+
 
 
 
@@ -106,14 +110,14 @@ const Checkout = () => {
       try {
         const uid = sessionStorage.getItem('uid');
         const addressesRef = ref(firebaseDB, 'users_address');
-  
+
         // Fetch default address
         const snapshot = await get(child(addressesRef, uid, 'default'));
         const defaultAddressFromFirebase = snapshot.val();
         const selectedAdd = defaultAddressFromFirebase.default;
         console.log('Default Address from Firebase:', defaultAddressFromFirebase);
         console.log('Selected Address from Firebase:', selectedAdd); // Add this log
-  
+
         if (defaultAddressFromFirebase) {
           setDefaultAddress(defaultAddressFromFirebase);
           setSelectedAddress(selectedAdd); // Set default address initially
@@ -122,11 +126,11 @@ const Checkout = () => {
         console.error('Error fetching default address:', error);
       }
     };
-  
+
     fetchDefaultAddress();
   }, []);
-  
-  const handleAddressSelect = (address,  contactPerson, phoneNumber) => {
+
+  const handleAddressSelect = (address, contactPerson, phoneNumber) => {
     setSelectedAddress(address);
     setIsModalOpen(false); // Close the modal after selecting an address
     setContactPerson(contactPerson);
@@ -181,14 +185,14 @@ const Checkout = () => {
   const calculateTotalPriceWithShipping = (items, option) => {
     return calculateTotalPrice(items) + calculateShippingCost(option);
   };
-  
+
   const handleShippingOptionChange = (storeKey, option) => {
     setShippingOptions((prevOptions) => ({
       ...prevOptions,
       [storeKey]: option,
     }));
   };
-  
+
 
   // Calculate merchandise subtotal
   const merchandiseSubtotal = Object.values(groupedItems).reduce(
@@ -229,18 +233,35 @@ const Checkout = () => {
     return transactionCode;
   };
 
+  const handleCloseIncompleteAddressModal = () => {
+    setIsIncompleteAddressModalOpen(false);
+  };
+
+  const handleOpenSelectedAddressModal = () => {
+    setIsIncompleteAddressModalOpen(false);
+    setIsModalOpen(true);
+  };
+
+
   const placeOrder = async () => {
     if (!storeReceiptGenerator) {
       console.error("storeReceiptGenerator is not fetched yet.");
       return;
     }
-  
+
+    if (!selectedAddress || (selectedAddress.display_name === "N/A" || selectedAddress.display_name === "No Address") || (selectedAddress.barangay === "N/A" || selectedAddress.barangay === "No Address")) {
+      // If delivery address is incomplete, show modal
+      setIsIncompleteAddressModalOpen(true);
+      setIncompleteAddressModalContent({ title: "Incomplete Address", message: "Please provide complete address." });
+      return;
+    }
+
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const currentDate2 = new Date()
       .toISOString()
       .slice(0, 10)
       .replace(/-/g, "/");
-  
+
     Object.entries(groupedItems).forEach(async ([storeKey, items]) => {
       // Check if storeReceiptGenerator has data for the current storeKey
       if (!storeReceiptGenerator[storeKey.split("_")[1]]) {
@@ -252,8 +273,8 @@ const Checkout = () => {
 
       console.log("STORE KEY", storeKey);
 
-    
-  
+
+
       // Get store receipt generator data for the current storeKey
       const storeReceiptGeneratorData =
         storeReceiptGenerator[storeKey.split("_")[1]];
@@ -262,18 +283,17 @@ const Checkout = () => {
         typeof storeReceiptGeneratorData !== "object"
       ) {
         console.error(
-          `Invalid storeReceiptGenerator data for storeKey: ${
-            storeKey.split("_")[1]
+          `Invalid storeReceiptGenerator data for storeKey: ${storeKey.split("_")[1]
           }`
         );
         return;
       }
-  
+
       let perDayCount = storeReceiptGeneratorData.per_day_count;
       let receiptTotal = storeReceiptGeneratorData.receipt_total;
       let latestDate = storeReceiptGeneratorData.latest_date;
       let receiptId;
-  
+
       // Check if it's the same day as the latest date
       if (latestDate === currentDate) {
         perDayCount += 1; // Increment per day count
@@ -281,23 +301,23 @@ const Checkout = () => {
         perDayCount = 1; // Reset per day count
         latestDate = currentDate; // Update latest date
       }
-  
+
       // Construct receipt ID using storeKey, current date, and per day count
       receiptId = `${storeKey.split("_")[1]}-${currentDate}-${perDayCount}`;
-  
+
       // Update store receipt generator data
       storeReceiptGenerator[storeKey.split("_")[1]] = {
         ...storeReceiptGeneratorData,
         per_day_count: perDayCount,
         latest_date: latestDate,
       };
-  
+
       // Update receipt total (if needed)
       receiptTotal += 1; // Increment receipt total
-  
+
       // Get a reference to the 'orders_list' node for the specific store in the Firebase database
       const storeOrdersRef = ref(firebaseDB, `orders_list/${receiptId}`);
-  
+
       const orderData = {
         store_id: storeKey.split("_")[1],
         items: items,
@@ -316,7 +336,7 @@ const Checkout = () => {
         date_received: "N/A",
         transaction_code: generateTransactionCode(),
       };
-  
+
       // Check if any item in the CartList has only one item
       const cartListRef = ref(firebaseDB, `cart_collection/${storeKey}/CartList`);
       const onecartListRef = ref(firebaseDB, `cart_collection/${storeKey}`);
@@ -334,11 +354,11 @@ const Checkout = () => {
           })
           .catch((error) => {
             setShowModal(true);
-                setModalContent({ isSuccess: false });
+            setModalContent({ isSuccess: false });
             console.error(`Error deleting cart for store ${storeKey}:`, error);
           });
 
-          set(storeOrdersRef, orderData)
+        set(storeOrdersRef, orderData)
           .then(() => {
             console.log(`Order for store ${storeKey} placed successfully!`);
             // Remove items from the cart
@@ -400,7 +420,7 @@ const Checkout = () => {
             setModalContent({ isSuccess: false });
           });
       }
-  
+
       // Update store receipt generator data in the Firebase database
       set(
         ref(firebaseDB, `store_receipt_generator/${storeKey.split("_")[1]}`),
@@ -413,24 +433,22 @@ const Checkout = () => {
       )
         .then(() => {
           console.log(
-            `Store receipt generator data updated for store ${
-              storeKey.split("_")[1]
+            `Store receipt generator data updated for store ${storeKey.split("_")[1]
             }`
           );
         })
         .catch((error) => {
           console.error(
-            `Error updating store receipt generator data for store ${
-              storeKey.split("_")[1]
+            `Error updating store receipt generator data for store ${storeKey.split("_")[1]
             }:`,
             error
           );
         });
     });
   };
-  
-  
-  
+
+
+
 
   return (
     <>
@@ -448,19 +466,19 @@ const Checkout = () => {
                 <FaLocationDot fontSize={"12px"} /> Delivery Address
               </p>
               <button className="text-blue-400" onClick={() => setIsModalOpen(true)}>Change Address</button>
-              
+
             </div>
             <hr />
             {selectedAddress ? (
-          <>
-            <p>{selectedAddress?.person || contactPerson } | {selectedAddress?.contact || phoneNumber }</p>
-            <p>{selectedAddress?.landmark || selectedAddress.display_name }</p>
-            <p>{selectedAddress?.barangay ? `${selectedAddress.barangay}, ` : ''}{selectedAddress?.city ? `${selectedAddress.city}, ` : ''} {selectedAddress?.zipcode ? `${selectedAddress.zipcode}, ` : ''}</p>
+              <>
+                <p>{selectedAddress?.person || contactPerson} | {selectedAddress?.contact || phoneNumber}</p>
+                <p>{selectedAddress?.landmark || selectedAddress.display_name}</p>
+                <p>{selectedAddress?.barangay ? `${selectedAddress.barangay}, ` : ''}{selectedAddress?.city ? `${selectedAddress.city}, ` : ''} {selectedAddress?.zipcode ? `${selectedAddress.zipcode}, ` : ''}</p>
 
-          </>
-        ) : (
-          <p>No address selected</p>
-        )}
+              </>
+            ) : (
+              <p>No address selected</p>
+            )}
           </div>
 
           {Object.entries(groupedItems).map(([storeKey, items]) => (
@@ -591,15 +609,22 @@ const Checkout = () => {
         onConfirm={() => navigate(path)}
       />
 
-<SelectedAddressModal
-  showModal={isModalOpen}
-  closeModal={() => setIsModalOpen(false)}
-  handleAddressSelect={handleAddressSelect}
-  defaultAddress={defaultAddress}
-  additionalAddresses={defaultAddress ? defaultAddress.additional : []}
-  selectedAddress={selectedAddress}
-  setSelectedAddress={setSelectedAddress} // Pass the setter function
-/>
+      <SelectedAddressModal
+        showModal={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        handleAddressSelect={handleAddressSelect}
+        defaultAddress={defaultAddress}
+        additionalAddresses={defaultAddress ? defaultAddress.additional : []}
+        selectedAddress={selectedAddress}
+        setSelectedAddress={setSelectedAddress} // Pass the setter function
+      />
+
+      <IncompleteAddressModal
+        isOpen={isIncompleteAddressModalOpen}
+        onClose={handleCloseIncompleteAddressModal}
+        content={incompleteAddressModalContent}
+        openSelectedAddressModal={handleOpenSelectedAddressModal}
+      />
 
 
     </>
