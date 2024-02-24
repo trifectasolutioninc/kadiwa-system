@@ -5,6 +5,7 @@ import { ref, get } from "firebase/database";
 import QRCode from "qrcode";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
+import Toast from "../Components/Notifications/Toast";
 
 function Wallet() {
   const [userData, setUserData] = useState(null);
@@ -46,6 +47,14 @@ function Wallet() {
     fetchUserData();
   }, []);
 
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+  const handleToast = async () => {
+    setToastMessage("Coming Soon... ");
+    setShowToast(true);
+  };
+
   return (
     <>
       <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
@@ -61,7 +70,7 @@ function Wallet() {
       </section>
       <main className="p-3 md:p-10 space-y-5">
         <div className="mt-14">
-          <section className="container border w-fit p-2 m-auto rounded-md">
+          <section className="container w-fit p-2 m-auto rounded-md">
             <div className="text-center bg-white p-4 rounded-2xl text-black/80">
               {/* QR Code Title */}
               <h1 className="text-xl font-bold">QR Code</h1>
@@ -77,11 +86,29 @@ function Wallet() {
         <p className=" text-black/80 text-center">Or</p>
 
         <section className="flex flex-col gap-5 ">
-          <button className="p-3 border rounded-md shadow-md">Gcash</button>
-          <button className="p-3 border rounded-md shadow-md">Maya</button>
-          <button className="p-3 border rounded-md shadow-md">MegaPay</button>
+          <button
+            className="p-3 border rounded-md shadow-md"
+            onClick={handleToast}
+          >
+            Gcash
+          </button>
+          <button
+            className="p-3 border rounded-md shadow-md"
+            onClick={handleToast}
+          >
+            Maya
+          </button>
+          <button
+            className="p-3 border rounded-md shadow-md"
+            onClick={handleToast}
+          >
+            MegaPay
+          </button>
         </section>
       </main>
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+      )}
     </>
   );
 }

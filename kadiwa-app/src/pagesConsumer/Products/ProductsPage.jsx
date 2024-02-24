@@ -164,7 +164,7 @@ const ProductsPage = () => {
     <>
       <div className="bg-neutral-100">
         <div className="fixed gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
-          <div className=" flex justify-between">
+          <div className=" flex items-center justify-between">
             <div className="flex items-center gap-5">
               <NavLink to={`/main/`}>
                 <IoMdArrowRoundBack
@@ -177,13 +177,13 @@ const ProductsPage = () => {
             </div>
             {/* Sorting Dropdown */}
             <select
-              className="border border-green-700 rounded-md px-2 py-1 ml-3"
+              className="border border-green-700 rounded-md px-2 py-1 mr-3"
               value={sortBy}
               onChange={handleSortChange}
             >
-              <option value="">Sort By</option>
-              <option value="priceHighToLow">Price (Highest to Lowest)</option>
-              <option value="priceLowToHigh">Price (Lowest to Highest)</option>
+              <option value="">Sort Product By</option>
+              <option value="priceHighToLow">Price (High to Low)</option>
+              <option value="priceLowToHigh">Price (Low to High)</option>
             </select>
           </div>
         </div>

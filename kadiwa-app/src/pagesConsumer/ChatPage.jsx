@@ -282,7 +282,7 @@ const ChatPage = () => {
       </div>
 
       <div
-        className="inline-block flex-1 p-4 mt-14"
+        className="inline-block flex-1 p-4 mt-14 text-black/80"
         style={{ whiteSpace: "pre-line" }}
       >
         {messages.map((message, index) => (
