@@ -313,7 +313,7 @@ const ChatPage = () => {
 
         <div ref={messageEndRef}></div>
       </div>
-      <div className="h-20"></div>
+      <div className="h-24"></div>
 
       <div className="p-4 bg-white shadow-md fixed bottom-0  w-full z-50">
         <div className="flex items-center">
