@@ -8,6 +8,7 @@ const Reviews = ({ productCode }) => {
   const [loading, setLoading] = useState(true);
   const uid = productCode.split("-")[0] + "-" + productCode.split("-")[1];
   const productno = productCode.split("-")[2];
+
   useEffect(() => {
     const fetchData = async () => {
       // Fetch product reviews
@@ -27,6 +28,7 @@ const Reviews = ({ productCode }) => {
     };
 
     fetchData();
+    
   }, []); 
 
   if (loading) {
