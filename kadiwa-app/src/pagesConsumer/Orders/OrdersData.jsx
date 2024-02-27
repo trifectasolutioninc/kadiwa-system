@@ -32,7 +32,7 @@ const OrdersData = () => {
           setOrder(orderData);
 
           const transactionCode = orderData.transaction_code;
-          const qrText = `${oid}-${transactionCode}-${orderData.status}-${orderData.consumer}`;
+          const qrText = `${oid}:${transactionCode}:${orderData.status}:${orderData.consumer}`;
 
           if (qrCodeCanvasRef.current && componentMounted) {
             QRCode.toCanvas(qrCodeCanvasRef.current, qrText, function (error) {
