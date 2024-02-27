@@ -90,6 +90,15 @@ const Orders = () => {
                 onClick={() => setStatus("Pending")}
               >
                 <MdDeliveryDining fontSize={"28px"} className=" mx-auto" />
+                New
+              </button>
+              <button
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                  status.toLowerCase() === "to ship" && "bg-green-200"
+                }`}
+                onClick={() => setStatus("To Ship")}
+              >
+                <MdDeliveryDining fontSize={"28px"} className=" mx-auto" />
                 To Ship
               </button>
               <button
@@ -128,6 +137,15 @@ const Orders = () => {
                   status.toLowerCase() === "pending" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Pending")}
+              >
+                <FaBoxOpen fontSize={"25px"} className=" mx-auto my-0.5" />
+                New
+              </button>
+              <button
+                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                  status.toLowerCase() === "to pack" && "bg-green-200"
+                }`}
+                onClick={() => setStatus("To Pack")}
               >
                 <FaBoxOpen fontSize={"25px"} className=" mx-auto my-0.5" />
                 To Pack
