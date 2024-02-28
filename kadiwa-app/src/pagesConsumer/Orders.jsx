@@ -82,7 +82,7 @@ const Orders = () => {
         </div>
         <div className="mt-14 bg-neutral-100 ">
           {tab === "delivery" && (
-            <div className="flex justify-between gap-3 overflow-x-hidden p-2">
+            <div className="flex justify-between gap-3  overflow-x-auto sm:overflow-x-auto md:overflow-x-hidden p-2">
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "pending" && "bg-green-200"
@@ -131,7 +131,7 @@ const Orders = () => {
             </div>
           )}
           {tab === "pickup" && (
-            <div className="flex justify-between gap-3 overflow-x-hidden  p-2">
+            <div className="flex justify-between gap-3 overflow-x-auto sm:overflow-x-auto md:overflow-x-hidden p-2">
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "pending" && "bg-green-200"
