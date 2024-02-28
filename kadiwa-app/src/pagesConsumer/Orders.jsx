@@ -222,16 +222,16 @@ const Orders = () => {
                     <span
                       className={`px-3 py-1 rounded-full font-medium ${
                         order.status === "Pending"
-                          ? "bg-yellow-200 text-yellow-900" // Example color for "Pending" status
-                          : order.status === "Processing"
-                          ? "bg-sky-200 text-sky-900" // Example color for "Processing" status
-                          : order.status === "Shipped"
-                          ? "bg-blue-200 text-blue-900" // Example color for "Shipped" status
-                          : order.status === "Delivered"
-                          ? "bg-green-200 text-green-900" // Example color for "Delivered" status
+                          ? "bg-yellow-200 text-yellow-900" 
+                          : order.status === "Processing" || order.status === "To Pack" 
+                          ? "bg-sky-200 text-sky-900" 
+                          : order.status === "Shipped"  || order.status === "To Ship"
+                          ? "bg-blue-200 text-blue-900" 
+                          : order.status === "Delivered" || order.status === "To Receive" || order.status === "To Distribute"
+                          ? "bg-green-200 text-green-900"
                           : order.status === "Cancelled"
-                          ? "bg-red-200 text-red-900" // Example color for "Cancelled" status
-                          : "bg-gray-500 text-white" // Default color for unknown status
+                          ? "bg-red-200 text-red-900" 
+                          : "bg-gray-500 text-white" 
                       }`}
                     >
                       {order.status}
