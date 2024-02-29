@@ -185,7 +185,7 @@ const NavBttnAppHome = () => {
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
-      {version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
+      {version !== "" && version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
       <AppUpdateModal
         newVersion={version}
         onUpdate={() => {
@@ -197,7 +197,7 @@ const NavBttnAppHome = () => {
         }}
       />
     ):(<div>
-      
+
     </div>)}
     </React.Fragment>
   );
