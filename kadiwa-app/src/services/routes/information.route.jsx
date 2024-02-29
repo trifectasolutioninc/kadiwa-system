@@ -1,4 +1,4 @@
-import redirectToIndexIfNoConnect from '../Scripts/connections/check';
+
 import { Route, Routes } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import Terms_and_Conditions from './../../pages/informations/Terms_and_Conditions';
