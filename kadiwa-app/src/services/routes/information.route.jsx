@@ -9,15 +9,15 @@ import redirectToIndexIfNoConnect from './../../Scripts/connections/check';
 
 const InfoRoute  = () => {
 
-    useEffect(() => {
-        // Use the utility function
-        const isValidContact = redirectToIndexIfNoConnect();
+    // useEffect(() => {
+    //     // Use the utility function
+    //     const isValidContact = redirectToIndexIfNoConnect();
 
-        // Additional logic based on the result if needed
-        if (!isValidContact) {
-            // Handle redirection or other actions
-        }
-        }, []);
+    //     // Additional logic based on the result if needed
+    //     if (!isValidContact) {
+    //         // Handle redirection or other actions
+    //     }
+    //     }, []);
 
   return (
     <div>
