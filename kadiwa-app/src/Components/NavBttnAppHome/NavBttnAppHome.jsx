@@ -8,12 +8,39 @@ import {
 } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 import { getDatabase, ref, get, onValue, off } from "firebase/database";
+import { BRAND } from "../../services/configurations/application.config";
+import AppUpdateModal from './../modals/AppUpdateModal';
+import Toast from "../Notifications/Toast";
 
 const NavBttnAppHome = () => {
   const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
   const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
+  const [version, setVersion] = useState("");
+  const [appversion, setAppVersion] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const uid = sessionStorage.getItem("uid"); // Assuming you have the user's ID stored in sessionStorage
+
+  useEffect(() => {
+    const fetchVersion = async () => {
+      try {
+        const database = getDatabase();
+        const versionRef = ref(database, "0_config_control/version");
+        const snapshot = await get(versionRef);
+        if (snapshot.exists()) {
+          setVersion(snapshot.val());
+          setAppVersion(BRAND.version);
+        } else {
+          console.log("No version found");
+        }
+      } catch (error) {
+        console.error("Error getting version:", error);
+      }
+    };
+
+    fetchVersion();
+  }, []);
 
   useEffect(() => {
     const database = getDatabase();
@@ -155,6 +182,21 @@ const NavBttnAppHome = () => {
           )}
         </NavLink>
       </footer>
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+      )}
+      {version !== BRAND.version && ( // Check if version is not equal to BRAND.version
+      <AppUpdateModal
+        newVersion={version}
+        onUpdate={() => {
+          setToastMessage("Updated Successfully");
+          setShowToast(true);
+          setTimeout(() => {
+            window.location.reload(); 
+          }, 3000);
+        }}
+      />
+    )}
     </React.Fragment>
   );
 };

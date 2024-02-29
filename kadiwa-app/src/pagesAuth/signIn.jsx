@@ -5,6 +5,8 @@ import InputMask from "react-input-mask";
 import { imageConfig } from "../Configuration/config-file";
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../Components/Notifications/Toast";
+import AppUpdateModal from './../Components/modals/AppUpdateModal';
+import { BRAND } from "../services/configurations/application.config";
 
 const deviceDetect = require("device-detect")();
 
@@ -12,10 +14,12 @@ const SignInPages = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [version, setVersion] = useState("");
-  const [showToast, setShowToast] = useState(false);
+  const [appversion, setAppVersion] = useState("");
+
   const navigate = useNavigate();
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
+  const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [deviceID, setDeviceID] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
@@ -31,6 +35,7 @@ const SignInPages = () => {
         const snapshot = await get(versionRef);
         if (snapshot.exists()) {
           setVersion(snapshot.val());
+          setAppVersion(BRAND.version);
         } else {
           console.log("No version found");
         }
@@ -269,13 +274,25 @@ const SignInPages = () => {
           </div>
         </div>
         <div className="flex items-end text-center py-4 text-sm text-gray-200">
-          <p className="mx-auto mt-auto ">{version}</p>
+          <p className="mx-auto mt-auto ">{appversion}</p>
         </div>
       </div>
 
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
+      {version !== BRAND.version && ( // Check if version is not equal to BRAND.version
+      <AppUpdateModal
+        newVersion={version}
+        onUpdate={() => {
+          setToastMessage("Updated Successfully");
+          setShowToast(true);
+          setTimeout(() => {
+            window.location.reload(); 
+          }, 3000);
+        }}
+      />
+    )}
     </div>
   );
 };

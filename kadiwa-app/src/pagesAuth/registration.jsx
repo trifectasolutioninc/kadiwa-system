@@ -8,6 +8,8 @@ import firebaseDB from "../Configuration/config";
 
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../Components/Notifications/Toast";
+import { BRAND } from "../services/configurations/application.config";
+import AppUpdateModal from './../Components/modals/AppUpdateModal';
 const deviceDetect = require("device-detect")();
 
 function isBlank(value) {
@@ -68,7 +70,11 @@ const Registration = () => {
         const versionRef = ref(database, "0_config_control/version");
         const snapshot = await get(versionRef);
         if (snapshot.exists()) {
-          setVersion(snapshot.val());
+          const version = snapshot.val();
+
+          setVersion(version);
+
+          
         } else {
           console.log("No version found");
         }
@@ -531,6 +537,18 @@ const Registration = () => {
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
+      {version !== BRAND.version && ( // Check if version is not equal to BRAND.version
+      <AppUpdateModal
+        newVersion={version}
+        onUpdate={() => {
+          setToastMessage("Updated Successfully");
+          setShowToast(true);
+          setTimeout(() => {
+            window.location.reload(); 
+          }, 3000);
+        }}
+      />
+    )}
     </div>
   );
 };
