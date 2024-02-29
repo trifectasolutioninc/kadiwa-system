@@ -11,6 +11,7 @@ import Registration from './pagesAuth/registration';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TestLink from './Routes/TestLink';
+import InfoRoute from './services/routes/information.route';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/partner/*" element={<StoreLink  />} />
         <Route path="/pos/*" element={<POSLink  />} />
         <Route path="/test/*" element={<TestLink  />} />
+        <Route path="/info/*" element={<InfoRoute  />} />
         <Route path='/' element={<Registration/>}/>
       </Routes>
     </Router>

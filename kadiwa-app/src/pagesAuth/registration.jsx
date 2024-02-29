@@ -491,19 +491,19 @@ const Registration = () => {
         <div className="text-center mt-2">
           <p className="text-xs text-gray-600">
             By signing up, you agree to our{" "}
-            <a
-              href="#"
+            <NavLink
+              to={"/info/terms-and-conditions"}
               className="font-medium text-green-500 hover:text-green-600"
             >
               Terms and Conditions
-            </a>{" "}
+            </NavLink>{" "}
             and{" "}
-            <a
-              href="#"
+            <NavLink
+              to={"/info/privacy-policy"}
               className="font-medium text-green-500 hover:text-green-600"
             >
               Privacy Policy
-            </a>
+            </NavLink>
           </p>
           <p className="mt-3 text-sm text-gray-600">
             Already have an account?{" "}
