@@ -229,6 +229,7 @@ const OrdersData = () => {
                     </div>
 
                     <p className=" font-bold text-gray-800">Reminder!</p>
+                    
                     <p>
                       Use this as{" "}
                       <span className="font-semibold text-green-800">

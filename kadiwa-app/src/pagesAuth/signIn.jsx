@@ -21,6 +21,7 @@ const SignInPages = () => {
   const [deviceType, setDeviceType] = useState(null);
   const [deviceBrand, setDeviceBrand] = useState(null);
   const [deviceBrowser, setDeviceBrowser] = useState(null);
+  
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -188,6 +189,11 @@ const SignInPages = () => {
   const styles = {
     backgroundImage: "url(/bg.webp)",
   };
+  
+  const forgetPassword = () => {
+    setToastMessage("Coming Soon!");
+    setShowToast(true);
+  }
 
   return (
     <div
@@ -251,7 +257,7 @@ const SignInPages = () => {
           </form>
 
           <div className="mt-4 text-gray-700 text-center">
-            <NavLink to="#" className="text-sm text-green-600">
+            <NavLink to="#" onClick={forgetPassword} className="text-sm text-green-600">
               Forgot Password?
             </NavLink>
             <p className="text-gray-200">
