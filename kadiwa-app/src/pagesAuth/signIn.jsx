@@ -5,7 +5,7 @@ import InputMask from "react-input-mask";
 import { imageConfig } from "../Configuration/config-file";
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../Components/Notifications/Toast";
-import AppUpdateModal from './../Components/modals/AppUpdateModal';
+import AppUpdateModal from "./../Components/modals/AppUpdateModal";
 import { BRAND } from "../services/configurations/application.config";
 
 const deviceDetect = require("device-detect")();
@@ -25,7 +25,6 @@ const SignInPages = () => {
   const [deviceType, setDeviceType] = useState(null);
   const [deviceBrand, setDeviceBrand] = useState(null);
   const [deviceBrowser, setDeviceBrowser] = useState(null);
-  
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -191,14 +190,14 @@ const SignInPages = () => {
     }
   };
 
-  const styles = {   
+  const styles = {
     backgroundImage: "url(/bg.webp)",
   };
-  
+
   const forgetPassword = () => {
     setToastMessage("Coming Soon!");
     setShowToast(true);
-  }
+  };
 
   return (
     <div
@@ -262,7 +261,11 @@ const SignInPages = () => {
           </form>
 
           <div className="mt-4 text-gray-700 text-center">
-            <NavLink to="#" onClick={forgetPassword} className="text-sm text-green-600">
+            <NavLink
+              to="#"
+              onClick={forgetPassword}
+              className="text-sm text-green-600"
+            >
               Forgot Password?
             </NavLink>
             <p className="text-gray-200">
@@ -282,19 +285,19 @@ const SignInPages = () => {
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
       {version !== "" && version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
-      <AppUpdateModal
-        newVersion={version}
-        onUpdate={() => {
-          setToastMessage("Updated Successfully");
-          setShowToast(true);
-          setTimeout(() => {
-            window.location.reload(); 
-          }, 3000);
-        }}
-      />
-    ):(<div>
-
-    </div>)}
+        <AppUpdateModal
+          newVersion={version}
+          onUpdate={() => {
+            setToastMessage("Updated Successfully");
+            setShowToast(true);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }}
+        />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

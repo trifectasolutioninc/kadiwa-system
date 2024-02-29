@@ -9,7 +9,7 @@ import firebaseDB from "../Configuration/config";
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../Components/Notifications/Toast";
 import { BRAND } from "../services/configurations/application.config";
-import AppUpdateModal from './../Components/modals/AppUpdateModal';
+import AppUpdateModal from "./../Components/modals/AppUpdateModal";
 const deviceDetect = require("device-detect")();
 
 function isBlank(value) {
@@ -62,7 +62,6 @@ const Registration = () => {
   const navigate = useNavigate();
   const db = firebaseDB();
 
-
   useEffect(() => {
     const fetchVersion = async () => {
       try {
@@ -73,8 +72,6 @@ const Registration = () => {
           const version = snapshot.val();
 
           setVersion(version);
-
-          
         } else {
           console.log("No version found");
         }
@@ -301,11 +298,10 @@ const Registration = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-
   const CoomingSoon = () => {
     setToastMessage("Coming Soon!");
     setShowToast(true);
-  }
+  };
 
   return (
     <div className="flex flex-col items-center h-screen bg-white sm:px-6 lg:px-8">
@@ -486,11 +482,11 @@ const Registration = () => {
           <p className="mt-2 text-xs text-gray-600">Or</p>
           <div className="mt-2">
             <button
-            onClick={CoomingSoon}
+              onClick={CoomingSoon}
               type="button"
               className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <span className="sr-only" >Sign up with Facebook</span>
+              <span className="sr-only">Sign up with Facebook</span>
               Sign up with Facebook
             </button>
             {/* <button
@@ -519,7 +515,7 @@ const Registration = () => {
               Privacy Policy
             </NavLink>
           </p>
-          <p className="mt-3 text-sm text-gray-600">
+          <p className="mt-3  text-gray-600">
             Already have an account?{" "}
             <NavLink
               to={"/signin"}
@@ -537,20 +533,20 @@ const Registration = () => {
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
-       {version !== "" && version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
-      <AppUpdateModal
-        newVersion={version}
-        onUpdate={() => {
-          setToastMessage("Updated Successfully");
-          setShowToast(true);
-          setTimeout(() => {
-            window.location.reload(); 
-          }, 3000);
-        }}
-      />
-    ):(<div>
-
-    </div>)}
+      {version !== "" && version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
+        <AppUpdateModal
+          newVersion={version}
+          onUpdate={() => {
+            setToastMessage("Updated Successfully");
+            setShowToast(true);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }}
+        />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
