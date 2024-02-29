@@ -8,6 +8,7 @@ import { FaBox } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { FiMinusCircle } from "react-icons/fi";
 import { IoWalletOutline } from "react-icons/io5";
+import { MdPending } from "react-icons/md";
 import {
   ref,
   getDatabase,
@@ -89,7 +90,7 @@ const Orders = () => {
                 }`}
                 onClick={() => setStatus("Pending")}
               >
-                <MdDeliveryDining fontSize={"28px"} className=" mx-auto" />
+                <MdPending fontSize={"28px"} className=" mx-auto" />
                 New
               </button>
               <button
@@ -138,7 +139,7 @@ const Orders = () => {
                 }`}
                 onClick={() => setStatus("Pending")}
               >
-                <FaBoxOpen fontSize={"25px"} className=" mx-auto my-0.5" />
+                <MdPending fontSize={"25px"} className=" mx-auto my-0.5" />
                 New
               </button>
               <button
