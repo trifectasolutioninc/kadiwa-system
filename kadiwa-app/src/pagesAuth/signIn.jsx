@@ -186,7 +186,7 @@ const SignInPages = () => {
     }
   };
 
-  const styles = {
+  const styles = {   
     backgroundImage: "url(/bg.webp)",
   };
   
