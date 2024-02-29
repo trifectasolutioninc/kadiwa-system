@@ -2,14 +2,14 @@ import React from 'react';
 
 const PrivacyPolicy = () => {
   return (
-    <div>
-      <h1>Privacy Policy</h1>
+    <div className='p-4'>
+    <h1 className=' font-bold text-lg'>Privacy Policy</h1>
       <p>
         At Kadiwa, we prioritize the privacy of our users. This Privacy Policy
         document outlines the types of personal information we collect and how
         we use it.
       </p>
-      <h2>Information Collection and Use</h2>
+      <h2 className=' font-semibold text-sm'>Information Collection and Use</h2>
       <p>
         Kadiwa may collect personal information from users in various ways,
         including when they register on the app, place an order, subscribe to
@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
         collect personal information from users only if they voluntarily submit
         such information to us.
       </p>
-      <h2>Use of Collected Information</h2>
+      <h2 className=' font-semibold text-sm'>Use of Collected Information</h2>
       <p>
         Kadiwa may collect and use users' personal information for the following
         purposes:
@@ -45,14 +45,14 @@ const PrivacyPolicy = () => {
         unsubscribe instructions at the bottom of each email or the user may
         contact us via our app.
       </p>
-      <h2>Protection of Information</h2>
+      <h2 className=' font-semibold text-sm'>Protection of Information</h2>
       <p>
         We adopt appropriate data collection, storage, and processing practices
         and security measures to protect against unauthorized access,
         alteration, disclosure, or destruction of users' personal information,
         username, password, transaction information, and data stored on our app.
       </p>
-      <h2>Changes to This Privacy Policy</h2>
+      <h2 className=' font-semibold text-sm'>Changes to This Privacy Policy</h2>
       <p>
         Kadiwa has the discretion to update this privacy policy at any time.
         When we do, we will revise the updated date at the bottom of this page.
@@ -62,14 +62,14 @@ const PrivacyPolicy = () => {
         responsibility to review this privacy policy periodically and become
         aware of modifications.
       </p>
-      <h2>Your Acceptance of These Terms</h2>
+      <h2 className=' font-semibold text-sm'>Your Acceptance of These Terms</h2>
       <p>
         By using Kadiwa, you signify your acceptance of this policy. If you do
         not agree to this policy, please do not use our app. Your continued use
         of the app following the posting of changes to this policy will be
         deemed your acceptance of those changes.
       </p>
-      <h2>Contacting Us</h2>
+      <h2 className=' font-semibold text-sm'>Contacting Us</h2>
       <p>
         If you have any questions about this Privacy Policy, the practices of
         this app, or your dealings with this app, please contact us at:

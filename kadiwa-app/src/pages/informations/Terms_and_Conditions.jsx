@@ -2,8 +2,8 @@ import React from 'react';
 
 const Terms_and_Conditions = () => {
   return (
-    <div>
-      <h1>Terms and Conditions</h1>
+    <div className='p-4'>
+      <h1 className=' font-bold text-lg'>Terms and Conditions</h1>
       <p>
         Welcome to Kadiwa, a shopping app for commodities or essentials. These
         terms and conditions outline the rules and regulations for the use of
@@ -30,7 +30,7 @@ const Terms_and_Conditions = () => {
         capitalization and/or he/she or they, are taken as interchangeable and
         therefore as referring to same.
       </p>
-      <h2>Cookies</h2>
+      <h2 className=' font-semibold text-sm'>Cookies</h2>
       <p>
         We employ the use of cookies. By accessing Kadiwa, you agreed to use
         cookies in agreement with the Kadiwa's Privacy Policy.
@@ -42,7 +42,7 @@ const Terms_and_Conditions = () => {
         our app. Some of our affiliate/advertising partners may also use
         cookies.
       </p>
-      <h2>License</h2>
+      <h2 className=' font-semibold text-sm'>License</h2>
       <p>
         Unless otherwise stated, Kadiwa and/or its licensors own the
         intellectual property rights for all material on Kadiwa. All
@@ -58,7 +58,7 @@ const Terms_and_Conditions = () => {
         <li>Redistribute content from Kadiwa</li>
       </ul>
       <p>This Agreement shall begin on the date hereof.</p>
-      <h2>Disclaimer</h2>
+      <h2 className=' font-semibold text-sm'>Disclaimer</h2>
       <p>
         To the maximum extent permitted by applicable law, we exclude all
         representations, warranties and conditions relating to our app and the
@@ -93,26 +93,26 @@ const Terms_and_Conditions = () => {
         provided free of charge, we will not be liable for any loss or damage
         of any nature.
       </p>
-      <h2>Change of Terms</h2>
+      <h2 className=' font-semibold text-sm'>Change of Terms</h2>
       <p>
         Kadiwa is permitted to revise these terms at any time as it sees fit,
         and by using this app you are expected to review these terms on a
         regular basis.
       </p>
-      <h2>Assignment</h2>
+      <h2 className=' font-semibold text-sm'>Assignment</h2>
       <p>
         The Kadiwa is allowed to assign, transfer, and subcontract its rights
         and/or obligations under these Terms without any notification. However,
         you are not allowed to assign, transfer, or subcontract any of your
         rights and/or obligations under these Terms.
       </p>
-      <h2>Entire Agreement</h2>
+      <h2 className=' font-semibold text-sm'>Entire Agreement</h2>
       <p>
         These Terms constitute the entire agreement between Kadiwa and you in
         relation to your use of this app, and supersede all prior agreements
         and understandings.
       </p>
-      <h2>Governing Law & Jurisdiction</h2>
+      <h2 className=' font-semibold text-sm'>Governing Law & Jurisdiction</h2>
       <p>
         These Terms will be governed by and interpreted in accordance with the
         laws of the India, and you submit to the non-exclusive jurisdiction of
