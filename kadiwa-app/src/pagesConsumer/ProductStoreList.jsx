@@ -176,7 +176,7 @@ const StoreList = ({ productCode, category }) => {
 
   // Function to increment quantity
   const incrementQuantity = () => {
-    setSelectedQuantity((prevQuantity) => prevQuantity + 1);
+    setSelectedQuantity((prevQuantity) => Math.min(prevQuantity + 1, 5));
   };
 
   // Function to decrement quantity, with a minimum value of 1
