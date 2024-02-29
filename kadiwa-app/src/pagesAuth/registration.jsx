@@ -60,6 +60,7 @@ const Registration = () => {
   const navigate = useNavigate();
   const db = firebaseDB();
 
+
   useEffect(() => {
     const fetchVersion = async () => {
       try {
@@ -294,6 +295,12 @@ const Registration = () => {
     setPasswordVisible(!passwordVisible);
   };
 
+
+  const CoomingSoon = () => {
+    setToastMessage("Coming Soon!");
+    setShowToast(true);
+  }
+
   return (
     <div className="flex flex-col items-center h-screen bg-white sm:px-6 lg:px-8">
       <div className="max-w-md w-full my-auto bg-white p-8">
@@ -473,10 +480,11 @@ const Registration = () => {
           <p className="mt-2 text-xs text-gray-600">Or</p>
           <div className="mt-2">
             <button
+            onClick={CoomingSoon}
               type="button"
               className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <span className="sr-only">Sign up with Facebook</span>
+              <span className="sr-only" >Sign up with Facebook</span>
               Sign up with Facebook
             </button>
             {/* <button
