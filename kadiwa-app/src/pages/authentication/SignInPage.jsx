@@ -276,7 +276,7 @@ const SignInPages = () => {
         <div className="flex items-end text-center py-4 text-sm text-gray-200">
           <p className="mx-auto mt-auto ">{appversion}</p>
         </div>
-      </div>
+      </div> n    
 
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
