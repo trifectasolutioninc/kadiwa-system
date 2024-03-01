@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { imageConfig } from "../Configuration/config-file";
+import { imageConfig } from "../../Configuration/config-file";
 import InputMask from "react-input-mask";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, set } from "firebase/database";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import firebaseDB from "../Configuration/config";
+import firebaseDB from "../../Configuration/config";
 
 import { v4 as uuidv4 } from "uuid";
-import Toast from "../Components/Notifications/Toast";
-import { BRAND } from "../services/configurations/application.config";
-import AppUpdateModal from './../Components/modals/AppUpdateModal';
+import Toast from "../../Components/Notifications/Toast";
+import { BRAND } from "../../services/configurations/application.config";
+import AppUpdateModal from './../../Components/modals/AppUpdateModal';
 const deviceDetect = require("device-detect")();
 
 function isBlank(value) {
@@ -354,8 +354,6 @@ const Registration = () => {
                 }
               />
             </div>
-            {/* Password Input */}
-            {/* Password Input */}
             <div>
               <label htmlFor="password" className="sr-only">
                 Password
@@ -522,7 +520,7 @@ const Registration = () => {
           <p className="mt-3 text-sm text-gray-600">
             Already have an account?{" "}
             <NavLink
-              to={"/signin"}
+              to={"/"}
               className="font-medium text-green-500 hover:text-green-600"
             >
               Sign in

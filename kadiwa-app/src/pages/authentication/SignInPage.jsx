@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, set } from "firebase/database";
 import InputMask from "react-input-mask";
-import { imageConfig } from "../Configuration/config-file";
+import { imageConfig } from "../../Configuration/config-file";
 import { v4 as uuidv4 } from "uuid";
-import Toast from "../Components/Notifications/Toast";
-import AppUpdateModal from './../Components/modals/AppUpdateModal';
-import { BRAND } from "../services/configurations/application.config";
+import Toast from "../../Components/Notifications/Toast";
+import AppUpdateModal from './../../Components/modals/AppUpdateModal';
+import { BRAND } from "../../services/configurations/application.config";
 
 const deviceDetect = require("device-detect")();
 
@@ -267,7 +267,7 @@ const SignInPages = () => {
             </NavLink>
             <p className="text-gray-200">
               Don't have an account?{" "}
-              <NavLink to="/" className="text-green-600 font-semibold">
+              <NavLink to="/register" className="text-green-600 font-semibold">
                 Register
               </NavLink>
             </p>
