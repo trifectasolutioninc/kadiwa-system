@@ -72,7 +72,7 @@ const ProfileEdit = () => {
 
       sessionStorage.setItem("uid", "");
 
-      navigate("/signin");
+      navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
     }
