@@ -81,6 +81,7 @@ const Registration = () => {
             sessionStorage.setItem("uid", uidData);
             sessionStorage.setItem("sid", sidData);
             navigate("/main/");
+            console.log("DONE0");
         
           return;
         }
