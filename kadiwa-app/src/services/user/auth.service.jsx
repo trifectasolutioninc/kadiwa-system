@@ -3,7 +3,7 @@ import {
     createUserWithEmailAndPassword,
     FacebookAuthProvider,
     signInWithPopup,
-    signInWithRedirect
+    signInWithRedirect,
 } from 'firebase/auth';
 
 import { app } from './../init/firebase.init';
@@ -20,6 +20,7 @@ export async function CreateNewUser (email, password, uid , provider){
 }
 
 export const FacebookAuth = async () => {
-    const fbAuth = signInWithPopup(auth, fb_auth_provider);
+    const fbAuth = await  signInWithPopup(auth, fb_auth_provider);
     return fbAuth;
+    
 }

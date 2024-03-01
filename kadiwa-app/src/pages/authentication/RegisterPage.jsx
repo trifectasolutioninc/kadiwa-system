@@ -55,8 +55,16 @@ const Registration = () => {
     const fbuser = await FacebookAuth();
     console.log("facebook user", fbuser);
     const userAuthRef = ref(db, "authentication");
+    if (fbuser) {
+      console.log("SUCCESS");
+    }
+    else {
+      console.log("NOT");
+    }
 
     try {
+      
+
       const snapshot = await get(userAuthRef);
       if (snapshot.exists()) {
         let contactExists = false;
