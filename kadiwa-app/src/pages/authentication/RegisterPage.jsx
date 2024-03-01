@@ -57,7 +57,7 @@ const Registration = () => {
         console.log("facebook user", fbuser);
         
         if (!fbuser) {
-            console.error("Facebook authentication failed.");
+            alert("Facebook authentication failed.");
             return;
         }
 
