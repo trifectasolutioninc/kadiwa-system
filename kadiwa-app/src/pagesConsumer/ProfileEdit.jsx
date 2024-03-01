@@ -12,6 +12,7 @@ import firebaseDB from "../Configuration/config";
 import { ref, child, get, getDatabase, update } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { Logout } from "../services/user/auth.service";
 
 const ProfileEdit = () => {
   const [showToast, setShowToast] = useState(false);
@@ -71,7 +72,7 @@ const ProfileEdit = () => {
       });
 
       sessionStorage.setItem("uid", "");
-
+      Logout();
       navigate("/");
     } catch (error) {
       console.error("Error logging out:", error);
