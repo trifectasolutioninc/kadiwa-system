@@ -364,14 +364,14 @@ const Cart = () => {
           </div>
         ) : (
           <div className="flex items-center justify-center h-screen">
-            <section className="fixed flex flex-col items-center text-center p-5 mx-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
+            <section className="fixed w-3/4 flex flex-col items-center text-center p-5 mx-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
               <IoCartOutline fontSize={"50px"} className="text-green-600" />
               <h1 className="text-black/80 font-semibold">
-                Empty cart alert! Time to shop for farm joy.
+                Your Cart is Empty.
               </h1>
               <NavLink
                 to={"/main#categoryFood"}
-                className="border border-green-500 p-2 rounded-md bg-green-50 text-green-900"
+                className="border border-green-500 px-3 py-1 rounded-md bg-green-50 text-green-900"
               >
                 See Categories
               </NavLink>

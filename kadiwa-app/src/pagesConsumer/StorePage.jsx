@@ -160,8 +160,13 @@ const StorePage = () => {
           {products.map((product, index) => (
             <div
               key={index}
-              className="container p-2 bg-slate-50 rounded-md shadow-md"
+              className="container p-2 bg-slate-50 rounded-md shadow-md relative"
             >
+              {product.isNew && (
+                <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
+                  New
+                </div>
+              )}
               <Link
                 to={`/route/product/${product.id}`}
                 className="flex flex-col space-y-5"
