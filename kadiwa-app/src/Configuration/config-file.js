@@ -71,9 +71,9 @@ import Pork from "../Components/Assets/Category/pork3.webp";
 import Beef from "../Components/Assets/Category/beef3.webp";
 import Chicken from "../Components/Assets/Category/chicken2.webp";
 import Fish from "../Components/Assets/Category/fish3.webp";
-import Fruits from "../Components/Assets/Category/fruits2.webp";
+import Fruits from "../Components/Assets/Category/fruits.webp";
 import Vegetables from "../Components/Assets/Category/vegetables2.webp";
-import Spices from "../Components/Assets/Category/spices2.webp";
+import Spices from "../Components/Assets/Category/spices.webp";
 import Egg from "../Components/Assets/Category/egg3.webp";
 
 import bgV1 from "../Components/Assets/background/bg-v1.svg";

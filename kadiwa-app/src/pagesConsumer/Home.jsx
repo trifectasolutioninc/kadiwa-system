@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LocationOn, Search } from "@mui/icons-material";
 import { imageConfig, commodityTypes } from "../Configuration/config-file";
 import configFirebaseDB from "../Configuration/config";
-import { ref, get } from "firebase/database";
+import { ref, get, child } from "firebase/database";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Changed to useNavigate
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import GoodsCluster from "./Products/GoodsCluster";
@@ -19,6 +19,7 @@ const HomeConsumer = () => {
   const home_position = sessionStorage.getItem("home_position");
   const navigate = useNavigate(); // Using useNavigate hook instead of useHistory
   const [searchQuery, setSearchQuery] = useState("");
+  const [userData, setUserData] = useState("");
 
   const [scrollPositions, setScrollPositions] = useState({});
   console.log(isFabVisible);
@@ -150,11 +151,34 @@ const HomeConsumer = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const database = configFirebaseDB();
+      const usersAccountRef = ref(database, "users_information");
+      const uid = sessionStorage.getItem("uid");
+
+      try {
+        const userSnapshot = await get(child(usersAccountRef, uid));
+
+        if (userSnapshot.exists()) {
+          const userData = userSnapshot.val();
+
+          setUserData(userData.fullname.split(" ")[0]);
+        } else {
+          console.error("User not found");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+  }, [userData]);
+
   return (
     <main className="p-3 md:px-10 space-y-5 mb-20 bg-neutral-100">
       <section id="topView" className="space-y-3">
         <h1 className="text-[2em] text-green-700 font-bold">
-          Hello Kadiwa User!
+          Hello, {userData && userData}!
         </h1>
         <div id="userLocation" className="flex items-center">
           <LocationOn className="text-gray-700 mr-2" />
