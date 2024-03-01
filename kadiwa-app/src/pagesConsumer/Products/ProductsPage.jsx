@@ -241,13 +241,16 @@ const ProductsPage = () => {
             {products.map((product, index) => (
               <div
                 key={index}
-                className="container bg-slate-50 rounded-lg shadow-md border"
+                className="container bg-slate-50 rounded-lg shadow-md border relative"
               >
                 <Link
                   to={`/main/productinfo/${product.product_code}/${category}`}
                   onClick={() => handleProductLinkClick(product.product_code)}
                   className="flex flex-col"
                 >
+                  <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
+                    New
+                  </div>
                   <div className="h-52 overflow-hidden">
                     <img
                       id={`product${product.product_code}`}
