@@ -52,142 +52,133 @@ const Registration = () => {
 
 
   async function FacebookButtonClicked() {
-    const fbuser = await FacebookAuth();
-    console.log("facebook user", fbuser);
-    const userAuthRef = ref(db, "authentication");
-
-
     try {
-      
-      if (fbuser) {
-        alert("SUCCESS");
-        const snapshot = await get(userAuthRef);
-        if (snapshot.exists()) {
-
-          snapshot.forEach((childSnapshot) => {
-            const userData = childSnapshot.val();
-            if (userData.uid === fbuser._tokenResponse.localId) {
+        const fbuser = await FacebookAuth();
+        console.log("facebook user", fbuser);
         
-    
-              sessionStorage.setItem("uid", userData.store_id);
-              sessionStorage.setItem("sid", userData.id);
-              navigate("/main/");
-              console.log("DONE0");
-              return;
-            }
-          });
-  
- 
+        if (!fbuser) {
+            console.error("Facebook authentication failed.");
+            return;
         }
-      }
 
-      const userID = generateUniqueID();
-      const userRef = ref(db, "users_information/" + userID);
-      const user = {
-        id: userID,
-        uid: fbuser._tokenResponse.localId, // Assigning uid from reloadUserInfo to uid
-        points: 0,
-        type: "consumer",
-        bday: "N/A",
-        email: "N/A",
-        gender: "N/A",
-        first_name: "No name",
-        fullname: fbuser._tokenResponse.displayName, // Assigning displayName from reloadUserInfo to fullname
-        last_name: "",
-        middle_name: "",
-        suffix: "",
-        contact: "No Contact",
-      };
+        const userAuthRef = ref(db, "authentication");
+        const snapshot = await get(userAuthRef);
 
-      const authRef = ref(db, "authentication/" + userID);
-      const authData = {
-        id: userID,
-        uid: fbuser._tokenResponse.localId,
-        email: "N/A",
-        username: userID,
-        store_id: "None",
-        contact: consumerFormData.contact,
-        password: consumerFormData.password,
-        device: {
-          [deviceID]: {
-            id: deviceID || " ",
-            type: deviceType || " ",
-            brand: deviceBrand || " ",
-            browser: deviceBrowser || " ",
-            log: "online",
-          },
-        },
-      };
+        if (snapshot.exists()) {
+            snapshot.forEach((childSnapshot) => {
+                const userData = childSnapshot.val();
+                if (userData.uid === fbuser._tokenResponse.localId) {
+                    sessionStorage.setItem("uid", userData.store_id);
+                    sessionStorage.setItem("sid", userData.id);
+                    navigate("/main/");
+                    return;
+                }
+            });
+        }
 
-      sessionStorage.setItem("uid", userID);
-      sessionStorage.setItem("sid", "None");
-      console.log("Successfully logged in", userID);
+        const userID = generateUniqueID();
+        const userRef = ref(db, "users_information/" + userID);
+        const authRef = ref(db, "authentication/" + userID);
+        const walletRef = ref(db, "user_wallet/" + userID);
+        const userAddressRef = ref(db, "users_address/" + userID);
+        const storeRef = ref(db, "store_information/" + "None");
 
-      const walletRef = ref(db, "user_wallet/" + userID);
-      const walletData = {
-        id: userID,
-        balance: 0,
-        points: 0,
-      };
+        const user = {
+            id: userID,
+            uid: fbuser._tokenResponse.localId,
+            points: 0,
+            type: "consumer",
+            bday: "N/A",
+            email: "N/A",
+            gender: "N/A",
+            first_name: "No name",
+            fullname: fbuser._tokenResponse.displayName,
+            last_name: "",
+            middle_name: "",
+            suffix: "",
+            contact: "No Contact",
+        };
 
-      const userAddressRef = ref(db, "users_address/" + userID);
-      const userAddress = {
-        id: userID,
-        default: {
-          region: "N/A",
-          province: "N/A",
-          city: "N/A",
-          barangay: "No Address",
-          landmark: "",
-          person: "N/A",
-          maplink: "N/A",
-          contact: "No Contact",
-          address_name: "N/A",
-          latitude: "0",
-          longitude: "0",
-        },
-        additional: {
-          0: {
-            id: 0,
-            region: "N/A",
-            province: "N/A",
-            city: "N/A",
-            barangay: "No Address",
-            landmark: "",
-            person: "N/A",
-            maplink: "",
-            contact: "No Contact Person",
-            address_name: "N/A",
-            latitude: "0",
-            longitude: "0",
-          },
-        },
-      };
+        const authData = {
+            id: userID,
+            uid: fbuser._tokenResponse.localId,
+            email: "N/A",
+            username: userID,
+            store_id: "None",
+            contact: consumerFormData.contact,
+            password: consumerFormData.password,
+            device: {
+                [deviceID]: {
+                    id: deviceID || " ",
+                    type: deviceType || " ",
+                    brand: deviceBrand || " ",
+                    browser: deviceBrowser || " ",
+                    log: "online",
+                },
+            },
+        };
 
-      const storeRef = ref(db, "store_information/" + "None");
-      const storeData = {
-        id: "None",
-        name: "N/A",
-      };
+        const walletData = {
+            id: userID,
+            balance: 0,
+            points: 0,
+        };
 
-      try {
+        const userAddress = {
+            id: userID,
+            default: {
+                region: "N/A",
+                province: "N/A",
+                city: "N/A",
+                barangay: "No Address",
+                landmark: "",
+                person: "N/A",
+                maplink: "N/A",
+                contact: "No Contact",
+                address_name: "N/A",
+                latitude: "0",
+                longitude: "0",
+            },
+            additional: {
+                0: {
+                    id: 0,
+                    region: "N/A",
+                    province: "N/A",
+                    city: "N/A",
+                    barangay: "No Address",
+                    landmark: "",
+                    person: "N/A",
+                    maplink: "",
+                    contact: "No Contact Person",
+                    address_name: "N/A",
+                    latitude: "0",
+                    longitude: "0",
+                },
+            },
+        };
+
+        const storeData = {
+            id: "None",
+            name: "N/A",
+        };
+
         await Promise.all([
-          set(userRef, user),
-          set(storeRef, storeData),
-          set(userAddressRef, userAddress),
-          set(authRef, authData),
-          set(walletRef, walletData),
+            set(userRef, user),
+            set(storeRef, storeData),
+            set(userAddressRef, userAddress),
+            set(authRef, authData),
+            set(walletRef, walletData),
         ]);
 
         resetConsumerForm();
         setShowModal(true);
-      } catch (error) {
-        console.error("Error saving data to database:", error);
-      }
+        sessionStorage.setItem("uid", userID);
+        sessionStorage.setItem("sid", "None");
+        console.log("Successfully logged in", userID);
     } catch (error) {
-      console.error("Error checking contact:", error);
+        console.error("Error during Facebook login:", error);
     }
-  }
+}
 
 
   useEffect(() => {
