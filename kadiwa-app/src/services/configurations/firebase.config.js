@@ -1,6 +1,6 @@
 export const firebaseConfig = {
     apiKey: "AIzaSyDRIgPAM9q9wIdqzCGziePTfhgOcbhfFFs",
-    authDomain: "kadiwa-app.vercel.app",
+    authDomain: "kadiwa-b9d26.firebaseapp.com",
     databaseURL: "https://kadiwa-b9d26-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "kadiwa-b9d26",
     storageBucket: "kadiwa-b9d26.appspot.com",
