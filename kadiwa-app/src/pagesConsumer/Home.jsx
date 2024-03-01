@@ -163,7 +163,11 @@ const HomeConsumer = () => {
         if (userSnapshot.exists()) {
           const userData = userSnapshot.val();
 
-          setUserData(userData.fullname.split(" ")[0]);
+          setUserData(
+            userData.fullname.split(" ")[0] +
+              " " +
+              userData.fullname.split(" ")[1]
+          );
         } else {
           console.error("User not found");
         }
