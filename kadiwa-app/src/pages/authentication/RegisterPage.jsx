@@ -55,46 +55,42 @@ const Registration = () => {
     const fbuser = await FacebookAuth();
     console.log("facebook user", fbuser);
     const userAuthRef = ref(db, "authentication");
-    if (fbuser) {
-      console.log("SUCCESS");
-    }
-    else {
-      console.log("NOT");
-    }
+
 
     try {
       
-
-      const snapshot = await get(userAuthRef);
-      if (snapshot.exists()) {
-        let contactExists = false;
-        let sidData = "";
-        let uidData = "";
-        snapshot.forEach((childSnapshot) => {
-          const userData = childSnapshot.val();
-          if (userData.uid === fbuser._tokenResponse.localId) {
-            contactExists = true;
-            sidData = userData.store_id;
-            uidData = userData.id;
+      if (fbuser) {
+        alert("SUCCESS");
+        const snapshot = await get(userAuthRef);
+        if (snapshot.exists()) {
+          let contactExists = false;
+          let sidData = "";
+          let uidData = "";
+          snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            if (userData.uid === fbuser._tokenResponse.localId) {
+              contactExists = true;
+              sidData = userData.store_id;
+              uidData = userData.id;
+              return;
+            }
+          });
+  
+          if (contactExists) {
+            
+            setToastMessage(
+              "Successsfully Login!"
+            );
+            setShowToast(true);
+              sessionStorage.setItem("uid", uidData);
+              sessionStorage.setItem("sid", sidData);
+              navigate("/main/");
+              console.log("DONE0");
+          
             return;
           }
-        });
-
-        if (contactExists) {
-          
-          setToastMessage(
-            "Successsfully Login!"
-          );
-          setShowToast(true);
-            sessionStorage.setItem("uid", uidData);
-            sessionStorage.setItem("sid", sidData);
-            navigate("/main/");
-            console.log("DONE0");
-        
-          return;
         }
       }
-
 
       const userID = generateUniqueID();
       const userRef = ref(db, "users_information/" + userID);
