@@ -20,6 +20,6 @@ export async function CreateNewUser (email, password, uid , provider){
 }
 
 export const FacebookAuth = async () => {
-    const fbAuth = signInWithPopup(auth, fb_auth_provider);
+    const fbAuth = signInWithRedirect(auth, fb_auth_provider);
     return fbAuth;
 }
