@@ -94,7 +94,7 @@ const StorePage = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full z-50 top-0 p-3 right-0 left-0 shadow-md">
         <NavLink to={"/main/store"} className="">
           <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
@@ -162,11 +162,10 @@ const StorePage = () => {
               key={index}
               className="container p-2 bg-slate-50 rounded-md shadow-md relative"
             >
-              {product.isNew && (
-                <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
-                  New
-                </div>
-              )}
+              <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
+                New
+              </div>
+
               <Link
                 to={`/route/product/${product.id}`}
                 className="flex flex-col space-y-5"
@@ -177,6 +176,7 @@ const StorePage = () => {
                     alt={product.product_name}
                     className="h-full w-full rounded-md object-cover"
                     src={imageConfig[product.keywords.toLowerCase()]}
+                    loading="lazy"
                   />
                 </div>
                 <div className="flex flex-col space-y-2">
