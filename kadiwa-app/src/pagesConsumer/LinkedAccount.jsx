@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 const LinkedAccount = () => {
   const [linkedAccounts, setLinkedAccounts] = useState([]);
-
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
   // Sample data for different account types
   const sampleData = {
     MasterCard: {
@@ -68,12 +68,19 @@ const LinkedAccount = () => {
 
   return (
     <>
-      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-20 shadow-md">
         <NavLink to={"/main/profile"}>
           <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
         <h1 className="text-xl text-neutral-100  font-bold">Linked Account</h1>
       </div>
+
+      {isOverlayVisible && (
+        <div className="fixed inset-0 bg-black opacity-70 z-10 flex items-center justify-center">
+          <p className="text-4xl font-bold text-white z-60">Coming Soon</p>
+        </div>
+      )}
+
       <main className="p-3 md:px-10 space-y-5 mt-14">
         <div className="">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">

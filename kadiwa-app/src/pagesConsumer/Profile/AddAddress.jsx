@@ -182,7 +182,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
                     name="houseNumber"
                     id="houseNumber"
                     value=""
-                    onChange=""
+                    onChange={handleChange}
                     className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     required
                     maxLength={50}
