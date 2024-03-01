@@ -23,6 +23,9 @@ export async function CreateNewUser (email, password, uid , provider){
 
 export const FacebookAuth = async () => {
     const fbAuth = await  signInWithPopup(auth, fb_auth_provider);
+    if (!fbAuth) {
+        console.log("ERROR");
+    }
     return fbAuth;
     
 }
