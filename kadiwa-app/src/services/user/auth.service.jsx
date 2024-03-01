@@ -4,6 +4,7 @@ import {
     FacebookAuthProvider,
     signInWithPopup,
     signInWithRedirect,
+    signInWithCredential,
 } from 'firebase/auth';
 
 import { app } from './../init/firebase.init';
@@ -24,3 +25,12 @@ export const FacebookAuth = async () => {
     return fbAuth;
     
 }
+
+
+// Function to authenticate with Facebook
+// export const FacebookMobileAuth = () => {
+
+//     const result = signInWithRedirect(auth, fb_auth_provider);
+//     return result;
+
+// }
