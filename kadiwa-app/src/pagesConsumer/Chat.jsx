@@ -227,7 +227,7 @@ const Chat = () => {
                 .length === 0 ? (
                 <section className="flex flex-col items-center text-center p-5 border space-y-2 border-green-300 bg-green-100 rounded-md">
                   <h1 className="text-black/80 font-semibold">
-                    Chat box empty! Ask us anything you fancy.
+                    Your Chat Box is Empty!
                   </h1>
                 </section>
               ) : (
