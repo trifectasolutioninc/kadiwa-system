@@ -197,8 +197,13 @@ const StoreInfo = () => {
               </p>
               <p className="mt-4">{selectedProduct.product_name}</p>
               <p className="">Price: ₱{selectedProduct.price}</p>
-              <select name="" id="">
-                <option value="">Select Variety</option>
+              <label>Variety: </label>
+              <select
+                name=""
+                id=""
+                className="p-1 border font-medium rounded-md"
+              >
+                <option value="">Weight/Pieces</option>
                 <option value="">1 unit</option>
                 <option value="">2 unit</option>
                 <option value="">3 unit</option>
@@ -278,7 +283,7 @@ const StoreInfo = () => {
                       id=""
                       className="p-1 border font-medium rounded-md"
                     >
-                      <option value="">Select Variety</option>
+                      <option value="">Weight/Pieces</option>
                       <option value="">1 unit</option>
                       <option value="">3 unit</option>
                       <option value="">5 unit</option>
