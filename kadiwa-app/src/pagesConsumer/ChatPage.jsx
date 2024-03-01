@@ -332,6 +332,7 @@ const ChatPage = () => {
             className="flex-1 p-2 mr-2 border border-gray-300 rounded"
             style={{ height: "50px", maxHeight: `${maxTextareaHeight}px` }}
             rows="3"
+            maxLength={500}
           />
           <button
             onClick={handleSendMessage}

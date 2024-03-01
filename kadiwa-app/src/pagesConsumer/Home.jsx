@@ -186,6 +186,7 @@ const HomeConsumer = () => {
             className="w-full bg-gray-300 text-black/80 focus:outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            maxLength={24}
           />
           <button onClick={handleSearch} className="text-black/80">
             Search

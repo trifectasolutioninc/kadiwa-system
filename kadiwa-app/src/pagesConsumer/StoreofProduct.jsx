@@ -77,7 +77,7 @@ const StoreInfo = () => {
       console.error("Cannot add to cart: No product selected.");
       return;
     }
-  
+
     const cartItem = {
       commodity_type: selectedProduct.commodity_type,
       keywords: selectedProduct.keywords,
@@ -87,11 +87,11 @@ const StoreInfo = () => {
       unit_measurement: selectedProduct.unit_measurement,
       qty: qty,
     };
-  
+
     const cartKey = `${uid}-${sid}`;
     const cartCollectionPath = `cart_collection/${cartKey}`;
     const cartCollectionRef = ref(firebaseDB(), cartCollectionPath);
-  
+
     get(cartCollectionRef)
       .then((snapshot) => {
         const cartData = snapshot.exists() ? snapshot.val() : {};
@@ -112,14 +112,13 @@ const StoreInfo = () => {
         setModalOpen(false);
       });
   };
-  
 
   if (!storeData) {
     return <div>Loading...</div>;
   }
 
   const incrementQty = () => {
-    setQty((prevQty) => prevQty + 1);
+    setQty((prevQty) => Math.min(prevQty + 1, 5));
   };
 
   const decrementQty = () => {
@@ -127,14 +126,12 @@ const StoreInfo = () => {
   };
 
   const openCheckoutModal = (selectedProduct) => {
-
     setIsCheckoutModalOpen(true);
   };
 
   // Function to close the checkout modal
   const closeCheckoutModal = () => {
     setIsCheckoutModalOpen(false);
-
   };
 
   const handleCheckout = (product) => {
@@ -148,7 +145,7 @@ const StoreInfo = () => {
     console.log("TEST", product);
     console.log("STR", storeData);
     console.log("QTY", qty);
-  
+
     const selectedItems = [
       {
         productId: product.product_code,
@@ -156,20 +153,19 @@ const StoreInfo = () => {
         storeKey: `${uid}_${sid}`,
       },
     ];
-  
+
     const storeNames = {
       [sid]: storeData.name,
     };
 
     console.log("NAME", storeNames);
-  
+
     const path = `/route/product/${sid}-${product.product_code}`;
     // Assuming you have a function to navigate to the checkout page, replace 'navigate' with the appropriate function
-     navigate("/route/checkout", { state: { selectedItems, storeNames: storeNames,
-      path: path, } });
+    navigate("/route/checkout", {
+      state: { selectedItems, storeNames: storeNames, path: path },
+    });
   };
-  
-
 
   return (
     <>
@@ -246,86 +242,89 @@ const StoreInfo = () => {
             </div>
           </div>
         )}
-          {isCheckoutModalOpen && selectedProduct && storeData && storeAddress && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
-          <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
-            <h3 className="text-lg font-bold text-gray-800">
-              {storeData.name}
-            </h3>
-            <p className="text-gray-700 ">
-              {storeAddress &&
-                `${storeAddress.city}, ${storeAddress.province}`}
-            </p>
-          
-              <div className="space-y-1 my-4 text-black/80">
-                <p className="">
-                  Product:{" "}
-                  <span className="font-medium">
-                    {selectedProduct.product_name}
-                  </span>
+        {isCheckoutModalOpen &&
+          selectedProduct &&
+          storeData &&
+          storeAddress && (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+              <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
+                <h3 className="text-lg font-bold text-gray-800">
+                  {storeData.name}
+                </h3>
+                <p className="text-gray-700 ">
+                  {storeAddress &&
+                    `${storeAddress.city}, ${storeAddress.province}`}
                 </p>
-                <p>
-                  Price:
-                  <span className="font-medium">
-                    {" "}
-                    ₱ {selectedProduct.price}
-                  </span>
-                  / unit
-                </p>
-                <div>
-                  <label>Variety: </label>
-                  <select
-                    name=""
-                    id=""
-                    className="p-1 border font-medium rounded-md"
+
+                <div className="space-y-1 my-4 text-black/80">
+                  <p className="">
+                    Product:{" "}
+                    <span className="font-medium">
+                      {selectedProduct.product_name}
+                    </span>
+                  </p>
+                  <p>
+                    Price:
+                    <span className="font-medium">
+                      {" "}
+                      ₱ {selectedProduct.price}
+                    </span>
+                    / unit
+                  </p>
+                  <div>
+                    <label>Variety: </label>
+                    <select
+                      name=""
+                      id=""
+                      className="p-1 border font-medium rounded-md"
+                    >
+                      <option value="">Select Variety</option>
+                      <option value="">1 unit</option>
+                      <option value="">3 unit</option>
+                      <option value="">5 unit</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex items-center mt-2">
+                  <button
+                    onClick={decrementQty}
+                    className="bg-red-500 text-white px-2 py-1 rounded-l-md"
                   >
-                    <option value="">Select Variety</option>
-                    <option value="">1 unit</option>
-                    <option value="">3 unit</option>
-                    <option value="">5 unit</option>
-                  </select>
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    onChange={(e) =>
+                      setQty(Math.max(1, parseInt(e.target.value) || 0))
+                    }
+                    value={qty}
+                    className="border border-gray-300 px-2 py-1  text-center w-full"
+                  />
+                  <button
+                    onClick={incrementQty}
+                    className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="flex items-center justify-between mt-4">
+                  <button
+                    onClick={closeCheckoutModal}
+                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-yellow-600 text-white px-4 py-2 rounded-md"
+                    onClick={() => handleCheckout(selectedProduct)}
+                  >
+                    Checkout
+                  </button>
                 </div>
               </div>
-      
-            <div className="flex items-center mt-2">
-              <button
-                 onClick={decrementQty}
-                className="bg-red-500 text-white px-2 py-1 rounded-l-md"
-              >
-                -
-              </button>
-              <input
-                  type="number"
-                  onChange={(e) =>
-                    setQty(Math.max(1, parseInt(e.target.value) || 0))
-                  }
-                  value={qty}
-                  className="border border-gray-300 px-2 py-1  text-center w-full"
-                />
-              <button
-                 onClick={incrementQty}
-                className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
-              >
-                +
-              </button>
             </div>
-            <div className="flex items-center justify-between mt-4">
-              <button
-                onClick={closeCheckoutModal}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-yellow-600 text-white px-4 py-2 rounded-md"
-                onClick={() => handleCheckout(selectedProduct)}
-              >
-                Checkout
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+          )}
       </div>
       <div className="flex justify-around fixed bottom-0 w-full">
         <button
@@ -334,13 +333,12 @@ const StoreInfo = () => {
         >
           Add to Cart
         </button>
-        <button 
-  onClick={() => openCheckoutModal(selectedProduct)} 
-  className="bg-green-700  text-white font-bold w-full rounded-br-md md:rounded-none"
->
-  Buy Now
-</button>
-
+        <button
+          onClick={() => openCheckoutModal(selectedProduct)}
+          className="bg-green-700  text-white font-bold w-full rounded-br-md md:rounded-none"
+        >
+          Buy Now
+        </button>
       </div>
     </>
   );

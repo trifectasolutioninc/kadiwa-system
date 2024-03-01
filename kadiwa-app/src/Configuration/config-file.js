@@ -232,7 +232,7 @@ const foodCategory = [
   },
   {
     pic: Chicken,
-    category: "Poultry",
+    category: "Chicken",
   },
   {
     pic: Fish,
@@ -249,6 +249,10 @@ const foodCategory = [
   {
     pic: Spices,
     category: "Spices",
+  },
+  {
+    pic: Egg,
+    category: "Egg",
   },
   {
     pic: Other,

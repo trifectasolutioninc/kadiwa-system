@@ -215,6 +215,7 @@ const Chat = () => {
               type="text"
               placeholder="Search..."
               className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
+              maxLength={24}
             />
           </div>
         </div>

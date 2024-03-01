@@ -85,6 +85,7 @@ const PersonalInfoPage = () => {
             value={userInformation.fullname}
             onChange={handleInputChange}
             maxLength={35}
+            placeholder="Enter Name (limit: 35 characters)"
           />
         </div>
         <div className="mb-4">
@@ -92,12 +93,8 @@ const PersonalInfoPage = () => {
             Birthday
           </label>
           <div className="relative border rounded w-full bg-white shadow">
-            <div className="absolute top-0 right-0 m-3  text-gray-600 w-fit cursor-pointer">
-              <FaCalendar
-                onClick={() => document.getElementById("datepicker").click()}
-              />
-            </div>
-            <DatePicker
+            <input type="date" name="" id="" className="p-2 w-full" />
+            {/* <DatePicker
               id="datepicker"
               className="appearance-none w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               selected={selectedDate}
@@ -108,7 +105,7 @@ const PersonalInfoPage = () => {
                   bday: date.toISOString().split("T")[0],
                 }));
               }}
-            />
+            /> */}
           </div>
         </div>
         <div className="mb-4">

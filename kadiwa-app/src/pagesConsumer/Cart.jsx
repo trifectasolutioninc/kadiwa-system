@@ -47,12 +47,14 @@ const Cart = () => {
     }
   }, [uid]);
 
-  // Handler for incrementing quantity
+  //Handler for incrementing quantity
   const handleIncrementQuantity = (storeKey, productId) => {
-    // Find the product in the cart data and update its quantity
     const updatedCartData = { ...cartData };
-    updatedCartData[storeKey].CartList[productId].qty += 1;
-    setCartData(updatedCartData);
+    const currentQty = updatedCartData[storeKey].CartList[productId].qty;
+    if (currentQty < 5) {
+      updatedCartData[storeKey].CartList[productId].qty += 1;
+      setCartData(updatedCartData);
+    }
   };
 
   // Handler for decrementing quantity
@@ -228,11 +230,10 @@ const Cart = () => {
     if (selectedItemsArray.length === 0) {
       // If no items are selected, alert the user or handle it in a way suitable for your application
       setToastMessage("Please select items before proceeding to checkout.");
-        setShowToast(true);
-    
+      setShowToast(true);
+
       return; // Don't proceed further
     }
-  
 
     // Extract store names
     const storeNames = {};
@@ -415,7 +416,7 @@ const Cart = () => {
           </div>
         </div>
       )}
-       {showToast && (
+      {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
     </>
