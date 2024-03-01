@@ -3,31 +3,19 @@ import { imageConfig } from "../../Configuration/config-file";
 import InputMask from "react-input-mask";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, set } from "firebase/database";
+import { FacebookAuth } from "../../services/user/auth.service";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import firebaseDB from "../../Configuration/config";
 
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../../Components/Notifications/Toast";
 import { BRAND } from "../../services/configurations/application.config";
-import AppUpdateModal from "./../../Components/modals/AppUpdateModal";
+import AppUpdateModal from './../../Components/modals/AppUpdateModal';
+import { generateUniqueID } from "../../services/user/generator.service";
 const deviceDetect = require("device-detect")();
 
 function isBlank(value) {
   return value.trim() === "";
-}
-
-function generateUniqueID() {
-  var currentDate = new Date();
-  var year = currentDate.getFullYear();
-  var month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
-  var day = ("0" + currentDate.getDate()).slice(-2);
-  var hours = ("0" + currentDate.getHours()).slice(-2);
-  var minutes = ("0" + currentDate.getMinutes()).slice(-2);
-  var random4DigitNumber = (
-    "000" + Math.floor(1000 + Math.random() * 9000)
-  ).slice(-4);
-
-  return `${year}-${month}${day}-${hours}${minutes}-${random4DigitNumber}`;
 }
 
 function resetConsumerForm() {
@@ -62,6 +50,152 @@ const Registration = () => {
   const navigate = useNavigate();
   const db = firebaseDB();
 
+
+  async function FacebookButtonClicked() {
+    const fbuser = await FacebookAuth();
+    console.log("facebook user", fbuser);
+    const userAuthRef = ref(db, "authentication");
+
+    try {
+      const snapshot = await get(userAuthRef);
+      if (snapshot.exists()) {
+        let contactExists = false;
+        let sidData = "";
+        let uidData = "";
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.uid === fbuser._tokenResponse.localId) {
+            contactExists = true;
+            sidData = userData.store_id;
+            uidData = userData.id;
+            return;
+          }
+        });
+
+        if (contactExists) {
+          
+          setToastMessage(
+            "Successsfully Login!"
+          );
+          setShowToast(true);
+            sessionStorage.setItem("uid", uidData);
+            sessionStorage.setItem("sid", sidData);
+            navigate("/main/");
+        
+          return;
+        }
+      }
+
+
+      const userID = generateUniqueID();
+      const userRef = ref(db, "users_information/" + userID);
+      const user = {
+        id: userID,
+        uid: fbuser._tokenResponse.localId, // Assigning uid from reloadUserInfo to uid
+        points: 0,
+        type: "consumer",
+        bday: "N/A",
+        email: "N/A",
+        gender: "N/A",
+        first_name: "No name",
+        fullname: fbuser._tokenResponse.displayName, // Assigning displayName from reloadUserInfo to fullname
+        last_name: "",
+        middle_name: "",
+        suffix: "",
+        contact: "No Contact",
+      };
+
+      const authRef = ref(db, "authentication/" + userID);
+      const authData = {
+        id: userID,
+        uid: fbuser._tokenResponse.localId,
+        email: "N/A",
+        username: userID,
+        store_id: "None",
+        contact: consumerFormData.contact,
+        password: consumerFormData.password,
+        device: {
+          [deviceID]: {
+            id: deviceID || " ",
+            type: deviceType || " ",
+            brand: deviceBrand || " ",
+            browser: deviceBrowser || " ",
+            log: "online",
+          },
+        },
+      };
+
+      sessionStorage.setItem("uid", userID);
+      sessionStorage.setItem("sid", "None");
+      console.log("Successfully logged in", userID);
+
+      const walletRef = ref(db, "user_wallet/" + userID);
+      const walletData = {
+        id: userID,
+        balance: 0,
+        points: 0,
+      };
+
+      const userAddressRef = ref(db, "users_address/" + userID);
+      const userAddress = {
+        id: userID,
+        default: {
+          region: "N/A",
+          province: "N/A",
+          city: "N/A",
+          barangay: "No Address",
+          landmark: "",
+          person: "N/A",
+          maplink: "N/A",
+          contact: "No Contact",
+          address_name: "N/A",
+          latitude: "0",
+          longitude: "0",
+        },
+        additional: {
+          0: {
+            id: 0,
+            region: "N/A",
+            province: "N/A",
+            city: "N/A",
+            barangay: "No Address",
+            landmark: "",
+            person: "N/A",
+            maplink: "",
+            contact: "No Contact Person",
+            address_name: "N/A",
+            latitude: "0",
+            longitude: "0",
+          },
+        },
+      };
+
+      const storeRef = ref(db, "store_information/" + "None");
+      const storeData = {
+        id: "None",
+        name: "N/A",
+      };
+
+      try {
+        await Promise.all([
+          set(userRef, user),
+          set(storeRef, storeData),
+          set(userAddressRef, userAddress),
+          set(authRef, authData),
+          set(walletRef, walletData),
+        ]);
+
+        resetConsumerForm();
+        setShowModal(true);
+      } catch (error) {
+        console.error("Error saving data to database:", error);
+      }
+    } catch (error) {
+      console.error("Error checking contact:", error);
+    }
+  }
+
+
   useEffect(() => {
     const fetchVersion = async () => {
       try {
@@ -72,6 +206,8 @@ const Registration = () => {
           const version = snapshot.val();
 
           setVersion(version);
+
+
         } else {
           console.log("No version found");
         }
@@ -480,12 +616,12 @@ const Registration = () => {
           <p className="mt-2 text-xs text-gray-600">Or</p>
           <div className="mt-2">
             <button
-              onClick={CoomingSoon}
+              onClick={FacebookButtonClicked}
               type="button"
               className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              <span className="sr-only">Sign up with Facebook</span>
-              Sign up with Facebook
+              <span className="sr-only" >Sign in with Facebook</span>
+              Sign in with Facebook
             </button>
             {/* <button
               type="button"
@@ -539,9 +675,9 @@ const Registration = () => {
             }, 3000);
           }}
         />
-      ) : (
-        <div></div>
-      )}
+      ) : (<div>
+
+      </div>)}
     </div>
   );
 };
