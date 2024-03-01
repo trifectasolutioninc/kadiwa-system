@@ -313,7 +313,7 @@ const StoreList = ({ productCode, category }) => {
                   </span>
                 </p>
                 <div>
-                  <label>Variety: </label>
+                  <label>Weight/Pieces: </label>
                   <select
                     name="variety"
                     value={selectedVariety}

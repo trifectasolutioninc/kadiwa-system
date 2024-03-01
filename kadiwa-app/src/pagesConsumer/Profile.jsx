@@ -196,7 +196,7 @@ const ProfileConsumer = () => {
           <h1 className="text-xl text-neutral-100  font-bold">Profile</h1>
         </div>
       </div>
-      <main className=" mt-14">
+      <main className=" mt-12">
         {/* Profile Information */}
         {userData ? (
           <section className="relative w-full bg-cover bg-center  overflow-hidden ">

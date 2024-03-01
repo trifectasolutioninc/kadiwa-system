@@ -95,7 +95,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
                     required
                     placeholder="Enter phone number (09...)"
                     minLength={11}
-                    maxLength={13} // "+63" + 13 digits
+                    maxLength={13}
                   />
                 </div>
                 <div className="mb-4">
@@ -164,6 +164,24 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
                     name="barangay"
                     id="barangay"
                     value={address.barangay}
+                    onChange={handleChange}
+                    className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required
+                    maxLength={50}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="barangay"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    House Number
+                  </label>
+                  <input
+                    type="text"
+                    name="houseNumber"
+                    id="houseNumber"
+                    value=""
                     onChange={handleChange}
                     className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     required

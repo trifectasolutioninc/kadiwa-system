@@ -9,7 +9,7 @@ import Toast from "../Components/Notifications/Toast";
 
 function Wallet() {
   const [userData, setUserData] = useState(null);
-
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
   useEffect(() => {
     const fetchUserData = async () => {
       const uid = sessionStorage.getItem("uid");
@@ -57,7 +57,7 @@ function Wallet() {
 
   return (
     <>
-      <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
+      <section className="fixed flex items-center justify-between gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-20 shadow-md">
         <div className="flex items-center gap-5 ">
           <NavLink to={"/main/profile"}>
             <IoMdArrowRoundBack
@@ -68,6 +68,13 @@ function Wallet() {
           <h1 className="text-xl text-neutral-100  font-bold">Load/Wallet</h1>
         </div>
       </section>
+
+      {isOverlayVisible && (
+        <div className="fixed inset-0 bg-black opacity-70 z-10 flex items-center justify-center">
+          <p className="text-4xl font-bold text-white z-60">Coming Soon</p>
+        </div>
+      )}
+
       <main className="p-3 md:p-10 space-y-5">
         <div className="mt-14">
           <section className="container w-fit p-2 m-auto rounded-md">
