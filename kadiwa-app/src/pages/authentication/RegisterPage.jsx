@@ -3,7 +3,7 @@ import { imageConfig } from "../../Configuration/config-file";
 import InputMask from "react-input-mask";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, set } from "firebase/database";
-import { FacebookAuth, FacebookMobileAuth } from "../../services/user/auth.service";
+import { FacebookAuth, FacebookMobileAuth, GoogleAuth } from "../../services/user/auth.service";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import firebaseDB from "../../Configuration/config";
 
@@ -181,6 +181,135 @@ const Registration = () => {
     }
 }
 
+async function GoogleButtonClicked() {
+  try {
+      const fbuser = await GoogleAuth();
+      
+      console.log("facebook user", fbuser);
+      
+      if (!fbuser) {
+          alert("Facebook authentication failed.");
+          return;
+      }
+
+      const userAuthRef = ref(db, "authentication");
+      const snapshot = await get(userAuthRef);
+
+      if (snapshot.exists()) {
+          snapshot.forEach((childSnapshot) => {
+              const userData = childSnapshot.val();
+              if (userData.uid === fbuser._tokenResponse.localId) {
+                  sessionStorage.setItem("uid", userData.store_id);
+                  sessionStorage.setItem("sid", userData.id);
+                  navigate("/main/");
+                  return;
+              }
+          });
+      }
+
+      const userID = generateUniqueID();
+      const userRef = ref(db, "users_information/" + userID);
+      const authRef = ref(db, "authentication/" + userID);
+      const walletRef = ref(db, "user_wallet/" + userID);
+      const userAddressRef = ref(db, "users_address/" + userID);
+      const storeRef = ref(db, "store_information/" + "None");
+
+      const user = {
+          id: userID,
+          uid: fbuser._tokenResponse.localId,
+          points: 0,
+          type: "consumer",
+          bday: "N/A",
+          email: "N/A",
+          gender: "N/A",
+          first_name: "No name",
+          fullname: fbuser._tokenResponse.displayName,
+          last_name: "",
+          middle_name: "",
+          suffix: "",
+          contact: "No Contact",
+      };
+
+      const authData = {
+          id: userID,
+          uid: fbuser._tokenResponse.localId,
+          email: "N/A",
+          username: userID,
+          store_id: "None",
+          contact: consumerFormData.contact,
+          password: consumerFormData.password,
+          device: {
+              [deviceID]: {
+                  id: deviceID || " ",
+                  type: deviceType || " ",
+                  brand: deviceBrand || " ",
+                  browser: deviceBrowser || " ",
+                  log: "online",
+              },
+          },
+      };
+
+      const walletData = {
+          id: userID,
+          balance: 0,
+          points: 0,
+      };
+
+      const userAddress = {
+          id: userID,
+          default: {
+              region: "N/A",
+              province: "N/A",
+              city: "N/A",
+              barangay: "No Address",
+              landmark: "",
+              person: "N/A",
+              maplink: "N/A",
+              contact: "No Contact",
+              address_name: "N/A",
+              latitude: "0",
+              longitude: "0",
+          },
+          additional: {
+              0: {
+                  id: 0,
+                  region: "N/A",
+                  province: "N/A",
+                  city: "N/A",
+                  barangay: "No Address",
+                  landmark: "",
+                  person: "N/A",
+                  maplink: "",
+                  contact: "No Contact Person",
+                  address_name: "N/A",
+                  latitude: "0",
+                  longitude: "0",
+              },
+          },
+      };
+
+      const storeData = {
+          id: "None",
+          name: "N/A",
+      };
+
+      await Promise.all([
+          set(userRef, user),
+          set(storeRef, storeData),
+          set(userAddressRef, userAddress),
+          set(authRef, authData),
+          set(walletRef, walletData),
+      ]);
+
+      resetConsumerForm();
+      setShowModal(true);
+      sessionStorage.setItem("uid", userID);
+      sessionStorage.setItem("sid", "None");
+      console.log("Successfully logged in", userID);
+  } catch (error) {
+      console.error("Error during Facebook login:", error);
+  }
+}
 
 
 
@@ -756,6 +885,15 @@ const Registration = () => {
               <span className="sr-only">Sign up with Gmail</span>
               Sign up with Gmail
             </button> */}
+          </div>
+          <div className=" mt-4">
+          <button
+              onClick={GoogleButtonClicked}
+              type="button"
+              className=" inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              Sign in with Google
+            </button>
           </div>
         </div>
         <div className="text-center mt-2">

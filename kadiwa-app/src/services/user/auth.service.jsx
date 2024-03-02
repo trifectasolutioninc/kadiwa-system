@@ -2,6 +2,7 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     FacebookAuthProvider,
+    GoogleAuthProvider,
     signInWithPopup,
     signInWithRedirect,
     signInWithCredential,
@@ -15,6 +16,7 @@ const auth = getAuth(app);
 
 
 const fb_auth_provider = new FacebookAuthProvider();
+const google_auth_provider = new GoogleAuthProvider();
 
 
 export async function CreateNewUser (email, password, uid , provider){
@@ -23,12 +25,16 @@ export async function CreateNewUser (email, password, uid , provider){
 
 export const FacebookAuth = async () => {
     const fbAuth = await  signInWithPopup(auth, fb_auth_provider);
-    if (!fbAuth) {
-        console.log("ERROR");
-    }
     return fbAuth;
     
 }
+
+export const GoogleAuth = async () => {
+    const googleAuth = await  signInWithPopup(auth, google_auth_provider);
+    return googleAuth;
+    
+}
+
 
 // auth.jsx
 // export const FacebookAuth = async () => {
