@@ -203,7 +203,7 @@ const StoreInfo = () => {
                 id=""
                 className="p-1 border font-medium rounded-md"
               >
-                <option value="">Weight/Pieces</option>
+                <option value="">Select Weight/Pieces</option>
                 <option value="">1 unit</option>
                 <option value="">2 unit</option>
                 <option value="">3 unit</option>
@@ -283,7 +283,7 @@ const StoreInfo = () => {
                       id=""
                       className="p-1 border font-medium rounded-md"
                     >
-                      <option value="">Weight/Pieces</option>
+                      <option value="">Select Weight/Pieces</option>
                       <option value="">1 unit</option>
                       <option value="">3 unit</option>
                       <option value="">5 unit</option>

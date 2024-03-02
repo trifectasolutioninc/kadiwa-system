@@ -408,7 +408,7 @@ const StoreList = ({ productCode, category }) => {
                     onChange={handleVarietyChange}
                     className="p-1 border font-semibold rounded-md"
                   >
-                    <option value="">Select Variety</option>
+                    <option value="">Select Weight/Pieces</option>
                     {filteredProducts.length > 0 &&
                       Object.values(filteredProducts[0].variety).map(
                         (variety) => (
