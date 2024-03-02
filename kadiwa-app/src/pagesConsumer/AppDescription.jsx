@@ -22,11 +22,12 @@ function AppDescription() {
       {isDropdownOpen && (
         <section className="text-black/80 space-y-3 p-3 border mt-3 border-gray-700 rounded-md">
           <p className="leading-relaxed text-justify">
-            The Kadiwa App is a revolutionary tool that connects users directly
-            with local farmers, enabling them to buy essentials without
-            intermediaries. It eliminates middlemen, providing fresh produce and
-            fair deals. The app also empowers local farmers by providing a
-            direct way to sell their goods, ensuring access to good food.
+            The <span className="font-semibold text-green-700">Kadiwa App</span>{" "}
+            is a revolutionary tool that connects users directly with local
+            farmers, enabling them to buy essentials without intermediaries. It
+            eliminates middlemen, providing fresh produce and fair deals. The
+            app also empowers local farmers by providing a direct way to sell
+            their goods, ensuring access to good food.
           </p>
         </section>
       )}

@@ -16,7 +16,7 @@ import stringbeans from "../Components/Assets/products/string-beans.webp";
 import petchaytagalog from "../Components/Assets/products/petchay-tagalog.webp";
 import squash from "../Components/Assets/products/squash.webp";
 import eggplant from "../Components/Assets/products/eggplant.webp";
-import tomato from "../Components/Assets/products/tomato.webp";
+import tomato from "../Components/Assets/products/default_tomato.webp";
 import cabbagescorpio from "../Components/Assets/products/cabbage-scorpio.webp";
 import carrots from "../Components/Assets/products/carrots.webp";
 import habitchuelas from "../Components/Assets/products/habitchuelas.webp";
@@ -32,11 +32,11 @@ import whiteonionimported from "../Components/Assets/products/whiteonion-importe
 import garliclocal from "../Components/Assets/products/garlic-local.webp";
 import garlicimported from "../Components/Assets/products/gralic-imported.webp";
 import ginger from "../Components/Assets/products/ginger.webp";
-import chili from "../Components/Assets/products/chili.webp";
-import calamansi from "../Components/Assets/products/calamansi.webp";
-import bananalakatan from "../Components/Assets/products/banana-lakatan.webp";
+import chili from "../Components/Assets/products/default_chili.webp";
+import calamansi from "../Components/Assets/products/default_calamansi.webp";
+import bananalakatan from "../Components/Assets/products/default_banana.webp";
 import bananalatundan from "../Components/Assets/products/banana-latundan.webp";
-import papaya from "../Components/Assets/products/papaya.webp";
+import papaya from "../Components/Assets/products/default_papaya.webp";
 import mangocarabao from "../Components/Assets/products/mango-carabao.webp";
 
 import sugarrefined from "../Components/Assets/products/sugar-refined.webp";
