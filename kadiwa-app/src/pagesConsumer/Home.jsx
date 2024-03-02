@@ -6,6 +6,7 @@ import { ref, get, child } from "firebase/database";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Changed to useNavigate
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import GoodsCluster from "./Products/GoodsCluster";
+import AppDescription from "./AppDescription";
 
 const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
@@ -200,6 +201,10 @@ const HomeConsumer = () => {
           <canvas className="object-cover rounded-md w-full h-full sm:w-auto sm:h-auto bg-green-700"></canvas>
         </div>
       )}
+
+      <section>
+        <AppDescription />
+      </section>
 
       <section className="sticky top-0 right-0 left-0 p-1 bg-neutral-100 flex items-center justify-around ">
         <div className="relative flex items-center bg-gray-300 rounded-md p-2 w-full">
