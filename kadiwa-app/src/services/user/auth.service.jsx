@@ -1,6 +1,7 @@
 import {
     getAuth,
     createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
     FacebookAuthProvider,
     GoogleAuthProvider,
     signInWithPopup,
@@ -15,13 +16,12 @@ import { app } from './../init/firebase.init';
 const auth = getAuth(app);
 
 
+
 const fb_auth_provider = new FacebookAuthProvider();
 const google_auth_provider = new GoogleAuthProvider();
 
 
-export async function CreateNewUser (email, password, uid , provider){
-    
-}
+
 
 export const FacebookAuth = async () => {
     const fbAuth = await  signInWithPopup(auth, fb_auth_provider);
@@ -36,6 +36,33 @@ export const GoogleAuth = async () => {
 }
 
 
+export async function createUserWithEmailAndPasswordFunc(email, password) {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // User created successfully
+        const user = userCredential.user;
+        console.log('User created:', user.uid);
+        return user;
+    } catch (error) {
+        // Handle errors
+        console.error('Error creating user:', error.message);
+        throw error;
+    }
+}
+
+export async function signInWithEmailAndPasswordFunc(email, password) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        // User signed in successfully
+        const user = userCredential.user;
+        console.log('User signed in:', user.uid);
+        return user;
+    } catch (error) {
+        // Handle errors
+        console.error('Error signing in:', error.message);
+        throw error;
+    }
+}
 // auth.jsx
 // export const FacebookAuth = async () => {
 //     try {

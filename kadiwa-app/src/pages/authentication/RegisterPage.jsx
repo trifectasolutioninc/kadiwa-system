@@ -3,7 +3,7 @@ import { imageConfig } from "../../Configuration/config-file";
 import InputMask from "react-input-mask";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, set } from "firebase/database";
-import { FacebookAuth, FacebookMobileAuth, GoogleAuth } from "../../services/user/auth.service";
+import { FacebookAuth, FacebookMobileAuth, GoogleAuth, createUserWithEmailAndPasswordFunc } from "../../services/user/auth.service";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import firebaseDB from "../../Configuration/config";
 
@@ -541,10 +541,26 @@ async function GoogleButtonClicked() {
       return;
     }
 
+
+
     if (consumerFormData.password !== consumerFormData.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
+
+    try {
+        const user = await createUserWithEmailAndPasswordFunc(consumerFormData.email, consumerFormData.confirmPassword);
+
+        console.log('User created:', user);
+      
+    } catch (error) {
+
+        console.error('Error creating user:', error);
+        return;
+    }
+
+
+
     const userRefCheck = ref(db, "users_information");
 
     try {
@@ -578,7 +594,7 @@ async function GoogleButtonClicked() {
         email: "N/A",
         gender: "N/A",
         first_name: "No name",
-        fullname: "No name",
+        fullname: "An",
         last_name: "",
         middle_name: "",
         suffix: "",
