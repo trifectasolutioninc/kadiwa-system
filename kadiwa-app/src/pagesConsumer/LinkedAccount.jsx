@@ -14,11 +14,6 @@ const LinkedAccount = () => {
       number: "1234 5678 9123 4567",
       type: "MasterCard",
     },
-    Megapay: {
-      owner: "Juan Dela Cruz",
-      number: "9876 5432 1098 7654",
-      type: "Megapay",
-    },
     Gcash: {
       owner: "Juan Dela Cruz",
       number: "2468 1357 8024 6913",
@@ -53,8 +48,6 @@ const LinkedAccount = () => {
     switch (accountType) {
       case "MasterCard":
         return `${paymentImg.MasterCard}`;
-      case "Megapay":
-        return `${paymentImg.Megapay}`;
       case "Gcash":
         return `${paymentImg.Gcash}`;
       case "Paymaya":
@@ -110,9 +103,6 @@ const LinkedAccount = () => {
 
                   {/* Render additional information based on account type */}
                   {account.type === "MasterCard" && (
-                    <span className="text-sm"></span>
-                  )}
-                  {account.type === "Megapay" && (
                     <span className="text-sm"></span>
                   )}
                   {account.type === "Gcash" && (
