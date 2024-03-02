@@ -382,7 +382,7 @@ const StoreList = ({ productCode, category }) => {
       {/* Modal for checkout */}
       {isCheckoutModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-4/5 space-y-4">
+          <div className="absolute bg-slate-50 p-4 rounded-md shadow-md w-4/5 space-y-4">
             <section>
               <h1 className="text-lg font-bold text-gray-800">
                 {selectedStore.name}
