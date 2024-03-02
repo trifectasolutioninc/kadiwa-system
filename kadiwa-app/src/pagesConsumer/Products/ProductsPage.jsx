@@ -265,7 +265,8 @@ const ProductsPage = () => {
                       {product.product_name}
                     </h2>
                     <p className="font-semibold text-gray-500 truncate">
-                      {product.commodity_type}
+                      {product.subcategory.charAt(0).toUpperCase() +
+                        product.subcategory.slice(1)}
                     </p>
                     <p className="font-bold text-green-600">
                       Php {product.price.toFixed(2)}

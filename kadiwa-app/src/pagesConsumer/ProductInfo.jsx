@@ -73,7 +73,8 @@ const ProductDetails = ({ productDetails }) => {
                     Price: ₱{price} ({unit_measurement})
                   </p>
                   <p className=" text-gray-500">
-                    Commodity Type: {commodity_type}
+                    Commodity Type:{" "}
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
                   </p>
                 </div>
 
