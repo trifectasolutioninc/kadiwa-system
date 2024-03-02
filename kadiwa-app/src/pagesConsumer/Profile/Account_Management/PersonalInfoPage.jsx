@@ -16,7 +16,6 @@ const PersonalInfoPage = () => {
 
   const uid = sessionStorage.getItem("uid");
 
-  // Inside the useEffect hook
   useEffect(() => {
     const dbRef = ref(getDatabase());
     get(child(dbRef, `users_information/${uid}`))
@@ -27,7 +26,13 @@ const PersonalInfoPage = () => {
           if (bdayValue) {
             const parsedDate = new Date(bdayValue);
             if (!isNaN(parsedDate.getTime())) {
-              setSelectedDate(parsedDate);
+              // Format date as "yyyy-MM-dd"
+              const isoDate = parsedDate.toISOString().split('T')[0];
+              setSelectedDate(isoDate);
+              setUserInformation((prevState) => ({
+                ...prevState,
+                bday: isoDate, // Update bday field with ISO formatted date
+              }));
             } else {
               console.error("Invalid date format:", bdayValue);
             }
@@ -43,6 +48,7 @@ const PersonalInfoPage = () => {
         console.error(error);
       });
   }, [uid]);
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -100,19 +106,21 @@ const PersonalInfoPage = () => {
             Birthday
           </label>
           <div className="relative border rounded w-full bg-white shadow">
-            <input type="date" name="" id="" className="p-2 w-full" />
-            {/* <DatePicker
-              id="datepicker"
-              className="appearance-none w-full py-2 px-3  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              selected={selectedDate}
-              onChange={(date) => {
-                setSelectedDate(date);
-                setUserInformation((prevState) => ({
-                  ...prevState,
-                  bday: date.toISOString().split("T")[0],
-                }));
-              }}
-            /> */}
+            <input
+             className="p-2 w-full" 
+             type="date" 
+             name="date" 
+             id="date"
+             value={selectedDate}
+             onChange={(event) => {
+               const date = event.target.value; // Get the value from the event
+               setSelectedDate(date);
+               setUserInformation((prevState) => ({
+                 ...prevState,
+                 bday: date,
+               }));
+             }}
+           />
           </div>
         </div>
         <div className="mb-4">
@@ -123,13 +131,16 @@ const PersonalInfoPage = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="gender"
             value={selectedGender}
-            onChange={(e) => {
-              setSelectedGender(e.target.value);
-              setUserInformation((prevState) => ({
-                ...prevState,
-                gender: e.target.value,
-              }));
-            }}
+            // Inside the date input field
+onChange={(event) => {
+  const gender = event.target.value; // Get the value from the event
+  setSelectedGender(gender);
+  setUserInformation((prevState) => ({
+    ...prevState,
+    gender: gender,
+  }));
+}}
+
           >
             <option value="N/A">N/A</option> {/* Default value */}
             <option value="male">Male</option>
