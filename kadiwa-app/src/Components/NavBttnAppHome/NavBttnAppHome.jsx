@@ -9,7 +9,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { getDatabase, ref, get, onValue, off } from "firebase/database";
 import { BRAND } from "../../services/configurations/application.config";
-import AppUpdateModal from './../modals/AppUpdateModal';
+import AppUpdateModal from "./../modals/AppUpdateModal";
 import Toast from "../Notifications/Toast";
 
 const NavBttnAppHome = () => {
@@ -127,27 +127,43 @@ const NavBttnAppHome = () => {
     };
   }, [uid]);
 
+  const [activeNav, setActiveNav] = useState("");
+
+  const handleNavClick = (nav) => {
+    setActiveNav(nav);
+  };
+
   return (
     <React.Fragment>
       <div className="p-3 bg-neutral-100 fixed bottom-0 w-full"></div>
-      <footer className="p-4 bg-green-700 text-white flex items-center justify-around fixed bottom-1 right-1 left-1 rounded-md z-50">
+      <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-1 right-1 left-1 rounded-md z-50">
         <NavLink
           to=""
-          className="text-white text-xs flex flex-col items-center"
+          className={`text-white text-xs flex flex-col items-center ${
+            activeNav === "home" ? "underline" : ""
+          }`}
+          onClick={() => handleNavClick("home")}
         >
+          {" "}
           <Home />
           Home
         </NavLink>
         <NavLink
           to="store"
-          className="text-white text-xs flex flex-col items-center"
+          className={`text-white text-xs flex flex-col items-center ${
+            activeNav === "store" ? "underline" : ""
+          }`}
+          onClick={() => handleNavClick("store")}
         >
           <Store />
           Stores
         </NavLink>
         <NavLink
           to="chat"
-          className="text-white text-xs flex flex-col items-center relative"
+          className={`text-white text-xs flex flex-col items-center relative ${
+            activeNav === "chat" ? "underline" : ""
+          }`}
+          onClick={() => handleNavClick("chat")}
         >
           <Chat />
           Chat
@@ -159,7 +175,10 @@ const NavBttnAppHome = () => {
         </NavLink>
         <NavLink
           to="cart"
-          className="text-white text-xs flex flex-col items-center relative"
+          className={`text-white text-xs flex flex-col items-center relative ${
+            activeNav === "cart" ? "underline" : ""
+          }`}
+          onClick={() => handleNavClick("cart")}
         >
           <ShoppingCart />
           Cart
@@ -171,7 +190,10 @@ const NavBttnAppHome = () => {
         </NavLink>
         <NavLink
           to="profile"
-          className="text-white text-xs flex flex-col items-center relative"
+          className={`text-white text-xs flex flex-col items-center relative ${
+            activeNav === "profile" ? "underline" : ""
+          }`}
+          onClick={() => handleNavClick("profile")}
         >
           <AccountCircle />
           Account
@@ -186,19 +208,19 @@ const NavBttnAppHome = () => {
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />
       )}
       {version !== "" && version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
-      <AppUpdateModal
-        newVersion={version}
-        onUpdate={() => {
-          setToastMessage("Updated Successfully");
-          setShowToast(true);
-          setTimeout(() => {
-            window.location.reload(); 
-          }, 3000);
-        }}
-      />
-    ):(<div>
-
-    </div>)}
+        <AppUpdateModal
+          newVersion={version}
+          onUpdate={() => {
+            setToastMessage("Updated Successfully");
+            setShowToast(true);
+            setTimeout(() => {
+              window.location.reload();
+            }, 3000);
+          }}
+        />
+      ) : (
+        <div></div>
+      )}
     </React.Fragment>
   );
 };
