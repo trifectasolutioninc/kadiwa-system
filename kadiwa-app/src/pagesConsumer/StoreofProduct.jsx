@@ -188,52 +188,94 @@ const StoreInfo = () => {
         {/* Modal */}
         {modalOpen && selectedProduct && storeData && storeAddress && (
           <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-            <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
-              <h3 className="text-lg font-bold text-gray-800">
-                {storeData.name}
-              </h3>
-              <p className="text-gray-700  ">
-                {storeAddress.city}, {storeAddress.province}
-              </p>
-              <p className="mt-4">{selectedProduct.product_name}</p>
-              <p className="">Price: ₱{selectedProduct.price}</p>
-              <label>Variety: </label>
-              <select
-                name=""
-                id=""
-                className="p-1 border font-medium rounded-md"
-              >
-                <option value="">Select Weight/Pieces</option>
-                <option value="">1 unit</option>
-                <option value="">2 unit</option>
-                <option value="">3 unit</option>
-              </select>
-              <div className="flex items-center mt-2">
-                <button
-                  onClick={decrementQty}
-                  className="bg-gray-700 text-white px-2 py-1 rounded-l-md"
+            <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-4/5 space-y-4">
+              <section>
+                <h1 className="text-lg font-bold text-gray-800">
+                  {storeData.name}
+                </h1>
+                <p className="text-gray-700  ">
+                  {storeAddress.city}, {storeAddress.province}
+                </p>
+              </section>
+
+              {/* <div className="space-y-1 my-4 text-black/80">
+                <p className="mt-4">{selectedProduct.product_name}</p>
+                <p className="">Price: ₱{selectedProduct.price}</p>
+                <label>Variety: </label>
+                <select
+                  name=""
+                  id=""
+                  className="p-1 border font-medium rounded-md"
                 >
-                  -
-                </button>
-                <input
-                  type="number"
-                  onChange={(e) =>
-                    setQty(Math.max(1, parseInt(e.target.value) || 0))
-                  }
-                  value={qty}
-                  className="border border-gray-300 px-2 py-1  text-center w-full"
-                />
-                <button
-                  onClick={incrementQty}
-                  className="bg-gray-700 text-white px-2 py-1 rounded-r-md"
-                >
-                  +
-                </button>
-              </div>
+                  <option value="">Select Weight/Pieces</option>
+                  <option value="">1 unit</option>
+                  <option value="">2 unit</option>
+                  <option value="">3 unit</option>
+                </select>
+              </div> */}
+              <section>
+                <div className="space-y-2 my-4 text-black/80">
+                  <div className="flex items-center justify-between">
+                    <p>Product:</p>
+                    <p className="font-medium">
+                      {selectedProduct.product_name}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p>Price:</p>
+                    <p className="font-medium text-green-700">
+                      ₱ {selectedProduct.price} / unit
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label>Weight/Pieces: </label>
+                    <select
+                      name=""
+                      id=""
+                      className="py-1 px-5 border font-medium rounded-md"
+                    >
+                      {Object.values(selectedProduct.variety).map((variety) => (
+                        <option key={variety.id} value={variety.id}>
+                          {variety.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <div className="flex items-center">
+                  <p className="text-black/80">Quantity:</p>
+                  <div className="flex items-center justify-end">
+                    <button
+                      onClick={decrementQty}
+                      className="bg-gray-700 text-white px-2 py-1 rounded-l-md"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      onChange={(e) =>
+                        setQty(Math.max(1, parseInt(e.target.value) || 0))
+                      }
+                      value={qty}
+                      className="border border-gray-300 px-2 py-1  text-center w-1/4"
+                    />
+                    <button
+                      onClick={incrementQty}
+                      className="bg-gray-700 text-white px-2 py-1 rounded-r-md"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </section>
+              <hr />
               <div className="flex items-center justify-between mt-4">
                 <button
                   onClick={() => setModalOpen(false)}
-                  className="bg-gray-300 text-gray-800 px-4 py-2  rounded-md"
+                  className=" text-gray-800 px-4 py-2  rounded-md"
                 >
                   Cancel
                 </button>
@@ -252,71 +294,79 @@ const StoreInfo = () => {
           storeData &&
           storeAddress && (
             <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-              <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
-                <h3 className="text-lg font-bold text-gray-800">
-                  {storeData.name}
-                </h3>
-                <p className="text-gray-700 ">
-                  {storeAddress &&
-                    `${storeAddress.city}, ${storeAddress.province}`}
-                </p>
+              <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-4/5 space-y-4">
+                <section>
+                  <h1 className="text-lg font-bold text-gray-800">
+                    {storeData.name}
+                  </h1>
+                  <p className="text-black/80 ">
+                    {storeAddress &&
+                      `${storeAddress.city}, ${storeAddress.province}`}
+                  </p>
+                </section>
 
-                <div className="space-y-1 my-4 text-black/80">
-                  <p className="">
-                    Product:{" "}
-                    <span className="font-medium">
+                <div className="space-y-2 my-4 text-black/80">
+                  <div className="flex items-center justify-between">
+                    <p>Product:</p>
+                    <p className="font-medium">
                       {selectedProduct.product_name}
-                    </span>
-                  </p>
-                  <p>
-                    Price:
-                    <span className="font-medium">
-                      {" "}
-                      ₱ {selectedProduct.price}
-                    </span>
-                    / unit
-                  </p>
-                  <div>
-                    <label>Variety: </label>
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p>Price:</p>
+                    <p className="font-medium text-green-700">
+                      ₱ {selectedProduct.price}/ unit
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label>Weight/Pieces: </label>
                     <select
                       name=""
                       id=""
-                      className="p-1 border font-medium rounded-md"
+                      className="py-1 px-5 border font-medium rounded-md"
                     >
-                      <option value="">Select Weight/Pieces</option>
-                      <option value="">1 unit</option>
-                      <option value="">3 unit</option>
-                      <option value="">5 unit</option>
+                      {Object.values(selectedProduct.variety).map((variety) => (
+                        <option key={variety.id} value={variety.id}>
+                          {variety.name}
+                        </option>
+                      ))}
+                      3.6
                     </select>
                   </div>
                 </div>
 
-                <div className="flex items-center mt-2">
-                  <button
-                    onClick={decrementQty}
-                    className="bg-red-500 text-white px-2 py-1 rounded-l-md"
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    onChange={(e) =>
-                      setQty(Math.max(1, parseInt(e.target.value) || 0))
-                    }
-                    value={qty}
-                    className="border border-gray-300 px-2 py-1  text-center w-full"
-                  />
-                  <button
-                    onClick={incrementQty}
-                    className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
-                  >
-                    +
-                  </button>
-                </div>
+                <section>
+                  <div className="flex items-center">
+                    <p className="text-black/80">Quantity:</p>
+                    <div className="flex items-center justify-end">
+                      <button
+                        onClick={decrementQty}
+                        className="bg-red-500 text-white px-2 py-1 rounded-l-md"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        onChange={(e) =>
+                          setQty(Math.max(1, parseInt(e.target.value) || 0))
+                        }
+                        value={qty}
+                        className="border border-gray-300 px-2 py-1  text-center w-1/4"
+                      />
+                      <button
+                        onClick={incrementQty}
+                        className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </section>
+                <hr />
                 <div className="flex items-center justify-between mt-4">
                   <button
                     onClick={closeCheckoutModal}
-                    className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md"
+                    className=" text-gray-800 px-4 py-2 rounded-md"
                   >
                     Cancel
                   </button>

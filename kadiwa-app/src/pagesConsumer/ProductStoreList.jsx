@@ -286,74 +286,82 @@ const StoreList = ({ productCode, category }) => {
       {/* Modal for adding to cart */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-3/4">
-            <h3 className="text-lg font-bold text-gray-800">
-              {selectedStore.name}
-            </h3>
-            <p className="text-gray-700 ">
-              {selectedStoreadd &&
-                `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
-            </p>
-            {filteredProducts.length > 0 && (
-              <div className="space-y-2 my-4 text-black/80">
-                <p className="">
-                  Product:{" "}
-                  <span className="font-bold">
-                    {filteredProducts[0].product_name}
-                  </span>
-                </p>
-                <p>
-                  Price:
-                  <span className="font-semibold text-green-700">
-                    {" "}
-                    ₱ {filteredProducts[0].price}
-                  </span>
-                  <span className="font-semibold text-green-700">
-                    / {filteredProducts[0].unit_measurement}
-                  </span>
-                </p>
-                <div>
-                  <label>Weight/Pieces: </label>
-                  <select
-                    name="variety"
-                    value={selectedVariety}
-                    onChange={handleVarietyChange}
-                    className="p-1 border font-semibold rounded-md"
+          <div className="absolute bg-slate-50 p-4 rounded-md shadow-md w-4/5 space-y-4">
+            <section>
+              <h1 className="text-lg font-bold text-gray-800">
+                {selectedStore.name}
+              </h1>
+              <p className="text-gray-700 ">
+                {selectedStoreadd &&
+                  `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
+              </p>
+            </section>
+
+            <section>
+              {filteredProducts.length > 0 && (
+                <div className="space-y-2 my-4 text-black/80">
+                  <div className="flex items-center justify-between">
+                    <p>Product:</p>
+                    <p className="font-bold">
+                      {filteredProducts[0].product_name}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p>Price:</p>
+                    <p className="font-semibold text-green-700">
+                      ₱ {filteredProducts[0].price} /{" "}
+                      {filteredProducts[0].unit_measurement}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label>Weight/Pieces: </label>
+                    <select
+                      name="variety"
+                      value={selectedVariety}
+                      onChange={handleVarietyChange}
+                      className="py-1 px-5 border font-semibold rounded-md"
+                    >
+                      {filteredProducts.length > 0 &&
+                        Object.values(filteredProducts[0].variety).map(
+                          (variety) => (
+                            <option key={variety.id} value={variety.id}>
+                              {variety.name}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </div>
+                </div>
+              )}
+            </section>
+
+            <section>
+              <div className="flex items-center">
+                <p className="text-black/80">Quantity:</p>
+                <div className="flex items-center justify-end">
+                  <button
+                    onClick={decrementQuantity}
+                    className="bg-red-500 text-white px-2 py-1 rounded-l-md"
                   >
-                    <option value="">Select Weight/Pieces</option>
-                    {filteredProducts.length > 0 &&
-                      Object.values(filteredProducts[0].variety).map(
-                        (variety) => (
-                          <option key={variety.id} value={variety.id}>
-                            {variety.name}
-                          </option>
-                        )
-                      )}
-                  </select>
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    value={selectedQuantity}
+                    onChange={(e) => setSelectedQuantity(e.target.value)}
+                    className="border border-gray-300 px-2 py-1 text-center w-1/4"
+                  />
+                  <button
+                    onClick={incrementQuantity}
+                    className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-            )}
+            </section>
 
-            <div className="flex items-center mt-2">
-              <button
-                onClick={decrementQuantity}
-                className="bg-red-500 text-white px-2 py-1 rounded-l-md"
-              >
-                -
-              </button>
-              <input
-                type="number"
-                value={selectedQuantity}
-                onChange={(e) => setSelectedQuantity(e.target.value)}
-                className="border border-gray-300 px-2 py-1 text-center w-full"
-              />
-              <button
-                onClick={incrementQuantity}
-                className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
-              >
-                +
-              </button>
-            </div>
+            <hr />
             <div className="flex items-center justify-between mt-4">
               <button
                 onClick={closeModal}
@@ -374,73 +382,82 @@ const StoreList = ({ productCode, category }) => {
       {/* Modal for checkout */}
       {isCheckoutModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-          <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
-            <h3 className="text-lg font-bold text-gray-800">
-              {selectedStore.name}
-            </h3>
-            <p className="text-gray-700 ">
-              {selectedStoreadd &&
-                `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
-            </p>
-            {filteredProducts.length > 0 && (
-              <div className="space-y-2 my-4 text-black/80">
-                <p className="">
-                  Product:{" "}
-                  <span className="font-bold">
-                    {filteredProducts[0].product_name}
-                  </span>
-                </p>
-                <p>
-                  Price:
-                  <span className="font-semibold text-green-700">
-                    {" "}
-                    ₱ {filteredProducts[0].price}
-                  </span>
-                  <span className="font-semibold text-green-700">
-                    / {filteredProducts[0].unit_measurement}
-                  </span>
-                </p>
-                <div>
-                  <label>Variety: </label>
-                  <select
-                    name="variety"
-                    value={selectedVariety}
-                    onChange={handleVarietyChange}
-                    className="p-1 border font-semibold rounded-md"
+          <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-4/5 space-y-4">
+            <section>
+              <h1 className="text-lg font-bold text-gray-800">
+                {selectedStore.name}
+              </h1>
+              <p className="text-gray-700 ">
+                {selectedStoreadd &&
+                  `${selectedStoreadd.city}, ${selectedStoreadd.province}`}
+              </p>
+            </section>
+
+            <section>
+              {filteredProducts.length > 0 && (
+                <div className="space-y-2 my-4 text-black/80">
+                  <div className="flex items-center justify-between">
+                    <p>Product:</p>
+                    <p className="font-bold">
+                      {filteredProducts[0].product_name}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p>Price:</p>
+                    <p className="font-semibold text-green-700">
+                      ₱ {filteredProducts[0].price} /{" "}
+                      {filteredProducts[0].unit_measurement}
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label>Weight/Pieces: </label>
+                    <select
+                      name="variety"
+                      value={selectedVariety}
+                      onChange={handleVarietyChange}
+                      className="py-1 px-5 border font-semibold rounded-md"
+                    >
+                      {filteredProducts.length > 0 &&
+                        Object.values(filteredProducts[0].variety).map(
+                          (variety) => (
+                            <option key={variety.id} value={variety.id}>
+                              {variety.name}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </div>
+                </div>
+              )}
+            </section>
+
+            <section>
+              <div className="flex items-center">
+                <p className="text-black/80">Quantity:</p>
+                <div className="flex items-center justify-end">
+                  <button
+                    onClick={decrementQuantity}
+                    className="bg-red-500 text-white px-2 py-1 rounded-l-md"
                   >
-                    <option value="">Select Weight/Pieces</option>
-                    {filteredProducts.length > 0 &&
-                      Object.values(filteredProducts[0].variety).map(
-                        (variety) => (
-                          <option key={variety.id} value={variety.id}>
-                            {variety.name}
-                          </option>
-                        )
-                      )}
-                  </select>
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    value={selectedQuantity}
+                    onChange={(e) => setSelectedQuantity(e.target.value)}
+                    className="border border-gray-300 px-2 py-1 text-center w-1/4"
+                  />
+                  <button
+                    onClick={incrementQuantity}
+                    className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
-            )}
-            <div className="flex items-center mt-2">
-              <button
-                onClick={decrementQuantity}
-                className="bg-red-500 text-white px-2 py-1 rounded-l-md"
-              >
-                -
-              </button>
-              <input
-                type="number"
-                value={selectedQuantity}
-                onChange={(e) => setSelectedQuantity(e.target.value)}
-                className="border border-gray-300 px-2 py-1 text-center w-full"
-              />
-              <button
-                onClick={incrementQuantity}
-                className="bg-blue-500 text-white px-2 py-1 rounded-r-md"
-              >
-                +
-              </button>
-            </div>
+            </section>
+
+            <hr />
             <div className="flex items-center justify-between mt-4">
               <button
                 onClick={closeCheckoutModal}
