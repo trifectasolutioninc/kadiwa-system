@@ -3,17 +3,17 @@
   "name": "Kadiwa Application",
   "icons": [
     {
-      "src": "/kadiwa-icon-squared-green.webp",
+      "src": "kadiwa-icon.webp",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/webp"
     },
     {
-      "src": "/kadiwa-icon-squared-green.webp",
+      "src": "kadiwa-icon.webp",
       "type": "image/webp",
       "sizes": "192x192"
     },
     {
-      "src": "/kadiwa-icon-squared-green.webp",
+      "src": "kadiwa-icon.webp",
       "type": "image/webp",
       "sizes": "512x512"
     }
