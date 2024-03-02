@@ -212,7 +212,7 @@ const ProfileConsumer = () => {
                 <div className=" z-30">
                   <NavLink
                     to={"/route/profileedit/"}
-                    className="border block border-white rounded-full text-white px-2 text-[0.8em]"
+                    className="border block border-white bg-neutral-100 rounded-full text-black/80 shadow-md px-3 py-1 text-[0.8em]"
                   >
                     Settings
                   </NavLink>
@@ -246,7 +246,7 @@ const ProfileConsumer = () => {
               <div className=" flex justify-between">
                 <div></div>
                 <div>
-                  <NavLink className=" border border-white rounded-full text-white px-2 text-[0.8em]">
+                  <NavLink className="border block border-white bg-neutral-100 rounded-full text-black/80 shadow-md px-3 py-1 text-[0.8em]">
                     Settings
                   </NavLink>
                 </div>

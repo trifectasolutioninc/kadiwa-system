@@ -163,11 +163,7 @@ const HomeConsumer = () => {
         if (userSnapshot.exists()) {
           const userData = userSnapshot.val();
 
-          setUserData(
-            userData.fullname.split(" ")[0] +
-              " " +
-              userData.fullname.split(" ")[1]
-          );
+          setUserData(userData.fullname.split(" ")[0]);
         } else {
           console.error("User not found");
         }
@@ -182,10 +178,10 @@ const HomeConsumer = () => {
     <main className="p-3 md:px-10 space-y-5 mb-20 bg-neutral-100">
       <section id="topView" className="space-y-3">
         <h1 className="text-[2em] text-green-700 font-bold">
-          Hello, {userData && userData}!
+          Hello, {userData === "" ? "Kadiwa User" : userData}!
         </h1>
         <div id="userLocation" className="flex items-center">
-          <LocationOn className="text-gray-700 mr-2" />
+          <LocationOn className="text-green-700 mr-2" />
           <span id="userLocationText" className="text-gray-600">
             {userLocation}
           </span>
