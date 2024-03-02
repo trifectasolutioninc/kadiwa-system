@@ -35,6 +35,7 @@ function resetConsumerForm() {
 const Registration = () => {
   const [version, setVersion] = useState("");
   const [consumerFormData, setConsumerFormData] = useState({
+    email: "",
     contact: "",
     password: "",
     confirmPassword: "",
@@ -90,7 +91,7 @@ const Registration = () => {
             points: 0,
             type: "consumer",
             bday: "N/A",
-            email: "N/A",
+            email: consumerFormData.email,
             gender: "N/A",
             first_name: "No name",
             fullname: fbuser._tokenResponse.displayName,
@@ -103,7 +104,7 @@ const Registration = () => {
         const authData = {
             id: userID,
             uid: fbuser._tokenResponse.localId,
-            email: "N/A",
+            email: consumerFormData.email,
             username: userID,
             store_id: "None",
             contact: consumerFormData.contact,
@@ -709,9 +710,26 @@ async function GoogleButtonClicked() {
             Create an Account
           </h2>
         </div>
+   
         <form className="mt-4 space-y-4" onSubmit={handleConsumerSubmit}>
           {/* Form inputs */}
           <div className="shadow-sm space-y-2">
+            <div>
+            <label htmlFor="email" className="sr-only">
+                Email
+            </label>
+            <input type="email" 
+            value={consumerFormData.email}
+            onChange={(e) =>
+              setConsumerFormData({
+                ...consumerFormData,
+                email: e.target.value,
+              })}
+            placeholder="Email" 
+            maxLength={320} 
+            className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" required/>
+   
+          </div>
             {/* Phone Number Input */}
             <div>
               <label htmlFor="phoneNumber" className="sr-only">
