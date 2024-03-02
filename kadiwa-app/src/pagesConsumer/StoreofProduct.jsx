@@ -251,7 +251,7 @@ const StoreInfo = () => {
           selectedProduct &&
           storeData &&
           storeAddress && (
-            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+            <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
               <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
                 <h3 className="text-lg font-bold text-gray-800">
                   {storeData.name}

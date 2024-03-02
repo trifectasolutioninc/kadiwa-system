@@ -5,11 +5,14 @@ import { FaCalendar } from "react-icons/fa"; // Importing calendar icon
 import { NavLink } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Toast from "../../../Components/Notifications/Toast";
 
 const PersonalInfoPage = () => {
   const [userInformation, setUserInformation] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null); // Default value set to null
   const [selectedGender, setSelectedGender] = useState("N/A"); // Default value set to 'N/A'
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const uid = sessionStorage.getItem("uid");
 
@@ -54,9 +57,13 @@ const PersonalInfoPage = () => {
     update(child(dbRef, `users_information/${uid}`), userInformation)
       .then(() => {
         console.log("User information updated successfully");
+        setShowToast(true);
+        setToastMessage("Updated successfully");
       })
       .catch((error) => {
         console.error("Error updating user information: ", error);
+        setShowToast(true);
+        setToastMessage("Error updating user information");
       });
   };
 
@@ -137,6 +144,9 @@ const PersonalInfoPage = () => {
           Save Changes
         </button>
       </div>
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+      )}
     </>
   );
 };

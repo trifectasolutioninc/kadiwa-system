@@ -285,7 +285,7 @@ const StoreList = ({ productCode, category }) => {
       )}
       {/* Modal for adding to cart */}
       {isModalOpen && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
           <div className="absolute bg-slate-50 p-6 rounded-md shadow-md w-3/4">
             <h3 className="text-lg font-bold text-gray-800">
               {selectedStore.name}
@@ -320,7 +320,7 @@ const StoreList = ({ productCode, category }) => {
                     onChange={handleVarietyChange}
                     className="p-1 border font-semibold rounded-md"
                   >
-                    <option value="">Select Variety</option>
+                    <option value="">Select Weight/Pieces</option>
                     {filteredProducts.length > 0 &&
                       Object.values(filteredProducts[0].variety).map(
                         (variety) => (
@@ -373,7 +373,7 @@ const StoreList = ({ productCode, category }) => {
       )}
       {/* Modal for checkout */}
       {isCheckoutModalOpen && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-sm">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
           <div className="absolute bg-white p-6 rounded-md shadow-md w-3/4">
             <h3 className="text-lg font-bold text-gray-800">
               {selectedStore.name}

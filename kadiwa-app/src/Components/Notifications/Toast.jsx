@@ -12,8 +12,10 @@ const Toast = ({ message, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed bottom-20 w-full flex justify-center z-50">
-      <p className="bg-gray-800 text-white px-4 py-2 rounded-md">{message}</p>
+    <div className="fixed bottom-20 w-full flex justify-center items-center z-50">
+      <p className="bg-gray-800 text-white px-4 py-2 rounded-md text-center">
+        {message}
+      </p>
     </div>
   );
 };
