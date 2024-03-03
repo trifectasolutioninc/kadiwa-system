@@ -11,6 +11,7 @@ const PersonalInfoPage = () => {
   const [userInformation, setUserInformation] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null); // Default value set to null
   const [selectedGender, setSelectedGender] = useState("N/A"); // Default value set to 'N/A'
+  const [phoneNumber, setPhoneNumber] = useState(""); // State to hold phone number
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -40,6 +41,7 @@ const PersonalInfoPage = () => {
             setSelectedDate(null);
           }
           setSelectedGender(snapshot.val().gender || "N/A");
+          setPhoneNumber(snapshot.val().contact || ""); // Set phone number state
         } else {
           console.log("No data available");
         }
@@ -131,22 +133,40 @@ const PersonalInfoPage = () => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             name="gender"
             value={selectedGender}
-            // Inside the date input field
-onChange={(event) => {
-  const gender = event.target.value; // Get the value from the event
-  setSelectedGender(gender);
-  setUserInformation((prevState) => ({
-    ...prevState,
-    gender: gender,
-  }));
-}}
-
+            onChange={(event) => {
+              const gender = event.target.value; // Get the value from the event
+              setSelectedGender(gender);
+              setUserInformation((prevState) => ({
+                ...prevState,
+                gender: gender,
+              }));
+            }}
           >
             <option value="N/A">N/A</option> {/* Default value */}
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
           </select>
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Phone Number
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-black/80 leading-tight focus:outline-none focus:shadow-outline"
+            type="text"
+            name="phoneNumber"
+            value={phoneNumber}
+            onChange={(event) => {
+              const contact = event.target.value; // Get the value from the event
+              setPhoneNumber(contact);
+              setUserInformation((prevState) => ({
+                ...prevState,
+                contact: contact,
+              }));
+            }}
+            placeholder="Enter Phone Number"
+          />
         </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

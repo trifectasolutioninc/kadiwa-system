@@ -25,6 +25,7 @@ import { MdDeliveryDining } from "react-icons/md";
 import { MdHistory } from "react-icons/md";
 import { RiTimer2Fill } from "react-icons/ri";
 import { IoPersonCircle } from "react-icons/io5";
+import Toast from "../Components/Notifications/Toast";
 
 const deviceDetect = require("device-detect")();
 
@@ -33,7 +34,13 @@ const ProfileConsumer = () => {
   const [userwalletData, setUserWalletData] = useState(null);
   const [userstoreData, setUserstoreData] = useState(null);
   const [version, setVersion] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
+  const handleToast = async () => {
+    setToastMessage("Coming Soon... ");
+    setShowToast(true);
+  };
   const [pendingDeliveryCount, setPendingDeliveryCount] = useState(0);
   const [pendingPickupCount, setPendingPickupCount] = useState(0);
 
@@ -283,7 +290,7 @@ const ProfileConsumer = () => {
               </p>
               {/* Plus Icon Circle */}
 
-              <Info className="bg-green-500 text-white p-1 rounded-full" />
+              <Info className="bg-green-500 text-white p-1 rounded-full"  onClick={handleToast} />
             </div>
           ) : (
             <div className="p-4 flex justify-between bg-slate-50 border rounded-md shadow-md">
@@ -304,7 +311,7 @@ const ProfileConsumer = () => {
                 KDW {userwalletData.points}
               </p>
               {/* Plus Icon Circle */}
-              <Info className="bg-green-500 text-white p-1 rounded-full" />
+              <Info className="bg-green-500 text-white p-1 rounded-full"   onClick={handleToast}/>
             </div>
           ) : (
             <div className="p-4 flex justify-between bg-slate-50 border rounded-md shadow-md">
