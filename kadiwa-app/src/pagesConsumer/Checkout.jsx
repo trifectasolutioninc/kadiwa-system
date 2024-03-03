@@ -339,8 +339,33 @@ const Checkout = () => {
         receiptId: receiptId,
         date: currentDate2, // Include current date in orderData
         date_received: "N/A",
+        date_accept: "N/A",
+        date_ready: "N/A",
+        date_cancel: "N/A",
+        deliveryAddress: {
+          person: (selectedAddress?.person || contactPerson),
+          contact: (selectedAddress?.contact || phoneNumber),
+          fulladdress: "",
+        },
         transaction_code: generateTransactionCode(),
       };
+
+    //   <p>
+    //   {selectedAddress?.person || contactPerson} |{" "}
+    //   {selectedAddress?.contact || phoneNumber}
+    // </p>
+    // <p>
+    //   {selectedAddress?.landmark || selectedAddress.display_name}
+    // </p>
+    // <p>
+    //   {selectedAddress?.barangay
+    //     ? `${selectedAddress.barangay}, `
+    //     : ""}
+    //   {selectedAddress?.city ? `${selectedAddress.city}, ` : ""}{" "}
+    //   {selectedAddress?.zipcode
+    //     ? `${selectedAddress.zipcode}, `
+    //     : ""}
+    // </p>
 
       // Check if any item in the CartList has only one item
       const cartListRef = ref(
