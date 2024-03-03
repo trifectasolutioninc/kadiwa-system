@@ -1,4 +1,4 @@
-import kadiwa_rice from "../Components/Assets/products/kadiwa-rice.webp";
+import kadiwa_rice from "../Components/Assets/products/default_rice_3kg.webp";
 import corn_white from "../Components/Assets/products/corn-white.webp";
 import corn_yellow from "../Components/Assets/products/corn-yellow.webp";
 import tilapia from "../Components/Assets/products/tilapia.webp";
@@ -66,8 +66,8 @@ import profileaccountBG from "../Components/Assets/others/account.webp";
 import Banner1 from "../Components/Assets/banner/banner-v1.webp";
 
 import Other from "../Components/Assets/Category/other.webp";
-import Rice from "../Components/Assets/Category/rice2.webp";
-import Pork from "../Components/Assets/Category/pork3.webp";
+import Rice from "../Components/Assets/Category/default_rice_packs.webp";
+import Pork from "../Components/Assets/Category/default_pork.webp";
 import Beef from "../Components/Assets/Category/beef3.webp";
 import Chicken from "../Components/Assets/Category/chicken2.webp";
 import Fish from "../Components/Assets/Category/fish3.webp";
