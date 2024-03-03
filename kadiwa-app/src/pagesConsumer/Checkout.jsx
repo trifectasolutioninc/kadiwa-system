@@ -345,27 +345,15 @@ const Checkout = () => {
         deliveryAddress: {
           person: (selectedAddress?.person || contactPerson),
           contact: (selectedAddress?.contact || phoneNumber),
-          fulladdress: "",
+          fulladdress: (selectedAddress?.display_name || "N/A"),
+          landbank: (selectedAddress?.landmark || "N/A"),
+          barangay: (selectedAddress?.barangay || "N/A"),
+          city: (selectedAddress?.city || "N/A"),
+          zipcode: (selectedAddress?.zipcode || "N/A"),
+          region: (selectedAddress?.region || "N/A"),
         },
         transaction_code: generateTransactionCode(),
       };
-
-    //   <p>
-    //   {selectedAddress?.person || contactPerson} |{" "}
-    //   {selectedAddress?.contact || phoneNumber}
-    // </p>
-    // <p>
-    //   {selectedAddress?.landmark || selectedAddress.display_name}
-    // </p>
-    // <p>
-    //   {selectedAddress?.barangay
-    //     ? `${selectedAddress.barangay}, `
-    //     : ""}
-    //   {selectedAddress?.city ? `${selectedAddress.city}, ` : ""}{" "}
-    //   {selectedAddress?.zipcode
-    //     ? `${selectedAddress.zipcode}, `
-    //     : ""}
-    // </p>
 
       // Check if any item in the CartList has only one item
       const cartListRef = ref(
