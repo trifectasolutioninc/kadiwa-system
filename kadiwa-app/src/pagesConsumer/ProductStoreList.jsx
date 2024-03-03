@@ -205,9 +205,12 @@ const StoreList = ({ productCode, category }) => {
       },
     ];
 
-     
-    const storeNames = selectedStore.name
-  
+    const storeNames = {
+      [`${uid}_${selectedStore.id}`]: selectedStore.name,
+    };
+
+    console.log(storeNames);
+    
     const path = `/main/productinfo/${product.id.split("-")[2]}/${category}`;
     navigate("/route/checkout", { state: { selectedItems, storeNames, path } });
   };

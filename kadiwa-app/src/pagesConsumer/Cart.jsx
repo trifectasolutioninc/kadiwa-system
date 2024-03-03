@@ -244,6 +244,7 @@ const Cart = () => {
         storeNames[storeKey] = storeInfo.storeName;
       }
     }
+    console.log(storeNames);
     const path = `/main/cart`;
     navigate("/route/checkout", {
       state: {

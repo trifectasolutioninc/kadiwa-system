@@ -155,7 +155,7 @@ const StoreInfo = () => {
     ];
 
     const storeNames = {
-      [sid]: storeData.name,
+      [ `${uid}_${sid}`]: storeData.name,
     };
 
     console.log("NAME", storeNames);
