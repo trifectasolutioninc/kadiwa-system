@@ -1,4 +1,6 @@
 import kadiwa_rice from "../Components/Assets/products/default_rice_3kg.webp";
+import kadiwa_rice_3kg from "../Components/Assets/products/default_rice_3kg.webp";
+import kadiwa_rice_5kg from "../Components/Assets/products/default_rice_5kg.webp";
 import corn_white from "../Components/Assets/products/corn-white.webp";
 import corn_yellow from "../Components/Assets/products/corn-yellow.webp";
 import tilapia from "../Components/Assets/products/tilapia.webp";
@@ -7,9 +9,12 @@ import galunggongimported from "../Components/Assets/products/galunggong-importe
 import alumahan from "../Components/Assets/products/alumahan.webp";
 import beefrump from "../Components/Assets/products/beef-rump.webp";
 import beefbrisket from "../Components/Assets/products/beef-brisket.webp";
+import beefnewyorkstrip from "../Components/Assets/products/default_beef.webp";
 import porkham from "../Components/Assets/products/pork-ham.webp";
 import porkbelly from "../Components/Assets/products/pork-belly.webp";
-import wholechicken from "../Components/Assets/products/whole-chicken.webp";
+import porkchop from "../Components/Assets/products/default_pork_chop.webp";
+import wholechicken from "../Components/Assets/products/default_chicken.webp";
+import chickendrumstick from "../Components/Assets/products/default_chicken_drumstick.webp";
 import chickenegg from "../Components/Assets/products/chicken-egg.webp";
 import ampalaya from "../Components/Assets/products/ampalaya.webp";
 import stringbeans from "../Components/Assets/products/string-beans.webp";
@@ -19,6 +24,8 @@ import eggplant from "../Components/Assets/products/eggplant.webp";
 import tomato from "../Components/Assets/products/default_tomato.webp";
 import cabbagescorpio from "../Components/Assets/products/cabbage-scorpio.webp";
 import carrots from "../Components/Assets/products/carrots.webp";
+import okra from "../Components/Assets/products/default_okra.webp";
+import cucumber from "../Components/Assets/products/default_pipino.webp";
 import habitchuelas from "../Components/Assets/products/habitchuelas.webp";
 import whitepotato from "../Components/Assets/products/white-potato.webp";
 import petchaybaguio from "../Components/Assets/products/petchay-baguio.webp";
@@ -46,6 +53,9 @@ import palmoilml from "../Components/Assets/products/palmoilml.webp";
 import palmoilliter from "../Components/Assets/products/palmoilliter.webp";
 import coconutoilml from "../Components/Assets/products/coconutoilml.webp";
 import coconutoilliter from "../Components/Assets/products/coconutoilliter.webp";
+import cookingoil_1L from "../Components/Assets/products/default_cooking_oil_1l.webp";
+import cookingoil_500ml from "../Components/Assets/products/default_cooking_oil_500ml.webp";
+import cookingoil_250ml from "../Components/Assets/products/default_cooking_oil_250ml.webp";
 
 import CardBg from "../Components/Assets/others/card-bg.webp";
 import CardBg2 from "../Components/Assets/others/card-bg-v2.webp";
@@ -65,15 +75,15 @@ import profileaccountBG from "../Components/Assets/others/account.webp";
 
 import Banner1 from "../Components/Assets/banner/banner-v1.webp";
 
-import Other from "../Components/Assets/Category/other.webp";
+import Other from "../Components/Assets/Category/default_oil.webp";
 import Rice from "../Components/Assets/Category/default_rice_packs.webp";
 import Pork from "../Components/Assets/Category/default_pork.webp";
-import Beef from "../Components/Assets/Category/beef3.webp";
-import Chicken from "../Components/Assets/Category/chicken2.webp";
+import Beef from "../Components/Assets/Category/default_beef.webp";
+import Chicken from "../Components/Assets/Category/default_chicken.webp";
 import Fish from "../Components/Assets/Category/fish3.webp";
 import Fruits from "../Components/Assets/Category/fruits.webp";
 import Vegetables from "../Components/Assets/Category/vegetables2.webp";
-import Spices from "../Components/Assets/Category/spices.webp";
+import Spices from "../Components/Assets/Category/default_chili2.webp";
 import Egg from "../Components/Assets/Category/egg3.webp";
 
 import bgV1 from "../Components/Assets/background/bg-v1.svg";
@@ -107,6 +117,8 @@ const imageConfig = {
   AppLogoCard: "../logo/kadiwa-logo.png",
   //Products
   kadiwarice: kadiwa_rice,
+  kadiwarice_3kg: kadiwa_rice_3kg,
+  kadiwarice_5kg: kadiwa_rice_5kg,
 
   cornwhite: corn_white,
   cornyellow: corn_yellow,
@@ -118,12 +130,17 @@ const imageConfig = {
 
   beefrump: beefrump,
   beefbrisket: beefbrisket,
+  beefnewyorkstrip: beefnewyorkstrip,
   porkham: porkham,
   porkbelly: porkbelly,
+  porkchop: porkchop,
   wholechicken: wholechicken,
   chickenegg: chickenegg,
+  chickendrumstick: chickendrumstick,
 
   ampalaya: ampalaya,
+  cucumber: cucumber,
+  okra: okra,
   stringbeans: stringbeans,
   petchaytagalog: petchaytagalog,
   squash: squash,
@@ -160,6 +177,9 @@ const imageConfig = {
   palmoilliter: palmoilliter,
   coconutoilml: coconutoilml,
   coconutoilliter: coconutoilliter,
+  cookingoil1L: cookingoil_1L,
+  cookingoil_500ml: cookingoil_500ml,
+  cookingoil_250ml: cookingoil_250ml,
 
   sugarrefined: sugarrefined,
   sugarwashed: sugarwashed,
