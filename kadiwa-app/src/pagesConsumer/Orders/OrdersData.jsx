@@ -84,7 +84,7 @@ const OrdersData = () => {
                   {isOpen && (
                     <div className="absolute p-3 border z-10 mt-1 text-center bg-slate-50 rounded-md shadow-md text-black/80 right-0">
                       <button className="px-3 py-1 text-sm text-white bg-red-500 rounded-md whitespace-nowrap">
-                        Cancel Order
+                        Cancel Order (coming soon)
                       </button>
                     </div>
                   )}
