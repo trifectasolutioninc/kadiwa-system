@@ -88,7 +88,7 @@ const ProfileEdit = () => {
           for (const device of userDevicesSnapshot.val()) {
             if (device.deviceID === deviceID) {
               // Update device log to offline
-              update(ref(database, `authentication/${userId}/device/${device.key}`), {
+              update(ref(database, `authentication/${userId}/device/${device.id}`), {
                 log: "offline",
               });
             }

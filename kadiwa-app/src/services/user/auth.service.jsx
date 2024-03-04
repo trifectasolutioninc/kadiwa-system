@@ -8,6 +8,8 @@ import {
     signInWithRedirect,
     signInWithCredential,
     signOut,
+    sendEmailVerification,
+    sendPasswordResetEmail,
 } from 'firebase/auth';
 
 import { app } from './../init/firebase.init';
@@ -41,6 +43,10 @@ export async function createUserWithEmailAndPasswordFunc(email, password) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         // User created successfully
         const user = userCredential.user;
+        
+        // Send verification email
+        await sendEmailVerification(auth.currentUser);
+        
         console.log('User created:', user.uid);
         return user;
     } catch (error) {
@@ -82,6 +88,18 @@ export const Logout = async () => {
     } catch (error) {
         console.error("Error occurred while logging out:", error.message);
         // Handle error
+    }
+}
+
+// Function to handle forgot password
+export async function forgotPassword(email) {
+    try {
+        await sendPasswordResetEmail(auth, email);
+        console.log('Password reset email sent successfully');
+    } catch (error) {
+        // Handle errors
+        console.error('Error sending password reset email:', error.message);
+        throw error;
     }
 }
 

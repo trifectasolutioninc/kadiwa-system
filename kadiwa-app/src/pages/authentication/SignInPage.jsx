@@ -43,7 +43,7 @@ const SignInPages = () => {
   const [deviceBrowser, setDeviceBrowser] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
-  
+
   const [consumerFormData, setConsumerFormData] = useState({
     email: "",
     contact: "",
@@ -55,31 +55,114 @@ const SignInPages = () => {
 
 
   async function FacebookButtonClicked() {
+    const database = getDatabase();
     try {
-        const fbuser = await FacebookAuth();
-        
-        console.log("facebook user", fbuser);
-        
-        if (!fbuser) {
-            alert("Facebook authentication failed.");
-            return;
-        }
+      const fbuser = await FacebookAuth();
 
-        const userAuthRef = ref(db, "authentication");
-        const snapshot = await get(userAuthRef);
+      console.log("Facebook user", fbuser);
 
-        if (snapshot.exists()) {
-            snapshot.forEach((childSnapshot) => {
-                const userData = childSnapshot.val();
-                if (userData.uid === fbuser._tokenResponse.localId) {
-                    sessionStorage.setItem("uid", userData.store_id);
-                    sessionStorage.setItem("sid", userData.id);
-                    navigate("/main/");
-                    return;
+      if (!fbuser) {
+        alert("Facebook authentication failed.");
+        return;
+      }
+
+      const userAuthRef = ref(db, "authentication");
+      const snapshot = await get(userAuthRef);
+
+      let userFound = false;
+      let success = false;
+
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.uid === fbuser._tokenResponse.localId) {
+            sessionStorage.setItem("uid", userData.id);
+            sessionStorage.setItem("sid", userData.store_id);
+            sessionStorage.setItem("log", "online");
+            userFound = true;
+            success = true;
+            // Update session storage
+
+            // Check if the user has devices
+            if (userData.device) {
+
+              let deviceExists = false;
+              // Iterate over each device
+              Object.values(userData.device).forEach((device) => {
+                if (device.id === deviceID) {
+                  // Update the status of the device to "online"
+                  const deviceRef = ref(
+                    database,
+                    `authentication/${userData.id}/device/${device.id}/log`
+                  );
+                  set(deviceRef, "online")
+                    .then(() => {
+                      console.log("Device status updated to online");
+                    })
+                    .catch((error) => {
+                      console.error("Error updating device status:", error);
+                    });
+                  deviceExists = true;
                 }
-            });
-        }
+              });
+              if (!deviceExists) {
+                // If the deviceID is not found in the user's devices, add the new device
+                const newDeviceRef = ref(
+                  database,
+                  `authentication/${userData.id}/device/${deviceID}`
+                );
+                set(newDeviceRef, {
+                  id: deviceID,
+                  type: deviceType,
+                  brand: deviceBrand,
+                  browser: deviceBrowser,
+                  log: "online",
+                })
+                  .then(() => {
+                    console.log("New device added");
+                  })
+                  .catch((error) => {
+                    console.error("Error adding new device:", error);
+                  });
+              }
+            } else {
+              // If the user has no devices, add the new device
+              const newDeviceRef = ref(
+                database,
+                `authentication/${userData.id}/device/${deviceID}`
+              );
+              set(newDeviceRef, {
+                id: deviceID,
+                type: deviceType,
+                brand: deviceBrand,
+                browser: deviceBrowser,
+                log: "online",
+              })
+                .then(() => {
+                  console.log("New device added");
+                })
+                .catch((error) => {
+                  console.error("Error adding new device:", error);
+                });
+            }
+            return;
+          }
+        });
+      }
 
+      if (success) {
+        setToastMessage("Login successful!");
+        setShowToast(true);
+        setTimeout(function () {
+          navigate("/main");
+          
+        }, 900);
+      } else {
+        setShowToast(true);
+        setToastMessage("Incorrect username or password.");
+      }
+
+      if (!userFound) {
         const userID = generateUniqueID();
         const userRef = ref(db, "users_information/" + userID);
         const authRef = ref(db, "authentication/" + userID);
@@ -88,90 +171,90 @@ const SignInPages = () => {
         const storeRef = ref(db, "store_information/" + "None");
 
         const user = {
-            id: userID,
-            uid: fbuser._tokenResponse.localId,
-            points: 0,
-            type: "consumer",
-            bday: "N/A",
-            email: consumerFormData.email,
-            gender: "N/A",
-            first_name: "No name",
-            fullname: fbuser._tokenResponse.displayName,
-            last_name: "",
-            middle_name: "",
-            suffix: "",
-            contact: "No Contact",
+          id: userID,
+          uid: fbuser._tokenResponse.localId,
+          points: 0,
+          type: "consumer",
+          bday: "N/A",
+          email: "N/A",
+          gender: "N/A",
+          first_name: "No name",
+          fullname: fbuser._tokenResponse.displayName,
+          last_name: "",
+          middle_name: "",
+          suffix: "",
+          contact: "No Contact",
         };
 
         const authData = {
-            id: userID,
-            uid: fbuser._tokenResponse.localId,
-            email: consumerFormData.email,
-            username: userID,
-            store_id: "None",
-            contact: consumerFormData.contact,
-            password: consumerFormData.password,
-            device: {
-                [deviceID]: {
-                    id: deviceID || " ",
-                    type: deviceType || " ",
-                    brand: deviceBrand || " ",
-                    browser: deviceBrowser || " ",
-                    log: "online",
-                },
+          id: userID,
+          uid: fbuser._tokenResponse.localId,
+          email: "N/A",
+          username: userID,
+          store_id: "None",
+          contact: consumerFormData.contact,
+          password: consumerFormData.password,
+          device: {
+            [deviceID]: {
+              id: deviceID || " ",
+              type: deviceType || " ",
+              brand: deviceBrand || " ",
+              browser: deviceBrowser || " ",
+              log: "online",
             },
+          },
         };
 
         const walletData = {
-            id: userID,
-            balance: 0,
-            points: 0,
+          id: userID,
+          balance: 0,
+          points: 0,
         };
 
         const userAddress = {
-            id: userID,
-            default: {
-                region: "N/A",
-                province: "N/A",
-                city: "N/A",
-                barangay: "No Address",
-                landmark: "",
-                person: "N/A",
-                maplink: "N/A",
-                contact: "No Contact",
-                address_name: "N/A",
-                latitude: "0",
-                longitude: "0",
+          id: userID,
+          default: {
+            region: "N/A",
+            province: "N/A",
+            city: "N/A",
+            barangay: "No Address",
+            landmark: "",
+            person: "N/A",
+            maplink: "N/A",
+            contact: "No Contact",
+            address_name: "N/A",
+            latitude: "0",
+            longitude: "0",
+          },
+          additional: {
+            0: {
+              id: 0,
+              region: "N/A",
+              province: "N/A",
+              city: "N/A",
+              barangay: "No Address",
+              landmark: "",
+              person: "N/A",
+              maplink: "",
+              contact: "No Contact Person",
+              address_name: "N/A",
+              latitude: "0",
+              longitude: "0",
             },
-            additional: {
-                0: {
-                    id: 0,
-                    region: "N/A",
-                    province: "N/A",
-                    city: "N/A",
-                    barangay: "No Address",
-                    landmark: "",
-                    person: "N/A",
-                    maplink: "",
-                    contact: "No Contact Person",
-                    address_name: "N/A",
-                    latitude: "0",
-                    longitude: "0",
-                },
-            },
+          },
         };
 
         const storeData = {
-            id: "None",
-            name: "N/A",
+          id: "None",
+          name: "N/A",
         };
 
         await Promise.all([
-            set(userRef, user),
-            set(storeRef, storeData),
-            set(userAddressRef, userAddress),
-            set(authRef, authData),
-            set(walletRef, walletData),
+          set(userRef, user),
+          set(storeRef, storeData),
+          set(userAddressRef, userAddress),
+          set(authRef, authData),
+          set(walletRef, walletData),
         ]);
 
         resetConsumerForm();
@@ -179,45 +262,130 @@ const SignInPages = () => {
         sessionStorage.setItem("uid", userID);
         sessionStorage.setItem("sid", "None");
         console.log("Successfully logged in", userID);
+      }
     } catch (error) {
-        console.error("Error during Facebook login:", error);
+      console.error("Error during Facebook login:", error);
     }
-}
+  }
 
-async function GoogleButtonClicked() {
-  try {
+
+  async function GoogleButtonClicked() {
+    const database = getDatabase();
+    try {
       const googleuser = await GoogleAuth();
-      
+
       console.log("google user", googleuser);
-      
+
       if (!googleuser) {
-          alert("Facebook authentication failed.");
-          return;
+        alert("Google authentication failed.");
+        return;
       }
 
       const userAuthRef = ref(db, "authentication");
       const snapshot = await get(userAuthRef);
 
+      let userFound = false;
+      let success = false;
+
       if (snapshot.exists()) {
-          snapshot.forEach((childSnapshot) => {
-              const userData = childSnapshot.val();
-              if (userData.uid === googleuser._tokenResponse.localId) {
-                  sessionStorage.setItem("uid", userData.store_id);
-                  sessionStorage.setItem("sid", userData.id);
-                  navigate("/main/");
-                  return;
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.uid === googleuser._tokenResponse.localId) {
+            sessionStorage.setItem("uid", userData.id);
+            sessionStorage.setItem("sid", userData.store_id);
+            sessionStorage.setItem("log", "online");
+            userFound = true;
+            success = true;
+            // Update session storage
+
+            // Check if the user has devices
+            if (userData.device) {
+
+              let deviceExists = false;
+              // Iterate over each device
+              Object.values(userData.device).forEach((device) => {
+                if (device.id === deviceID) {
+                  // Update the status of the device to "online"
+                  const deviceRef = ref(
+                    database,
+                    `authentication/${userData.id}/device/${device.id}/log`
+                  );
+                  set(deviceRef, "online")
+                    .then(() => {
+                      console.log("Device status updated to online");
+                    })
+                    .catch((error) => {
+                      console.error("Error updating device status:", error);
+                    });
+                  deviceExists = true;
+                }
+              });
+              if (!deviceExists) {
+                // If the deviceID is not found in the user's devices, add the new device
+                const newDeviceRef = ref(
+                  database,
+                  `authentication/${userData.id}/device/${deviceID}`
+                );
+                set(newDeviceRef, {
+                  id: deviceID,
+                  type: deviceType,
+                  brand: deviceBrand,
+                  browser: deviceBrowser,
+                  log: "online",
+                })
+                  .then(() => {
+                    console.log("New device added");
+                  })
+                  .catch((error) => {
+                    console.error("Error adding new device:", error);
+                  });
               }
-          });
+            } else {
+              // If the user has no devices, add the new device
+              const newDeviceRef = ref(
+                database,
+                `authentication/${userData.id}/device/${deviceID}`
+              );
+              set(newDeviceRef, {
+                id: deviceID,
+                type: deviceType,
+                brand: deviceBrand,
+                browser: deviceBrowser,
+                log: "online",
+              })
+                .then(() => {
+                  console.log("New device added");
+                })
+                .catch((error) => {
+                  console.error("Error adding new device:", error);
+                });
+            }
+            return;
+          }
+        });
       }
 
-      const userID = generateUniqueID();
-      const userRef = ref(db, "users_information/" + userID);
-      const authRef = ref(db, "authentication/" + userID);
-      const walletRef = ref(db, "user_wallet/" + userID);
-      const userAddressRef = ref(db, "users_address/" + userID);
-      const storeRef = ref(db, "store_information/" + "None");
+      if (success) {
+        setToastMessage("Login successful!");
+        setShowToast(true);
+        setTimeout(function () {
+          navigate("/main");
+          
+        }, 900);
+      } else {
+        setShowToast(true);
+        setToastMessage("Incorrect username or password.");
+      }
 
-      const user = {
+      if (!userFound) {
+        const userID = generateUniqueID();
+        const userRef = ref(db, "users_information/" + userID);
+        const authRef = ref(db, "authentication/" + userID);
+        const walletRef = ref(db, "user_wallet/" + userID);
+        const userAddressRef = ref(db, "users_address/" + userID);
+        const storeRef = ref(db, "store_information/" + "None");
+
+        const user = {
           id: userID,
           uid: googleuser._tokenResponse.localId,
           points: 0,
@@ -231,9 +399,9 @@ async function GoogleButtonClicked() {
           middle_name: "",
           suffix: "",
           contact: "No Contact",
-      };
+        };
 
-      const authData = {
+        const authData = {
           id: userID,
           uid: googleuser._tokenResponse.localId,
           email: "N/A",
@@ -242,77 +410,79 @@ async function GoogleButtonClicked() {
           contact: consumerFormData.contact,
           password: consumerFormData.password,
           device: {
-              [deviceID]: {
-                  id: deviceID || " ",
-                  type: deviceType || " ",
-                  brand: deviceBrand || " ",
-                  browser: deviceBrowser || " ",
-                  log: "online",
-              },
+            [deviceID]: {
+              id: deviceID || " ",
+              type: deviceType || " ",
+              brand: deviceBrand || " ",
+              browser: deviceBrowser || " ",
+              log: "online",
+            },
           },
-      };
+        };
 
-      const walletData = {
+        const walletData = {
           id: userID,
           balance: 0,
           points: 0,
-      };
+        };
 
-      const userAddress = {
+        const userAddress = {
           id: userID,
           default: {
+            region: "N/A",
+            province: "N/A",
+            city: "N/A",
+            barangay: "No Address",
+            landmark: "",
+            person: "N/A",
+            maplink: "N/A",
+            contact: "No Contact",
+            address_name: "N/A",
+            latitude: "0",
+            longitude: "0",
+          },
+          additional: {
+            0: {
+              id: 0,
               region: "N/A",
               province: "N/A",
               city: "N/A",
               barangay: "No Address",
               landmark: "",
               person: "N/A",
-              maplink: "N/A",
-              contact: "No Contact",
+              maplink: "",
+              contact: "No Contact Person",
               address_name: "N/A",
               latitude: "0",
               longitude: "0",
+            },
           },
-          additional: {
-              0: {
-                  id: 0,
-                  region: "N/A",
-                  province: "N/A",
-                  city: "N/A",
-                  barangay: "No Address",
-                  landmark: "",
-                  person: "N/A",
-                  maplink: "",
-                  contact: "No Contact Person",
-                  address_name: "N/A",
-                  latitude: "0",
-                  longitude: "0",
-              },
-          },
-      };
+        };
 
-      const storeData = {
+        const storeData = {
           id: "None",
           name: "N/A",
-      };
+        };
 
-      await Promise.all([
+        await Promise.all([
           set(userRef, user),
           set(storeRef, storeData),
           set(userAddressRef, userAddress),
           set(authRef, authData),
           set(walletRef, walletData),
-      ]);
+        ]);
 
-      resetConsumerForm();
-      navigate("/main/");
-      sessionStorage.setItem("uid", userID);
-      sessionStorage.setItem("sid", "None");
-      console.log("Successfully logged in", userID);
-  } catch (error) {
-      console.error("Error during Facebook login:", error);
+        resetConsumerForm();
+        navigate("/main/");
+        sessionStorage.setItem("uid", userID);
+        sessionStorage.setItem("sid", "None");
+        console.log("Successfully logged in", userID);
+      }
+    } catch (error) {
+      console.error("Error during Google login:", error);
+    }
   }
-}
+
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -393,7 +563,7 @@ async function GoogleButtonClicked() {
     return () => {
       // Any cleanup code
     };
-  }, [deviceID]); 
+  }, [deviceID]);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -579,41 +749,41 @@ async function GoogleButtonClicked() {
             </div>
           </form>
           <div className="text-center">
-          <p className="mt-2 text-xs text-gray-200">Or</p>
-          <div className="mt-2">
-            <button
-              onClick={FacebookButtonClicked}
-              type="button"
-              className="hidden sm:hidden lg:block  inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-             
-              Sign in with Facebook
-            </button>
-            <button
-              onClick={FacebookButtonClicked}
-              type="button"
-              className="block sm:block lg:hidden inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              Sign in with Facebook
-            </button>
-            {/* <button
+            <p className="mt-2 text-xs text-gray-200">Or</p>
+            <div className="mt-2">
+              <button
+                onClick={FacebookButtonClicked}
+                type="button"
+                className="hidden sm:hidden lg:block  inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+
+                Sign in with Facebook
+              </button>
+              <button
+                onClick={FacebookButtonClicked}
+                type="button"
+                className="block sm:block lg:hidden inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Sign in with Facebook
+              </button>
+              {/* <button
               type="button"
               className="mt-2 inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               <span className="sr-only">Sign up with Gmail</span>
               Sign up with Gmail
             </button> */}
+            </div>
+            <div className=" mt-4">
+              <button
+                onClick={GoogleButtonClicked}
+                type="button"
+                className=" inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                Sign in with Google
+              </button>
+            </div>
           </div>
-          <div className=" mt-4">
-          <button
-              onClick={GoogleButtonClicked}
-              type="button"
-              className=" inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-              Sign in with Google
-            </button>
-          </div>
-        </div>
 
           <div className="mt-4 space-y-3 text-gray-700 text-center">
             <NavLink
