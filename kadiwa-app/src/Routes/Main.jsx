@@ -21,7 +21,6 @@ import ProductsPage from "../pagesConsumer/Products/ProductsPage";
 import SearchPage from "../pagesConsumer/Home/searchPage";
 import ScheduledDelivery from "../pagesConsumer/Profile/ScheduledDelivery";
 
-
 const ConsumerMain = () => {
   useEffect(() => {
     // Use the utility function
