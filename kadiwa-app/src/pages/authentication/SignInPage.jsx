@@ -7,7 +7,13 @@ import { v4 as uuidv4 } from "uuid";
 import Toast from "../../Components/Notifications/Toast";
 import AppUpdateModal from "./../../Components/modals/AppUpdateModal";
 import { BRAND } from "../../services/configurations/application.config";
-import { FacebookAuth, FacebookMobileAuth, GoogleAuth, createUserWithEmailAndPasswordFunc, signInWithEmailAndPasswordFunc } from "../../services/user/auth.service";
+import {
+  FacebookAuth,
+  FacebookMobileAuth,
+  GoogleAuth,
+  createUserWithEmailAndPasswordFunc,
+  signInWithEmailAndPasswordFunc,
+} from "../../services/user/auth.service";
 import { generateUniqueID } from "../../services/user/generator.service";
 
 const deviceDetect = require("device-detect")();
@@ -52,8 +58,6 @@ const SignInPages = () => {
   });
   const db = getDatabase();
 
-
-
   async function FacebookButtonClicked() {
     const database = getDatabase();
     try {
@@ -85,7 +89,6 @@ const SignInPages = () => {
 
             // Check if the user has devices
             if (userData.device) {
-
               let deviceExists = false;
               // Iterate over each device
               Object.values(userData.device).forEach((device) => {
@@ -155,7 +158,6 @@ const SignInPages = () => {
         setShowToast(true);
         setTimeout(function () {
           navigate("/main");
-          
         }, 900);
       } else {
         setShowToast(true);
@@ -268,7 +270,6 @@ const SignInPages = () => {
     }
   }
 
-
   async function GoogleButtonClicked() {
     const database = getDatabase();
     try {
@@ -300,7 +301,6 @@ const SignInPages = () => {
 
             // Check if the user has devices
             if (userData.device) {
-
               let deviceExists = false;
               // Iterate over each device
               Object.values(userData.device).forEach((device) => {
@@ -370,7 +370,6 @@ const SignInPages = () => {
         setShowToast(true);
         setTimeout(function () {
           navigate("/main");
-          
         }, 900);
       } else {
         setShowToast(true);
@@ -483,7 +482,6 @@ const SignInPages = () => {
     }
   }
 
-
   useEffect(() => {
     const fetchVersion = async () => {
       try {
@@ -569,121 +567,117 @@ const SignInPages = () => {
     event.preventDefault();
 
     try {
-        const database = getDatabase(); // get database directly
-        const usersRef = ref(database, "authentication");
-        const snapshot = await get(usersRef);
+      const database = getDatabase(); // get database directly
+      const usersRef = ref(database, "authentication");
+      const snapshot = await get(usersRef);
 
-        if (snapshot.exists()) {
-            let success = false;
-            snapshot.forEach((childSnapshot) => {
-                const userData = childSnapshot.val();
+      if (snapshot.exists()) {
+        let success = false;
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
 
-                const inputUsername = phoneNumberRef.current.value;
-                const inputPassword = passwordRef.current.value;
-                const inputUsername2 = inputUsername.replace(/\s/g, "");
+          const inputUsername = phoneNumberRef.current.value;
+          const inputPassword = passwordRef.current.value;
+          const inputUsername2 = inputUsername.replace(/\s/g, "");
 
-                if (
-                    ((userData.username === inputUsername ||
-                        userData.contact === inputUsername ||
-                        userData.contact === inputUsername2.replace(/x/g, "+63") ||
-                        userData.email === inputUsername) &&
-                    userData.password === inputPassword) || userData.contact === inputUsername
-                ) {
+          if (
+            ((userData.username === inputUsername ||
+              userData.contact === inputUsername ||
+              userData.contact === inputUsername2.replace(/x/g, "+63") ||
+              userData.email === inputUsername) &&
+              userData.password === inputPassword) ||
+            userData.contact === inputUsername
+          ) {
+            signInWithEmailAndPasswordFunc(userData.email, inputPassword)
+              .then(() => {
+                // Update session storage
+                sessionStorage.setItem("log", "online");
+                sessionStorage.setItem("uid", userData.id);
+                sessionStorage.setItem("sid", userData.store_id);
+                console.log("Successfully logged in", userData);
+                success = true;
 
-                    signInWithEmailAndPasswordFunc(userData.email, inputPassword)
+                // Check if the user has devices
+                if (userData.device) {
+                  let deviceExists = false;
+                  // Iterate over each device
+                  Object.values(userData.device).forEach((device) => {
+                    if (device.id === deviceID) {
+                      // Update the status of the device to "online"
+                      const deviceRef = ref(
+                        database,
+                        `authentication/${userData.id}/device/${device.id}/log`
+                      );
+                      set(deviceRef, "online")
                         .then(() => {
-                            // Update session storage
-                            sessionStorage.setItem("log", "online");
-                            sessionStorage.setItem("uid", userData.id);
-                            sessionStorage.setItem("sid", userData.store_id);
-                            console.log("Successfully logged in", userData);
-                            success = true;
-
-                            // Check if the user has devices
-                            if (userData.device) {
-                                let deviceExists = false;
-                                // Iterate over each device
-                                Object.values(userData.device).forEach((device) => {
-                                    if (device.id === deviceID) {
-                                        // Update the status of the device to "online"
-                                        const deviceRef = ref(
-                                            database,
-                                            `authentication/${userData.id}/device/${device.id}/log`
-                                        );
-                                        set(deviceRef, "online")
-                                            .then(() => {
-                                                console.log("Device status updated to online");
-                                            })
-                                            .catch((error) => {
-                                                console.error("Error updating device status:", error);
-                                            });
-                                        deviceExists = true;
-                                    }
-                                });
-                                if (!deviceExists) {
-                                    // If the deviceID is not found in the user's devices, add the new device
-                                    const newDeviceRef = ref(
-                                        database,
-                                        `authentication/${userData.id}/device/${deviceID}`
-                                    );
-                                    set(newDeviceRef, {
-                                            id: deviceID,
-                                            type: deviceType,
-                                            brand: deviceBrand,
-                                            browser: deviceBrowser,
-                                            log: "online",
-                                        })
-                                        .then(() => {
-                                            console.log("New device added");
-                                        })
-                                        .catch((error) => {
-                                            console.error("Error adding new device:", error);
-                                        });
-                                }
-                            } else {
-                                // If the user has no devices, add the new device
-                                const newDeviceRef = ref(
-                                    database,
-                                    `authentication/${userData.id}/device/${deviceID}`
-                                );
-                                set(newDeviceRef, {
-                                        id: deviceID,
-                                        type: deviceType,
-                                        brand: deviceBrand,
-                                        browser: deviceBrowser,
-                                        log: "online",
-                                    })
-                                    .then(() => {
-                                        console.log("New device added");
-                                    })
-                                    .catch((error) => {
-                                        console.error("Error adding new device:", error);
-                                    });
-                            }
-                             setToastMessage("Login successful!");
-                  setShowToast(true);
-                  setTimeout(function() {
-                      navigate("/main");
-                  }, 900);
+                          console.log("Device status updated to online");
                         })
                         .catch((error) => {
-                            console.error("Error logging in:", error.message);
-                            setShowToast(true);
-                  setToastMessage("Incorrect username or password.");
+                          console.error("Error updating device status:", error);
                         });
+                      deviceExists = true;
+                    }
+                  });
+                  if (!deviceExists) {
+                    // If the deviceID is not found in the user's devices, add the new device
+                    const newDeviceRef = ref(
+                      database,
+                      `authentication/${userData.id}/device/${deviceID}`
+                    );
+                    set(newDeviceRef, {
+                      id: deviceID,
+                      type: deviceType,
+                      brand: deviceBrand,
+                      browser: deviceBrowser,
+                      log: "online",
+                    })
+                      .then(() => {
+                        console.log("New device added");
+                      })
+                      .catch((error) => {
+                        console.error("Error adding new device:", error);
+                      });
+                  }
+                } else {
+                  // If the user has no devices, add the new device
+                  const newDeviceRef = ref(
+                    database,
+                    `authentication/${userData.id}/device/${deviceID}`
+                  );
+                  set(newDeviceRef, {
+                    id: deviceID,
+                    type: deviceType,
+                    brand: deviceBrand,
+                    browser: deviceBrowser,
+                    log: "online",
+                  })
+                    .then(() => {
+                      console.log("New device added");
+                    })
+                    .catch((error) => {
+                      console.error("Error adding new device:", error);
+                    });
                 }
-   
-            });
-
-            
-        } else {
-            console.error("No users found");
-        }
+                setToastMessage("Login successful!");
+                setShowToast(true);
+                setTimeout(function () {
+                  navigate("/main");
+                }, 900);
+              })
+              .catch((error) => {
+                console.error("Error logging in:", error.message);
+                setShowToast(true);
+                setToastMessage("Incorrect username or password.");
+              });
+          }
+        });
+      } else {
+        console.error("No users found");
+      }
     } catch (error) {
-        console.error("Error logging in:", error.message);
+      console.error("Error logging in:", error.message);
     }
-};
-
+  };
 
   const styles = {
     backgroundImage: "url(/bg.webp)",
@@ -763,7 +757,6 @@ const SignInPages = () => {
                 type="button"
                 className="hidden sm:hidden lg:block  inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-
                 Sign in with Facebook
               </button>
               <button

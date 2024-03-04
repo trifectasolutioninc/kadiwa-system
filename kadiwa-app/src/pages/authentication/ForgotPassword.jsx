@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { IoMdArrowRoundBack } from 'react-icons/io';
-import { forgotPassword } from '../../services/user/auth.service';// Import your authentication module
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { forgotPassword } from "../../services/user/auth.service"; // Import your authentication module
+import Toast from "../../Components/Notifications/Toast";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await forgotPassword(email);
       // Reset the form and show success message if needed
-      setEmail('');
-      setErrorMessage('');
+      setEmail("");
+      setErrorMessage("");
       // You can also redirect the user to a success page if needed
     } catch (error) {
       setErrorMessage(error.message);
     }
+  };
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const handleToast = async () => {
+    setToastMessage("Reset Password Link Sent. Please check your email");
+    setShowToast(true);
   };
 
   return (
@@ -34,14 +42,19 @@ const ForgotPassword = () => {
       </div>
       <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-lg font-extrabold text-gray-900">Forgot Your Password?</h2>
+          <h2 className="mt-6 text-center text-lg font-extrabold text-gray-900">
+            Forgot Your Password?
+          </h2>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className=" py-8 px-4 sm:px-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Email address
                 </label>
                 <div className="mt-1">
@@ -62,6 +75,7 @@ const ForgotPassword = () => {
               )}
               <div>
                 <button
+                  onClick={handleToast}
                   type="submit"
                   className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
@@ -72,6 +86,9 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
+      {showToast && (
+        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+      )}
     </>
   );
 };
