@@ -260,11 +260,11 @@ const ProductsPage = () => {
                       loading="lazy"
                     />
                   </div>
-                  <div className="flex flex-col space-y-2 p-2">
+                  <div className="p-2">
                     <h2 className="text-black/80 text-lg font-bold truncate">
                       {product.product_name}
                     </h2>
-                    <p className="font-semibold text-gray-500 truncate">
+                    <p className="font-medium text-gray-500 truncate">
                       {product.subcategory.charAt(0).toUpperCase() +
                         product.subcategory.slice(1)}
                     </p>

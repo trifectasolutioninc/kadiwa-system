@@ -5,7 +5,12 @@ import {
   Chat,
   ShoppingCart,
   AccountCircle,
+  StoreOutlined,
+  ChatOutlined,
+  ShoppingCartOutlined,
+  AccountCircleOutlined,
 } from "@mui/icons-material";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { NavLink } from "react-router-dom";
 import { getDatabase, ref, get, onValue, off } from "firebase/database";
 import { BRAND } from "../../services/configurations/application.config";
@@ -139,33 +144,26 @@ const NavBttnAppHome = () => {
       <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-1 right-1 left-1 rounded-md z-50">
         <NavLink
           to=""
-          className={`text-white text-xs flex flex-col items-center ${
-            activeNav === "home" ? "underline" : ""
-          }`}
+          className="text-white text-xs flex flex-col items-center"
           onClick={() => handleNavClick("home")}
         >
-          {" "}
-          <Home />
+          {activeNav === "home" ? <Home /> : <HomeOutlinedIcon />}
           Home
         </NavLink>
         <NavLink
           to="store"
-          className={`text-white text-xs flex flex-col items-center ${
-            activeNav === "store" ? "underline" : ""
-          }`}
+          className="text-white text-xs flex flex-col items-center"
           onClick={() => handleNavClick("store")}
         >
-          <Store />
+          {activeNav === "store" ? <Store /> : <StoreOutlined />}
           Stores
         </NavLink>
         <NavLink
           to="chat"
-          className={`text-white text-xs flex flex-col items-center relative ${
-            activeNav === "chat" ? "underline" : ""
-          }`}
+          className="text-white text-xs flex flex-col items-center relative "
           onClick={() => handleNavClick("chat")}
         >
-          <Chat />
+          {activeNav === "chat" ? <Chat /> : <ChatOutlined />}
           Chat
           {unreadMessagesCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
@@ -175,12 +173,10 @@ const NavBttnAppHome = () => {
         </NavLink>
         <NavLink
           to="cart"
-          className={`text-white text-xs flex flex-col items-center relative ${
-            activeNav === "cart" ? "underline" : ""
-          }`}
+          className="text-white text-xs flex flex-col items-center relative"
           onClick={() => handleNavClick("cart")}
         >
-          <ShoppingCart />
+          {activeNav === "cart" ? <ShoppingCart /> : <ShoppingCartOutlined />}
           Cart
           {cartCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
@@ -190,12 +186,14 @@ const NavBttnAppHome = () => {
         </NavLink>
         <NavLink
           to="profile"
-          className={`text-white text-xs flex flex-col items-center relative ${
-            activeNav === "profile" ? "underline" : ""
-          }`}
+          className="text-white text-xs flex flex-col items-center relative"
           onClick={() => handleNavClick("profile")}
         >
-          <AccountCircle />
+          {activeNav === "profile" ? (
+            <AccountCircle />
+          ) : (
+            <AccountCircleOutlined />
+          )}
           Account
           {pendingOrdersCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
