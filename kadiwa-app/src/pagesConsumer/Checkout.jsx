@@ -263,10 +263,27 @@ const Checkout = () => {
     }
 
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-    const currentDate2 = new Date()
-      .toISOString()
-      .slice(0, 10)
-      .replace(/-/g, "/");
+    const currentDate2 = new Date();
+const formattedDate = currentDate2.toISOString().slice(0, 10).replace(/-/g, "/");
+
+// Get time in desired format
+const hours = currentDate2.getHours();
+const minutes = currentDate2.getMinutes();
+const seconds = currentDate2.getSeconds();
+const meridiem = hours >= 12 ? "PM" : "AM";
+const formattedTime =
+  (hours % 12 || 12) +
+  ":" +
+  (minutes < 10 ? "0" : "") +
+  minutes +
+  ":" +
+  (seconds < 10 ? "0" : "") +
+  seconds +
+  " " +
+  meridiem;
+
+// Combine date and time
+const combinedDateTime = formattedDate + " " + formattedTime;
 
     Object.entries(groupedItems).forEach(async ([storeKey, items]) => {
       // Check if storeReceiptGenerator has data for the current storeKey
@@ -337,7 +354,7 @@ const Checkout = () => {
         consumer: uid,
         shippingOption_price: calculateShippingCost(shippingOptions[storeKey]),
         receiptId: receiptId,
-        date: currentDate2, // Include current date in orderData
+        date: combinedDateTime, // Include current date in orderData
         date_received: "N/A",
         date_accept: "N/A",
         date_ready: "N/A",
