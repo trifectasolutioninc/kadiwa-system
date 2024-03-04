@@ -12,7 +12,7 @@ import beefbrisket from "../Components/Assets/products/beef-brisket.webp";
 import beefnewyorkstrip from "../Components/Assets/products/default_beef.webp";
 import porkham from "../Components/Assets/products/pork-ham.webp";
 import porkbelly from "../Components/Assets/products/pork-belly.webp";
-import porkchop from "../Components/Assets/products/default_pork_chop.webp";
+import porkchop from "../Components/Assets/products/default_pork_chop_2.webp";
 import wholechicken from "../Components/Assets/products/default_chicken.webp";
 import chickendrumstick from "../Components/Assets/products/default_chicken_drumstick.webp";
 import chickenegg from "../Components/Assets/products/chicken-egg.webp";

@@ -5,8 +5,8 @@ import { foodCategory } from "../../Configuration/config-file";
 function GoodsCluster() {
   return (
     <>
-      <section className="p-1">
-        <h1 className="text-xl text-black/80 font-bold mb-5 p-2 rounded-md tracking-wide">
+      <section className="p-1 space-y-3">
+        <h1 className="text-xl text-black/80 font-bold rounded-md tracking-wide">
           Categories
         </h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -16,14 +16,14 @@ function GoodsCluster() {
               key={index}
               //className="w-full p-1 border bg-gradient-to-br from-green-300 to-green-700 hover:bg-green-200 rounded-md shadow-md"
               //className="w-full p-1 border bg-gradient-to-tr from-emerald-300 to-emerald-100 rounded-md shadow-md"
-              className="w-full p-1 border border-green-700 bg-slate-50 rounded-md shadow-sm"
+              className="w-full p-1 border border-green-700 bg-slate-50 rounded-xl shadow-sm"
             >
               {foods.pic && (
                 <div className="flex justify-center">
                   <img
                     src={foods.pic}
                     alt={foods.category}
-                    className="w-full h-32 md:h-56 rounded-md object-cover"
+                    className="w-full h-32 md:h-56 rounded-xl object-cover"
                     loading="lazy"
                   />
                 </div>
