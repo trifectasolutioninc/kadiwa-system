@@ -237,7 +237,7 @@ const ProductsPage = () => {
             {products.map((product, index) => (
               <div
                 key={index}
-                className="container bg-slate-50 rounded-xl shadow-md shadow-green-300 border relative"
+                className="container bg-slate-50 rounded-xl shadow-md border relative"
               >
                 <Link
                   to={`/main/productinfo/${product.product_code}/${category}`}
