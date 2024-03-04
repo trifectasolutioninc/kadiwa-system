@@ -11,7 +11,7 @@ import {
   AccountCircleOutlined,
 } from "@mui/icons-material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { getDatabase, ref, get, onValue, off } from "firebase/database";
 import { BRAND } from "../../services/configurations/application.config";
 import AppUpdateModal from "./../modals/AppUpdateModal";
@@ -133,37 +133,36 @@ const NavBttnAppHome = () => {
   }, [uid]);
 
   const [activeNav, setActiveNav] = useState("");
+  const location = useLocation();
 
-  const handleNavClick = (nav) => {
-    setActiveNav(nav);
-  };
+  useEffect(() => {
+    // Update the activeNav based on the current path
+    setActiveNav(location.pathname);
+  }, [location.pathname]);
 
   return (
     <React.Fragment>
       <div className="p-3 bg-neutral-100 fixed bottom-0 w-full"></div>
       <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-1 right-1 left-1 rounded-md z-50">
         <NavLink
-          to=""
+          to="/main"
           className="text-white text-xs flex flex-col items-center"
-          onClick={() => handleNavClick("home")}
         >
-          {activeNav === "home" ? <Home /> : <HomeOutlinedIcon />}
+          {activeNav === "/main" ? <Home /> : <HomeOutlinedIcon />}
           Home
         </NavLink>
         <NavLink
-          to="store"
+          to="/main/store"
           className="text-white text-xs flex flex-col items-center"
-          onClick={() => handleNavClick("store")}
         >
-          {activeNav === "store" ? <Store /> : <StoreOutlined />}
+          {activeNav === "/main/store" ? <Store /> : <StoreOutlined />}
           Stores
         </NavLink>
         <NavLink
-          to="chat"
+          to="/main/chat"
           className="text-white text-xs flex flex-col items-center relative "
-          onClick={() => handleNavClick("chat")}
         >
-          {activeNav === "chat" ? <Chat /> : <ChatOutlined />}
+          {activeNav === "/main/chat" ? <Chat /> : <ChatOutlined />}
           Chat
           {unreadMessagesCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
@@ -172,11 +171,14 @@ const NavBttnAppHome = () => {
           )}
         </NavLink>
         <NavLink
-          to="cart"
+          to="/main/cart"
           className="text-white text-xs flex flex-col items-center relative"
-          onClick={() => handleNavClick("cart")}
         >
-          {activeNav === "cart" ? <ShoppingCart /> : <ShoppingCartOutlined />}
+          {activeNav === "/main/cart" ? (
+            <ShoppingCart />
+          ) : (
+            <ShoppingCartOutlined />
+          )}
           Cart
           {cartCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-1 rounded-full text-[0.8em]">
@@ -185,11 +187,10 @@ const NavBttnAppHome = () => {
           )}
         </NavLink>
         <NavLink
-          to="profile"
+          to="/main/profile"
           className="text-white text-xs flex flex-col items-center relative"
-          onClick={() => handleNavClick("profile")}
         >
-          {activeNav === "profile" ? (
+          {activeNav === "/main/profile" ? (
             <AccountCircle />
           ) : (
             <AccountCircleOutlined />

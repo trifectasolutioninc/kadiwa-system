@@ -4,6 +4,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { getDatabase, ref, get } from "firebase/database";
 import { imageConfig } from "../../Configuration/config-file";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import BackButton from "../BackToHome";
 
 const ProductsPage = () => {
   const { category } = useParams();
@@ -166,12 +167,7 @@ const ProductsPage = () => {
         <div className="fixed gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
           <div className=" flex items-center justify-between">
             <div className="flex items-center gap-5">
-              <NavLink to={`/main/`}>
-                <IoMdArrowRoundBack
-                  fontSize={"25px"}
-                  className="text-neutral-100"
-                />
-              </NavLink>
+              <BackButton />
 
               <h1 className="text-xl text-neutral-100 font-bold">Products</h1>
             </div>
