@@ -114,44 +114,59 @@ const HomeConsumer = () => {
   };
 
   const fetchUserLocation = () => {
+    // Check if permission has already been granted
+    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+      if (result.state === 'granted') {
+        // Permission has already been granted, fetch user's location
+        getUserLocation();
+      } else {
+        // Permission hasn't been granted yet
+        console.error('Geolocation permission not granted');
+        setUserLocation('Geolocation permission not granted');
+      }
+    });
+  };
+  
+  const getUserLocation = () => {
+    // Fetch user's location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLatitude = position.coords.latitude;
           const userLongitude = position.coords.longitude;
-
+  
           fetch(
             `https://nominatim.openstreetmap.org/reverse?lat=${userLatitude}&lon=${userLongitude}&format=json`
           )
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
-              const address = `${data.address?.road + ", " || ""}${
-                data.address?.neighbourhood + ", " || ""
-              }${data.address?.quarter + ", " || ""}${
-                data.address?.city_district + ", " || ""
-              }${data.address?.city + " " || ""}`;
-
+              const address = `${data.address?.road + ', ' || ''}${
+                data.address?.neighbourhood + ', ' || ''
+              }${data.address?.quarter + ', ' || ''}${
+                data.address?.city_district + ', ' || ''
+              }${data.address?.city + ' ' || ''}`;
+  
               const formattedAddress = `${address}`;
               setUserLocation(formattedAddress);
             })
             .catch((error) => {
-              console.error("Error fetching location:", error);
-              setUserLocation("Unable to retrieve location");
+              console.error('Error fetching location:', error);
+              setUserLocation('Unable to retrieve location');
             });
         },
         (error) => {
-          console.error("Error getting user location:", error);
-          setUserLocation("Unable to retrieve location");
+          console.error('Error getting user location:', error);
+          setUserLocation('Unable to retrieve location');
         },
         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
-      setUserLocation("Geolocation not supported");
+      console.error('Geolocation is not supported by this browser.');
+      setUserLocation('Geolocation not supported');
     }
   };
-
+  
   useEffect(() => {
     const fetchUserData = async () => {
       const database = configFirebaseDB();
