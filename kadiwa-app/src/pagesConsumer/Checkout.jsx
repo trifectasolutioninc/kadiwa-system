@@ -264,12 +264,12 @@ const Checkout = () => {
 
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const currentDate2 = new Date();
-const formattedDate = currentDate.toISOString().slice(0, 10).replace(/-/g, "/");
+const formattedDate = currentDate2.toISOString().slice(0, 10).replace(/-/g, "/");
 
 // Get time in desired format
-const hours = currentDate.getHours();
-const minutes = currentDate.getMinutes();
-const seconds = currentDate.getSeconds();
+const hours = currentDate2.getHours();
+const minutes = currentDate2.getMinutes();
+const seconds = currentDate2.getSeconds();
 const meridiem = hours >= 12 ? "PM" : "AM";
 const formattedTime =
   (hours % 12 || 12) +
