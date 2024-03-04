@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { paymentImg } from "../../Configuration/config-file";
+import { TbDotsVertical } from "react-icons/tb";
 import QRCode from "qrcode";
 import { getDatabase, ref, get } from "firebase/database"; // Make sure this is the correct import for Firebase
 // Remove the unused Image import
@@ -54,6 +55,12 @@ const OrdersData = () => {
     fetchOrderData();
   }, [oid, componentMounted]);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openCancel = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <div className="fixed flex items-center gap-5 bg-white w-full top-0 p-3 right-0 left-0 z-10 shadow-md">
@@ -66,7 +73,22 @@ const OrdersData = () => {
         <div className="space-y-5 mt-14 mb-28 border p-4 rounded-md shadow-md">
           {order ? (
             <div className="space-y-3">
-              <p className="text-3xl font-semibold opacity-90">Order Details</p>
+              <div className="flex items-center justify-between">
+                <p className="text-3xl font-semibold opacity-90">
+                  Order Details
+                </p>
+                <button onClick={openCancel}>
+                  <TbDotsVertical />
+                </button>
+                {isOpen && (
+                  <div className="absolute  p-3 border z-10 mt-8 text-center bg-slate-50 rounded-md shadow-md text-black/80 ml-48">
+                    <button className="px-3 py-1 text-sm text-white bg-red-500 rounded-md">
+                      Cancel Order
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <div className="mb-4 flex gap-2 text-[1em] items-center">
                 <p>Status</p>
                 <p className="text-[0.5em] text-gray-600">⬤</p>
@@ -74,9 +96,6 @@ const OrdersData = () => {
                 <p className="text-[0.5em] text-gray-600">⬤</p>
                 <p> {order.date}</p>
               </div>
-              <button className="px-3 py-1 text-sm text-white bg-red-500 rounded-md">
-                Cancel Order
-              </button>
               {/* Display other order details    */}
               <div className="mt-6 border-t border-gray-200 pt-4">
                 <div className="flex gap-2 mb-4">
@@ -229,7 +248,7 @@ const OrdersData = () => {
                     </div>
 
                     <p className=" font-bold text-gray-800">Reminder!</p>
-                    
+
                     <p>
                       Use this as{" "}
                       <span className="font-semibold text-green-800">
