@@ -175,7 +175,7 @@ const SignInPages = () => {
         ]);
 
         resetConsumerForm();
-        setShowModal(true);
+        navigate("/main/");
         sessionStorage.setItem("uid", userID);
         sessionStorage.setItem("sid", "None");
         console.log("Successfully logged in", userID);
@@ -186,11 +186,11 @@ const SignInPages = () => {
 
 async function GoogleButtonClicked() {
   try {
-      const fbuser = await GoogleAuth();
+      const googleuser = await GoogleAuth();
       
-      console.log("facebook user", fbuser);
+      console.log("google user", googleuser);
       
-      if (!fbuser) {
+      if (!googleuser) {
           alert("Facebook authentication failed.");
           return;
       }
@@ -201,7 +201,7 @@ async function GoogleButtonClicked() {
       if (snapshot.exists()) {
           snapshot.forEach((childSnapshot) => {
               const userData = childSnapshot.val();
-              if (userData.uid === fbuser._tokenResponse.localId) {
+              if (userData.uid === googleuser._tokenResponse.localId) {
                   sessionStorage.setItem("uid", userData.store_id);
                   sessionStorage.setItem("sid", userData.id);
                   navigate("/main/");
@@ -219,14 +219,14 @@ async function GoogleButtonClicked() {
 
       const user = {
           id: userID,
-          uid: fbuser._tokenResponse.localId,
+          uid: googleuser._tokenResponse.localId,
           points: 0,
           type: "consumer",
           bday: "N/A",
           email: "N/A",
           gender: "N/A",
           first_name: "No name",
-          fullname: fbuser._tokenResponse.displayName,
+          fullname: googleuser._tokenResponse.displayName,
           last_name: "",
           middle_name: "",
           suffix: "",
@@ -235,7 +235,7 @@ async function GoogleButtonClicked() {
 
       const authData = {
           id: userID,
-          uid: fbuser._tokenResponse.localId,
+          uid: googleuser._tokenResponse.localId,
           email: "N/A",
           username: userID,
           store_id: "None",
@@ -305,7 +305,7 @@ async function GoogleButtonClicked() {
       ]);
 
       resetConsumerForm();
-      setShowModal(true);
+      navigate("/main/");
       sessionStorage.setItem("uid", userID);
       sessionStorage.setItem("sid", "None");
       console.log("Successfully logged in", userID);
@@ -339,11 +339,9 @@ async function GoogleButtonClicked() {
     const fetchDeviceID = () => {
       // Simulating fetching device ID (e.g., from localStorage)
       let id = localStorage.getItem("deviceID");
-      console.log(id);
       if (!id) {
         id = uuidv4();
         localStorage.setItem("deviceID", id);
-        console.log(id);
       }
 
       setDeviceID(id);
@@ -356,14 +354,46 @@ async function GoogleButtonClicked() {
       setDeviceBrowser(deviceDetect.browser || "Unknown");
     };
 
+    const autoLoginIfOnline = async () => {
+      if (deviceID) {
+        const db = getDatabase();
+        const authRef = ref(db, "authentication");
+        const snapshot = await get(authRef);
+
+        if (snapshot.exists()) {
+          snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            const devices = userData.device;
+            if (devices) {
+              // Iterate over devices
+              for (const deviceKey in devices) {
+                const deviceData = devices[deviceKey];
+                if (deviceData.id === deviceID && deviceData.log === "online") {
+                  // If the device is marked as online, automatically log in
+                  sessionStorage.setItem("log", "online");
+                  sessionStorage.setItem("uid", userData.id);
+                  sessionStorage.setItem("sid", userData.store_id);
+                  console.log("Automatically logged in");
+                  // You can navigate to the desired page after login
+                  navigate("/main/");
+                  return; // Exit loop if found online device
+                }
+              }
+            }
+          });
+        }
+      }
+    };
+
     fetchDeviceID();
     determineDeviceInfo();
+    autoLoginIfOnline();
 
     // Cleanup function if needed
     return () => {
       // Any cleanup code
     };
-  }, []);
+  }, [deviceID]); 
 
   const handleSignIn = async (event) => {
     event.preventDefault();

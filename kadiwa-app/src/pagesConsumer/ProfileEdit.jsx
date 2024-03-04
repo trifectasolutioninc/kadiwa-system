@@ -65,19 +65,41 @@ const ProfileEdit = () => {
       const database = firebaseDB();
       const uid = sessionStorage.getItem("uid");
       const authRef = ref(database, `authentication/${uid}/device/${deviceID}`);
-
+  
       // Update device log to offline
       await update(authRef, {
         log: "offline",
       });
-
+  
       sessionStorage.setItem("uid", "");
       Logout();
       navigate("/");
+  
+      // Log out other users with the same deviceID
+      const usersRef = ref(database, "authentication");
+      const usersSnapshot = await get(usersRef);
+  
+      for (const user of usersSnapshot.val()) {
+        const userId = user.key;
+        if (userId !== uid) { // Skip current user
+          const userDevicesRef = ref(database, `authentication/${userId}/device`);
+          const userDevicesSnapshot = await get(userDevicesRef);
+  
+          for (const device of userDevicesSnapshot.val()) {
+            if (device.deviceID === deviceID) {
+              // Update device log to offline
+              update(ref(database, `authentication/${userId}/device/${device.key}`), {
+                log: "offline",
+              });
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
+  
 
   const [isOpen, setIsOpen] = useState(false);
 

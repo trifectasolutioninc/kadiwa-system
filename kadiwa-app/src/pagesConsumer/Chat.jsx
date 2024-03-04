@@ -59,6 +59,13 @@ const StoreCard = ({
           ? boldStyle
           : {};
 
+          const messageStyle2 =
+          lastMessage.status === "unread" && lastMessage.sender === "partner"
+            ? boldStyle
+            : {};
+
+
+
       return (
         <div className="space-y-1">
           <p
@@ -67,7 +74,7 @@ const StoreCard = ({
           >
             {lastMessage.message}
           </p>
-          <p style={messageStyle} className="text-gray-500">
+          <p style={messageStyle2} className="text-gray-500">
             {lastMessage.time}
           </p>
         </div>
