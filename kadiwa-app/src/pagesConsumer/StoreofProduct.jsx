@@ -155,7 +155,7 @@ const StoreInfo = () => {
     ];
 
     const storeNames = {
-      [ `${uid}_${sid}`]: storeData.name,
+      [`${uid}_${sid}`]: storeData.name,
     };
 
     console.log("NAME", storeNames);
@@ -245,7 +245,7 @@ const StoreInfo = () => {
               </section>
 
               <section>
-                <div className="flex items-center">
+                <div className="flex items-center justify-between">
                   <p className="text-black/80">Quantity:</p>
                   <div className="flex items-center justify-end">
                     <button
@@ -336,7 +336,7 @@ const StoreInfo = () => {
                 </div>
 
                 <section>
-                  <div className="flex items-center">
+                  <div className="flex items-center justify-between">
                     <p className="text-black/80">Quantity:</p>
                     <div className="flex items-center justify-end">
                       <button

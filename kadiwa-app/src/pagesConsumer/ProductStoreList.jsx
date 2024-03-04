@@ -210,7 +210,7 @@ const StoreList = ({ productCode, category }) => {
     };
 
     console.log(storeNames);
-    
+
     const path = `/main/productinfo/${product.id.split("-")[2]}/${category}`;
     navigate("/route/checkout", { state: { selectedItems, storeNames, path } });
   };
@@ -339,7 +339,7 @@ const StoreList = ({ productCode, category }) => {
             </section>
 
             <section>
-              <div className="flex items-center">
+              <div className="flex items-center justify-between">
                 <p className="text-black/80">Quantity:</p>
                 <div className="flex items-center justify-end">
                   <button
@@ -435,7 +435,7 @@ const StoreList = ({ productCode, category }) => {
             </section>
 
             <section>
-              <div className="flex items-center">
+              <div className="flex items-center justify-between">
                 <p className="text-black/80">Quantity:</p>
                 <div className="flex items-center justify-end">
                   <button
