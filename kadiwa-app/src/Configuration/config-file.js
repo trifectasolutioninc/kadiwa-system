@@ -177,7 +177,7 @@ const imageConfig = {
   palmoilliter: palmoilliter,
   coconutoilml: coconutoilml,
   coconutoilliter: coconutoilliter,
-  cookingoil1L: cookingoil_1L,
+  cookingoil1l: cookingoil_1L,
   cookingoil_500ml: cookingoil_500ml,
   cookingoil_250ml: cookingoil_250ml,
 
