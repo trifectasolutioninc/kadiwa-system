@@ -136,6 +136,7 @@ const ChatPage = () => {
 
       if (userDetails) {
         consumerName = userDetails.fullname;
+        console.log(consumerName);
       }
 
       let botReply = null;
