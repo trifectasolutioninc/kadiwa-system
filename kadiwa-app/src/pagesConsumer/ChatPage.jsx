@@ -134,8 +134,8 @@ const ChatPage = () => {
 
       let consumerName = "Unknown";
 
-      if (userDetails && userDetails.first_name) {
-        consumerName = userDetails.first_name + " " + userDetails.last_name;
+      if (userDetails) {
+        consumerName = userDetails.fullname;
       }
 
       let botReply = null;
