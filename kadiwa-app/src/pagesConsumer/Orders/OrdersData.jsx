@@ -77,16 +77,18 @@ const OrdersData = () => {
                 <p className="text-3xl font-semibold opacity-90">
                   Order Details
                 </p>
-                <button onClick={openCancel}>
-                  <TbDotsVertical />
-                </button>
-                {isOpen && (
-                  <div className="absolute  p-3 border z-10 mt-8 text-center bg-slate-50 rounded-md shadow-md text-black/80 ml-48">
-                    <button className="px-3 py-1 text-sm text-white bg-red-500 rounded-md">
-                      Cancel Order
-                    </button>
-                  </div>
-                )}
+                <div className="relative">
+                  <button onClick={openCancel}>
+                    <TbDotsVertical />
+                  </button>
+                  {isOpen && (
+                    <div className="absolute p-3 border z-10 mt-1 text-center bg-slate-50 rounded-md shadow-md text-black/80 right-0">
+                      <button className="px-3 py-1 text-sm text-white bg-red-500 rounded-md whitespace-nowrap">
+                        Cancel Order
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="mb-4 flex gap-2 text-[1em] items-center">
