@@ -2,7 +2,7 @@ import kadiwa_rice from "../Components/Assets/products/default_rice_3kg.webp";
 import kadiwa_rice_3kg from "../Components/Assets/products/default_rice_3kg.webp";
 import kadiwa_rice_5kg from "../Components/Assets/products/default_rice_5kg.webp";
 import corn_white from "../Components/Assets/products/corn-white.webp";
-import corn_yellow from "../Components/Assets/products/corn-yellow.webp";
+import corn_yellow from "../Components/Assets/products/default_corn_yellow.webp";
 import tilapia from "../Components/Assets/products/tilapia.webp";
 import galunggonglocal from "../Components/Assets/products/galunggong-local.webp";
 import galunggongimported from "../Components/Assets/products/galunggong-imported.webp";
@@ -77,14 +77,14 @@ import Banner1 from "../Components/Assets/banner/banner-v1.webp";
 
 import Other from "../Components/Assets/Category/default_oil.webp";
 import Rice from "../Components/Assets/Category/default_rice_packs.webp";
-import Pork from "../Components/Assets/Category/default_pork.webp";
-import Beef from "../Components/Assets/Category/default_beef.webp";
-import Chicken from "../Components/Assets/Category/default_chicken.webp";
-import Fish from "../Components/Assets/Category/fish3.webp";
-import Fruits from "../Components/Assets/Category/fruits.webp";
-import Vegetables from "../Components/Assets/Category/vegetables2.webp";
-import Spices from "../Components/Assets/Category/default_chili2.webp";
-import Egg from "../Components/Assets/Category/egg3.webp";
+import Pork from "../Components/Assets/Category/default_pork_pack.webp";
+import Beef from "../Components/Assets/Category/default_beef_pack.webp";
+import Chicken from "../Components/Assets/Category/default_chicken_pack.webp";
+import Fish from "../Components/Assets/Category/default_salmon_pack.webp";
+import Fruits from "../Components/Assets/Category/default_corn_yellow.webp";
+import Vegetables from "../Components/Assets/Category/default_tomato_pack.webp";
+import Spices from "../Components/Assets/Category/default_chili_pack.webp";
+import Egg from "../Components/Assets/Category/default_egg_24.webp";
 
 import bgV1 from "../Components/Assets/background/bg-v1.svg";
 
