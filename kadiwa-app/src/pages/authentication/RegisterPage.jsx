@@ -442,7 +442,7 @@ async function GoogleButtonClicked() {
       const authRef = ref(db, "authentication/" + userID);
       const authData = {
         id: userID,
-        email: "N/A",
+        email: consumerFormData.email,
         username: userID,
         store_id: "None",
         contact: consumerFormData.contact,

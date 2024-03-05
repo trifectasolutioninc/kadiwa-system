@@ -343,7 +343,7 @@ const ProfileConsumer = () => {
               className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
             >
               <MdInsertLink className="text-3xl mx-auto text-yellow-500 mb-2" />
-              <p className="text-black/80 text-sm">Linked Account</p>
+              <p className="text-black/80 text-sm">Payment Methods</p>
             </Link>
 
             {/* Icon with Name: Transaction History */}
