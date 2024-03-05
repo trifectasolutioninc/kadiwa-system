@@ -17,6 +17,7 @@ import {
   get,
 } from "firebase/database";
 import { MdDeliveryDining } from "react-icons/md";
+import { imageConfig } from "../Configuration/config-file";
 
 const Orders = () => {
   const { tab, getstatus } = useParams();
@@ -33,11 +34,10 @@ const Orders = () => {
         const ordersRef = ref(db, "orders_list");
 
         const snapshot = await get(ordersRef);
-        let filteredOrders = []; // Move declaration here
+        let filteredOrders = [];
 
         if (snapshot.exists()) {
           const ordersData = snapshot.val();
-          // Filter orders based on the status
 
           filteredOrders = Object.values(ordersData).filter(
             (order) =>
@@ -48,7 +48,9 @@ const Orders = () => {
                 order.status.toLowerCase() === status.toLowerCase() &&
                 order.consumer === uid)
           );
-          console.log(filteredOrders);
+
+          // Sort orders based on the date in descending order
+          filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
         }
 
         setOrders(filteredOrders);
@@ -206,41 +208,80 @@ const Orders = () => {
         <div className="flex-1">
           <div className="overflow-y-auto space-y-3 mb-20 p-3 md:px-10">
             {/* Display orders */}
-
             {orders &&
               orders.map((order) => (
                 <div
                   key={order.receiptId}
-                  className="p-4 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80"
+                  className="flex justify-between p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80"
                   onClick={() => handleOrderItemClick(order.receiptId)}
                 >
-                  <h1>
-                    Order ID:{" "}
-                    <span className=" font-semibold">{order.receiptId}</span>
-                  </h1>
-                  <p>
-                    Status:{" "}
-                    <span
-                      className={`px-3 py-1 rounded-full font-medium ${
-                        order.status === "Pending"
-                          ? "bg-yellow-200 text-yellow-900" 
-                          : order.status === "Processing" || order.status === "To Pack" 
-                          ? "bg-sky-200 text-sky-900" 
-                          : order.status === "Shipped"  || order.status === "To Ship"
-                          ? "bg-blue-200 text-blue-900" 
-                          : order.status === "Delivered" || order.status === "To Receive" || order.status === "To Distribute"
-                          ? "bg-green-200 text-green-900"
-                          : order.status === "Cancelled"
-                          ? "bg-red-200 text-red-900" 
-                          : "bg-gray-500 text-white" 
-                      }`}
-                    >
-                      {order.status}
-                    </span>{" "}
-                  </p>
-                  <p>
-                    Date: <span className="text-gray-500">{order.date}</span>{" "}
-                  </p>
+                  <div
+                    className={`w-1/4   ${
+                      order.items.length === 1
+                        ? "flex items-center"
+                        : "grid grid-cols-2 items-center"
+                    }`}
+                  >
+                    {order.items.slice(0, 4).map((item, index) => (
+                      <div key={index}>
+                        <img
+                          src={imageConfig[item.productInfo.keywords]}
+                          className="rounded-md"
+                          alt={`Item ${index + 1}`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="w-3/4 px-4">
+                    <div className=" ">
+                      <h1 className=" ">
+                        <span className=" font-bold text-xs">ORDER ID: </span>
+                        <span className=" font-semibold text-xs">
+                          {order.receiptId}
+                        </span>
+                      </h1>
+                      <p>
+                        Status:{" "}
+                        <span
+                          className={`px-3 py-1 text-xs rounded-full font-medium ${
+                            order.status === "Pending"
+                              ? "bg-yellow-200 text-yellow-900"
+                              : order.status === "Processing" ||
+                                order.status === "To Pack"
+                              ? "bg-sky-200 text-sky-900"
+                              : order.status === "Shipped" ||
+                                order.status === "To Ship"
+                              ? "bg-blue-200 text-blue-900"
+                              : order.status === "Delivered" ||
+                                order.status === "To Receive" ||
+                                order.status === "To Distribute"
+                              ? "bg-green-200 text-green-900"
+                              : order.status === "Cancelled"
+                              ? "bg-red-200 text-red-900"
+                              : "bg-gray-500 text-white"
+                          }`}
+                        >
+                          {order.status}
+                        </span>{" "}
+                      </p>
+                      <p>
+                        Date:{" "}
+                        <span className="text-gray-500">{order.date}</span>{" "}
+                      </p>
+                      {/* Display keywords */}
+                      <div className="flex flex-wrap gap-1">
+                        {order.items.slice(0, 4).map((item, index) => (
+                          <span
+                            key={index}
+                            className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-sm"
+                          >
+                            {item.productInfo.keywords}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             <div className="mb-20 p-2 h-auto"></div>
