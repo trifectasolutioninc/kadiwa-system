@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { paymentImg } from "../../../Configuration/config-file";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 const LinkedAccount = () => {
   const [linkedAccounts, setLinkedAccounts] = useState([]);
@@ -9,23 +9,23 @@ const LinkedAccount = () => {
   // Sample data for different account types
   const sampleData = {
     Gcash: {
-      owner: "Juan Dela Cruz",
-      number: "2468 1357 8024 6913",
+      control: "on",
+      link: "https://m.gcash.com/gcash-login-web/index.html#/",
       type: "Gcash",
     },
-    Paymaya: {
-      owner: "Juan Dela Cruz",
-      number: "1357 2468 9132 8046",
-      type: "Paymaya",
+    Maya: {
+      control: "on",
+      link: " ",
+      type: "Maya",
     },
     MasterCard: {
-      owner: "Juan Dela Cruz",
-      number: "1234 5678 9123 4567",
+      control: "on",
+      link: " ",
       type: "MasterCard",
     },
     Bank: {
-      owner: "Juan Dela Cruz",
-      number: "7890 1234 5678 9012",
+      control: "on",
+      link: "",
       type: "Bank",
     },
   };
@@ -49,7 +49,7 @@ const LinkedAccount = () => {
         return `${paymentImg.MasterCard}`;
       case "Gcash":
         return `${paymentImg.Gcash}`;
-      case "Paymaya":
+      case "Maya":
         return `${paymentImg.Maya}`;
       case "Bank":
         return `${paymentImg.Bank}`;
@@ -64,7 +64,9 @@ const LinkedAccount = () => {
         <NavLink to={"/main/profile"}>
           <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
-        <h1 className="text-xl text-neutral-100  font-bold">All Payment Methods</h1>
+        <h1 className="text-xl text-neutral-100  font-bold">
+          All Payment Methods
+        </h1>
       </div>
 
       {/* {isOverlayVisible && (
@@ -75,23 +77,21 @@ const LinkedAccount = () => {
 
       <main className="p-3 md:px-10 space-y-5 mt-14">
         <div className="">
-          <div className="text-right">
-            {/* <button>Add Payment Method</button> */}
-          </div>
+          <div className="text-right"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {linkedAccounts.map((account, index) => (
-              <div
+              <NavLink
+                to={`/main/linked-account/${account.type}`}
                 key={index}
-                className="bg-white shadow-lg rounded-2xl border"
+                className="bg-white shadow-lg rounded-2xl border text-black/80 font-semibold"
               >
-                <div className="p-4  flex">
+                <div className="p-4  flex items-center gap-4">
                   <div className="">
                     <img
                       src={getAccountImageSrc(account.type)}
                       alt={account.type}
                       className="w-10 h-10 object-contain col-span-3"
                     />
-                    
                   </div>
 
                   <span className="text-sm">{account.type}</span>
@@ -108,7 +108,7 @@ const LinkedAccount = () => {
                   )}
                   {account.type === "Bank" && <span className="text-sm"></span>}
                 </div>
-              </div>
+              </NavLink>
             ))}
           </div>
         </div>

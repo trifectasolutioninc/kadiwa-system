@@ -20,9 +20,7 @@ import Wallet from "./../../pagesConsumer/Wallet";
 import ProductsPage from "./../../pagesConsumer/Products/ProductsPage";
 import SearchPage from "./../../pagesConsumer/Home/searchPage";
 import ScheduledDelivery from "./../../pagesConsumer/Profile/ScheduledDelivery";
-
-
-
+import EditPaymentMethod from "../../pages/profile/linkedaccounts/EditPaymentMethod";
 
 const MainRoute = () => {
   useEffect(() => {
@@ -55,6 +53,10 @@ const MainRoute = () => {
         />
         <Route path="virtual-card" element={<Card />} />
         <Route path="linked-account" element={<LinkedAccount />} />
+        <Route
+          path="linked-account/:paymentmethods"
+          element={<EditPaymentMethod />}
+        />
         <Route path="pickup/:status" element={<PickupTransaction />} />
         <Route path="orders/:tab/:getstatus" element={<Orders />} />
         <Route
