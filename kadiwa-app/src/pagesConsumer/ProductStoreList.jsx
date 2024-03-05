@@ -138,6 +138,7 @@ const StoreList = ({ productCode, category }) => {
     const cartKey = `${uid}_${selectedStore.id}`;
     const cartCollectionPath = `cart_collection/${cartKey}`;
     const cartCollectionRef = ref(configFirebaseDB(), cartCollectionPath);
+    console.log(selectedStore);
     get(cartCollectionRef)
       .then((snapshot) => {
         const cartData = snapshot.exists() ? snapshot.val() : {};

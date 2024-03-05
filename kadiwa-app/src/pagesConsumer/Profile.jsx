@@ -333,37 +333,34 @@ const ProfileConsumer = () => {
 
           <section className="grid grid-cols-3 gap-3 md:gap-5 my-10">
             {/* Icon with Name: Virtual Card */}
-            <div>
-              <Link
-                to="/main/virtual-card"
-                className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
-              >
-                <AiFillCreditCard className="text-3xl mx-auto text-blue-700 mb-2" />
-                <p className="text-black/80 text-sm">Virtual Card</p>
-              </Link>
-            </div>
+
+            <Link
+              to="/main/virtual-card"
+              className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
+            >
+              <AiFillCreditCard className="text-3xl mx-auto text-blue-700 mb-2" />
+              <p className="text-black/80 text-sm">Virtual Card</p>
+            </Link>
 
             {/* Icon with Name: Linked Account */}
-            <div>
-              <Link
-                to="/main/linked-account"
-                className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
-              >
-                <MdInsertLink className="text-3xl mx-auto text-yellow-500 mb-2" />
-                <p className="text-black/80 text-sm">Payment Methods</p>
-              </Link>
-            </div>
+
+            <Link
+              to="/main/linked-account"
+              className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
+            >
+              <MdInsertLink className="text-3xl mx-auto text-yellow-500 mb-2" />
+              <p className="text-black/80 text-sm">Payment Methods</p>
+            </Link>
 
             {/* Icon with Name: Transaction History */}
-            <div>
-              <Link
-                to={"/main/Wallet"}
-                className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
-              >
-                <IoWallet className="text-3xl mx-auto text-green-700 mb-2" />
-                <p className="text-black/80 text-sm ">Load</p>
-              </Link>
-            </div>
+
+            <Link
+              to={"/main/Wallet"}
+              className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
+            >
+              <IoWallet className="text-3xl mx-auto text-green-700 mb-2" />
+              <p className="text-black/80 text-sm ">Load</p>
+            </Link>
           </section>
 
           <div className=" flex justify-between">

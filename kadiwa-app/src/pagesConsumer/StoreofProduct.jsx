@@ -88,15 +88,16 @@ const StoreInfo = () => {
       qty: qty,
     };
 
-    const cartKey = `${uid}-${sid}`;
+    const cartKey = `${uid}_${sid}`;
     const cartCollectionPath = `cart_collection/${cartKey}`;
     const cartCollectionRef = ref(firebaseDB(), cartCollectionPath);
-
+    console.log(storeData);
     get(cartCollectionRef)
       .then((snapshot) => {
         const cartData = snapshot.exists() ? snapshot.val() : {};
         cartData.storeName = storeData.name;
-        cartData.ownerNo = storeData.contact_no;
+        cartData.store_id = storeData.id;
+        cartData.consumer_id = uid;
         cartData.CartList = cartData.CartList || {};
         cartData.CartList[selectedProduct.product_code] = cartItem;
         return update(cartCollectionRef, cartData);
