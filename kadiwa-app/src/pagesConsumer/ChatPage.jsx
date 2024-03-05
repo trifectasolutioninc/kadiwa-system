@@ -218,10 +218,18 @@ const ChatPage = () => {
   };
 
   const handleSendMessage = () => {
-    if (newMessage.trim() !== "") {
-      setMessages([...messages, { sender: "user", text: newMessage }]);
-      sendChatMessage(newMessage);
+    const trimmedMessage = newMessage.trim();
+
+    if (trimmedMessage !== "") {
+      setMessages([...messages, { sender: "user", text: trimmedMessage }]);
+      sendChatMessage(trimmedMessage);
       setNewMessage("");
+
+      // Reset textarea height to its initial state (50px)
+      const textarea = document.querySelector(".h-size"); // Replace with your actual textarea class
+      if (textarea) {
+        textarea.style.height = "50px";
+      }
     }
   };
 
@@ -316,14 +324,12 @@ const ChatPage = () => {
       </div>
       <div className="h-24"></div>
 
-      <div className="p-4 bg-white shadow-md fixed bottom-0 w-full z-50">
+      <div className="p-4 bg-white shadow-md fixed bottom-0  w-full z-50">
         <div className="flex items-center">
           <textarea
             value={newMessage}
             onChange={(e) => {
-              const trimmedMessage = e.target.value.replace(/^\s+/, ""); // Trim leading whitespace
-              setNewMessage(trimmedMessage);
-
+              setNewMessage(e.target.value);
               const textarea = e.target;
               textarea.style.height = "50px";
               textarea.style.height = ` ${Math.min(
@@ -332,7 +338,7 @@ const ChatPage = () => {
               )}px`;
             }}
             placeholder="Type your message..."
-            className="flex-1 p-2 mr-2 border border-gray-300 rounded"
+            className="h-size flex-1 p-2 mr-2 border border-gray-300 rounded"
             style={{ height: "50px", maxHeight: `${maxTextareaHeight}px` }}
             rows="3"
             maxLength={500}
