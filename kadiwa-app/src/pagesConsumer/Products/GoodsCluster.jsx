@@ -9,14 +9,14 @@ function GoodsCluster() {
         <h1 className="text-xl text-black/80 font-bold rounded-md tracking-wide">
           Categories
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {foodCategory.map((foods, index) => (
             <NavLink
               to={`/main/products-page/${foods.category.toLowerCase()}`}
               key={index}
               //className="w-full p-1 border bg-gradient-to-br from-green-300 to-green-700 hover:bg-green-200 rounded-md shadow-md"
               //className="w-full p-1 border bg-gradient-to-tr from-emerald-300 to-emerald-100 rounded-md shadow-md"
-              className="w-full p-1 border border-green-700 bg-slate-50 rounded-xl shadow-sm"
+              className="w-full p-1 border border-green-700 bg-slate-50 rounded-xl shadow-md"
             >
               {foods.pic && (
                 <div className="flex justify-center">
