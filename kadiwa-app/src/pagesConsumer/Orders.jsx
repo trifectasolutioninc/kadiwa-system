@@ -235,16 +235,23 @@ const Orders = () => {
 
                   <div className=" col-span-6 px-4">
                     {/* Display keywords */}
-                    {/* <div className="flex flex-wrap gap-1">
-                        {order.items.slice(0, 4).map((item, index) => (
-                          <span
-                            key={index}
-                            className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-[0.5em]"
-                          >
-                            {item.productInfo.keywords}
-                          </span>
-                        ))}
-                      </div> */}
+                    <div className="flex flex-wrap gap-1 mb-1">
+                      {order.items.slice(0, 4).map((item, index) => (
+                        <span
+                          key={index}
+                          className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs"
+                        >
+                          {item.productInfo.keywords}
+                        </span>
+                      ))}
+                      {order.items.length > 4 && (
+                        <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs">
+                          more
+                        </span>
+                      )}
+                    </div>
+
+                    <hr />
                     <div className=" ">
                       <h1 className=" ">
                         <span className=" font-bold text-xs">ORDER ID: </span>
