@@ -604,7 +604,7 @@ const Registration = () => {
             email: consumerFormData.email,
             gender: "N/A",
             first_name: "",
-            fullname: "Kadiwa User",
+            fullname: consumerFormData.email.split("@")[0],
             last_name: "",
             middle_name: "",
             suffix: "",
