@@ -26,6 +26,7 @@ import { MdHistory } from "react-icons/md";
 import { RiTimer2Fill } from "react-icons/ri";
 import { IoPersonCircle } from "react-icons/io5";
 import Toast from "../Components/Notifications/Toast";
+import { BRAND } from "../services/configurations/application.config";
 
 const deviceDetect = require("device-detect")();
 
@@ -416,7 +417,7 @@ const ProfileConsumer = () => {
         <section className=" mx-6 p-2 border rounded-md ">
           <div className="flex items-center justify-between text-gray-500">
             <h1 className=" font-bold tracking-wider">Kadiwa</h1>
-            <p>Version: {version}</p>
+            <p>Version: {BRAND.version}</p>
           </div>
         </section>
 

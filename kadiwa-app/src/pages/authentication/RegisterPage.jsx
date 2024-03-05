@@ -793,7 +793,7 @@ const Registration = () => {
       </div>
       {/* Version */}
       <div className="flex items-end text-center py-4 text-sm text-gray-600 mt-auto bg-white">
-        <p>{version}</p>
+        <p>{BRAND.version}</p>
       </div>
       {showToast && (
         <Toast message={toastMessage} onClose={() => setShowToast(false)} />

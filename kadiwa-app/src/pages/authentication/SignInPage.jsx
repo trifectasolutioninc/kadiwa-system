@@ -802,7 +802,7 @@ const SignInPages = () => {
           </div>
         </div>
         <div className="flex items-end text-center py-4 text-sm text-gray-200">
-          <p className="mx-auto mt-auto ">{appversion}</p>
+          <p className="mx-auto mt-auto ">{BRAND.version}</p>
         </div>
       </div>
 
