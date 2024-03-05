@@ -341,12 +341,12 @@ const Orders = () => {
                           key={index}
                           className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs"
                         >
-                          {item.productInfo.keywords}
+                          {item.productInfo.product_name}
                         </span>
                       ))}
                       {order.items.length > 4 && (
                         <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs">
-                          more
+                          More...
                         </span>
                       )}
                     </div>
