@@ -212,11 +212,11 @@ const Orders = () => {
               orders.map((order) => (
                 <div
                   key={order.receiptId}
-                  className="flex justify-between p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80"
+                  className="grid grid-cols-10 p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80"
                   onClick={() => handleOrderItemClick(order.receiptId)}
                 >
                   <div
-                    className={`w-1/4   ${
+                    className={`col-span-4   ${
                       order.items.length === 1
                         ? "flex items-center"
                         : "grid grid-cols-2 items-center"
@@ -233,7 +233,18 @@ const Orders = () => {
                     ))}
                   </div>
 
-                  <div className="w-3/4 px-4">
+                  <div className=" col-span-6 px-4">
+                    {/* Display keywords */}
+                    {/* <div className="flex flex-wrap gap-1">
+                        {order.items.slice(0, 4).map((item, index) => (
+                          <span
+                            key={index}
+                            className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-[0.5em]"
+                          >
+                            {item.productInfo.keywords}
+                          </span>
+                        ))}
+                      </div> */}
                     <div className=" ">
                       <h1 className=" ">
                         <span className=" font-bold text-xs">ORDER ID: </span>
@@ -242,7 +253,7 @@ const Orders = () => {
                         </span>
                       </h1>
                       <p>
-                        Status:{" "}
+                        <span className=" text-xs font-bold mr-1">Status:</span>
                         <span
                           className={`px-3 py-1 text-xs rounded-full font-medium ${
                             order.status === "Pending"
@@ -263,23 +274,14 @@ const Orders = () => {
                           }`}
                         >
                           {order.status}
-                        </span>{" "}
+                        </span>
                       </p>
-                      <p>
-                        Date:{" "}
-                        <span className="text-gray-500">{order.date}</span>{" "}
+                      <p className=" ">
+                        <span className=" text-xs font-bold mr-1">Date:</span>
+                        <span className="text-gray-500 text-xs">
+                          {order.date}
+                        </span>
                       </p>
-                      {/* Display keywords */}
-                      <div className="flex flex-wrap gap-1">
-                        {order.items.slice(0, 4).map((item, index) => (
-                          <span
-                            key={index}
-                            className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-sm"
-                          >
-                            {item.productInfo.keywords}
-                          </span>
-                        ))}
-                      </div>
                     </div>
                   </div>
                 </div>

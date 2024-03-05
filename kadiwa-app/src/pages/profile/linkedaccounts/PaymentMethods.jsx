@@ -14,17 +14,17 @@ const LinkedAccount = () => {
       type: "Gcash",
     },
     Maya: {
-      control: "on",
+      control: "off",
       link: " ",
       type: "Maya",
     },
     MasterCard: {
-      control: "on",
+      control: "off",
       link: " ",
       type: "MasterCard",
     },
     Bank: {
-      control: "on",
+      control: "off",
       link: "",
       type: "Bank",
     },
@@ -80,35 +80,73 @@ const LinkedAccount = () => {
           <div className="text-right"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {linkedAccounts.map((account, index) => (
-              <NavLink
-                to={`/main/linked-account/${account.type}`}
-                key={index}
-                className="bg-white shadow-lg rounded-2xl border text-black/80 font-semibold"
-              >
-                <div className="p-4  flex items-center gap-4">
-                  <div className="">
-                    <img
-                      src={getAccountImageSrc(account.type)}
-                      alt={account.type}
-                      className="w-10 h-10 object-contain col-span-3"
-                    />
-                  </div>
+              <>
+                {account.control === "on" ? (
+                  <NavLink
+                    to={account.link}
+                    key={index}
+                    className="bg-white shadow-lg rounded-2xl border text-black/80 font-semibold"
+                  >
+                    <div className="p-4  flex items-center gap-4">
+                      <div className="">
+                        <img
+                          src={getAccountImageSrc(account.type)}
+                          alt={account.type}
+                          className="w-10 h-10 object-contain col-span-3"
+                        />
+                      </div>
 
-                  <span className="text-sm">{account.type}</span>
+                      <span className="text-sm">{account.type}</span>
 
-                  {/* Render additional information based on account type */}
-                  {account.type === "MasterCard" && (
-                    <span className="text-sm"></span>
-                  )}
-                  {account.type === "Gcash" && (
-                    <span className="text-sm"></span>
-                  )}
-                  {account.type === "Paymaya" && (
-                    <span className="text-sm"></span>
-                  )}
-                  {account.type === "Bank" && <span className="text-sm"></span>}
-                </div>
-              </NavLink>
+                      {/* Render additional information based on account type */}
+                      {account.type === "MasterCard" && (
+                        <span className="text-sm"></span>
+                      )}
+                      {account.type === "Gcash" && (
+                        <span className="text-sm"></span>
+                      )}
+                      {account.type === "Paymaya" && (
+                        <span className="text-sm"></span>
+                      )}
+                      {account.type === "Bank" && (
+                        <span className="text-sm"></span>
+                      )}
+                    </div>
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    to={`/main/linked-account/${account.type}`}
+                    key={index}
+                    className="bg-white shadow-lg rounded-2xl border text-black/80 font-semibold"
+                  >
+                    <div className="p-4  flex items-center gap-4">
+                      <div className="">
+                        <img
+                          src={getAccountImageSrc(account.type)}
+                          alt={account.type}
+                          className="w-10 h-10 object-contain col-span-3"
+                        />
+                      </div>
+
+                      <span className="text-sm">{account.type}</span>
+
+                      {/* Render additional information based on account type */}
+                      {account.type === "MasterCard" && (
+                        <span className="text-sm"></span>
+                      )}
+                      {account.type === "Gcash" && (
+                        <span className="text-sm"></span>
+                      )}
+                      {account.type === "Paymaya" && (
+                        <span className="text-sm"></span>
+                      )}
+                      {account.type === "Bank" && (
+                        <span className="text-sm"></span>
+                      )}
+                    </div>
+                  </NavLink>
+                )}
+              </>
             ))}
           </div>
         </div>
