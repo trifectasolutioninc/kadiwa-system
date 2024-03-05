@@ -264,26 +264,29 @@ const Checkout = () => {
 
     const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, "");
     const currentDate2 = new Date();
-const formattedDate = currentDate2.toISOString().slice(0, 10).replace(/-/g, "/");
+    const formattedDate = currentDate2
+      .toISOString()
+      .slice(0, 10)
+      .replace(/-/g, "/");
 
-// Get time in desired format
-const hours = currentDate2.getHours();
-const minutes = currentDate2.getMinutes();
-const seconds = currentDate2.getSeconds();
-const meridiem = hours >= 12 ? "PM" : "AM";
-const formattedTime =
-  (hours % 12 || 12) +
-  ":" +
-  (minutes < 10 ? "0" : "") +
-  minutes +
-  ":" +
-  (seconds < 10 ? "0" : "") +
-  seconds +
-  " " +
-  meridiem;
+    // Get time in desired format
+    const hours = currentDate2.getHours();
+    const minutes = currentDate2.getMinutes();
+    const seconds = currentDate2.getSeconds();
+    const meridiem = hours >= 12 ? "PM" : "AM";
+    const formattedTime =
+      (hours % 12 || 12) +
+      ":" +
+      (minutes < 10 ? "0" : "") +
+      minutes +
+      ":" +
+      (seconds < 10 ? "0" : "") +
+      seconds +
+      " " +
+      meridiem;
 
-// Combine date and time
-const combinedDateTime = formattedDate + " " + formattedTime;
+    // Combine date and time
+    const combinedDateTime = formattedDate + " " + formattedTime;
 
     Object.entries(groupedItems).forEach(async ([storeKey, items]) => {
       // Check if storeReceiptGenerator has data for the current storeKey
@@ -360,14 +363,14 @@ const combinedDateTime = formattedDate + " " + formattedTime;
         date_ready: "N/A",
         date_cancel: "N/A",
         deliveryAddress: {
-          person: (selectedAddress?.person || contactPerson),
-          contact: (selectedAddress?.contact || phoneNumber),
-          fulladdress: (selectedAddress?.display_name || "N/A"),
-          landbank: (selectedAddress?.landmark || "N/A"),
-          barangay: (selectedAddress?.barangay || "N/A"),
-          city: (selectedAddress?.city || "N/A"),
-          zipcode: (selectedAddress?.zipcode || "N/A"),
-          region: (selectedAddress?.region || "N/A"),
+          person: selectedAddress?.person || contactPerson,
+          contact: selectedAddress?.contact || phoneNumber,
+          fulladdress: selectedAddress?.display_name || "N/A",
+          landbank: selectedAddress?.landmark || "N/A",
+          barangay: selectedAddress?.barangay || "N/A",
+          city: selectedAddress?.city || "N/A",
+          zipcode: selectedAddress?.zipcode || "N/A",
+          region: selectedAddress?.region || "N/A",
         },
         transaction_code: generateTransactionCode(),
       };
@@ -564,14 +567,18 @@ const combinedDateTime = formattedDate + " " + formattedTime;
                         </p>
                       </div>
                       <div>
-                        <p className="text-gray-600 text-xs">
-                          <span className="font-bold">Price:</span> ₱
-                          {item.productInfo.price}
-                        </p>
-                        <p className="text-gray-600 text-xs">
-                          <span className="font-bold">Quantity:</span>{" "}
-                          {item.productInfo.qty}
-                        </p>
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-gray-600 text-xs">Price:</p>
+                          <p className="text-gray-600 text-xs font-bold">
+                            ₱{item.productInfo.price}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="text-gray-600 text-xs">Quantity:</p>
+                          <p className="text-gray-600 text-xs font-bold">
+                            {item.productInfo.qty}
+                          </p>
+                        </div>
                       </div>
                     </li>
                   ))}

@@ -59,23 +59,38 @@ const StoreCard = ({
           ? boldStyle
           : {};
 
-          const messageStyle2 =
-          lastMessage.status === "unread" && lastMessage.sender === "partner"
-            ? boldStyle
-            : {};
+      const messageStyle2 =
+        lastMessage.status === "unread" && lastMessage.sender === "partner"
+          ? boldStyle
+          : {};
 
+      // Assuming lastMessage.time is in the format "yyyy-mm-dd-hh-mm-ss"
+      const [year, month, day, hour, minute, second] =
+        lastMessage.time.split("-");
 
+      // Convert month to three-letter abbreviation
+      const monthAbbreviation = new Date(`${month} 01, 2000`).toLocaleString(
+        "en-PH",
+        { month: "short" }
+      );
+
+      // Convert hour to 12-hour format and determine AM/PM
+      const formattedHour = (hour % 12 === 0 ? 12 : hour % 12).toString();
+      const amPm = hour < 12 ? "AM" : "PM";
+
+      // Format the timestamp as MMMDDYYYY HH:MM AM/PM
+      const formattedTime = `${monthAbbreviation}. ${day}, ${year}, ${formattedHour}:${minute} ${amPm}`;
 
       return (
         <div className="space-y-1">
           <p
             style={messageStyle}
-            className=" max-w-56 md:max-w-[600px] truncate"
+            className="max-w-56 md:max-w-[600px] truncate"
           >
             {lastMessage.message}
           </p>
           <p style={messageStyle2} className="text-gray-500">
-            {lastMessage.time}
+            {formattedTime}
           </p>
         </div>
       );
