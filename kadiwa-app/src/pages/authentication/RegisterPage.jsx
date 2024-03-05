@@ -743,12 +743,13 @@ const Registration = () => {
               src={imageConfig.DALogo}
               alt="Farm Logo"
             />
+
+            <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
             <img
               className=" h-[5em] "
               src={imageConfig.AppLogo}
               alt="Farm Logo"
             />
-            <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
           </div>
 
           <h2 className="mt-4 text-center text-xl font-extrabold text-gray-500">
