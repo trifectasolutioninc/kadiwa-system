@@ -37,7 +37,6 @@ const SignInPages = () => {
   const [password, setPassword] = useState("");
   const [version, setVersion] = useState("");
   const [appversion, setAppVersion] = useState("");
-
   const navigate = useNavigate();
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
@@ -226,6 +225,7 @@ const SignInPages = () => {
             contact: "No Contact",
             address_name: "N/A",
             latitude: "0",
+            homeno: "",
             longitude: "0",
           },
           additional: {
@@ -240,6 +240,7 @@ const SignInPages = () => {
               maplink: "",
               contact: "No Contact Person",
               address_name: "N/A",
+              homeno: "",
               latitude: "0",
               longitude: "0",
             },
@@ -291,7 +292,7 @@ const SignInPages = () => {
       if (snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
           const userData = childSnapshot.val();
-          if (userData.uid === googleuser._tokenResponse.localId) {
+          if (userData.email === googleuser._tokenResponse.email) {
             sessionStorage.setItem("uid", userData.id);
             sessionStorage.setItem("sid", userData.store_id);
             sessionStorage.setItem("log", "online");
