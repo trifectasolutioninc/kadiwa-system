@@ -28,7 +28,7 @@ function AppDescription() {
             farmers, enabling them to buy essentials without intermediaries. It
             eliminates middlemen, providing fresh produce and fair deals. The
             app also empowers local farmers by providing a direct way to sell
-            their goods, ensuring access to good food. <LoadingScreen />
+            their goods, ensuring access to good food.
           </p>
         </section>
       )}

@@ -283,7 +283,7 @@ const ChatPage = () => {
       </div>
 
       <div
-        className="inline-block flex-1 p-4 mt-14 text-black/80"
+        className="inline-block flex-1 p-4 mt-14 pb-24 text-black/80"
         style={{ whiteSpace: "pre-line" }}
       >
         {messages.map((message, index) => (
@@ -294,7 +294,7 @@ const ChatPage = () => {
             }`}
           >
             <div
-              className={`inline-block max-w-72 break-words p-2 rounded-lg ${
+              className={`inline-block max-w-72 break-words text-justify p-2 rounded-lg ${
                 message.sender === "consumer"
                   ? "bg-green-500 text-white"
                   : "bg-white"
@@ -316,12 +316,14 @@ const ChatPage = () => {
       </div>
       <div className="h-24"></div>
 
-      <div className="p-4 bg-white shadow-md fixed bottom-0  w-full z-50">
+      <div className="p-4 bg-white shadow-md fixed bottom-0 w-full z-50">
         <div className="flex items-center">
           <textarea
             value={newMessage}
             onChange={(e) => {
-              setNewMessage(e.target.value);
+              const trimmedMessage = e.target.value.replace(/^\s+/, ""); // Trim leading whitespace
+              setNewMessage(trimmedMessage);
+
               const textarea = e.target;
               textarea.style.height = "50px";
               textarea.style.height = ` ${Math.min(
