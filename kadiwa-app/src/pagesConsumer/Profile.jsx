@@ -41,7 +41,7 @@ const ProfileConsumer = () => {
     setToastMessage("Coming Soon... ");
     setShowToast(true);
   };
-  
+
   const [pendingDeliveryCount, setPendingDeliveryCount] = useState(0);
   const [pendingPickupCount, setPendingPickupCount] = useState(0);
 
@@ -291,7 +291,10 @@ const ProfileConsumer = () => {
               </p>
               {/* Plus Icon Circle */}
 
-              <Info className="bg-green-500 text-white p-1 rounded-full"  onClick={handleToast} />
+              <Info
+                className="bg-green-500 text-white p-1 rounded-full"
+                onClick={handleToast}
+              />
             </div>
           ) : (
             <div className="p-4 flex justify-between bg-slate-50 border rounded-md shadow-md">
@@ -312,7 +315,10 @@ const ProfileConsumer = () => {
                 KDW {userwalletData.points}
               </p>
               {/* Plus Icon Circle */}
-              <Info className="bg-green-500 text-white p-1 rounded-full"   onClick={handleToast}/>
+              <Info
+                className="bg-green-500 text-white p-1 rounded-full"
+                onClick={handleToast}
+              />
             </div>
           ) : (
             <div className="p-4 flex justify-between bg-slate-50 border rounded-md shadow-md">
@@ -327,34 +333,37 @@ const ProfileConsumer = () => {
 
           <section className="grid grid-cols-3 gap-3 md:gap-5 my-10">
             {/* Icon with Name: Virtual Card */}
-
-            <Link
-              to="/main/virtual-card"
-              className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
-            >
-              <AiFillCreditCard className="text-3xl mx-auto text-blue-700 mb-2" />
-              <p className="text-black/80 text-sm">Virtual Card</p>
-            </Link>
+            <div>
+              <Link
+                to="/main/virtual-card"
+                className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
+              >
+                <AiFillCreditCard className="text-3xl mx-auto text-blue-700 mb-2" />
+                <p className="text-black/80 text-sm">Virtual Card</p>
+              </Link>
+            </div>
 
             {/* Icon with Name: Linked Account */}
-
-            <Link
-              to="/main/linked-account"
-              className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
-            >
-              <MdInsertLink className="text-3xl mx-auto text-yellow-500 mb-2" />
-              <p className="text-black/80 text-sm">Payment Methods</p>
-            </Link>
+            <div>
+              <Link
+                to="/main/linked-account"
+                className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
+              >
+                <MdInsertLink className="text-3xl mx-auto text-yellow-500 mb-2" />
+                <p className="text-black/80 text-sm">Payment Methods</p>
+              </Link>
+            </div>
 
             {/* Icon with Name: Transaction History */}
-
-            <Link
-              to={"/main/Wallet"}
-              className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
-            >
-              <IoWallet className="text-3xl mx-auto text-green-700 mb-2" />
-              <p className="text-black/80 text-sm ">Load</p>
-            </Link>
+            <div>
+              <Link
+                to={"/main/Wallet"}
+                className="text-center flex flex-col items-center border rounded-md p-3 w-full bg-slate-50 shadow-md hover:bg-green-300"
+              >
+                <IoWallet className="text-3xl mx-auto text-green-700 mb-2" />
+                <p className="text-black/80 text-sm ">Load</p>
+              </Link>
+            </div>
           </section>
 
           <div className=" flex justify-between">
@@ -364,9 +373,9 @@ const ProfileConsumer = () => {
           <section className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <Link
               to={"/main/orders/delivery/pending"}
-              className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+              className="relative h-20 px-4 py-2 bg-slate-50 rounded-lg border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
-              <MdDeliveryDining fontSize={"50px"} className=" text-green-500" />
+              <MdDeliveryDining fontSize={"50px"} className=" text-blue-500" />
               Delivery
               {pendingDeliveryCount > 0 && (
                 <Badge
@@ -379,9 +388,9 @@ const ProfileConsumer = () => {
             {/* Pickup Container */}
             <Link
               to={"/main/orders/pickup/pending"}
-              className="relative h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
+              className="relative h-20 px-4 py-2 bg-slate-50 rounded-lg border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3"
             >
-              <FaBox fontSize={"20px"} className=" text-green-500" />
+              <FaBox fontSize={"20px"} className=" text-orange-500" />
               Pickup
               {pendingPickupCount > 0 && (
                 <Badge
@@ -393,16 +402,16 @@ const ProfileConsumer = () => {
             </Link>
             <Link
               to={"/main/orders/history/completed"}
-              className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+              className="h-20 px-4 py-2 bg-slate-50 rounded-lg border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
               <MdHistory fontSize={"30px"} className=" text-green-500" />
               Transaction History
             </Link>
             <Link
               to={"/main/scheduled"}
-              className="h-20 px-4 py-2 bg-slate-50 rounded-md border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
+              className="h-20 px-4 py-2 bg-slate-50 rounded-lg border-green-500 text-[0.8em] border shadow-md flex flex-col items-center justify-center gap-3 whitespace-nowrap"
             >
-              <RiTimer2Fill fontSize={"25px"} className=" text-green-500" />
+              <RiTimer2Fill fontSize={"25px"} className=" text-teal-500" />
               Scheduled Delivery
             </Link>
           </section>
