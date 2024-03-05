@@ -391,7 +391,7 @@ const SignInPages = () => {
           points: 0,
           type: "consumer",
           bday: "N/A",
-          email: "N/A",
+          email: googleuser._tokenResponse.email,
           gender: "N/A",
           first_name: "No name",
           fullname: googleuser._tokenResponse.displayName,
@@ -404,7 +404,7 @@ const SignInPages = () => {
         const authData = {
           id: userID,
           uid: googleuser._tokenResponse.localId,
-          email: "N/A",
+          email: googleuser._tokenResponse.email,
           username: userID,
           store_id: "None",
           contact: consumerFormData.contact,
