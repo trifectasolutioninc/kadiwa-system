@@ -91,7 +91,7 @@ const StoreInfo = () => {
     const cartKey = `${uid}_${sid}`;
     const cartCollectionPath = `cart_collection/${cartKey}`;
     const cartCollectionRef = ref(firebaseDB(), cartCollectionPath);
-    console.log(storeData);
+
     get(cartCollectionRef)
       .then((snapshot) => {
         const cartData = snapshot.exists() ? snapshot.val() : {};
