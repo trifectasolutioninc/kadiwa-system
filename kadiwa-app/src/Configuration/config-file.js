@@ -11,8 +11,8 @@ import beefrump from "../Components/Assets/products/default_beef_pack.webp";
 import beefbrisket from "../Components/Assets/products/default_beef_pack_2.webp";
 import beefnewyorkstrip from "../Components/Assets/products/default_beef.webp";
 import porkham from "../Components/Assets/products/pork-ham.webp";
-import porkbelly from "../Components/Assets/products/default_pork_pack.webp";
-import porkchop from "../Components/Assets/products/default_pork_chop_2.webp";
+import porkbelly from "../Components/Assets/products/default_pork_chop_2.webp";
+import porkchop from "../Components/Assets/products/default_pork_pack.webp";
 import wholechicken from "../Components/Assets/products/default_chicken.webp";
 import chickendrumstick from "../Components/Assets/products/default_chicken_drumstick.webp";
 import chickenegg from "../Components/Assets/products/default_egg_24.webp";
@@ -276,7 +276,7 @@ const foodCategory = [
   },
   {
     pic: Other,
-    category: "Other Commodities",
+    category: "Others",
   },
 ];
 
