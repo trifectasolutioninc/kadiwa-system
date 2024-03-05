@@ -251,7 +251,7 @@ const ProductsPage = () => {
                     <img
                       id={`product${product.product_code}`}
                       alt={product.product_name}
-                      className="w-full h-full object-cover rounded-xl"
+                      className="w-40 h-full object-contain rounded-xl"
                       src={imageConfig[product.keywords.toLowerCase()]}
                       loading="lazy"
                     />

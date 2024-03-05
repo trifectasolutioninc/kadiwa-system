@@ -87,6 +87,7 @@ import Spices from "../Components/Assets/Category/default_chili_pack.webp";
 import Egg from "../Components/Assets/Category/default_egg_24.webp";
 
 import bgV1 from "../Components/Assets/background/bg-v1.svg";
+import store from "../Components/Assets/background/kadiwa_store.webp";
 
 const paymentImg = {
   KadiwaCard: KadiwaLogo,
@@ -193,6 +194,7 @@ const imageConfig = {
   profileaccountBG: profileaccountBG,
 
   bgV1: bgV1,
+  storeImg: store,
 
   //Profile
   avataricon: "../profile/avatar-icon.png",

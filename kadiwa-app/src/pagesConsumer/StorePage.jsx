@@ -3,7 +3,11 @@ import { useParams } from "react-router-dom";
 import { ref, get } from "firebase/database";
 import configFirebaseDB from "../Configuration/config";
 import ChatIcon from "@mui/icons-material/Chat";
-import { imageConfig, commodityTypes } from "../Configuration/config-file";
+import {
+  imageConfig,
+  commodityTypes,
+  storeBG,
+} from "../Configuration/config-file";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import StoreMap from "./StoreMap";
@@ -101,6 +105,10 @@ const StorePage = () => {
         </NavLink>
       </div>
       <main className="p-3 md:p-10 space-y-5 mt-14">
+        <section>
+          {" "}
+          <img src={imageConfig.storeImg} className="rounded-md h-64 w-full" />
+        </section>
         <section className="p-4 space-y-2 rounded-md bg-slate-50 shadow-md">
           <div className=" justify-between flex">
             <h1 className="text-gray-700 font-bold text-lg">
