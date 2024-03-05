@@ -3,14 +3,19 @@ import { imageConfig } from "../../Configuration/config-file";
 import InputMask from "react-input-mask";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getDatabase, ref, get, set } from "firebase/database";
-import { FacebookAuth, FacebookMobileAuth, GoogleAuth, createUserWithEmailAndPasswordFunc } from "../../services/user/auth.service";
+import {
+  FacebookAuth,
+  FacebookMobileAuth,
+  GoogleAuth,
+  createUserWithEmailAndPasswordFunc,
+} from "../../services/user/auth.service";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import firebaseDB from "../../Configuration/config";
 
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../../Components/Notifications/Toast";
 import { BRAND } from "../../services/configurations/application.config";
-import AppUpdateModal from './../../Components/modals/AppUpdateModal';
+import AppUpdateModal from "./../../Components/modals/AppUpdateModal";
 import { generateUniqueID } from "../../services/user/generator.service";
 const deviceDetect = require("device-detect")();
 
@@ -51,161 +56,30 @@ const Registration = () => {
   const navigate = useNavigate();
   const db = firebaseDB();
 
-
   async function FacebookButtonClicked() {
     try {
-        const fbuser = await FacebookAuth();
-        
-        console.log("facebook user", fbuser);
-        
-        if (!fbuser) {
-            alert("Facebook authentication failed.");
-            return;
-        }
+      const fbuser = await FacebookAuth();
 
-        const userAuthRef = ref(db, "authentication");
-        const snapshot = await get(userAuthRef);
-
-        if (snapshot.exists()) {
-            snapshot.forEach((childSnapshot) => {
-                const userData = childSnapshot.val();
-                if (userData.uid === fbuser._tokenResponse.localId) {
-                    sessionStorage.setItem("uid", userData.store_id);
-                    sessionStorage.setItem("sid", userData.id);
-                    navigate("/main/");
-                    return;
-                }
-            });
-        }
-
-        const userID = generateUniqueID();
-        const userRef = ref(db, "users_information/" + userID);
-        const authRef = ref(db, "authentication/" + userID);
-        const walletRef = ref(db, "user_wallet/" + userID);
-        const userAddressRef = ref(db, "users_address/" + userID);
-        const storeRef = ref(db, "store_information/" + "None");
-
-        const user = {
-            id: userID,
-            uid: fbuser._tokenResponse.localId,
-            points: 0,
-            type: "consumer",
-            bday: "N/A",
-            email: consumerFormData.email,
-            gender: "N/A",
-            first_name: "No name",
-            fullname: fbuser._tokenResponse.displayName,
-            last_name: "",
-            middle_name: "",
-            suffix: "",
-            contact: "No Contact",
-        };
-
-        const authData = {
-            id: userID,
-            uid: fbuser._tokenResponse.localId,
-            email: consumerFormData.email,
-            username: userID,
-            store_id: "None",
-            contact: consumerFormData.contact,
-            password: consumerFormData.password,
-            device: {
-                [deviceID]: {
-                    id: deviceID || " ",
-                    type: deviceType || " ",
-                    brand: deviceBrand || " ",
-                    browser: deviceBrowser || " ",
-                    log: "online",
-                },
-            },
-        };
-
-        const walletData = {
-            id: userID,
-            balance: 0,
-            points: 0,
-        };
-
-        const userAddress = {
-            id: userID,
-            default: {
-                region: "N/A",
-                province: "N/A",
-                city: "N/A",
-                barangay: "No Address",
-                landmark: "",
-                person: "N/A",
-                maplink: "N/A",
-                contact: "No Contact",
-                address_name: "N/A",
-                latitude: "0",
-                longitude: "0",
-            },
-            additional: {
-                0: {
-                    id: 0,
-                    region: "N/A",
-                    province: "N/A",
-                    city: "N/A",
-                    barangay: "No Address",
-                    landmark: "",
-                    person: "N/A",
-                    maplink: "",
-                    contact: "No Contact Person",
-                    address_name: "N/A",
-                    latitude: "0",
-                    longitude: "0",
-                },
-            },
-        };
-
-        const storeData = {
-            id: "None",
-            name: "N/A",
-        };
-
-        await Promise.all([
-            set(userRef, user),
-            set(storeRef, storeData),
-            set(userAddressRef, userAddress),
-            set(authRef, authData),
-            set(walletRef, walletData),
-        ]);
-
-        resetConsumerForm();
-        setShowModal(true);
-        sessionStorage.setItem("uid", userID);
-        sessionStorage.setItem("sid", "None");
-        console.log("Successfully logged in", userID);
-    } catch (error) {
-        console.error("Error during Facebook login:", error);
-    }
-}
-
-async function GoogleButtonClicked() {
-  try {
-      const fbuser = await GoogleAuth();
-      
       console.log("facebook user", fbuser);
-      
+
       if (!fbuser) {
-          alert("Facebook authentication failed.");
-          return;
+        alert("Facebook authentication failed.");
+        return;
       }
 
       const userAuthRef = ref(db, "authentication");
       const snapshot = await get(userAuthRef);
 
       if (snapshot.exists()) {
-          snapshot.forEach((childSnapshot) => {
-              const userData = childSnapshot.val();
-              if (userData.uid === fbuser._tokenResponse.localId) {
-                  sessionStorage.setItem("uid", userData.store_id);
-                  sessionStorage.setItem("sid", userData.id);
-                  navigate("/main/");
-                  return;
-              }
-          });
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.uid === fbuser._tokenResponse.localId) {
+            sessionStorage.setItem("uid", userData.store_id);
+            sessionStorage.setItem("sid", userData.id);
+            navigate("/main/");
+            return;
+          }
+        });
       }
 
       const userID = generateUniqueID();
@@ -216,90 +90,90 @@ async function GoogleButtonClicked() {
       const storeRef = ref(db, "store_information/" + "None");
 
       const user = {
-          id: userID,
-          uid: fbuser._tokenResponse.localId,
-          points: 0,
-          type: "consumer",
-          bday: "N/A",
-          email: "N/A",
-          gender: "N/A",
-          first_name: "No name",
-          fullname: fbuser._tokenResponse.displayName,
-          last_name: "",
-          middle_name: "",
-          suffix: "",
-          contact: "No Contact",
+        id: userID,
+        uid: fbuser._tokenResponse.localId,
+        points: 0,
+        type: "consumer",
+        bday: "N/A",
+        email: consumerFormData.email,
+        gender: "N/A",
+        first_name: "No name",
+        fullname: fbuser._tokenResponse.displayName,
+        last_name: "",
+        middle_name: "",
+        suffix: "",
+        contact: "No Contact",
       };
 
       const authData = {
-          id: userID,
-          uid: fbuser._tokenResponse.localId,
-          email: "N/A",
-          username: userID,
-          store_id: "None",
-          contact: consumerFormData.contact,
-          password: consumerFormData.password,
-          device: {
-              [deviceID]: {
-                  id: deviceID || " ",
-                  type: deviceType || " ",
-                  brand: deviceBrand || " ",
-                  browser: deviceBrowser || " ",
-                  log: "online",
-              },
+        id: userID,
+        uid: fbuser._tokenResponse.localId,
+        email: consumerFormData.email,
+        username: userID,
+        store_id: "None",
+        contact: consumerFormData.contact,
+        password: consumerFormData.password,
+        device: {
+          [deviceID]: {
+            id: deviceID || " ",
+            type: deviceType || " ",
+            brand: deviceBrand || " ",
+            browser: deviceBrowser || " ",
+            log: "online",
           },
+        },
       };
 
       const walletData = {
-          id: userID,
-          balance: 0,
-          points: 0,
+        id: userID,
+        balance: 0,
+        points: 0,
       };
 
       const userAddress = {
-          id: userID,
-          default: {
-              region: "N/A",
-              province: "N/A",
-              city: "N/A",
-              barangay: "No Address",
-              landmark: "",
-              person: "N/A",
-              maplink: "N/A",
-              contact: "No Contact",
-              address_name: "N/A",
-              latitude: "0",
-              longitude: "0",
+        id: userID,
+        default: {
+          region: "N/A",
+          province: "N/A",
+          city: "N/A",
+          barangay: "No Address",
+          landmark: "",
+          person: "N/A",
+          maplink: "N/A",
+          contact: "No Contact",
+          address_name: "N/A",
+          latitude: "0",
+          longitude: "0",
+        },
+        additional: {
+          0: {
+            id: 0,
+            region: "N/A",
+            province: "N/A",
+            city: "N/A",
+            barangay: "No Address",
+            landmark: "",
+            person: "N/A",
+            maplink: "",
+            contact: "No Contact Person",
+            address_name: "N/A",
+            latitude: "0",
+            longitude: "0",
           },
-          additional: {
-              0: {
-                  id: 0,
-                  region: "N/A",
-                  province: "N/A",
-                  city: "N/A",
-                  barangay: "No Address",
-                  landmark: "",
-                  person: "N/A",
-                  maplink: "",
-                  contact: "No Contact Person",
-                  address_name: "N/A",
-                  latitude: "0",
-                  longitude: "0",
-              },
-          },
+        },
       };
 
       const storeData = {
-          id: "None",
-          name: "N/A",
+        id: "None",
+        name: "N/A",
       };
 
       await Promise.all([
-          set(userRef, user),
-          set(storeRef, storeData),
-          set(userAddressRef, userAddress),
-          set(authRef, authData),
-          set(walletRef, walletData),
+        set(userRef, user),
+        set(storeRef, storeData),
+        set(userAddressRef, userAddress),
+        set(authRef, authData),
+        set(walletRef, walletData),
       ]);
 
       resetConsumerForm();
@@ -307,11 +181,140 @@ async function GoogleButtonClicked() {
       sessionStorage.setItem("uid", userID);
       sessionStorage.setItem("sid", "None");
       console.log("Successfully logged in", userID);
-  } catch (error) {
+    } catch (error) {
       console.error("Error during Facebook login:", error);
+    }
   }
-}
 
+  async function GoogleButtonClicked() {
+    try {
+      const fbuser = await GoogleAuth();
+
+      console.log("facebook user", fbuser);
+
+      if (!fbuser) {
+        alert("Facebook authentication failed.");
+        return;
+      }
+
+      const userAuthRef = ref(db, "authentication");
+      const snapshot = await get(userAuthRef);
+
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const userData = childSnapshot.val();
+          if (userData.uid === fbuser._tokenResponse.localId) {
+            sessionStorage.setItem("uid", userData.store_id);
+            sessionStorage.setItem("sid", userData.id);
+            navigate("/main/");
+            return;
+          }
+        });
+      }
+
+      const userID = generateUniqueID();
+      const userRef = ref(db, "users_information/" + userID);
+      const authRef = ref(db, "authentication/" + userID);
+      const walletRef = ref(db, "user_wallet/" + userID);
+      const userAddressRef = ref(db, "users_address/" + userID);
+      const storeRef = ref(db, "store_information/" + "None");
+
+      const user = {
+        id: userID,
+        uid: fbuser._tokenResponse.localId,
+        points: 0,
+        type: "consumer",
+        bday: "N/A",
+        email: "N/A",
+        gender: "N/A",
+        first_name: "No name",
+        fullname: fbuser._tokenResponse.displayName,
+        last_name: "",
+        middle_name: "",
+        suffix: "",
+        contact: "No Contact",
+      };
+
+      const authData = {
+        id: userID,
+        uid: fbuser._tokenResponse.localId,
+        email: "N/A",
+        username: userID,
+        store_id: "None",
+        contact: consumerFormData.contact,
+        password: consumerFormData.password,
+        device: {
+          [deviceID]: {
+            id: deviceID || " ",
+            type: deviceType || " ",
+            brand: deviceBrand || " ",
+            browser: deviceBrowser || " ",
+            log: "online",
+          },
+        },
+      };
+
+      const walletData = {
+        id: userID,
+        balance: 0,
+        points: 0,
+      };
+
+      const userAddress = {
+        id: userID,
+        default: {
+          region: "N/A",
+          province: "N/A",
+          city: "N/A",
+          barangay: "No Address",
+          landmark: "",
+          person: "N/A",
+          maplink: "N/A",
+          contact: "No Contact",
+          address_name: "N/A",
+          latitude: "0",
+          longitude: "0",
+        },
+        additional: {
+          0: {
+            id: 0,
+            region: "N/A",
+            province: "N/A",
+            city: "N/A",
+            barangay: "No Address",
+            landmark: "",
+            person: "N/A",
+            maplink: "",
+            contact: "No Contact Person",
+            address_name: "N/A",
+            latitude: "0",
+            longitude: "0",
+          },
+        },
+      };
+
+      const storeData = {
+        id: "None",
+        name: "N/A",
+      };
+
+      await Promise.all([
+        set(userRef, user),
+        set(storeRef, storeData),
+        set(userAddressRef, userAddress),
+        set(authRef, authData),
+        set(walletRef, walletData),
+      ]);
+
+      resetConsumerForm();
+      setShowModal(true);
+      sessionStorage.setItem("uid", userID);
+      sessionStorage.setItem("sid", "None");
+      console.log("Successfully logged in", userID);
+    } catch (error) {
+      console.error("Error during Facebook login:", error);
+    }
+  }
 
   useEffect(() => {
     const fetchVersion = async () => {
@@ -323,8 +326,6 @@ async function GoogleButtonClicked() {
           const version = snapshot.val();
 
           setVersion(version);
-
-
         } else {
           console.log("No version found");
         }
@@ -356,10 +357,8 @@ async function GoogleButtonClicked() {
       setDeviceBrowser(deviceDetect.browser || "Unknown");
     };
 
-
     fetchDeviceID();
     determineDeviceInfo();
-
 
     // Cleanup function if needed
     return () => {
@@ -379,25 +378,22 @@ async function GoogleButtonClicked() {
       return;
     }
 
-
-
     if (consumerFormData.password !== consumerFormData.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
 
     try {
-        const user = await createUserWithEmailAndPasswordFunc(consumerFormData.email, consumerFormData.confirmPassword);
+      const user = await createUserWithEmailAndPasswordFunc(
+        consumerFormData.email,
+        consumerFormData.confirmPassword
+      );
 
-        console.log('User created:', user);
-      
+      console.log("User created:", user);
     } catch (error) {
-
-        console.error('Error creating user:', error);
-        return;
+      console.error("Error creating user:", error);
+      return;
     }
-
-
 
     const userRefCheck = ref(db, "users_information");
 
@@ -564,26 +560,29 @@ async function GoogleButtonClicked() {
             Create an Account
           </h2>
         </div>
-   
+
         <form className="mt-4 space-y-4" onSubmit={handleConsumerSubmit}>
           {/* Form inputs */}
           <div className="shadow-sm space-y-2">
             <div>
-            <label htmlFor="email" className="sr-only">
+              <label htmlFor="email" className="sr-only">
                 Email
-            </label>
-            <input type="email" 
-            value={consumerFormData.email}
-            onChange={(e) =>
-              setConsumerFormData({
-                ...consumerFormData,
-                email: e.target.value,
-              })}
-            placeholder="Email" 
-            maxLength={320} 
-            className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm" required/>
-   
-          </div>
+              </label>
+              <input
+                type="email"
+                value={consumerFormData.email}
+                onChange={(e) =>
+                  setConsumerFormData({
+                    ...consumerFormData,
+                    email: e.target.value,
+                  })
+                }
+                placeholder="Email"
+                maxLength={320}
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                required
+              />
+            </div>
             {/* Phone Number Input */}
             <div>
               <label htmlFor="phoneNumber" className="sr-only">
@@ -740,7 +739,6 @@ async function GoogleButtonClicked() {
               type="button"
               className="hidden sm:hidden lg:block  inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-blue-500 text-sm font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-             
               Sign in with Facebook
             </button>
             <button
@@ -759,7 +757,7 @@ async function GoogleButtonClicked() {
             </button> */}
           </div>
           <div className=" mt-4">
-          <button
+            <button
               onClick={GoogleButtonClicked}
               type="button"
               className=" inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-red-500 text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
@@ -811,9 +809,9 @@ async function GoogleButtonClicked() {
             }, 3000);
           }}
         />
-      ) : (<div>
-
-      </div>)}
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };

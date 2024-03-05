@@ -84,21 +84,14 @@ const LinkedAccount = () => {
                 key={index}
                 className="bg-white shadow-lg rounded-2xl border"
               >
-                <div className="p-4 ">
-                  <div className="grid grid-cols-10">
+                <div className="p-4  flex">
+                  <div className="">
                     <img
                       src={getAccountImageSrc(account.type)}
                       alt={account.type}
                       className="w-10 h-10 object-contain col-span-3"
                     />
-                    <div className=" col-span-7 items-center">
-                      <p className="font-bold text-sm text-gray-700">
-                        {account.owner}
-                      </p>
-                      <p className="font-bold text-xs text-gray-500">
-                        {account.number}
-                      </p>
-                    </div>
+                    
                   </div>
 
                   <span className="text-sm">{account.type}</span>
