@@ -11,6 +11,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import StoreList from "../pagesConsumer/ProductStoreList";
 import BackButton from "./BackToHome";
+import LoadingScreen from "./LoadingScreen";
 
 const ProductDetails = ({ productDetails }) => {
   const { category } = useParams();
@@ -154,7 +155,7 @@ const ProductInfo = ({ product_inventory, kadiwa_users_account }) => {
   return (
     <div className="">
       {isLoading ? (
-        <p className="p-5 text-green-600">Loading...</p>
+        <LoadingScreen />
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />

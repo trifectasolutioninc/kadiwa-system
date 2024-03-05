@@ -7,6 +7,7 @@ import { imageConfig, commodityTypes } from "../Configuration/config-file";
 import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import StoreMap from "./StoreMap";
+import LoadingScreen from "./LoadingScreen";
 
 const StorePage = () => {
   const { storeID } = useParams();
@@ -89,7 +90,7 @@ const StorePage = () => {
   };
 
   if (!storeData) {
-    return <div>Loading...</div>;
+    return <LoadingScreen />;
   }
 
   return (
