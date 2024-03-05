@@ -799,7 +799,7 @@ const Registration = () => {
                   id="password"
                   name="password"
                   type={passwordVisible ? "text" : "password"} // Show/hide password based on visibility state
-                  autoComplete="new-password"
+                  autoComplete="off"
                   required
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none rounded-b-md focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
@@ -830,7 +830,7 @@ const Registration = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
-                autoComplete="new-password" // Set autocomplete to "new-password"
+                autoComplete="off" // Set autocomplete to "new-password"
                 required
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm Password"
