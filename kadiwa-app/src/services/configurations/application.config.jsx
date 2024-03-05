@@ -1,7 +1,7 @@
 const BRAND = {
   app_name: "Kadiwa App",
   desc: "",
-  version: "beta-20240305.4",
+  version: "beta-20240305.5",
   created: {
     date_start: "2024/01",
     date_end: "2024/02/29",
