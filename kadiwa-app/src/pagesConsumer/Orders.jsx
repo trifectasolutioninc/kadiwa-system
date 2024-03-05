@@ -178,31 +178,46 @@ const Orders = () => {
           {tab === "delivery" && (
             <div className="flex justify-between gap-3  overflow-x-auto sm:overflow-x-auto md:overflow-x-hidden p-2">
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                className={`relative text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "pending" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Pending")}
               >
                 <MdPending fontSize={"28px"} className=" mx-auto" />
                 New
+                {deliveryPendingOrdersCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-0.5 rounded-full text-[0.8em]">
+                    {deliveryPendingOrdersCount}
+                  </span>
+                )}
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                className={`relative text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "to ship" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("To Ship")}
               >
                 <MdDeliveryDining fontSize={"28px"} className=" mx-auto" />
                 To Ship
+                {toShipOrdersCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-0.5 rounded-full text-[0.8em]">
+                    {toShipOrdersCount}
+                  </span>
+                )}
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                className={`relative text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "to receive" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("To Receive")}
               >
                 <FaJoget fontSize={"20px"} className=" mx-auto" />
                 To Receive
+                {toRecieveOrdersCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-0.5 rounded-full text-[0.8em]">
+                    {toRecieveOrdersCount}
+                  </span>
+                )}
               </button>
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
@@ -227,31 +242,46 @@ const Orders = () => {
           {tab === "pickup" && (
             <div className="flex justify-between gap-3 overflow-x-auto sm:overflow-x-auto md:overflow-x-hidden p-2">
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                className={`relative text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "pending" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("Pending")}
               >
                 <MdPending fontSize={"25px"} className=" mx-auto my-0.5" />
                 New
+                {pickupPendingOrdersCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-0.5 rounded-full text-[0.8em]">
+                    {pickupPendingOrdersCount}
+                  </span>
+                )}
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                className={`relative text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "to pack" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("To Pack")}
               >
                 <FaBoxOpen fontSize={"25px"} className=" mx-auto my-0.5" />
                 To Pack
+                {toPackOrdersCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-0.5 rounded-full text-[0.8em]">
+                    {toPackOrdersCount}
+                  </span>
+                )}
               </button>
               <button
-                className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
+                className={`relative text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
                   status.toLowerCase() === "to distribute" && "bg-green-200"
                 }`}
                 onClick={() => setStatus("To Distribute")}
               >
                 <FaBox fontSize={"20px"} className=" mx-auto" />
                 To Distribute
+                {toDistributeOrdersCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-700 text-white px-2 py-0.5 rounded-full text-[0.8em]">
+                    {toDistributeOrdersCount}
+                  </span>
+                )}
               </button>
               <button
                 className={`text-[0.8em] w-full whitespace-nowrap text-gray-800 p-2 rounded-md flex flex-col items-center justify-between ${
@@ -303,92 +333,98 @@ const Orders = () => {
               orders.map((order) => (
                 <div
                   key={order.receiptId}
-                  className="grid grid-cols-10 p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80 "
+                  className=" p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80 "
                   onClick={() => handleOrderItemClick(order.receiptId)}
                 >
-                  <div
-                    className={`col-span-4 ${
-                      order.items.length === 1
-                        ? "flex items-center"
-                        : "grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-0 items-center"
-                    }`}
-                  >
-                    {order.items.slice(0, 4).map((item, index) => (
-                      <div
-                        key={index}
-                        className={`${
-                          order.items.length !== 1 ? "flex justify-center" : ""
-                        }`}
-                      >
-                        <img
-                          src={imageConfig[item.productInfo.keywords]}
-                          className={`rounded-md ${
-                            order.items.length !== 1
-                              ? "max-h-32"
-                              : "bg-cover max-h-32"
-                          }`}
-                          alt={`Item ${index + 1}`}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className=" col-span-6 px-4">
-                    {/* Display keywords */}
-                    <div className="flex flex-wrap gap-1 mb-1">
+                  <div className="grid grid-cols-10 ">
+                    <div
+                      className={`col-span-3 ${
+                        order.items.length === 1
+                          ? "flex items-center"
+                          : "grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-0 items-center"
+                      }`}
+                    >
                       {order.items.slice(0, 4).map((item, index) => (
-                        <span
+                        <div
                           key={index}
-                          className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs"
+                          className={`${
+                            order.items.length !== 1
+                              ? "flex justify-center"
+                              : ""
+                          }`}
                         >
-                          {item.productInfo.product_name}
-                        </span>
+                          <img
+                            src={imageConfig[item.productInfo.keywords]}
+                            className={`rounded-md ${
+                              order.items.length !== 1
+                                ? "max-h-32"
+                                : "bg-cover max-h-32"
+                            }`}
+                            alt={`Item ${index + 1}`}
+                          />
+                        </div>
                       ))}
-                      {order.items.length > 4 && (
-                        <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs">
-                          More...
-                        </span>
-                      )}
                     </div>
 
-                    <hr />
-                    <div className=" ">
-                      <h1 className=" ">
-                        <span className=" font-bold text-xs">ORDER ID: </span>
-                        <span className=" font-semibold text-xs">
-                          {order.receiptId}
-                        </span>
-                      </h1>
-                      <p>
-                        <span className=" text-xs font-bold mr-1">Status:</span>
-                        <span
-                          className={`px-3 py-1 text-xs rounded-full font-medium ${
-                            order.status === "Pending"
-                              ? "bg-yellow-200 text-yellow-900"
-                              : order.status === "Processing" ||
-                                order.status === "To Pack"
-                              ? "bg-sky-200 text-sky-900"
-                              : order.status === "Shipped" ||
-                                order.status === "To Ship"
-                              ? "bg-blue-200 text-blue-900"
-                              : order.status === "Delivered" ||
-                                order.status === "To Receive" ||
-                                order.status === "To Distribute"
-                              ? "bg-green-200 text-green-900"
-                              : order.status === "Cancelled"
-                              ? "bg-red-200 text-red-900"
-                              : "bg-gray-500 text-white"
-                          }`}
-                        >
-                          {order.status}
-                        </span>
-                      </p>
-                      <p className=" ">
-                        <span className=" text-xs font-bold mr-1">Date:</span>
-                        <span className="text-gray-500 text-xs">
-                          {order.date}
-                        </span>
-                      </p>
+                    <div className=" col-span-7 px-4">
+                      {/* Display keywords */}
+                      <div className="flex flex-wrap gap-1 mb-1">
+                        {order.items.slice(0, 4).map((item, index) => (
+                          <span
+                            key={index}
+                            className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs"
+                          >
+                            {item.productInfo.product_name}
+                          </span>
+                        ))}
+                        {order.items.length > 4 && (
+                          <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs">
+                            More...
+                          </span>
+                        )}
+                      </div>
+
+                      <hr />
+                      <div className=" ">
+                        <h1 className=" ">
+                          <span className=" font-bold text-xs">ORDER ID: </span>
+                          <span className=" font-semibold text-xs">
+                            {order.receiptId}
+                          </span>
+                        </h1>
+                        <p>
+                          <span className=" text-xs font-bold mr-1">
+                            Status:
+                          </span>
+                          <span
+                            className={`px-3 py-1 text-xs rounded-full font-medium ${
+                              order.status === "Pending"
+                                ? "bg-yellow-200 text-yellow-900"
+                                : order.status === "Processing" ||
+                                  order.status === "To Pack"
+                                ? "bg-sky-200 text-sky-900"
+                                : order.status === "Shipped" ||
+                                  order.status === "To Ship"
+                                ? "bg-blue-200 text-blue-900"
+                                : order.status === "Delivered" ||
+                                  order.status === "To Receive" ||
+                                  order.status === "To Distribute"
+                                ? "bg-green-200 text-green-900"
+                                : order.status === "Cancelled"
+                                ? "bg-red-200 text-red-900"
+                                : "bg-gray-500 text-white"
+                            }`}
+                          >
+                            {order.status}
+                          </span>
+                        </p>
+                        <p className=" ">
+                          <span className=" text-xs font-bold mr-1">Date:</span>
+                          <span className="text-gray-500 text-xs">
+                            {order.date}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
