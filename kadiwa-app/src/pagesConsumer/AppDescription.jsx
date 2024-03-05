@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import LoadingScreen from "./LoadingScreen";
 
 function AppDescription() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -27,7 +28,7 @@ function AppDescription() {
             farmers, enabling them to buy essentials without intermediaries. It
             eliminates middlemen, providing fresh produce and fair deals. The
             app also empowers local farmers by providing a direct way to sell
-            their goods, ensuring access to good food.
+            their goods, ensuring access to good food. <LoadingScreen />
           </p>
         </section>
       )}
