@@ -15,6 +15,8 @@ import {
   orderByChild,
   equalTo,
   get,
+  off,
+  onValue,
 } from "firebase/database";
 import { MdDeliveryDining } from "react-icons/md";
 import { imageConfig } from "../Configuration/config-file";
@@ -23,9 +25,98 @@ const Orders = () => {
   const { tab, getstatus } = useParams();
   const uid = sessionStorage.getItem("uid");
   const [status, setStatus] = useState(getstatus);
-
+  const [deliveryPendingOrdersCount, setDeliveryPendingOrdersCount] =
+    useState(0);
+  const [pickupPendingOrdersCount, setPickupPendingOrdersCount] = useState(0);
+  const [toShipOrdersCount, setToShipOrdersCount] = useState(0);
+  const [toPackOrdersCount, setToPackOrdersCount] = useState(0);
+  const [toRecieveOrdersCount, setToRecieveOrdersCount] = useState(0);
+  const [toDistributeOrdersCount, setToDistributeOrdersCount] = useState(0);
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const database = getDatabase();
+    const ordersRef = ref(database, "orders_list");
+
+    const fetchPendingOrdersCount = async () => {
+      try {
+        // Fetch initial pending orders count
+        let count = 0;
+        let count1 = 0;
+        let count2 = 0;
+        let count3 = 0;
+        let count4 = 0;
+        let count5 = 0;
+        const ordersSnapshot = await get(ordersRef);
+        ordersSnapshot.forEach((order) => {
+          const orderData = order.val();
+          if (
+            orderData.consumer === uid &&
+            orderData.status === "Pending" &&
+            orderData.shippingOption === "Delivery"
+          ) {
+            count++;
+          }
+          if (
+            orderData.consumer === uid &&
+            orderData.status === "Pending" &&
+            orderData.shippingOption === "Pickup"
+          ) {
+            count1++;
+          }
+          if (orderData.consumer === uid && orderData.status === "To Ship") {
+            count2++;
+          }
+          if (orderData.consumer === uid && orderData.status === "To Pack") {
+            count3++;
+          }
+          if (
+            orderData.consumer === uid &&
+            orderData.status === "To Distribute"
+          ) {
+            count4++;
+          }
+          if (orderData.consumer === uid && orderData.status === "To Receive") {
+            count5++;
+          }
+        });
+        setDeliveryPendingOrdersCount(count);
+        setPickupPendingOrdersCount(count1);
+        setToShipOrdersCount(count2);
+        setToPackOrdersCount(count3);
+        setToDistributeOrdersCount(count4);
+        setToRecieveOrdersCount(count5);
+
+        // Fetch initial cart count
+        // let cart = 0;
+        // const cartsSnapshot = await get(cartsRef);
+        // cartsSnapshot.forEach((cartlist) => {
+        //   const cartData = cartlist.val();
+        //   if (cartData.consumer_id === connect && cartData.CartList) {
+        //     const cartItems = cartData.CartList;
+        //     const itemCount = Object.keys(cartItems).length;
+        //     cart += itemCount;
+        //   }
+        // });
+        // setCartCount(cart);
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
+    };
+
+    fetchPendingOrdersCount();
+
+    // Set up real-time listeners
+    const ordersListener = onValue(ordersRef, () => {
+      fetchPendingOrdersCount();
+    });
+
+    // Clean up listeners
+    return () => {
+      off(ordersRef, "value", ordersListener);
+    };
+  }, [uid]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -212,21 +303,30 @@ const Orders = () => {
               orders.map((order) => (
                 <div
                   key={order.receiptId}
-                  className="grid grid-cols-10 p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80"
+                  className="grid grid-cols-10 p-2 cursor-pointer border bg-slate-50 rounded-md shadow-md space-y-3 text-black/80 "
                   onClick={() => handleOrderItemClick(order.receiptId)}
                 >
                   <div
-                    className={`col-span-4   ${
+                    className={`col-span-4 ${
                       order.items.length === 1
                         ? "flex items-center"
-                        : "grid grid-cols-2 items-center"
+                        : "grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-0 items-center"
                     }`}
                   >
                     {order.items.slice(0, 4).map((item, index) => (
-                      <div key={index}>
+                      <div
+                        key={index}
+                        className={`${
+                          order.items.length !== 1 ? "flex justify-center" : ""
+                        }`}
+                      >
                         <img
                           src={imageConfig[item.productInfo.keywords]}
-                          className="rounded-md"
+                          className={`rounded-md ${
+                            order.items.length !== 1
+                              ? "max-h-32"
+                              : "bg-cover max-h-32"
+                          }`}
                           alt={`Item ${index + 1}`}
                         />
                       </div>
@@ -241,12 +341,12 @@ const Orders = () => {
                           key={index}
                           className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs"
                         >
-                          {item.productInfo.keywords}
+                          {item.productInfo.product_name}
                         </span>
                       ))}
                       {order.items.length > 4 && (
                         <span className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs">
-                          more
+                          More...
                         </span>
                       )}
                     </div>
