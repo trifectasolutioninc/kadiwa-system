@@ -555,15 +555,29 @@ const Registration = () => {
 
     try {
       const snapshot = await get(userRefCheck);
+
       if (snapshot.exists()) {
         let contactExists = false;
+        let emailExists = false;
         snapshot.forEach((childSnapshot) => {
           const userData = childSnapshot.val();
+          if (userData.email === consumerFormData.email) {
+            emailExists = true;
+            return;
+          }
           if (userData.contact === consumerFormData.contact) {
             contactExists = true;
-            return; // Exit loop if contact is found
+            return;
           }
         });
+
+        if (emailExists) {
+          setToastMessage(
+            "The email is already exist , please use other email."
+          );
+          setShowToast(true); // Show toast for existing contact
+          return;
+        }
 
         if (contactExists) {
           setToastMessage(
@@ -685,6 +699,10 @@ const Registration = () => {
         })
         .catch((error) => {
           console.error("Error creating user:", error);
+          setToastMessage(
+            "The email is already exist , please use other email."
+          );
+          setShowToast(true); // Show toast for existing contact
         });
     } catch (error) {
       console.error("Error checking contact:", error);
