@@ -53,6 +53,8 @@ const Registration = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [readOnly, setReadOnly] = useState(true);
+  const [readOnly2, setReadOnly2] = useState(true);
   const navigate = useNavigate();
   const db = firebaseDB();
 
@@ -723,6 +725,14 @@ const Registration = () => {
     setShowToast(true);
   };
 
+  const handleFocus = () => {
+    setReadOnly(false); // Set readOnly to false when the input is focused
+  };
+
+  const handleFocus2 = () => {
+    setReadOnly2(false); // Set readOnly to false when the input is focused
+  };
+
   return (
     <div className="flex flex-col items-center h-screen bg-white sm:px-6 lg:px-8">
       <div className="max-w-md w-full my-auto bg-white p-8">
@@ -798,8 +808,9 @@ const Registration = () => {
                 <input
                   id="password"
                   name="password"
-                  type={passwordVisible ? "text" : "password"} // Show/hide password based on visibility state
+                  type={passwordVisible ? "text" : "password"}
                   autoComplete="off"
+                  readOnly={readOnly}
                   required
                   className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none rounded-b-md focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
@@ -810,7 +821,9 @@ const Registration = () => {
                       password: e.target.value,
                     })
                   }
+                  onFocus={handleFocus} // Call handleFocus function when input is focused
                 />
+
                 {/* Password visibility toggle icon */}
                 <div
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer"
@@ -822,15 +835,16 @@ const Registration = () => {
             </div>
 
             {/* Confirm Password Input */}
-            <div>
+            <div className="relative">
               <label htmlFor="confirmPassword" className="sr-only">
                 Confirm Password
               </label>
               <input
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
-                autoComplete="off" // Set autocomplete to "new-password"
+                type={passwordVisible ? "text" : "password"}
+                autoComplete="off"
+                readOnly={readOnly2}
                 required
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                 placeholder="Confirm Password"
@@ -841,7 +855,14 @@ const Registration = () => {
                     confirmPassword: e.target.value,
                   })
                 }
+                onFocus={handleFocus2}
               />
+              <div
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 cursor-pointer"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+              </div>
             </div>
           </div>
 
