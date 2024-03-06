@@ -238,7 +238,7 @@ const ProductsPage = () => {
             {products.map((product, index) => (
               <div
                 key={index}
-                className="container bg-slate-50 rounded-xl shadow-md border relative"
+                className="container bg-white rounded-xl shadow-md border relative"
               >
                 <Link
                   to={`/main/productinfo/${product.product_code}/${category}`}
@@ -252,7 +252,7 @@ const ProductsPage = () => {
                     <img
                       id={`product${product.product_code}`}
                       alt={product.product_name}
-                      className="w-40 h-full object-contain rounded-xl"
+                      className="size-full object-contain rounded-xl"
                       src={imageConfig[product.keywords.toLowerCase()]}
                       loading="lazy"
                     />

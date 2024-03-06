@@ -65,32 +65,39 @@ const ProfileEdit = () => {
       const database = firebaseDB();
       const uid = sessionStorage.getItem("uid");
       const authRef = ref(database, `authentication/${uid}/device/${deviceID}`);
-  
+
       // Update device log to offline
       await update(authRef, {
         log: "offline",
       });
-  
+
       sessionStorage.setItem("uid", "");
       Logout();
       navigate("/");
-  
+
       // Log out other users with the same deviceID
       const usersRef = ref(database, "authentication");
       const usersSnapshot = await get(usersRef);
-  
+
       for (const user of usersSnapshot.val()) {
         const userId = user.key;
-        if (userId !== uid) { // Skip current user
-          const userDevicesRef = ref(database, `authentication/${userId}/device`);
+        if (userId !== uid) {
+          // Skip current user
+          const userDevicesRef = ref(
+            database,
+            `authentication/${userId}/device`
+          );
           const userDevicesSnapshot = await get(userDevicesRef);
-  
+
           for (const device of userDevicesSnapshot.val()) {
             if (device.deviceID === deviceID) {
               // Update device log to offline
-              update(ref(database, `authentication/${userId}/device/${device.id}`), {
-                log: "offline",
-              });
+              update(
+                ref(database, `authentication/${userId}/device/${device.id}`),
+                {
+                  log: "offline",
+                }
+              );
             }
           }
         }
@@ -99,7 +106,6 @@ const ProfileEdit = () => {
       console.error("Error logging out:", error);
     }
   };
-  
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -213,7 +219,7 @@ const ProfileEdit = () => {
             <IoIosArrowForward />
           </NavLink>
         </div>
-        <div className="flex items-center justify-end gap-3 w-full p-2">
+        <div className="flex items-center justify-end gap-3 w-full p-2 fixed bottom-0">
           <button
             onClick={openLogoutModal}
             className="flex items-center justify-center mx-auto text-black/80 bg-white border w-full rounded-md shadow-sm p-2"
