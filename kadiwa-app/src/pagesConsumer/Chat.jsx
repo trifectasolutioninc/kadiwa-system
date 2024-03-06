@@ -11,6 +11,7 @@ import {
 
 import BackButton from "./BackToHome";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
+import DeadendText from "./DeadendText";
 
 const StoreCard = ({
   id,
@@ -293,7 +294,7 @@ const Chat = () => {
                       </p>
                       <p>
                         <span
-                          className={`px-3 py-1 rounded-full font-medium ${
+                          className={`px-2 py-0.5 text-sm rounded-full font-medium ${
                             store.type === "Online Store"
                               ? "bg-blue-200 text-blue-900" // Example color for "online" status
                               : store.type === "Physical Store"
@@ -335,9 +336,7 @@ const Chat = () => {
             )}
           </section>
         </div>
-        <h1 className="text-center text-black/80">
-          Appreciate your interest! This marks the end of the page.
-        </h1>
+        <DeadendText />
         <div className=" h-16"></div>
       </main>
 

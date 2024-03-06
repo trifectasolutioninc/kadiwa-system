@@ -10,6 +10,7 @@ import { ref, child, get } from "firebase/database";
 import redirectToIndexIfNoConnect from "../Scripts/connections/check";
 import configFirebaseDB from "../Configuration/config";
 import BackButton from "./BackToHome";
+import DeadendText from "./DeadendText";
 
 const StoreConsumer = () => {
   const [storeList, setStoreList] = useState([]);
@@ -80,7 +81,7 @@ const StoreConsumer = () => {
                         {store.name}
                       </p>
                       <p>
-                        <span className="border p-1 bg-green-200 rounded-md text-black/80">
+                        <span className="border p-0.5 bg-green-200 rounded-md text-black/80">
                           {store.type}
                         </span>
                       </p>
@@ -119,9 +120,7 @@ const StoreConsumer = () => {
             )}
           </section>
         </div>
-        <h1 className="text-center text-black/80">
-          Appreciate your interest! This marks the end of the page.
-        </h1>
+        <DeadendText />
         <div className="p-8"></div>
       </main>
     </>

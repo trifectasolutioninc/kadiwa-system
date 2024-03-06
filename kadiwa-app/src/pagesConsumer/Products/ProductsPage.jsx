@@ -5,6 +5,7 @@ import { getDatabase, ref, get } from "firebase/database";
 import { imageConfig } from "../../Configuration/config-file";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import BackButton from "../BackToHome";
+import DeadendText from "../DeadendText";
 
 const ProductsPage = () => {
   const { category } = useParams();
@@ -272,9 +273,7 @@ const ProductsPage = () => {
               </div>
             ))}
           </section>
-          <h1 className="text-center text-black/80 mt-8">
-            Appreciate your interest! This marks the end of the page.
-          </h1>
+          <DeadendText />
         </main>
         <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
           <div

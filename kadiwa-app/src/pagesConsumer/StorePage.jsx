@@ -12,6 +12,7 @@ import { Link, NavLink } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import StoreMap from "./StoreMap";
 import LoadingScreen from "./LoadingScreen";
+import DeadendText from "./DeadendText";
 
 const StorePage = () => {
   const { storeID } = useParams();
@@ -203,7 +204,7 @@ const StorePage = () => {
             </div>
           ))}
         </section>
-        <h1 className="text-center text-black/80">-End of Page-</h1>
+        <DeadendText />
         <div className="p-8"></div>
       </main>
     </>

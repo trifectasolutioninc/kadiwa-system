@@ -8,6 +8,8 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Toast from "../Components/Notifications/Toast";
+import { DesktopAccessDisabled } from "@mui/icons-material";
+import DeadendText from "./DeadendText";
 
 const StoreList = ({ productCode, category }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
@@ -283,7 +285,7 @@ const StoreList = ({ productCode, category }) => {
               </div>
             );
           })}
-          <h1 className="text-center text-black/80">-End of Page-</h1>
+          <DeadendText />
         </ul>
       )}
       {/* Modal for adding to cart */}

@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"; // Changed to
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import GoodsCluster from "./Products/GoodsCluster";
 import AppDescription from "./AppDescription";
+import DeadendText from "./DeadendText";
 
 const HomeConsumer = () => {
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
@@ -242,9 +243,7 @@ const HomeConsumer = () => {
         <GoodsCluster />
       </section>
 
-      <h1 className="text-center text-black/80">
-        Appreciate your interest! This marks the end of the page.
-      </h1>
+      <DeadendText />
 
       <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
         <div
