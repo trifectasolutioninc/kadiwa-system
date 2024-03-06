@@ -184,7 +184,7 @@ const StorePage = () => {
                 className="flex flex-col space-y-5"
               >
                 {/* h-52 */}
-                <div className="h-fit overflow-hidden">
+                <div className="h-52 overflow-hidden">
                   <img
                     id={`product${product.product_code}`}
                     alt={product.product_name}
