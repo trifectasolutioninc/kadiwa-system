@@ -698,12 +698,12 @@ const SignInPages = () => {
       <div className="">
         <div className="flex justify-center mx-auto w-auto space-x-2">
           <img className=" h-[5em] " src={imageConfig.DALogo} alt="Farm Logo" />
+          <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
           <img
             className=" h-[5em] "
             src={imageConfig.AppLogo}
             alt="Farm Logo"
           />
-          <img className=" h-[5em] " src={imageConfig.BGPH} alt="Farm Logo" />
         </div>
         <div className="mt-5 p-8 rounded">
           <form id="loginForm" className="space-y-1" onSubmit={handleSignIn}>
