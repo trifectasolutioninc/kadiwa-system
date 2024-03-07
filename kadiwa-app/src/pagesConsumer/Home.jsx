@@ -168,6 +168,11 @@ const HomeConsumer = () => {
     }
   };
 
+  // Conditional rendering based on the presence of an error
+  // const shouldShowLocation =
+  //   userLocation !== "Unable to retrieve location" &&
+  //   userLocation !== "Geolocation permission not granted";
+
   useEffect(() => {
     const fetchUserData = async () => {
       const database = configFirebaseDB();
@@ -197,6 +202,14 @@ const HomeConsumer = () => {
         <h1 className="text-[2em] text-green-700 font-bold">
           Hello, {userData === "" ? "Kadiwa User" : userData}!
         </h1>
+        {/* {shouldShowLocation ? (
+          <div id="userLocation" className="flex items-center">
+            <LocationOn className="text-green-700 mr-2" />
+            <span id="userLocationText" className="text-gray-600">
+              {userLocation}
+            </span>
+          </div>
+        ) : null} */}
         <div id="userLocation" className="flex items-center">
           <LocationOn className="text-green-700 mr-2" />
           <span id="userLocationText" className="text-gray-600">

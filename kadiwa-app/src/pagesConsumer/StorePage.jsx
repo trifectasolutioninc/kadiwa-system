@@ -105,13 +105,16 @@ const StorePage = () => {
           <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
       </div>
-      <main className="p-3 md:p-10 space-y-5 mt-14">
-        <section>
-          {" "}
-          <img src={imageConfig.storeImg} className="rounded-md h-64 w-full" />
+      <main className="p-3 md:p-10 space-y-5 mt-40 md:mt-64">
+        <section className="flex items-center justify-center ">
+          <img
+            src={imageConfig.storeImg}
+            className="absolute rounded-md top-16 h-52 md:h-96 md:w-2/3 w-5/6 border shadow-md " //h-64
+            loading="lazy"
+          />
         </section>
-        <section className="p-4 space-y-2 rounded-md bg-slate-50 shadow-md">
-          <div className=" justify-between flex">
+        <section className="p-4 space-y-2 rounded-md bg-slate-50 border border-green-700 shadow-md">
+          <div className=" justify-between flex mt-20 md:mt-36">
             <h1 className="text-gray-700 font-bold text-lg">
               {storeData.name}
             </h1>
@@ -170,7 +173,7 @@ const StorePage = () => {
           {products.map((product, index) => (
             <div
               key={index}
-              className="container p-2 bg-slate-50 rounded-md shadow-md relative"
+              className="container p-2 bg-white rounded-lg shadow-md relative"
             >
               <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
                 New
@@ -180,11 +183,12 @@ const StorePage = () => {
                 to={`/route/product/${product.id}`}
                 className="flex flex-col space-y-5"
               >
+                {/* h-52 */}
                 <div className="h-52 overflow-hidden">
                   <img
                     id={`product${product.product_code}`}
                     alt={product.product_name}
-                    className="h-full w-full rounded-md object-cover"
+                    className="size-full rounded-md object-contain"
                     src={imageConfig[product.keywords.toLowerCase()]}
                     loading="lazy"
                   />

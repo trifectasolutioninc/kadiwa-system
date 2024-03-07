@@ -92,8 +92,6 @@ const OrdersData = () => {
               </div>
 
               <div className="mb-4 flex gap-2 text-[1em] items-center">
-                <p>Status</p>
-                <p className="text-[0.5em] text-gray-600">⬤</p>
                 <p className="text-red-600 font-semibold">{order.status}</p>
                 <p className="text-[0.5em] text-gray-600">⬤</p>
                 <p> {order.date}</p>
