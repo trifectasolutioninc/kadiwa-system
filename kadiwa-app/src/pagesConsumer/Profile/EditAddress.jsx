@@ -11,6 +11,7 @@ const EditAddress = ({ addressType, closeModal }) => {
     person: "",
     province: "",
     region: "",
+    homeno: "",
   });
 
   useEffect(() => {
@@ -158,7 +159,7 @@ const EditAddress = ({ addressType, closeModal }) => {
               type="text"
               id="houseNumber"
               name="houseNumber"
-              value=""
+              value={addressData.homeno}
               onChange={handleInputChange}
               className="border border-gray-300 rounded-md px-3 py-2"
             />
