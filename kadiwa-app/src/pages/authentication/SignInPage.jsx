@@ -15,6 +15,7 @@ import {
   signInWithEmailAndPasswordFunc,
 } from "../../services/user/auth.service";
 import { generateUniqueID } from "../../services/user/generator.service";
+import LoadingScreen from "../../pagesConsumer/LoadingScreen";
 
 const deviceDetect = require("device-detect")();
 
@@ -544,6 +545,7 @@ const SignInPages = () => {
                   sessionStorage.setItem("sid", userData.store_id);
                   console.log("Automatically logged in");
                   // You can navigate to the desired page after login
+                  <LoadingScreen />;
                   navigate("/main/");
                   return; // Exit loop if found online device
                 }
