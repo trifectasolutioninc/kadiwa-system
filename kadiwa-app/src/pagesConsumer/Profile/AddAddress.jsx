@@ -42,17 +42,9 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
         showModal ? "fixed" : "hidden"
       } z-10 inset-0 overflow-y-auto`}
     >
-      <div className="flex items-center justify-center p-4 text-center sm:block ">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-        <span
-          className="hidden sm:inline-block sm:align-middle sm:h-screen"
-          aria-hidden="true"
-        >
-          &#8203;
-        </span>
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden w-full shadow-xl transform transition-all sm:my-8">
+      <div className="fixed inset-0 z-20 p-3 flex items-center justify-center">
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-50"></div>
+        <div className="inline-block align-bottom bg-white rounded-lg text-left  overflow-auto max-h-full w-full shadow-xl transform transition-all sm:my-8">
           <form onSubmit={handleSubmit}>
             <div className="p-6">
               <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -210,7 +202,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="submit"
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
               >
                 Add Address
               </button>

@@ -59,8 +59,9 @@ const EditAddress = ({ addressType, closeModal }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full p-3 h-full bg-gray-900 bg-opacity-50 flex  justify-center items-center">
-      <div className="bg-white p-6 rounded-md shadow-md w-full">
+    <div className="fixed inset-0 z-20 p-3 flex items-center justify-center">
+      <div className="fixed inset-0 bg-gray-800 bg-opacity-50"></div>
+      <div className="relative p-3 space-y-10 w-full md:w-3/4 xl:w-1/2 z-30 rounded-md bg-white  overflow-auto max-h-full">
         <h2 className="text-xl font-bold mb-4">
           {addressType === "default"
             ? "Edit Default Address"
