@@ -59,140 +59,142 @@ const EditAddress = ({ addressType, closeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 p-3 overflow-y-auto flex justify-center items-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-full">
-        <h2 className="text-xl font-bold mb-4">
-          {addressType === "default"
-            ? "Edit Default Address"
-            : "Edit Additional Address"}
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <h1 className="text-sm font-bold">Contact</h1>
-          <div className="flex flex-col">
-            <label htmlFor="person" className="font-semibold text-xs">
-              Full Name:
-            </label>
-            <input
-              type="text"
-              id="person"
-              name="person"
-              placeholder="Full Name"
-              value={addressData.person}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="contact" className="font-semibold text-xs">
-              Phone Number:
-            </label>
-            <input
-              type="text"
-              id="contact"
-              name="contact"
-              placeholder="Phone Number"
-              value={addressData.contact}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
+    <div className="p-3 m-3 ">
+      <div className="fixed inset-0 z-50 p-3 overflow-y-auto flex justify-center items-center bg-black bg-opacity-50">
+        <div className="bg-white p-6 rounded-md shadow-md w-full">
+          <h2 className="text-xl font-bold mb-4">
+            {addressType === "default"
+              ? "Edit Default Address"
+              : "Edit Additional Address"}
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <h1 className="text-sm font-bold">Contact</h1>
+            <div className="flex flex-col">
+              <label htmlFor="person" className="font-semibold text-xs">
+                Full Name:
+              </label>
+              <input
+                type="text"
+                id="person"
+                name="person"
+                placeholder="Full Name"
+                value={addressData.person}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="contact" className="font-semibold text-xs">
+                Phone Number:
+              </label>
+              <input
+                type="text"
+                id="contact"
+                name="contact"
+                placeholder="Phone Number"
+                value={addressData.contact}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
 
-          <h1 className="text-sm font-bold">Address</h1>
-          <div className="flex flex-col">
-            <label htmlFor="region" className="font-semibold text-xs">
-              Region:
-            </label>
-            <input
-              type="text"
-              id="region"
-              name="region"
-              value={addressData.region}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="province" className="font-semibold text-xs">
-              Province:
-            </label>
-            <input
-              type="text"
-              id="province"
-              name="province"
-              value={addressData.province}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="city" className="font-semibold text-xs">
-              City:
-            </label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={addressData.city}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
+            <h1 className="text-sm font-bold">Address</h1>
+            <div className="flex flex-col">
+              <label htmlFor="region" className="font-semibold text-xs">
+                Region:
+              </label>
+              <input
+                type="text"
+                id="region"
+                name="region"
+                value={addressData.region}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="province" className="font-semibold text-xs">
+                Province:
+              </label>
+              <input
+                type="text"
+                id="province"
+                name="province"
+                value={addressData.province}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="city" className="font-semibold text-xs">
+                City:
+              </label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={addressData.city}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="barangay" className="font-semibold text-xs">
-              Barangay:
-            </label>
-            <input
-              type="text"
-              id="barangay"
-              name="barangay"
-              value={addressData.barangay}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="barangay" className="font-semibold text-xs">
-              House Number:
-            </label>
-            <input
-              type="text"
-              id="houseNumber"
-              name="houseNumber"
-              value={addressData.homeno}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="landmark" className="font-semibold text-xs">
-              Landmark:
-            </label>
-            <input
-              type="text"
-              id="landmark"
-              name="landmark"
-              value={addressData.landmark}
-              onChange={handleInputChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={closeModal}
-              className=" text-gray-700 font-semibold py-2 px-4 rounded-md mr-2"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
-            >
-              Save Changes
-            </button>
-          </div>
-        </form>
+            <div className="flex flex-col">
+              <label htmlFor="barangay" className="font-semibold text-xs">
+                Barangay:
+              </label>
+              <input
+                type="text"
+                id="barangay"
+                name="barangay"
+                value={addressData.barangay}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="barangay" className="font-semibold text-xs">
+                House Number:
+              </label>
+              <input
+                type="text"
+                id="houseNumber"
+                name="houseNumber"
+                value={addressData.homeno}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="landmark" className="font-semibold text-xs">
+                Landmark:
+              </label>
+              <input
+                type="text"
+                id="landmark"
+                name="landmark"
+                value={addressData.landmark}
+                onChange={handleInputChange}
+                className="border border-gray-300 rounded-md px-3 py-2"
+              />
+            </div>
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={closeModal}
+                className=" text-gray-700 font-semibold py-2 px-4 rounded-md mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

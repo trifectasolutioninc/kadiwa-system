@@ -42,7 +42,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
         showModal ? "fixed" : "hidden"
       } z-10 inset-0 overflow-y-auto`}
     >
-      <div className="flex items-center justify-center min-h-screen p-4 text-center sm:block ">
+      <div className="flex items-center justify-center p-4 text-center sm:block ">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
