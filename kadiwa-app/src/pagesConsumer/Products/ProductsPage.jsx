@@ -6,7 +6,6 @@ import { imageConfig } from "../../Configuration/config-file";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import BackButton from "../BackToHome";
 import DeadendText from "../DeadendText";
-import LoadingScreen from "../LoadingScreen";
 
 const ProductsPage = () => {
   const { category } = useParams();
@@ -236,47 +235,43 @@ const ProductsPage = () => {
             id="productlist"
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
           >
-            {products.length === 0 ? (
-              <LoadingScreen />
-            ) : (
-              products.map((product, index) => (
-                <div
-                  key={index}
-                  className="container bg-white rounded-xl shadow-md border relative"
+            {products.map((product, index) => (
+              <div
+                key={index}
+                className="container bg-white rounded-xl shadow-md border relative"
+              >
+                <Link
+                  to={`/main/productinfo/${product.product_code}/${category}`}
+                  onClick={() => handleProductLinkClick(product.product_code)}
+                  className="flex flex-col"
                 >
-                  <Link
-                    to={`/main/productinfo/${product.product_code}/${category}`}
-                    onClick={() => handleProductLinkClick(product.product_code)}
-                    className="flex flex-col"
-                  >
-                    <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
-                      New
-                    </div>
-                    <div className="h-52 overflow-hidden">
-                      <img
-                        id={`product${product.product_code}`}
-                        alt={product.product_name}
-                        className="size-full object-contain rounded-xl"
-                        src={imageConfig[product.keywords.toLowerCase()]}
-                        loading="lazy"
-                      />
-                    </div>
-                    <div className="p-2">
-                      <h2 className="text-black/80 text-lg font-bold truncate">
-                        {product.product_name}
-                      </h2>
-                      <p className="font-medium text-gray-500 truncate">
-                        {product.subcategory.charAt(0).toUpperCase() +
-                          product.subcategory.slice(1)}
-                      </p>
-                      <p className="font-bold text-green-600">
-                        Php {product.price.toFixed(2)}
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-              ))
-            )}
+                  <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
+                    New
+                  </div>
+                  <div className="h-52 overflow-hidden">
+                    <img
+                      id={`product${product.product_code}`}
+                      alt={product.product_name}
+                      className="size-full object-contain rounded-xl"
+                      src={imageConfig[product.keywords.toLowerCase()]}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-2">
+                    <h2 className="text-black/80 text-lg font-bold truncate">
+                      {product.product_name}
+                    </h2>
+                    <p className="font-medium text-gray-500 truncate">
+                      {product.subcategory.charAt(0).toUpperCase() +
+                        product.subcategory.slice(1)}
+                    </p>
+                    <p className="font-bold text-green-600">
+                      Php {product.price.toFixed(2)}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </section>
           <DeadendText />
         </main>

@@ -25,6 +25,7 @@ const SelectedAddressModal = ({
             q: query,
             format: "json",
             limit: 10,
+            countrycodes: "PH",
           },
         }
       );
@@ -150,8 +151,7 @@ const SelectedAddressModal = ({
                       onClick={handleSearch}
                       className=" bg-green-700 text-white rounded-r-md px-2"
                     >
-                      {" "}
-                      Search{" "}
+                      Search
                     </button>
                   </div>
 

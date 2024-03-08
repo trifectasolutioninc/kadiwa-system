@@ -185,21 +185,14 @@ const StorePage = () => {
               >
                 {/* h-52 */}
                 <div className="h-52 overflow-hidden">
-                  {product.loading ? (
-                    // Skeleton loader styles
-                    <div className="animate-pulse bg-gray-300 w-full h-full rounded-md"></div>
-                  ) : (
-                    // Actual product image
-                    <img
-                      id={`product${product.product_code}`}
-                      alt={product.product_name}
-                      className="size-full rounded-md object-contain"
-                      src={imageConfig[product.keywords.toLowerCase()]}
-                      loading="lazy"
-                    />
-                  )}
+                  <img
+                    id={`product${product.product_code}`}
+                    alt={product.product_name}
+                    className="size-full rounded-md object-contain"
+                    src={imageConfig[product.keywords.toLowerCase()]}
+                    loading="lazy"
+                  />
                 </div>
-
                 <div className="p-2">
                   <h2 className="text-black/80 text-lg font-bold truncate">
                     {product.product_name}
