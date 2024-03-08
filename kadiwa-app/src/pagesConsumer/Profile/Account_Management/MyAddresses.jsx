@@ -4,7 +4,7 @@ import { Avatar } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import firebaseDB from "../../../Configuration/config";
-import { ref, child, get, update ,  onValue, off , push} from "firebase/database";
+import { ref, child, get, update, onValue, off, push } from "firebase/database";
 import { NavLink, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import EditAddress from "../EditAddress";
@@ -56,19 +56,19 @@ const MyAddresses = () => {
         const uid = sessionStorage.getItem("uid");
         const usersAccountRef = ref(database, "users_information");
         const addressesRef = ref(database, "users_address");
-  
+
         // Fetch user account data
         const snapshot = await get(child(usersAccountRef, uid));
         const userDataFromFirebase = snapshot.val();
-  
+
         if (userDataFromFirebase) {
           setUserData(userDataFromFirebase);
         }
-  
+
         // Fetch user addresses
         const addressSnapshot = await get(child(addressesRef, uid));
         const userAddressesFromFirebase = addressSnapshot.val();
-  
+
         if (userAddressesFromFirebase) {
           setUserAddresses(userAddressesFromFirebase);
         }
@@ -76,7 +76,7 @@ const MyAddresses = () => {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     // Add event listener for changes in user addresses
     const database = firebaseDB();
     const uid = sessionStorage.getItem("uid");
@@ -87,18 +87,18 @@ const MyAddresses = () => {
         setUserAddresses(userAddressesFromFirebase);
       }
     };
-  
+
     onValue(addressesRef, handleDataChange);
-  
+
     // Clean up the event listener
     return () => off(addressesRef, handleDataChange);
-  }, []); 
+  }, []);
 
   const handleEditAddressToggle = (addressType) => {
     setEditAddressType(addressType);
     setIsEditAddressOpen(!isEditAddressOpen);
   };
-  
+
   const [isMaxAddressReached, setIsMaxAddressReached] = useState(false);
 
   const handleAddAddress = async (newAddress) => {
@@ -107,14 +107,17 @@ const MyAddresses = () => {
         setIsMaxAddressReached(true); // Show modal warning
         return; // Stop further execution
       }
-  
+
       const database = firebaseDB();
       const uid = sessionStorage.getItem("uid");
-      const addressesRef = ref(database, "users_address/" + uid + "/additional");
-  
+      const addressesRef = ref(
+        database,
+        "users_address/" + uid + "/additional"
+      );
+
       // Push new address to Firebase
       await push(addressesRef, newAddress);
-  
+
       // No need to manually update state here, useEffect will automatically update it when data changes in the database
     } catch (error) {
       console.error("Error adding address:", error);
@@ -174,7 +177,7 @@ const MyAddresses = () => {
         )}
 
         {/* Display additional addresses */}
-        <div className="p-2 flex justify-between items-center bg-white rounded-t-md ">
+        <div className="p-2 flex justify-between items-center bg-white rounded-md shadow-md ">
           <p variant="body2" className=" text-black/80">
             Additional Address
           </p>

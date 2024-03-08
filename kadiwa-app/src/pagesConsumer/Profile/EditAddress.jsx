@@ -59,8 +59,8 @@ const EditAddress = ({ addressType, closeModal }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto flex justify-center items-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-md shadow-md w-3/4">
+    <div className="fixed inset-0 z-50 p-3 overflow-y-auto flex justify-center items-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 rounded-md shadow-md w-full">
         <h2 className="text-xl font-bold mb-4">
           {addressType === "default"
             ? "Edit Default Address"
@@ -181,7 +181,7 @@ const EditAddress = ({ addressType, closeModal }) => {
             <button
               type="button"
               onClick={closeModal}
-              className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-md mr-2"
+              className=" text-gray-700 font-semibold py-2 px-4 rounded-md mr-2"
             >
               Cancel
             </button>

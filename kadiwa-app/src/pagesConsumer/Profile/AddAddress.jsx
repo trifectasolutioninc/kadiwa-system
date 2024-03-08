@@ -52,7 +52,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
         >
           &#8203;
         </span>
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden w-3/4 shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden w-full shadow-xl transform transition-all sm:my-8">
           <form onSubmit={handleSubmit}>
             <div className="p-6">
               <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -74,7 +74,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
                     onChange={handleChange}
                     className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     required
-                    placeholder="Enter Name (limit: 35 character"
+                    placeholder="Enter Name (limit: 35 character0"
                     maxLength={35}
                   />
                 </div>
@@ -210,7 +210,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="submit"
-                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
               >
                 Add Address
               </button>
