@@ -138,7 +138,10 @@ const SelectedAddressModal = ({
                     <input
                       type="text"
                       value={query}
-                      onChange={(e) => setQuery(e.target.value)}
+                      onChange={(e) => {
+                        setQuery(e.target.value);
+                        handleSearch();
+                      }}
                       placeholder="Search Place"
                       className="appearance-none rounded-l-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
                       maxLength={100}
@@ -153,49 +156,57 @@ const SelectedAddressModal = ({
                   </div>
 
                   <div className="  bg-gray-100 p-2 rounded-md max-h-40 overflow-y-auto">
-                    {searchResults.map((result, index) => (
-                      <div
-                        key={index}
-                        className="border border-gray-300 rounded-md p-4 mb-1"
-                      >
-                        <p className="text-[0.8em] font-semibold">
-                          {result.display_name}
-                        </p>
-                        {/* <p><strong>Latitude:</strong> {parseFloat(result.lat).toFixed(6)}</p>
+                    {searchResults.length === 0 ? (
+                      <p className="text-center text-gray-600">
+                        No locations available
+                      </p>
+                    ) : (
+                      searchResults.map((result, index) => (
+                        <div
+                          key={index}
+                          className="border border-gray-300 rounded-md p-4 mb-1"
+                        >
+                          <p className="text-[0.8em] font-semibold">
+                            {result.display_name}
+                          </p>
+                          {/* <p><strong>Latitude:</strong> {parseFloat(result.lat).toFixed(6)}</p>
                                                 <p><strong>Longitude:</strong> {parseFloat(result.lon).toFixed(6)}</p> */}
-                        {/* <button
+                          {/* <button
                                                     onClick={() => handleMapClick(result.lat, result.lon)}
                                                     className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                                 >
                                                     (Long & Lat) Google Maps
                                                 </button> */}
-                        <div className=" flex justify-end space-x-1">
-                          <button
-                            onClick={() => handleMapClick2(result.display_name)}
-                            className="mt-2 bg-blue-500 text-[0.8em] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                          >
-                            View Google Maps
-                          </button>
-                          <button
-                            onClick={() =>
-                              handleAddressSelect(
-                                result,
-                                contactPerson,
-                                phoneNumber
-                              )
-                            }
-                            className="mt-2 border text-[0.8em] border-green-700 font-bold text-green-700  py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                          >
-                            {" "}
-                            SELECT{" "}
-                          </button>
-                        </div>
+                          <div className=" flex justify-end space-x-1">
+                            <button
+                              onClick={() =>
+                                handleMapClick2(result.display_name)
+                              }
+                              className="mt-2 bg-blue-500 text-[0.8em] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                              View Google Maps
+                            </button>
+                            <button
+                              onClick={() =>
+                                handleAddressSelect(
+                                  result,
+                                  contactPerson,
+                                  phoneNumber
+                                )
+                              }
+                              className="mt-2 border text-[0.8em] border-green-700 font-bold text-green-700  py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                              {" "}
+                              SELECT{" "}
+                            </button>
+                          </div>
 
-                        {/* <button  onClick={() => handleMapClick3(result)} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                          {/* <button  onClick={() => handleMapClick3(result)} className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                                     GET
                                                 </button> */}
-                      </div>
-                    ))}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
                 {/* <div className=' flex items-center text-xs gap-3'>

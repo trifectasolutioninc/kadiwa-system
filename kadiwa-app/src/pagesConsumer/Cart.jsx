@@ -134,15 +134,40 @@ const Cart = () => {
   const handleItemCheckboxChange = (storeKey, productId) => {
     setSelectedItems((prevSelectedItems) => {
       const isSelected = prevSelectedItems[storeKey]?.[productId];
+
+      const updatedItems = {
+        ...prevSelectedItems[storeKey],
+        [productId]: !isSelected,
+      };
+
+      const allProductsSelected = Object.keys(
+        cartData[storeKey]?.CartList || {}
+      ).every((key) => updatedItems[key]);
+
+      setIsStoreChecked((prevIsStoreChecked) => ({
+        ...prevIsStoreChecked,
+        [storeKey]: allProductsSelected,
+      }));
+
       return {
         ...prevSelectedItems,
-        [storeKey]: {
-          ...(prevSelectedItems[storeKey] || {}),
-          [productId]: !isSelected,
-        },
+        [storeKey]: updatedItems,
       };
     });
   };
+
+  // const handleItemCheckboxChange = (storeKey, productId) => {
+  //   setSelectedItems((prevSelectedItems) => {
+  //     const isSelected = prevSelectedItems[storeKey]?.[productId];
+  //     return {
+  //       ...prevSelectedItems,
+  //       [storeKey]: {
+  //         ...(prevSelectedItems[storeKey] || {}),
+  //         [productId]: !isSelected,
+  //       },
+  //     };
+  //   });
+  // };
 
   const handleDelete = async () => {
     const database = configFirebaseDB();
@@ -301,12 +326,9 @@ const Cart = () => {
                           checked={isStoreChecked[storeKey] || false}
                           onChange={() => handleStoreCheckboxChange(storeKey)}
                         />
-                        <Link
-                          to={`/main/storepage/${storeKey.split("_")[1]}`}
-                          className="font-bold text-green-700"
-                        >
+                        <h1 className="font-bold text-green-700">
                           {storeInfo.storeName}
-                        </Link>
+                        </h1>
                       </div>
                       <Link
                         to={`/main/storepage/${storeKey.split("_")[1]}`}
