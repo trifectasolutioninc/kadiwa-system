@@ -80,11 +80,7 @@ const StoreConsumer = () => {
                       <p className="text-lg font-semibold text-black/80">
                         {store.name}
                       </p>
-                      <p>
-                        <span className="border p-0.5 bg-green-200 rounded-md text-black/80">
-                          {store.type}
-                        </span>
-                      </p>
+
                       {storeAddressData.find(
                         (address) => address.id === store.id
                       ) && (
@@ -106,6 +102,21 @@ const StoreConsumer = () => {
                           }
                         </p>
                       )}
+                      <p>
+                        <span
+                          className={`px-2 py-0.5 text-sm rounded-full font-medium ${
+                            store.type === "Online Store"
+                              ? "bg-blue-200 text-blue-900" // Example color for "online" status
+                              : store.type === "Physical Store"
+                              ? "bg-orange-200 text-orange-900" // Example color for "Physical" status
+                              : store.type === "omnichannel"
+                              ? "bg-green-200 text-green-900" // Example color for "omni" status
+                              : "bg-gray-500 text-white" // Default color for unknown status
+                          }`}
+                        >
+                          {store.type}
+                        </span>
+                      </p>
                     </section>
                     <div className="col-span-1 flex justify-end ">
                       <Link

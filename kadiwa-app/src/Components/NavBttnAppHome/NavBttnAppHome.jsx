@@ -143,7 +143,7 @@ const NavBttnAppHome = () => {
   return (
     <React.Fragment>
       <div className="p-3 bg-neutral-100 fixed bottom-0 w-full"></div>
-      <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-1 right-1 left-1 rounded-md z-50">
+      <footer className="p-3 bg-green-700 text-white flex items-center justify-around fixed bottom-1 right-1 left-1 rounded-lg z-50">
         <NavLink
           to="/main"
           className="text-white text-xs flex flex-col items-center"
