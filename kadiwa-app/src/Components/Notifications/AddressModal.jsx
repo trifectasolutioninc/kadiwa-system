@@ -2,11 +2,16 @@
 
 import React from "react";
 
-const IncompleteAddressModal = ({ isOpen, onClose, content, openSelectedAddressModal }) => {
+const IncompleteAddressModal = ({
+  isOpen,
+  onClose,
+  content,
+  openSelectedAddressModal,
+}) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto">
+        <div className="fixed inset-0 z-32 flex items-center justify-center overflow-x-hidden overflow-y-auto">
           <div
             className="fixed inset-0 bg-gray-700 opacity-70 blur-sm"
             onClick={onClose}

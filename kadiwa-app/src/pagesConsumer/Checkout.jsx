@@ -7,6 +7,7 @@ import { ref, child, get, update, set, remove } from "firebase/database";
 import firebaseDB from "../Configuration/config-firebase2";
 import SelectedAddressModal from "./Profile/SelectedAddress";
 import IncompleteAddressModal from "../Components/Notifications/AddressModal";
+import EditAddress from "./Profile/EditAddress";
 
 // Define Modal component
 const Modal = ({ isOpen, onClose, isSuccess, onConfirm }) => {
@@ -87,6 +88,8 @@ const Checkout = () => {
     useState({});
   const [isSelectAddressModalOpen, setIsSelectAddressModalOpen] =
     useState(false);
+  const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
+  const [editAddressType, setEditAddressType] = useState(null);
   // Group items by store key
   const groupedItems = selectedItems.reduce((acc, item) => {
     if (!acc[item.storeKey]) {
@@ -240,6 +243,16 @@ const Checkout = () => {
     setIsModalOpen(true);
   };
 
+  const handleEditAddressToggle = (addressType) => {
+    setEditAddressType(addressType);
+    setIsIncompleteAddressModalOpen(false);
+    setIsEditAddressOpen(!isEditAddressOpen);
+  };
+
+  const closeModal = () => {
+    setIsEditAddressOpen(false);
+  };
+
   const placeOrder = async () => {
     if (!storeReceiptGenerator) {
       console.error("storeReceiptGenerator is not fetched yet.");
@@ -257,7 +270,7 @@ const Checkout = () => {
       setIsIncompleteAddressModalOpen(true);
       setIncompleteAddressModalContent({
         title: "Incomplete Address",
-        message: "Please provide complete address.",
+        message: "Please provide complete delivery address information.",
       });
       return;
     }
@@ -625,9 +638,7 @@ const Checkout = () => {
               onChange={(e) => setPaymentOption(e.target.value)}
             >
               <option value="Cash">Cash</option>
-              <option value="Kadiwa QR">Kadiwa QR</option>
-              <option value="Kadiwa Card">Kadiwa Card</option>
-              <option value="Megapay">Megapay</option>
+              <option value="Kadiwa Card">Kadiwa QR</option>
               <option value="Gcash">Gcash</option>
               <option value="Maya">Maya</option>
               <option value="Bank">Bank</option>
@@ -671,6 +682,9 @@ const Checkout = () => {
         isSuccess={modalContent.isSuccess}
         onConfirm={() => navigate(path)}
       />
+      {isEditAddressOpen && (
+        <EditAddress addressType={editAddressType} closeModal={closeModal} />
+      )}
 
       <SelectedAddressModal
         showModal={isModalOpen}
@@ -686,7 +700,7 @@ const Checkout = () => {
         isOpen={isIncompleteAddressModalOpen}
         onClose={handleCloseIncompleteAddressModal}
         content={incompleteAddressModalContent}
-        openSelectedAddressModal={handleOpenSelectedAddressModal}
+        openSelectedAddressModal={() => handleEditAddressToggle("default")}
       />
     </>
   );
