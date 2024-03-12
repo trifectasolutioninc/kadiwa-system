@@ -20,6 +20,7 @@ const StorePage = () => {
   const [storeAddress, setstoreAddress] = useState(null);
   const [selectedCommodity, setSelectedCommodity] = useState("All Commodities");
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchStoreData = async () => {
@@ -28,6 +29,7 @@ const StorePage = () => {
       const storeaddRef = ref(database, `store_address_information/${storeID}`);
 
       try {
+        setIsLoading(true);
         const storeSnapshot = await get(storeRef);
         const storeaddSnapshot = await get(storeaddRef);
 
@@ -42,6 +44,8 @@ const StorePage = () => {
         }
       } catch (error) {
         console.error("Error fetching store data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -166,48 +170,63 @@ const StorePage = () => {
         </section>
 
         {/* Display filtered products */}
-        <section
-          id="Store List"
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-        >
-          {products.map((product, index) => (
-            <div
-              key={index}
-              className="container p-2 bg-white rounded-lg shadow-md relative"
-            >
-              <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
-                New
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {Array.from({ length: 4 }, (_, index) => (
+              <div key={index} className="p-4 rounded-lg bg-slate-50 border">
+                <div className="animate-pulse space-y-2">
+                  <div className="bg-gray-300 px-4 py-24 rounded-md"></div>
+                  <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
+                  <div className="bg-gray-300 w-3/4 p-2 rounded-md"></div>
+                  <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
+                </div>
               </div>
-
-              <Link
-                to={`/route/product/${product.id}`}
-                className="flex flex-col space-y-5"
+            ))}
+          </div>
+        ) : (
+          <section
+            id="Store List"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          >
+            {products.map((product, index) => (
+              <div
+                key={index}
+                className="container p-2 bg-white rounded-lg shadow-md relative"
               >
-                {/* h-52 */}
-                <div className="h-52 overflow-hidden">
-                  <img
-                    id={`product${product.product_code}`}
-                    alt={product.product_name}
-                    className="size-full rounded-md object-contain"
-                    src={imageConfig[product.keywords.toLowerCase()]}
-                    loading="lazy"
-                  />
+                <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
+                  New
                 </div>
-                <div className="p-2">
-                  <h2 className="text-black/80 text-lg font-bold truncate">
-                    {product.product_name}
-                  </h2>
-                  <p className="font-medium text-gray-500 truncate">
-                    {product.commodity_type}
-                  </p>
-                  <p className="font-bold text-green-600">
-                    Php {product.price.toFixed(2)}
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))}
-        </section>
+
+                <Link
+                  to={`/route/product/${product.id}`}
+                  className="flex flex-col space-y-5"
+                >
+                  {/* h-52 */}
+                  <div className="h-52 overflow-hidden">
+                    <img
+                      id={`product${product.product_code}`}
+                      alt={product.product_name}
+                      className="size-full rounded-md object-contain"
+                      src={imageConfig[product.keywords.toLowerCase()]}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-2">
+                    <h2 className="text-black/80 text-lg font-bold truncate">
+                      {product.product_name}
+                    </h2>
+                    <p className="font-medium text-gray-500 truncate">
+                      {product.commodity_type}
+                    </p>
+                    <p className="font-bold text-green-600">
+                      Php {product.price.toFixed(2)}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </section>
+        )}
         <DeadendText />
         <div className="p-8"></div>
       </main>

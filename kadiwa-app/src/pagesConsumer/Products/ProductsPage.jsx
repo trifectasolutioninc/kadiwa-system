@@ -189,59 +189,68 @@ const ProductsPage = () => {
           </select>
         </div>
       </div>
-      {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <div className="bg-neutral-100">
-          <div className=" h-16"></div>
+      <div className="bg-neutral-100">
+        <div className=" h-16"></div>
 
-          <main className="p-3 md:px-10 space-y-5 mb-24 ">
-            <section className="overflow-x-auto flex gap-3">
-              {/* Button to show all products */}
-              <button
-                onClick={() => setSelectedSubcategory(null)}
-                className={` border-green-700 border
+        <main className="p-3 md:px-10 space-y-5 mb-24 ">
+          <section className="overflow-x-auto flex gap-3">
+            {/* Button to show all products */}
+            <button
+              onClick={() => setSelectedSubcategory(null)}
+              className={` border-green-700 border
                             ${
                               selectedSubcategory === null
                                 ? " bg-green-700 text-white"
                                 : " text-green-700 bg-white"
                             } 
                              rounded py-2 px-6 w-auto whitespace-nowrap tab-button`}
-              >
-                All
-              </button>
-              {/* Subcategory buttons */}
-              {subcategories
-                .sort((a, b) => {
-                  // Move "Other" subcategory to the end
-                  if (a === "other") return 1;
-                  if (b === "other") return -1;
-                  return 0;
-                })
-                .map((subcategory) => {
-                  // Exclude subcategory if it's the same as the category
-                  if (subcategory === category) return null;
+            >
+              All
+            </button>
+            {/* Subcategory buttons */}
+            {subcategories
+              .sort((a, b) => {
+                // Move "Other" subcategory to the end
+                if (a === "other") return 1;
+                if (b === "other") return -1;
+                return 0;
+              })
+              .map((subcategory) => {
+                // Exclude subcategory if it's the same as the category
+                if (subcategory === category) return null;
 
-                  return (
-                    <button
-                      key={subcategory}
-                      onClick={() => handleSubcategoryClick(subcategory)}
-                      className={`w-full border-green-700 border
+                return (
+                  <button
+                    key={subcategory}
+                    onClick={() => handleSubcategoryClick(subcategory)}
+                    className={`w-full border-green-700 border
                 ${
                   selectedSubcategory === subcategory
                     ? " bg-green-700 text-white"
                     : " text-green-700 bg-white"
                 } 
                 rounded py-2 px-4 w-auto whitespace-nowrap tab-button`}
-                    >
-                      {subcategory.charAt(0).toUpperCase() +
-                        subcategory.slice(1)}
-                    </button>
-                  );
-                })}
-            </section>
-            {/* Display Products */}
-
+                  >
+                    {subcategory.charAt(0).toUpperCase() + subcategory.slice(1)}
+                  </button>
+                );
+              })}
+          </section>
+          {/* Display Products */}
+          {isLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              {Array.from({ length: 4 }, (_, index) => (
+                <div key={index} className="p-4 rounded-lg bg-slate-50 border">
+                  <div className="animate-pulse space-y-2">
+                    <div className="bg-gray-300 px-4 py-24 rounded-md"></div>
+                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
+                    <div className="bg-gray-300 w-3/4 p-2 rounded-md"></div>
+                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
             <section
               id="productlist"
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
@@ -284,20 +293,19 @@ const ProductsPage = () => {
                 </div>
               ))}
             </section>
+          )}
+          <DeadendText />
+        </main>
 
-            <DeadendText />
-          </main>
-
-          <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
-            <div
-              className="rounded-full bg-green-700 px-2 py-2 text-white items-center justify-center flex"
-              onClick={handleBackToTopClick}
-            >
-              <KeyboardArrowUpIcon fontSize="10px" />
-            </div>
+        <div className="fixed bottom-24 justify-end flex right-5  z-50 w-full">
+          <div
+            className="rounded-full bg-green-700 px-2 py-2 text-white items-center justify-center flex"
+            onClick={handleBackToTopClick}
+          >
+            <KeyboardArrowUpIcon fontSize="10px" />
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

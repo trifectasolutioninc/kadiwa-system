@@ -54,26 +54,41 @@ const StoreConsumer = () => {
         <BackButton />
         <h1 className="text-xl text-neutral-100  font-bold">Store</h1>
       </div>
-      {isLoading ? (
-        <LoadingScreen />
-      ) : (
-        <main className="p-3 md:p-10 space-y-5 bg-neutral-100">
-          {/* Top Navigation with Search and Notification */}
-          <div className=" flex items-center justify-between bg-gray-100 mt-14">
-            {/* Search Input */}
-            <div className="flex-grow">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
-                maxLength={24}
-              />
-            </div>
-          </div>
 
-          {/* Body Content */}
-          <div className="container mb-16">
-            {/* Store List */}
+      <main className="p-3 md:p-10 space-y-5 bg-neutral-100">
+        {/* Top Navigation with Search and Notification */}
+        <div className=" flex items-center justify-between bg-gray-100 mt-14">
+          {/* Search Input */}
+          <div className="flex-grow">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full border p-2 rounded-md bg-gray-300 text-gray-600 focus:outline-none"
+              maxLength={24}
+            />
+          </div>
+        </div>
+
+        {/* Body Content */}
+        <div className="container mb-16">
+          {/* Store List */}
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {Array.from({ length: 2 }, (_, index) => (
+                <div
+                  key={index}
+                  className="p-4 rounded-lg flex items-center justify-between bg-slate-50 border"
+                >
+                  <div className="animate-pulse space-y-2 w-full">
+                    <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
+                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
+                    <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
+                  </div>
+                  <div className="bg-gray-300 w-1/6 p-4 rounded-md"></div>
+                </div>
+              ))}
+            </div>
+          ) : (
             <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {storeList.map(
                 (store) =>
@@ -139,11 +154,11 @@ const StoreConsumer = () => {
                   )
               )}
             </section>
-          </div>
-          <DeadendText />
-          <div className="p-8"></div>
-        </main>
-      )}
+          )}
+        </div>
+        <DeadendText />
+        <div className="p-8"></div>
+      </main>
     </>
   );
 };
