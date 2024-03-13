@@ -200,7 +200,11 @@ const HomeConsumer = () => {
     <main className="p-3 md:px-10 space-y-5 mb-20 bg-neutral-100">
       <section id="topView" className="space-y-3">
         <h1 className="text-[2em] text-green-700 font-bold">
-          Hello, {userData === "" ? "Kadiwa User" : userData}!
+          {userData === "" ? (
+            <div className="p-5 bg-gray-300 rounded-md"></div>
+          ) : (
+            "Hello, " + userData + "!"
+          )}
         </h1>
         {shouldShowLocation ? (
           <div id="userLocation" className="flex items-center">
