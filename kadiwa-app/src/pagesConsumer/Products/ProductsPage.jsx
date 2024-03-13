@@ -258,7 +258,7 @@ const ProductsPage = () => {
                     <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
                       New
                     </div>
-                    <div className="h-52 overflow-hidden">
+                    <div className="h-44 overflow-hidden">
                       <img
                         id={`product${product.product_code}`}
                         alt={product.product_name}
