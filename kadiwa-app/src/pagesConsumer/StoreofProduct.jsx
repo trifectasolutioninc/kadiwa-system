@@ -5,6 +5,7 @@ import firebaseDB from "../Configuration/config";
 import ChatIcon from "@mui/icons-material/Chat";
 import { imageConfig, commodityTypes } from "../Configuration/config-file";
 import { Link, useNavigate } from "react-router-dom";
+import StoreSkeleton from "./StoreSkeleton";
 
 const StoreInfo = () => {
   const { productCode } = useParams();
@@ -115,7 +116,11 @@ const StoreInfo = () => {
   };
 
   if (!storeData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="p-3 md:px-5">
+        <StoreSkeleton />
+      </div>
+    );
   }
 
   const incrementQty = () => {
@@ -171,7 +176,7 @@ const StoreInfo = () => {
   return (
     <>
       <div className="p-3 md:px-5">
-        <div className=" justify-between flex items-center p-4 rounded-md">
+        <div className="border bg-slate-50 shadow-md justify-between flex items-center p-4 rounded-md">
           <div>
             <h1 className="text-gray-700 font-bold text-lg">
               {storeData.name}

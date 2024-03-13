@@ -13,6 +13,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import StoreMap from "./StoreMap";
 import LoadingScreen from "./LoadingScreen";
 import DeadendText from "./DeadendText";
+import ProductSkeleton from "./ProductSkeleton";
 
 const StorePage = () => {
   const { storeID } = useParams();
@@ -98,9 +99,9 @@ const StorePage = () => {
       });
   };
 
-  if (!storeData) {
-    return <LoadingScreen />;
-  }
+  // if (!storeData) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <>
@@ -109,127 +110,120 @@ const StorePage = () => {
           <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
         </NavLink>
       </div>
-      <main className="p-3 md:p-10 space-y-5 mt-40 md:mt-64">
-        <section className="flex items-center justify-center ">
-          <img
-            src={imageConfig.storeImg}
-            className="absolute rounded-md top-16 h-52 md:h-96 md:w-2/3 w-5/6 border shadow-md " //h-64
-            loading="lazy"
-          />
-        </section>
-        <section className="p-4 space-y-2 rounded-md bg-slate-50 border border-green-700 shadow-md">
-          <div className=" justify-between flex mt-20 md:mt-36">
-            <h1 className="text-gray-700 font-bold text-lg">
-              {storeData.name}
-            </h1>
-            <Link
-              to={`/route/chatpage/${storeID}/store`}
-              className="text-green-600"
-            >
-              <button>
-                <ChatIcon className="text-green-600 " />
-              </button>
-            </Link>
-          </div>
-          <hr />
-          <div className="space-y-1">
-            <p className="text-gray-500 text-sm">
-              {storeAddress.city + ", " + storeAddress.province}
-            </p>
-            <p className="text-gray-500 text-sm">
-              Store Type: {storeData.type}
-            </p>
-            <p className="text-gray-500 text-sm">Partner</p>
-          </div>
-        </section>
-
-        <StoreMap />
-
-        <div className="flex justify-between">
-          <div className="font-semibold text-gray-600">
-            <h1>Products</h1>
-          </div>
-          <div className=" space-x-2 "></div>
-        </div>
-
-        <section className="overflow-x-auto flex gap-3">
-          {commodityTypes.map((commodityType, index) => (
-            <button
-              key={index}
-              className={`border-green-700 border ${
-                selectedCommodity === commodityType
-                  ? "bg-green-700 text-white"
-                  : "text-green-700 bg-white"
-              } w-full rounded py-2 px-4 whitespace-nowrap tab-button`}
-              data-commodity-type={commodityType}
-              onClick={() => handleCommodityClick(commodityType)}
-            >
-              {commodityType}
-            </button>
-          ))}
-        </section>
-
-        {/* Display filtered products */}
-        {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {Array.from({ length: 4 }, (_, index) => (
-              <div key={index} className="p-4 rounded-lg bg-slate-50 border">
-                <div className="animate-pulse space-y-2">
-                  <div className="bg-gray-300 px-4 py-24 rounded-md"></div>
-                  <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
-                  <div className="bg-gray-300 w-3/4 p-2 rounded-md"></div>
-                  <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <section
-            id="Store List"
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-          >
-            {products.map((product, index) => (
-              <div
-                key={index}
-                className="container p-2 bg-white rounded-lg shadow-md relative"
+      {storeData ? (
+        <main className="p-3 md:p-10 space-y-5 mt-40 md:mt-64">
+          <section className="flex items-center justify-center ">
+            <img
+              src={imageConfig.storeImg}
+              className="absolute rounded-md top-16 h-52 md:h-96 md:w-2/3 w-5/6 border shadow-md " //h-64
+              loading="lazy"
+            />
+          </section>
+          <section className="p-4 space-y-2 rounded-md bg-slate-50 border border-green-700 shadow-md">
+            <div className=" justify-between flex mt-20 md:mt-36">
+              <h1 className="text-gray-700 font-bold text-lg">
+                {storeData.name}
+              </h1>
+              <Link
+                to={`/route/chatpage/${storeID}/store`}
+                className="text-green-600"
               >
-                <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
-                  New
-                </div>
+                <button>
+                  <ChatIcon className="text-green-600 " />
+                </button>
+              </Link>
+            </div>
+            <hr />
+            <div className="space-y-1">
+              <p className="text-gray-500 text-sm">
+                {storeAddress.city + ", " + storeAddress.province}
+              </p>
+              <p className="text-gray-500 text-sm">
+                Store Type: {storeData.type}
+              </p>
+              <p className="text-gray-500 text-sm">Partner</p>
+            </div>
+          </section>
 
-                <Link
-                  to={`/route/product/${product.id}`}
-                  className="flex flex-col space-y-5"
-                >
-                  {/* h-52 */}
-                  <div className="h-52 overflow-hidden">
-                    <img
-                      id={`product${product.product_code}`}
-                      alt={product.product_name}
-                      className="size-full rounded-md object-contain"
-                      src={imageConfig[product.keywords.toLowerCase()]}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-2">
-                    <h2 className="text-black/80 text-lg font-bold truncate">
-                      {product.product_name}
-                    </h2>
-                    <p className="font-medium text-gray-500 truncate">
-                      {product.commodity_type}
-                    </p>
-                    <p className="font-bold text-green-600">
-                      Php {product.price.toFixed(2)}
-                    </p>
-                  </div>
-                </Link>
-              </div>
+          <StoreMap />
+
+          <div className="flex justify-between">
+            <div className="font-semibold text-gray-600">
+              <h1>Products</h1>
+            </div>
+            <div className=" space-x-2 "></div>
+          </div>
+
+          <section className="overflow-x-auto flex gap-3">
+            {commodityTypes.map((commodityType, index) => (
+              <button
+                key={index}
+                className={`border-green-700 border ${
+                  selectedCommodity === commodityType
+                    ? "bg-green-700 text-white"
+                    : "text-green-700 bg-white"
+                } w-full rounded py-2 px-4 whitespace-nowrap tab-button`}
+                data-commodity-type={commodityType}
+                onClick={() => handleCommodityClick(commodityType)}
+              >
+                {commodityType}
+              </button>
             ))}
           </section>
-        )}
-        <DeadendText />
-        <div className="p-8"></div>
-      </main>
+
+          {/* Display filtered products */}
+          {isLoading ? (
+            <ProductSkeleton />
+          ) : (
+            <section
+              id="Store List"
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+            >
+              {products.map((product, index) => (
+                <div
+                  key={index}
+                  className="container p-2 bg-white rounded-lg shadow-md relative"
+                >
+                  <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
+                    New
+                  </div>
+
+                  <Link
+                    to={`/route/product/${product.id}`}
+                    className="flex flex-col space-y-5"
+                  >
+                    {/* h-52 */}
+                    <div className="h-52 overflow-hidden">
+                      <img
+                        id={`product${product.product_code}`}
+                        alt={product.product_name}
+                        className="size-full rounded-md object-contain"
+                        src={imageConfig[product.keywords.toLowerCase()]}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-2">
+                      <h2 className="text-black/80 text-lg font-bold truncate">
+                        {product.product_name}
+                      </h2>
+                      <p className="font-medium text-gray-500 truncate">
+                        {product.commodity_type}
+                      </p>
+                      <p className="font-bold text-green-600">
+                        Php {product.price.toFixed(2)}
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </section>
+          )}
+          <DeadendText />
+          <div className="p-8"></div>
+        </main>
+      ) : (
+        <LoadingScreen />
+      )}
     </>
   );
 };

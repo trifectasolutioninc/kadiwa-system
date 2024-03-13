@@ -12,6 +12,7 @@ import configFirebaseDB from "../Configuration/config";
 import BackButton from "./BackToHome";
 import DeadendText from "./DeadendText";
 import LoadingScreen from "./LoadingScreen";
+import StoreSkeleton from "./StoreSkeleton";
 
 const StoreConsumer = () => {
   const [storeList, setStoreList] = useState([]);
@@ -73,21 +74,7 @@ const StoreConsumer = () => {
         <div className="container mb-16">
           {/* Store List */}
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {Array.from({ length: 2 }, (_, index) => (
-                <div
-                  key={index}
-                  className="p-4 rounded-lg flex items-center justify-between bg-slate-50 border"
-                >
-                  <div className="animate-pulse space-y-2 w-full">
-                    <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
-                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
-                    <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
-                  </div>
-                  <div className="bg-gray-300 w-1/6 p-4 rounded-md"></div>
-                </div>
-              ))}
-            </div>
+            <StoreSkeleton />
           ) : (
             <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {storeList.map(
@@ -101,7 +88,7 @@ const StoreConsumer = () => {
                     >
                       {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                       <section className="col-span-9 text-left space-y-2">
-                        <p className="text-lg font-semibold text-black/80">
+                        <p className="text-lg font-semibold text-black/80 truncate">
                           {store.name}
                         </p>
 
