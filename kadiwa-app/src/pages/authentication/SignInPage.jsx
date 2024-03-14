@@ -15,7 +15,8 @@ import {
   signInWithEmailAndPasswordFunc,
 } from "../../services/user/auth.service";
 import { generateUniqueID } from "../../services/user/generator.service";
-import LoadingScreen from "../../pagesConsumer/LoadingScreen";
+import LoadingScreen from "./../../pagesConsumer/LoadingScreen";
+import DefaultLoadingScreen from "../../Components/Lazy/DefaultLoadingScreen";
 
 const deviceDetect = require("device-detect")();
 
@@ -42,6 +43,7 @@ const SignInPages = () => {
   const phoneNumberRef = useRef(null);
   const passwordRef = useRef(null);
   const [showToast, setShowToast] = useState(false);
+  const [showLazyLoading, setShowLazyLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [deviceID, setDeviceID] = useState(null);
   const [deviceType, setDeviceType] = useState(null);
@@ -157,7 +159,10 @@ const SignInPages = () => {
         setToastMessage("Login successful!");
         setShowToast(true);
         setTimeout(function () {
-          navigate("/main");
+          setShowLazyLoading(true);
+          setTimeout(function () {
+            navigate("/main");
+          }, 3000);
         }, 900);
       } else {
         setShowToast(true);
@@ -371,7 +376,10 @@ const SignInPages = () => {
         setToastMessage("Login successful!");
         setShowToast(true);
         setTimeout(function () {
-          navigate("/main");
+          setShowLazyLoading(true);
+          setTimeout(function () {
+            navigate("/main");
+          }, 3000);
         }, 900);
       } else {
         setShowToast(true);
@@ -545,8 +553,12 @@ const SignInPages = () => {
                   sessionStorage.setItem("sid", userData.store_id);
                   console.log("Automatically logged in");
                   // You can navigate to the desired page after login
-                  <LoadingScreen />;
-                  navigate("/main/");
+
+                  setShowLazyLoading(true);
+                  setTimeout(function () {
+                    navigate("/main");
+                  }, 3000);
+
                   return; // Exit loop if found online device
                 }
               }
@@ -664,7 +676,10 @@ const SignInPages = () => {
                 setToastMessage("Login successful!");
                 setShowToast(true);
                 setTimeout(function () {
-                  navigate("/main");
+                  setShowLazyLoading(true);
+                  setTimeout(function () {
+                    navigate("/main");
+                  }, 3000);
                 }, 900);
               })
               .catch((error) => {
@@ -810,7 +825,14 @@ const SignInPages = () => {
       </div>
 
       {showToast && (
-        <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+        <>
+          <Toast message={toastMessage} onClose={() => setShowToast(false)} />
+        </>
+      )}
+      {showLazyLoading && (
+        <>
+          <DefaultLoadingScreen />
+        </>
       )}
       {version !== "" && version !== BRAND.version ? ( // Check if version is not equal to BRAND.version
         <AppUpdateModal
