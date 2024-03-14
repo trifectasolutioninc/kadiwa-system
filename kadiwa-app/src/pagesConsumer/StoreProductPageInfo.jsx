@@ -15,6 +15,7 @@ import StoreInfo from "./StoreofProduct";
 
 import StarOutlineOutlinedIcon from "@mui/icons-material/StarOutlineOutlined";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import LoadingScreen from "./LoadingScreen";
 
 const ProductDetails = ({ productDetails }) => {
   const { productCode, productName } = useParams();
@@ -35,23 +36,7 @@ const ProductDetails = ({ productDetails }) => {
   return (
     <>
       <div className="p-3 md:p-10 space-y-5">
-        <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
-          <NavLink
-            to={`/main/storepage/${productCode.split("-")[0]}-${
-              productCode.split("-")[1]
-            }`}
-            className=""
-          >
-            <IoMdArrowRoundBack
-              fontSize={"25px"}
-              className="text-neutral-100"
-            />
-          </NavLink>
-          <h1 className="text-xl font-bold  text-neutral-100">
-            Product Details
-          </h1>
-        </div>
-        <main className="mb-28">
+        <main>
           <div className="p-3 bg-white rounded-md shadow-md mt-12">
             <div
               id="product-details-container"
@@ -145,9 +130,20 @@ const StoreProductDetails = ({ product_inventory, kadiwa_users_account }) => {
   }, [productCode, productName]);
 
   return (
-    <div className="">
+    <>
+      <div className="fixed flex items-center gap-5 bg-green-700 w-full top-0 p-3 right-0 left-0 shadow-md">
+        <NavLink
+          to={`/main/storepage/${productCode.split("-")[0]}-${
+            productCode.split("-")[1]
+          }`}
+          className=""
+        >
+          <IoMdArrowRoundBack fontSize={"25px"} className="text-neutral-100" />
+        </NavLink>
+        <h1 className="text-xl font-bold  text-neutral-100">Product Details</h1>
+      </div>
       {isLoading ? (
-        <p className="p-5 text-green-600">Loading...</p>
+        <LoadingScreen />
       ) : (
         <>
           <ProductDetails productDetails={productDetails} />
@@ -155,7 +151,7 @@ const StoreProductDetails = ({ product_inventory, kadiwa_users_account }) => {
           <Reviews productCode={productCode} />
         </>
       )}
-    </div>
+    </>
   );
 };
 

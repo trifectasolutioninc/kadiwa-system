@@ -12,6 +12,7 @@ import {
 import BackButton from "./BackToHome";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 import DeadendText from "./DeadendText";
+import StoreSkeleton from "./StoreSkeleton";
 
 const StoreCard = ({
   id,
@@ -124,7 +125,7 @@ const StoreCard = ({
           </div>
 
           <div className="space-y-1">
-            <p className="font-bold text-lg  text-green-800 tracking-wide">
+            <p className="font-bold text-lg  text-green-800 tracking-wide truncate">
               {name}
             </p>
             <p className="text-sm text-black/80">{getLastMessage()}</p>
@@ -282,21 +283,7 @@ const Chat = () => {
             Suggested Stores Near You
           </p>
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {Array.from({ length: 2 }, (_, index) => (
-                <div
-                  key={index}
-                  className="p-4 rounded-lg flex items-center justify-between bg-slate-50 border"
-                >
-                  <div className="animate-pulse space-y-2 w-full">
-                    <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
-                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
-                    <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
-                  </div>
-                  <div className="bg-gray-300 w-1/6 p-4 rounded-md"></div>
-                </div>
-              ))}
-            </div>
+            <StoreSkeleton />
           ) : (
             <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {storeList.map(
@@ -310,7 +297,7 @@ const Chat = () => {
                     >
                       {/* <img src={store.logo} alt={`Store ${store.id} Logo`} className="mr-4 col-span-2" /> */}
                       <section className="col-span-9 text-left space-y-2">
-                        <p className="text-lg font-bold text-black/80 tracking-wide">
+                        <p className="text-lg font-bold text-black/80 tracking-wide truncate">
                           {store.name}
                         </p>
 

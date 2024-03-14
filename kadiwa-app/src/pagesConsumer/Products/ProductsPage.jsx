@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import BackButton from "../BackToHome";
 import DeadendText from "../DeadendText";
 import LoadingScreen from "../LoadingScreen";
+import ProductSkeleton from "../ProductSkeleton";
 
 const ProductsPage = () => {
   const { category } = useParams();
@@ -238,18 +239,7 @@ const ProductsPage = () => {
           </section>
           {/* Display Products */}
           {isLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-              {Array.from({ length: 4 }, (_, index) => (
-                <div key={index} className="p-4 rounded-lg bg-slate-50 border">
-                  <div className="animate-pulse space-y-2">
-                    <div className="bg-gray-300 px-4 py-24 rounded-md"></div>
-                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
-                    <div className="bg-gray-300 w-3/4 p-2 rounded-md"></div>
-                    <div className="bg-gray-300 w-2/4 p-2 rounded-md"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ProductSkeleton />
           ) : (
             <section
               id="productlist"
@@ -268,7 +258,7 @@ const ProductsPage = () => {
                     <div className="absolute top-2 right-2 bg-green-500 text-white py-1 px-2 rounded-md">
                       New
                     </div>
-                    <div className="h-52 overflow-hidden">
+                    <div className="h-44 overflow-hidden">
                       <img
                         id={`product${product.product_code}`}
                         alt={product.product_name}

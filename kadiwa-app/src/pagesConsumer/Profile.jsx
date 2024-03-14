@@ -266,7 +266,7 @@ const ProfileConsumer = () => {
                 <div className=" flexitems-center ">
                   <IoPersonCircle className=" text-[2.5em]" />
                 </div>
-                <div className=" w-full">
+                <div className=" w-full animate-pulse">
                   <p className=" bg-gray-300 px-5 py-3 mb-2 w-2/3 rounded-md"></p>
                   <div className=" text-gray-100 text-[0.7em] flex items-center gap-2 ">
                     <FaPhoneAlt fontSize={"0.8em"} />

@@ -28,11 +28,28 @@ const Reviews = ({ productCode }) => {
     };
 
     fetchData();
-    
-  }, []); 
+  }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="p-3 md:px-10">
+        <div className="grid grid-cols-1 gap-3">
+          {Array.from({ length: 2 }, (_, index) => (
+            <div
+              key={index}
+              className="p-4 rounded-lg flex items-center justify-between gap-3 bg-slate-50 border"
+            >
+              <div className="bg-gray-300 p-4 rounded-full"></div>
+              <div className="animate-pulse space-y-2 w-full">
+                <div className="bg-gray-300 w-2/4 p-3 rounded-md"></div>
+                <div className="bg-gray-300 w-1/4 p-2 rounded-md"></div>
+                <div className="bg-gray-300 w-3/4 p-2 rounded-md"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (

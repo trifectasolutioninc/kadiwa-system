@@ -10,6 +10,7 @@ import StarHalfIcon from "@mui/icons-material/StarHalf";
 import Toast from "../Components/Notifications/Toast";
 import { DesktopAccessDisabled } from "@mui/icons-material";
 import DeadendText from "./DeadendText";
+import StoreSkeleton from "./StoreSkeleton";
 
 const StoreList = ({ productCode, category }) => {
   const [storesWithProduct, setStoresWithProduct] = useState([]);
@@ -225,6 +226,11 @@ const StoreList = ({ productCode, category }) => {
           Choose the store you want to make a purchase from
         </span>
       </div>
+      {isLoading && (
+        <div className="p-3 md:px-10 mb-20">
+          <StoreSkeleton />
+        </div>
+      )}
       {!isLoading && !noStoresFound && (
         <ul className="space-y-4 mb-20 p-3 md:px-10">
           {storesWithProduct.map((store) => {
