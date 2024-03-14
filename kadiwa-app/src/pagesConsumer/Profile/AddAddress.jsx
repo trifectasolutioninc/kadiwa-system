@@ -11,6 +11,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
     person: "",
     province: "",
     region: "",
+    homeno: "",
   });
 
   const handleChange = (e) => {
@@ -32,6 +33,7 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
       person: "",
       province: "",
       region: "",
+      homeno: "",
     });
     closeModal();
   };
@@ -173,8 +175,8 @@ const AddAddressModal = ({ showModal, closeModal, handleAddAddress }) => {
                     type="text"
                     name="houseNumber"
                     id="houseNumber"
-                    value=""
-                    onChange={handleChange}
+                    value={addressData.homeno}
+                    onChange={handleInputChange}
                     className="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     required
                     maxLength={50}
